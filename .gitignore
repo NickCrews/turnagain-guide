@@ -12,6 +12,7 @@
 
 # generated
 /public/sw.js
+/public/Cesium
 
 # testing
 /coverage

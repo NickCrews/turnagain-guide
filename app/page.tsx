@@ -10,27 +10,6 @@ export default function Home() {
         <link rel="stylesheet" href="Cesium/Widgets/widgets.css" />
         <Map />
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <Link
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/about"
-        >
-          About
-        </Link>
-        <Link
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/license"
-        >
-          License
-        </Link>
-        <Link
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          // TODO: Update this link
-          href="mailto:nicholas.b.crews+turnagain.guide@gmail.com"
-        >
-          Suggest an edit
-        </Link>
-      </footer>
     </div>
   );
 }

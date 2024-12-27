@@ -1,0 +1,17 @@
+{
+    "name": "turnagain.guide",
+    "short_name": "turnagain.guide",
+    "description": "A backcountry skiing guide for Turnagain Pass, Alaska.",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#fff",
+    "theme_color": "#fff",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "any",
+            "type": "image/png"
+        }
+    ]
+}

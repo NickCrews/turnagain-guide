@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+# generated
+/public/sw.js
+
 # testing
 /coverage
 

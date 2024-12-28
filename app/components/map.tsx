@@ -1,9 +1,19 @@
 'use client'
 
-import { Viewer } from 'cesium'
+import { Viewer, GeoJsonDataSource } from 'cesium'
 import { useEffect } from 'react'
 
-export default function MapStatic() {
+interface MapStaticProps {
+  geojson?: any;
+  /*
+  // If false, it will not zoom to anything.
+  // The default is to zoomTo of the geojson.
+  // If you want to zoom to a different object, pass that object
+  */
+  zoomTo?: false | any;
+}
+
+export default function MapStatic({ geojson, zoomTo }: MapStaticProps) {
   useEffect(() => {
     const viewer = new Viewer('cesiumContainer', {
       geocoder: false,
@@ -18,6 +28,23 @@ export default function MapStatic() {
       infoBox: false,
       // terrainProvider: await createWorldTerrainAsync(),
     })
+
+    var dataSource = null;
+    if (geojson !== undefined) {
+      dataSource = GeoJsonDataSource.load(geojson, {
+        clampToGround: true,
+        credit: "",
+      });
+      viewer.dataSources.add(dataSource)
+    }
+
+    if (zoomTo === undefined && dataSource !== null) {
+      zoomTo = dataSource
+    }
+    if (zoomTo !== false) {
+      viewer.zoomTo(zoomTo)
+    }
+
     return () => {
       viewer.destroy()
     }

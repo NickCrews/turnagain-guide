@@ -25,6 +25,12 @@ export const viewport: Viewport = {
   themeColor: "#FFFFFF",
 };
 
+function Header() {
+  return <header className="flex items-left gap-4 p-4">
+    <Link href="/" className="text-3xl font-bold hover:underline hover:underline-offset-4">turnagain.guide</Link>
+  </header>
+}
+
 function FooterLink({href, text}: Readonly<{href: string, text: string}>) {
   return <Link
     className="flex items-center gap-2 hover:underline hover:underline-offset-4"
@@ -53,6 +59,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Header />
         {children}
         <Footer />
       </body>

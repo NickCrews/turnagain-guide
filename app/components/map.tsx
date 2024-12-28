@@ -1,6 +1,6 @@
 'use client'
 
-import { Viewer, GeoJsonDataSource } from 'cesium'
+import { Viewer, GeoJsonDataSource, ImageryLayer, TileMapServiceImageryProvider, buildModuleUrl } from 'cesium'
 import { useEffect } from 'react'
 
 interface MapStaticProps {
@@ -27,6 +27,11 @@ export default function MapStatic({ geojson, zoomTo }: MapStaticProps) {
       vrButton: false,
       infoBox: false,
       // terrainProvider: await createWorldTerrainAsync(),
+      baseLayer: ImageryLayer.fromProviderAsync(
+        TileMapServiceImageryProvider.fromUrl(
+          buildModuleUrl("Assets/Textures/NaturalEarthII"),
+        ),
+      ),
     })
 
     var dataSource = null;

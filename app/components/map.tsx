@@ -16,6 +16,17 @@ interface MapStaticProps {
 }
 
 export default function MapStatic({ geojson, zoomTo }: MapStaticProps) {
+
+  let dataSource = null;
+  if (geojson !== undefined) {
+    dataSource = GeoJsonDataSource.load(geojson, {
+      clampToGround: true,
+      credit: "",
+    });
+  }
+  if (zoomTo === undefined && dataSource !== null) {
+    zoomTo = dataSource
+  }
   useEffect(() => {
     const viewer = new Viewer('cesiumContainer', {
       geocoder: false,
@@ -31,7 +42,7 @@ export default function MapStatic({ geojson, zoomTo }: MapStaticProps) {
       // terrainProvider: await createWorldTerrainAsync(),
       // TS gets mad I don't provide options, but that isn't required:
       // https://github.com/CesiumGS/cesium/pull/12400
-      // @ts-ignore
+      // @ts-expect-error
       baseLayer: ImageryLayer.fromProviderAsync(
         // TileMapServiceImageryProvider.fromUrl(
         //   buildModuleUrl("Assets/Textures/NaturalEarthII"),
@@ -54,17 +65,8 @@ export default function MapStatic({ geojson, zoomTo }: MapStaticProps) {
       ),
     })
 
-    var dataSource = null;
-    if (geojson !== undefined) {
-      dataSource = GeoJsonDataSource.load(geojson, {
-        clampToGround: true,
-        credit: "",
-      });
+    if (dataSource !== null) {
       viewer.dataSources.add(dataSource)
-    }
-
-    if (zoomTo === undefined && dataSource !== null) {
-      zoomTo = dataSource
     }
     if (zoomTo !== false) {
       viewer.zoomTo(zoomTo)
@@ -73,6 +75,6 @@ export default function MapStatic({ geojson, zoomTo }: MapStaticProps) {
     return () => {
       viewer.destroy()
     }
-  }, [])
+  }, [dataSource, zoomTo])
   return <div id="cesiumContainer" style={{ height: '80vh', width: '80vh' }} />
 }

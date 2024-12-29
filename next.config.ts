@@ -7,6 +7,7 @@ const withSerwist = withSerwistInit({
   swDest: 'public/sw.js',
   // The cesium assets are large, so we need to increase the cache limit
   maximumFileSizeToCacheInBytes: 5 * 1024 ** 2, // 5 MB
+  reloadOnOnline: false,
 });
 
 import type { NextConfig } from "next";

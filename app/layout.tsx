@@ -40,8 +40,7 @@ function FooterLink({href, text}: Readonly<{href: string, text: string}>) {
 
 function Footer() {
   return <footer
-    className="flex gap-6 flex-wrap items-center justify-center"
-    style={{position: "fixed", bottom: 0, left: 0, right: 0, padding: "1rem"}}
+    className="flex gap-6 flex-wrap items-center justify-center "
   >
     <FooterLink href="/about" text="About" />
     <FooterLink href="/license" text="License" />
@@ -57,10 +56,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-full`}
       >
         <Header />
-        {children}
+        <main className="flex-grow">{children}</main>
         <Footer />
       </body>
     </html>

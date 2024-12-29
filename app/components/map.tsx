@@ -1,7 +1,9 @@
 'use client'
 
-import { Viewer, GeoJsonDataSource, ImageryLayer, TileMapServiceImageryProvider, buildModuleUrl } from 'cesium'
+import { Viewer, GeoJsonDataSource, ImageryLayer, UrlTemplateImageryProvider} from 'cesium'
 import { useEffect } from 'react'
+
+import {WORLD_IMAGERY_URL_TEMPLATE} from "../../util/tiles";
 
 interface MapStaticProps {
   geojson?: any;
@@ -27,10 +29,28 @@ export default function MapStatic({ geojson, zoomTo }: MapStaticProps) {
       vrButton: false,
       infoBox: false,
       // terrainProvider: await createWorldTerrainAsync(),
+      // TS gets mad I don't provide options, but that isn't required:
+      // https://github.com/CesiumGS/cesium/pull/12400
+      // @ts-ignore
       baseLayer: ImageryLayer.fromProviderAsync(
-        TileMapServiceImageryProvider.fromUrl(
-          buildModuleUrl("Assets/Textures/NaturalEarthII"),
-        ),
+        // TileMapServiceImageryProvider.fromUrl(
+        //   buildModuleUrl("Assets/Textures/NaturalEarthII"),
+        // ),
+        new UrlTemplateImageryProvider({
+          // url : 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          // url : 'https://tile.tracestrack.com/topo__/{z}/{x}/{y}.png',
+          // Thunderforest looks like a sweet indy map provider!
+          // url : 'https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=88dd993b641d4b43b1b3fea4771c2d9d',
+          // url : 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{x}/{y}',
+          // This looks pretty good!
+          url : WORLD_IMAGERY_URL_TEMPLATE,
+          // this doesn't include topo lines or anything else that usable
+          // url : 'https://services.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade_Dark/MapServer/tile/{z}/{y}/{x}',
+          // url : 'https://api.maptiler.com/tiles/hillshade/{z}/{x}/{y}.webp?key=Xfb74aIJXmRrUdfJyYo5',
+          credit : 'Map tiles by ArcGIS Online',
+          // rectangle: Rectangle.fromDegrees(-149.2939, 60.7024, -148.8208, 60.8538),
+        }),
+        
       ),
     })
 

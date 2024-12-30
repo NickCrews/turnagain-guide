@@ -3,6 +3,7 @@
     "features": [
         {
             "type": "Feature",
+            "id": "tincan-trees-uptrack",
             "properties": {
                 "title": "Tincan Trees Uptrack",
                 "description": "",
@@ -184,6 +185,7 @@
         },
         {
             "type": "Feature",
+            "id": "tincan-out-track",
             "properties": {
                 "title": "Tincan Out Track",
                 "description": "",
@@ -589,6 +591,7 @@
         },
         {
             "type": "Feature",
+            "id": "tincan-meadow-to-ridge-uptrack",
             "properties": {
                 "title": "Tincan Meadow to Ridge Uptrack",
                 "description": "",
@@ -725,6 +728,7 @@
         },
         {
             "type": "Feature",
+            "id": "tincan-trees",
             "properties": {
                 "title": "Tincan Trees",
                 "description": "",
@@ -801,6 +805,7 @@
         },
         {
             "type": "Feature",
+            "id": "cfr",
             "properties": {
                 "title": "CFR (Cornice F*%$in' Run)",
                 "description": "",
@@ -968,6 +973,7 @@
         },
         {
             "type": "Feature",
+            "id": "tincan-uptrack",
             "properties": {
                 "title": "Tincan Main Uptrack",
                 "description": "From the parking lot to the summit. <a href=\"/chapters/tincan\">More info</a>",
@@ -1945,6 +1951,7 @@
         },
         {
             "type": "Feature",
+            "id": "tincan-common-bowl",
             "properties": {
                 "title": "Tincan Common Bowl",
                 "description": "",
@@ -2024,6 +2031,7 @@
         },
         {
             "type": "Feature",
+            "id": "pms-bowl-uptrack",
             "properties": {
                 "title": "PMS Bowl Uptrack",
                 "description": "",
@@ -2643,6 +2651,7 @@
         },
         {
             "type": "Feature",
+            "id": "blue-diamond-route",
             "properties": {
                 "title": "Blue Diamond Route",
                 "description": "",
@@ -3169,6 +3178,7 @@
         },
         {
             "type": "Feature",
+            "id": "tincan-hippie-bowl",
             "properties": {
                 "title": "Tincan Hippie Bowl",
                 "description": "",
@@ -3340,6 +3350,7 @@
         },
         {
             "type": "Feature",
+            "id": "todds-run",
             "properties": {
                 "title": "Todd's Run",
                 "description": "",
@@ -3481,6 +3492,7 @@
         },
         {
             "type": "Feature",
+            "id": "the-libraries",
             "properties": {
                 "title": "The Libraries",
                 "description": "",
@@ -3581,6 +3593,7 @@
         },
         {
             "type": "Feature",
+            "id": "tincan-common-peak",
             "geometry": {
                 "type": "Point",
                 "coordinates": [
@@ -3599,6 +3612,7 @@
         },
         {
             "type": "Feature",
+            "id": "tincan-proper-peak",
             "geometry": {
                 "type": "Point",
                 "coordinates": [
@@ -3617,6 +3631,7 @@
         },
         {
             "type": "Feature",
+            "id": "center-ridge-parking-lot",
             "properties": {
                 "title": "Center Ridge Parking Lot",
                 "feature_type": "parking"
@@ -3632,6 +3647,7 @@
         },
         {
             "type": "Feature",
+            "id": "tincan-parking-lot",
             "properties": {
                 "title": "Tincan Parking Lot",
                 "feature_type": "parking"
@@ -3647,6 +3663,7 @@
         },
         {
             "type": "Feature",
+            "id": "flippit-knoll",
             "properties": {
                 "title": "Flippit Knoll",
                 "feature_type": "landmark"

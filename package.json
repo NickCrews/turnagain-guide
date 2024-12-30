@@ -13,6 +13,7 @@
     "@serwist/next": "^9.0.11",
     "@serwist/precaching": "^9.0.11",
     "@serwist/sw": "^9.0.11",
+    "@types/geojson": "^7946.0.15",
     "cesium": "^1.124.0",
     "copy-webpack-plugin": "^12.0.2",
     "next": "15.1.3",

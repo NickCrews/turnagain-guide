@@ -4,9 +4,10 @@ import { Viewer, GeoJsonDataSource, ImageryLayer, UrlTemplateImageryProvider} fr
 import { useEffect } from 'react'
 
 import {WORLD_IMAGERY_URL_TEMPLATE} from "../../util/tiles";
+import { Item } from '../types';
 
 interface MapStaticProps {
-  geojson?: any;
+  items?: Item[];
   /*
   // If false, it will not zoom to anything.
   // The default is to zoomTo of the geojson.
@@ -15,15 +16,15 @@ interface MapStaticProps {
   zoomTo?: false | any;
 }
 
-export default function MapStatic({ geojson, zoomTo }: MapStaticProps) {
-
-  let dataSource = null;
-  if (geojson !== undefined) {
-    dataSource = GeoJsonDataSource.load(geojson, {
+export default function MapStatic({ items=[], zoomTo }: MapStaticProps) {
+  let dataSource = GeoJsonDataSource.load({
+      type: "FeatureCollection",
+      features: items,
+    }, {
       clampToGround: true,
       credit: "",
-    });
-  }
+    }
+  );
   if (zoomTo === undefined && dataSource !== null) {
     zoomTo = dataSource
   }

@@ -1,4 +1,4 @@
-import Map from "./components/map";
+import Map from "./components/Map";
 import { Item } from "./types";
 
 import { promises as fs } from 'fs';

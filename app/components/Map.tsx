@@ -1,7 +1,7 @@
 'use client'
 
 import { Viewer, GeoJsonDataSource, ImageryLayer, UrlTemplateImageryProvider} from 'cesium'
-import { useEffect } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 
 import {WORLD_IMAGERY_URL_TEMPLATE} from "../../util/tiles";
 import { Item } from '../types';
@@ -17,17 +17,28 @@ interface MapStaticProps {
 }
 
 export default function MapStatic({ items=[], zoomTo }: MapStaticProps) {
-  let dataSource = GeoJsonDataSource.load({
-      type: "FeatureCollection",
-      features: items,
-    }, {
-      clampToGround: true,
-      credit: "",
+  
+  const [dataSource, setDataSource] = useState<GeoJsonDataSource | null>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      const newDataSource = await GeoJsonDataSource.load({
+        type: "FeatureCollection",
+        features: items,
+      }, {
+        clampToGround: true,
+        credit: "",
+      });
+      setDataSource(newDataSource);
     }
-  );
-  if (zoomTo === undefined && dataSource !== null) {
-    zoomTo = dataSource
+    loadData();
+  }, [items]);
+
+  if (zoomTo === undefined) {
+    console.log(`zooming to dataSource`);
+    zoomTo = dataSource;
   }
+
   useEffect(() => {
     const viewer = new Viewer('cesiumContainer', {
       geocoder: false,
@@ -66,16 +77,22 @@ export default function MapStatic({ items=[], zoomTo }: MapStaticProps) {
       ),
     })
 
-    if (dataSource !== null) {
-      viewer.dataSources.add(dataSource)
+    async function syncDataSource() {
+      if (dataSource === null) {
+        return;
+      }
+      viewer.dataSources.add(dataSource);
     }
-    if (zoomTo !== false) {
-      viewer.zoomTo(zoomTo)
+    syncDataSource();
+
+    if (zoomTo !== false && zoomTo !== null) {
+      console.log(`zooming to ${zoomTo}`);
+      viewer.zoomTo(zoomTo);
     }
 
     return () => {
       viewer.destroy()
     }
   }, [dataSource, zoomTo])
-  return <div id="cesiumContainer" style={{ height: '80vh', width: '80vh' }} />
+  return <div id="cesiumContainer" className="h-full w-full" />
 }

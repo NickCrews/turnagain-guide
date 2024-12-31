@@ -16,11 +16,11 @@ export default function ItemExplorer({items}: {items: Item[]}) {
   return (
     <>  
         <link rel="stylesheet" href="/Cesium/Widgets/widgets.css" />
-        <div className="flex flex-1 overflow-hidden">
-          <div className="w-full md:w-1/2 h-full">
+        <div className="flex flex-row overflow-hidden">
+          <div className="w-2/3 ">
             <Map items={items} onItemClick={handleItemSelect}/>
           </div>
-          <div className="w-full md:w-1/2 h-full overflow-y-auto p-4">
+          <div className="w-1/3">
             <ItemGallery items={items} onItemSelect={handleItemSelect}/>
           </div>
         </div>

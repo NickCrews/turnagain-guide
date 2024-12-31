@@ -9,7 +9,7 @@ export interface ItemProperties {
   [key: string]: any;
 }
 
-export interface Item {
+export interface Item extends Feature {
   id: string;
   geometry: Geometry;
   properties: ItemProperties;

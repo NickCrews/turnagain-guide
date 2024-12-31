@@ -48,8 +48,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
 
   useEffect(() => {
     // TS gets mad I don't provide options, but that isn't required:
-    // https://github.com/CesiumGS/cesium/pull/12400
-    // @ts-expect-error
+    // @ts-expect-error https://github.com/CesiumGS/cesium/pull/12400
     const baseLayer = ImageryLayer.fromProviderAsync(
       // TileMapServiceImageryProvider.fromUrl(
       //   buildModuleUrl("Assets/Textures/NaturalEarthII"),

@@ -8,7 +8,7 @@ export async function generateStaticParams() {
 }
 
 export default async function RouteDetailPage (
-  {params}: {params: {id: string}}
+  {params}: {params: Promise<{id: string}>}
 ) {
     const p = await params;
     const item = items.getItem(p.id);

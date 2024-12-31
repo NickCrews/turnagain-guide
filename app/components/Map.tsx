@@ -11,7 +11,7 @@ import {
   Ion,
   Cartesian3,
 } from 'cesium'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { WORLD_IMAGERY_URL_TEMPLATE } from "../../util/tiles";
 import { Item } from '../routes/routes';
@@ -163,7 +163,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
     return () => {
       viewer?.destroy()
     }
-  }, [items, zoomTo])
+  }, [items, zoomTo, initViewer])
   
   return <div id="cesiumContainer" className="h-full w-full" />
 }

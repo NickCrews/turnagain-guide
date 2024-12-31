@@ -1,4 +1,13 @@
-name: Deploy Next.js site to Pages
+name: Build static site
+# unfortunately, per https://github.com/gregrickaby/nextjs-github-pages,
+# we need to adjust basePath so that it is /turnagain-guide-next
+# so that it is deployed to https://nickcrews.github.io/turnagain-guide-next/
+# But this messes up all the links internally.defaults:
+# So, instead I have cloudflare pages setup to pull from the `main` branch
+# and then deploy to https://turnagain-guide-next.pages.dev/
+#
+# This workflow merely builds the static site to ensure that is possible,
+# as a very basic sanity check.
 on:
   push:
     branches: ["main"]
@@ -53,19 +62,3 @@ jobs:
 
       - name: Build with Next.js
         run: pnpm next build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

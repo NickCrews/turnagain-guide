@@ -15,7 +15,6 @@ export default function ItemExplorer({items}: {items: Item[]}) {
 
   return (
     <>  
-        <link rel="stylesheet" href="/Cesium/Widgets/widgets.css" />
         <div className="flex">
           <div className="flex-1">
             <Map items={items} onItemClick={handleItemSelect}/>

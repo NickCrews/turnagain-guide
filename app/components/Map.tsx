@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 
 import { WORLD_IMAGERY_URL_TEMPLATE } from "../../util/tiles";
 import { Item } from '../routes/routes';
+import 'cesium/Build/Cesium/Widgets/widgets.css';
 
 interface MapStaticProps {
   items: Item[];

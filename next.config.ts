@@ -57,7 +57,7 @@ const nextConfig: NextConfig = withSerwist({
     }
     config.plugins.push(
       new webpack.DefinePlugin({
-        CESIUM_BASE_URL: JSON.stringify('Cesium'),
+        CESIUM_BASE_URL: JSON.stringify('/Cesium'),
       }),
     );
     return config;

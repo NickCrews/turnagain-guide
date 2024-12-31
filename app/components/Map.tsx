@@ -1,10 +1,10 @@
 'use client'
 
 import { Viewer, GeoJsonDataSource, ImageryLayer, UrlTemplateImageryProvider} from 'cesium'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 
 import {WORLD_IMAGERY_URL_TEMPLATE} from "../../util/tiles";
-import { Item } from '../types';
+import { Item } from '../routes/routes';
 
 interface MapStaticProps {
   items?: Item[];
@@ -35,7 +35,6 @@ export default function MapStatic({ items=[], zoomTo }: MapStaticProps) {
   }, [items]);
 
   if (zoomTo === undefined) {
-    console.log(`zooming to dataSource`);
     zoomTo = dataSource;
   }
 
@@ -86,7 +85,6 @@ export default function MapStatic({ items=[], zoomTo }: MapStaticProps) {
     syncDataSource();
 
     if (zoomTo !== false && zoomTo !== null) {
-      console.log(`zooming to ${zoomTo}`);
       viewer.zoomTo(zoomTo);
     }
 

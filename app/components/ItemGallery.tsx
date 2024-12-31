@@ -1,4 +1,4 @@
-import { Item } from '../types';
+import { Item } from '../routes/routes';
 
 interface ItemGalleryProps {
   items: Item[];
@@ -7,7 +7,7 @@ interface ItemGalleryProps {
 
 export default function ItemGallery({ items, onItemSelect }: ItemGalleryProps) {
   return (
-    <div className="overflow-y-auto h-full">
+    <div className="overflow-y-auto max-h-screen">
       {items.map((item, index) => (
         <div
           key={item.id || `item-${index}`}

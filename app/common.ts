@@ -8,8 +8,7 @@ import { useEffect, useState } from 'react';
  * Based on: https://dev.to/musselmanth/re-rendering-react-components-at-breakpoint-window-resizes-a-better-way-4343
  * 
  * @param innerWidth - The width threshold in pixels to check against
- * @param initialValue - The initial value of the hook, defaults to false.
- * We use this because on the initial render, we don't have access to the window.
+ * @param initialValue - The initial value of the hook if window is not available, defaults to false.
  * @returns boolean - True if window width is less than or equal to the threshold, false otherwise
  * 
  * @example
@@ -18,17 +17,12 @@ import { useEffect, useState } from 'react';
  * ```
  */
 export function useIsBelowWidth(innerWidth: number, initialValue: boolean = false) {
-  const [isBelowWidth, setIsBelowWidth] = useState(initialValue);
+  const [isBelowWidth, setIsBelowWidth] = useState(window ? window.innerWidth <= innerWidth : initialValue);
 
   useEffect(() => {
     const windowResizeHandler = () => {
       const matchMediaString = `(max-width: ${innerWidth}px)`;
-
-      if (matchMedia(matchMediaString).matches) {
-        setIsBelowWidth(true);
-      } else {
-        setIsBelowWidth(false);
-      }
+      setIsBelowWidth(window.matchMedia(matchMediaString).matches);
     };
 
     window.addEventListener('resize', windowResizeHandler);

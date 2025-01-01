@@ -51,7 +51,7 @@ function MobileHeader() {
           <Link href="/" className="text-3xl font-bold hover:underline hover:underline-offset-4">turnagain.guide</Link>
         </div>
       </div>
-      {isOpen && <VerticalNavs />}
+      {isOpen && <VerticalNavs onNavClick={() => setIsOpen(false)} />}
     </header>
   );
 }
@@ -75,23 +75,24 @@ function HorizontalNavs() {
   </nav>
 }
 
-function VerticalNavs() {
+function VerticalNavs({ onNavClick }: Readonly<{ onNavClick: () => void }>) {
   return <nav>
     <ul className="flex flex-col justify-between">
       {NAV_ITEMS.map(({ href, text }) => (
         <div key={href} className="border-b border-gray-500 p-2">
-          <NavLink href={href} text={text} />
+          <NavLink href={href} text={text} onNavClick={onNavClick} />
         </div>
       ))}
     </ul>
   </nav>
 }
 
-function NavLink({ href, text }: Readonly<{ href: string, text: string }>) {
+function NavLink({ href, text, onNavClick }: Readonly<{ href: string, text: string, onNavClick?: () => void }>) {
   return <li className="justify-center items-center">
     <Link
       className="hover:underline hover:underline-offset-4"
       href={href}
+      onClick={onNavClick}
     > {text} </Link>
   </li>
 }

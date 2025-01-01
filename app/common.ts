@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
  * Based on: https://dev.to/musselmanth/re-rendering-react-components-at-breakpoint-window-resizes-a-better-way-4343
  * 
  * @param innerWidth - The width threshold in pixels to check against
+ * @param initialValue - The initial value of the hook, defaults to false.
+ * We use this because on the initial render, we don't have access to the window.
  * @returns boolean - True if window width is less than or equal to the threshold, false otherwise
  * 
  * @example
@@ -15,8 +17,8 @@ import { useEffect, useState } from 'react';
  * const isMobile = useIsBelowWidth(768);
  * ```
  */
-export function useIsBelowWidth(innerWidth: number) {
-  const [isBelowWidth, setIsBelowWidth] = useState(window.innerWidth <= innerWidth);
+export function useIsBelowWidth(innerWidth: number, initialValue: boolean = false) {
+  const [isBelowWidth, setIsBelowWidth] = useState(initialValue);
 
   useEffect(() => {
     const windowResizeHandler = () => {

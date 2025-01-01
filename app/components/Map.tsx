@@ -17,6 +17,13 @@ import { WORLD_IMAGERY_URL_TEMPLATE } from "../../util/tiles";
 import { Item } from '../routes/routes';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 
+// Set the limited-scope access token for prod,
+// and the default access token for dev in .env.development
+if (!process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN) {
+  throw new Error('NEXT_PUBLIC_CESIUM_ACCESS_TOKEN is not set');
+}
+Ion.defaultAccessToken = process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN;
+
 interface MapStaticProps {
   items: Item[];
   /*
@@ -29,7 +36,6 @@ interface MapStaticProps {
 export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStaticProps) {
 
   async function initViewer() {
-    Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NjQ5YjhjOS01Y2UyLTRhYWEtOGEzZC1hZDZmZWI0NGQ3MTQiLCJpZCI6MjIxMjE4LCJpYXQiOjE3MTgwMDk5MDB9._pdWlrUxdAtIiuq3PXK8HrRNxcoJa6bOjwWE8cQ3J3Y';
     // TS gets mad I don't provide options, but that isn't required:
     // @ts-expect-error https://github.com/CesiumGS/cesium/pull/12400
     const baseLayer = await ImageryLayer.fromProviderAsync(

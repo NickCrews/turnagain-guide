@@ -11,6 +11,5 @@ export default async function RouteDetailPage (
   {params}: {params: Promise<{id: string}>}
 ) {
     const p = await params;
-    const item = items.getItem(p.id);
-    return <RouteDetail item={item} mountId="modal-root" />;
+    return <RouteDetail item={items.getItem(p.id)} mountId="modal-root" />;
 }

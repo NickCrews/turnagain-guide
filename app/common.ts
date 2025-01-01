@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
  * ```
  */
 export function useIsBelowWidth(innerWidth: number, initialValue: boolean = false) {
-  const [isBelowWidth, setIsBelowWidth] = useState(window ? window.innerWidth <= innerWidth : initialValue);
+  const [isBelowWidth, setIsBelowWidth] = useState((typeof window !== 'undefined') ? window.innerWidth <= innerWidth : initialValue);
 
   useEffect(() => {
     const windowResizeHandler = () => {

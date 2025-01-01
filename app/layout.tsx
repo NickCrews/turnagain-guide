@@ -33,7 +33,7 @@ function Header() {
 
 function FooterLink({href, text}: Readonly<{href: string, text: string}>) {
   return <Link
-    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+    className="hover:underline hover:underline-offset-4"
     href={href}
   > {text} </Link>
 }

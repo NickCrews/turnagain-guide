@@ -7,11 +7,11 @@ interface ItemGalleryProps {
 
 export default function ItemGallery({ items, onItemSelect }: ItemGalleryProps) {
   return (
-    <div className="overflow-y-auto max-h-screen">
+    <div className="overflow-y-auto h-full">
       {items.map((item, index) => (
         <div
           key={item.id || `item-${index}`}
-          className="bg-white p-4 mb-4 rounded shadow cursor-pointer hover:shadow-md transition-shadow"
+          className="bg-white p-4 mb-2 mx-2 rounded shadow cursor-pointer hover:shadow-md transition-shadow"
           onClick={() => onItemSelect(item)}
         >
           <h3 className="text-lg font-semibold text-gray-800">{item.properties.title}</h3>

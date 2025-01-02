@@ -4,13 +4,17 @@ import { useState } from "react";
 import { useIsBelowWidth } from "../common";
 import Link from "next/link";
 
+function HomeLink() {
+  return <Link href="/routes" className="text-3xl font-bold hover:underline hover:underline-offset-4">turnagain.guide</Link>
+}
+
 function DesktopHeader() {
   return <header className="relative p-4">
     <div className="absolute left-4 top-1/2 -translate-y-1/2">
       <HorizontalNavs />
     </div>
     <div className="text-center">
-      <Link href="/" className="text-3xl font-bold hover:underline hover:underline-offset-4">turnagain.guide</Link>
+      <HomeLink />
     </div>
   </header>
 }
@@ -48,7 +52,7 @@ function MobileHeader() {
       <div className="flex items-left gap-4 p-4">
         <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="flex-grow flex justify-center">
-          <Link href="/" className="text-3xl font-bold hover:underline hover:underline-offset-4">turnagain.guide</Link>
+          <HomeLink />
         </div>
       </div>
       {isOpen && <VerticalNavs onNavClick={() => setIsOpen(false)} />}

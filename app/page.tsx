@@ -1,5 +1,5 @@
-import Link from "next/link";
+import { permanentRedirect } from 'next/navigation'
 
 export default function Page() {
-    return <Link href="/routes">routes</Link>;
+    permanentRedirect('/routes');
 }

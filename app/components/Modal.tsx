@@ -14,13 +14,10 @@ function LeftArrowIcon() {
 
 export function Modal({ children, mountId }: { children: React.ReactNode, mountId: string }) {
   const router = useRouter();
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (!dialogRef.current?.open) {
-      dialogRef.current?.showModal();
-    }
     setIsMounted(true);
   }, []);
 
@@ -34,11 +31,8 @@ export function Modal({ children, mountId }: { children: React.ReactNode, mountI
   }
 
   return createPortal(
-    <div className="fixed inset-0 flex justify-center items-center bg-black/90">
-      <dialog
-        ref={dialogRef}
-        className="bg-white p-6 max-w-lg w-full max-h-screen overflow-auto rounded-lg shadow-lg"
-      >
+    <div className="fixed inset-0 flex justify-center bg-black/80">
+      <div ref={dialogRef} className="p-6 bg-background">
         <nav className="flex justify-start">
           <button onClick={onDismiss} className="close-button flex items-center gap-1">
             <LeftArrowIcon />
@@ -46,7 +40,7 @@ export function Modal({ children, mountId }: { children: React.ReactNode, mountI
           </button>
         </nav>
         {children}
-      </dialog>
+      </div>
     </div>,
     document.getElementById(mountId)!
   );

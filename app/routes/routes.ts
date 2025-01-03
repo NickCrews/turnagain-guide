@@ -6,6 +6,7 @@ import type { Feature, Geometry } from 'geojson';
 export interface ItemProperties {
   title: string;
   description: string;
+  feature_type: string;
   [key: string]: any;
 }
 

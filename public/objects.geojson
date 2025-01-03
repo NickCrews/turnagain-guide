@@ -976,7 +976,7 @@
             "id": "tincan-uptrack",
             "properties": {
                 "title": "Tincan Main Uptrack",
-                "description": "From the parking lot to the summit. <a href=\"/chapters/tincan\">More info</a>",
+                "description": "",
                 "feature_type": "uptrack",
                 "distance": 3288.2233047995983,
                 "total_ascent": 665.873051,
@@ -3658,22 +3658,6 @@
                     -149.198633,
                     60.795805,
                     313.833238
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "id": "flippit-knoll",
-            "properties": {
-                "title": "Flippit Knoll",
-                "feature_type": "landmark"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -149.171084,
-                    60.788602,
-                    691.3264
                 ]
             }
         }

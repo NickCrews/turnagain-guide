@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
 
@@ -15,12 +15,19 @@ function LeftArrowIcon() {
 export function Modal({ children, mountId }: { children: React.ReactNode, mountId: string }) {
   const router = useRouter();
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     if (!dialogRef.current?.open) {
       dialogRef.current?.showModal();
     }
+    setIsMounted(true);
   }, []);
+
+  if (!isMounted) {
+    // we only have access to the DOM after the component is mounted
+    return null;
+  }
 
   function onDismiss() {
     router.back();

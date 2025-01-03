@@ -1,8 +1,5 @@
-'use client';
-
 import { Item } from '../../routes';
 import { Modal } from '../../../components/Modal';
-import { useEffect, useState } from 'react'
 
 interface RouteDetailProps {
     item: Item;
@@ -10,15 +7,6 @@ interface RouteDetailProps {
   }
 
 export default function RouteDetail({ item, mountId }: RouteDetailProps) {
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  
-  if (!isMounted) {
-    return null;
-  }
-  
   return (
     <Modal mountId={mountId}>
       <div className="bg-white rounded-lg p-6 max-w-2xl w-full">

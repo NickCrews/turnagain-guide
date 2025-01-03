@@ -177,7 +177,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
     return () => {
       viewer?.destroy()
     }
-  }, [items, zoomTo])
+  }, [items, zoomTo, onItemClick])
   
   return <div id="cesiumContainer" className="h-full w-full" />
 }

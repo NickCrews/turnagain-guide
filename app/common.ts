@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-
 /**
  * A React hook that returns a boolean indicating whether the window width is below a specified value.
  * The hook automatically updates when the window is resized.
@@ -27,7 +26,7 @@ export function useIsBelowWidth(innerWidth: number, initialValue: boolean = fals
 
     window.addEventListener('resize', windowResizeHandler);
     return () => window.removeEventListener('resize', windowResizeHandler);
-  }, []);
+  }, [innerWidth]);
 
   return isBelowWidth;
 };

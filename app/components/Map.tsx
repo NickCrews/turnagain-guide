@@ -60,7 +60,16 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
           // rectangle: Rectangle.fromDegrees(-149.2939, 60.7024, -148.8208, 60.8538),
         }),
       );
-  
+
+      async function getTerrain() {
+        try {
+          // if we are offline, then we will fallback to the default smooth surface.
+          return await createWorldTerrainAsync();
+        } catch {
+          return undefined;
+        }
+      }
+      
       viewer = new Viewer('cesiumContainer', {
         geocoder: false,
         homeButton: false,
@@ -73,7 +82,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
         vrButton: false,
         infoBox: false,
         baseLayer: baseLayer,
-        terrainProvider: await createWorldTerrainAsync(),
+        terrainProvider: await getTerrain(),
       });
       
       if (zoomTo) {

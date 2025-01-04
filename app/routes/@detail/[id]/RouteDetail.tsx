@@ -1,5 +1,3 @@
-"use server";
-
 import { Item } from '../../routes';
 
 interface RouteDetailProps {

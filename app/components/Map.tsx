@@ -10,6 +10,11 @@ import {
   createWorldTerrainAsync,
   Ion,
   Cartesian3,
+  Color,
+  Entity,
+  ConstantProperty,
+  ColorMaterialProperty,
+  PolygonGraphics,
 } from 'cesium'
 import { useEffect } from 'react'
 
@@ -138,21 +143,14 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
         // setInterval(printCamera, 1000);
       }
   
-      const dataSource = await GeoJsonDataSource.load({
-        type: "FeatureCollection",
-        features: items,
-      }, {
-        clampToGround: true,
-        credit: "",
-        strokeWidth: 4,
-      });
-      viewer.dataSources.add(dataSource);
+      const entities = await ItemsToEntities(items);
+      setViewerEntities(viewer, entities);
   
       if (onItemClick) {
         const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
         viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
-          const pickedObject = viewer?.scene.pick(click.position);
-          const item = itemsById[pickedObject?.id?.id];
+          const pickedEntity: Entity | undefined = viewer?.scene.pick(click.position)?.id;
+          const item = itemsById[pickedEntity?.properties?.id];
           if (item) {
             onItemClick(item);
           }
@@ -168,11 +166,10 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
         //   viewer.scene.canvas.style.cursor = style;
         // }, ScreenSpaceEventType.MOUSE_MOVE);
       }
-      
-      return viewer;
     }
-    
-    initViewer().then(v => { viewer = v; });
+    if (!viewer) {
+      initViewer();
+    }
 
     return () => {
       viewer?.destroy()
@@ -180,4 +177,112 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
   }, [items, zoomTo, onItemClick])
   
   return <div id="cesiumContainer" className="h-full w-full" />
+}
+
+async function ItemsToEntities(items: Item[]) {
+  const dataSource = await GeoJsonDataSource.load({
+    type: "FeatureCollection",
+    features: items.map(i => ({...i, properties: {...i.properties, id: i.id}})),
+  },{
+    // In a perfect world I would set each entity to clampToGround
+    // in modifiedEntity(), but I can't figure out how to do it there.
+    clampToGround: true,
+  });
+  // Warning: if the geojson contains a MultiLineString, this single feature
+  // will be split into multiple entities in the GeoJsonDataSource,
+  // one for each segment of the MultiLineString.
+  // This might also be a problem for MultiPolygons, etc, but not sure.
+  // Currently, I was able to just convert all MultiLineStrings to LineStrings
+  // in the source data, but this might not always be possible.
+  const entities = items.map(i => dataSource.entities.getById(i.id) as Entity);
+  return entities.map(modifiedEntity);
+}
+
+function modifiedEntity(oldEntity: Entity) {
+  // make a copy. This MAY not do a deep copy, IDK, watch out!
+  let entity = new Entity({
+    properties: oldEntity.properties,
+  });
+  entity.merge(oldEntity);
+
+  if (entity.polyline) {
+    entity.polyline.width = new ConstantProperty(5);
+  }
+  
+  // Workaround to get polygons to show up.
+  // IDK exactly why this is needed, but if you want to go down the rabbit hole:
+  // https://community.cesium.com/t/polygon-clamp-to-ground-when-terrain-provider-is-used/22798/6
+  if (entity.polygon) {
+      entity.polygon = new PolygonGraphics({
+          hierarchy: entity.polygon.hierarchy?.getValue(),
+      })
+  }
+
+  if (entity.properties?.feature_type == "peak") {
+    // @ts-expect-error
+    entity.billboard.image = makeImageProperty(SVG_PEAK);
+  } else if (entity.properties?.feature_type == "parking") {
+    // @ts-expect-error
+    entity.billboard.image = makeImageProperty(SVG_PARKING);
+  }
+  if (entity.billboard) {
+    entity.billboard.width = new ConstantProperty(32);
+    entity.billboard.height = new ConstantProperty(32);
+  }
+  
+  let color = Color.YELLOW;
+  const featureType = entity.properties?.feature_type;
+  if (featureType == "uptrack") {
+    color = Color.RED;
+  } else if (featureType == "descent") {
+    color = Color.BLUE;
+  } else if (featureType == "bidirectional") {
+    color = Color.PURPLE;
+  }
+  if (entity.polygon) {
+    color = color.withAlpha(0.4);
+  }
+  setEntityColor(entity, color);
+
+  return entity;
+}
+
+function setViewerEntities(viewer: Viewer, entities: Entity[]) {
+  viewer.entities.removeAll();
+  entities.forEach(entity => {
+    viewer.entities.add(modifiedEntity(entity));
+  });
+}
+
+// See /globals.css for other colors
+const ICON_COLOR = "#ffffff";
+
+const SVG_PEAK = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+    <polygon points="50,10 90,90 10,90" fill="${ICON_COLOR}" />
+  </svg>
+`;
+
+const SVG_PARKING = `
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${ICON_COLOR}">
+  <path d="M240-120v-720h280q100 0 170 70t70 170q0 100-70 170t-170 70H400v240H240Zm160-400h128q33 0 56.5-23.5T608-600q0-33-23.5-56.5T528-680H400v160Z"/>
+</svg>
+`;
+
+function makeImageProperty(svgString: string) {
+  const blob = new Blob([svgString], {type: 'image/svg+xml'});
+  const url = URL.createObjectURL(blob);
+  return new ConstantProperty(url);
+}
+
+function setEntityColor(entity: Entity, color: Color) {
+  if (entity.polygon) {
+    entity.polygon.material = new ColorMaterialProperty(color);
+  }
+  if (entity.billboard) {
+    entity.billboard.color = new ColorMaterialProperty(color);
+  }
+  if (entity.polyline) {
+    entity.polyline.material = new ColorMaterialProperty(color);
+  }
 }

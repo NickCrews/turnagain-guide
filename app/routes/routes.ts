@@ -48,7 +48,7 @@ export class ItemCollection {
 
     static async fromFile(filePath: string | null = null) {
         if (filePath === null) {
-            filePath = process.cwd() + '/public/objects.geojson';
+            filePath = process.cwd() + '/public/turnagain-pass.geojson';
         }
         const geojson = await fs.readFile(filePath, 'utf8');
         return ItemCollection.fromGeoJson(geojson);

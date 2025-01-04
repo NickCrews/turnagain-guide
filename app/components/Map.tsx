@@ -16,7 +16,7 @@ import {
   ColorMaterialProperty,
   PolygonGraphics,
 } from 'cesium'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { WORLD_IMAGERY_URL_TEMPLATE } from "../../util/tiles";
 import { Item } from '../routes/routes';
@@ -74,7 +74,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
           return undefined;
         }
       }
-      
+
       viewer = new Viewer('cesiumContainer', {
         geocoder: false,
         homeButton: false,
@@ -89,7 +89,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
         baseLayer: baseLayer,
         terrainProvider: await getTerrain(),
       });
-      
+
       if (zoomTo) {
         // The camera only moves once the provided object is loaded,
         // so be careful if you zoomto the GeoJsonDataSource.
@@ -108,7 +108,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
             -0.9015156138440734),
           position: new Cartesian3(
             -2686319.8596728067,
-            -1594796.5059449861, 
+            -1594796.5059449861,
             5559071.1843723655
           ),
           right: new Cartesian3(
@@ -126,7 +126,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
         viewer.scene.camera.position = homeCameraSettings.position;
         viewer.scene.camera.right = homeCameraSettings.right;
         viewer.scene.camera.up = homeCameraSettings.up;
-  
+
         // function printCamera() {
         //   var camera = viewer.scene.camera;
         //   var params = {
@@ -142,10 +142,10 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
         // print every second
         // setInterval(printCamera, 1000);
       }
-  
+
       const entities = await ItemsToEntities(items);
       setViewerEntities(viewer, entities);
-  
+
       if (onItemClick) {
         const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
         viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
@@ -175,15 +175,52 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
       viewer?.destroy()
     }
   }, [items, zoomTo, onItemClick])
-  
-  return <div id="cesiumContainer" className="h-full w-full" />
+
+  return <div className="relative h-full w-full">
+    <div id="cesiumContainer" className="h-full w-full" />
+    <div className="absolute bottom-4 right-4">
+      <DownloadButton />
+    </div>
+  </div>
+}
+
+function DownloadButton() {
+  const [isOpen, setIsOpen] = useState(false);
+  return <>
+    <button
+      onClick={() => setIsOpen(!isOpen)}
+      className="bg-black/50 hover:bg-black/70 text-white px-3 py-1 rounded-md text-sm"
+    >
+      Download ▾
+    </button>
+    {isOpen && (
+      <div
+        className="absolute bottom-full right-0 mb-1 bg-black/50 rounded-md overflow-hidden"
+      >
+        <a
+          href="/turnagain-pass.geojson"
+          className="block gap-1"
+          download="turnagain-pass.geojson"
+        >
+          .geojson
+        </a>
+        <a
+          href="/turnagain-pass.gpx"
+          className="block gap-1"
+          download="turnagain-pass.gpx"
+        >
+          .gpx
+        </a>
+      </div>
+    )}
+  </>
 }
 
 async function ItemsToEntities(items: Item[]) {
   const dataSource = await GeoJsonDataSource.load({
     type: "FeatureCollection",
-    features: items.map(i => ({...i, properties: {...i.properties, id: i.id}})),
-  },{
+    features: items.map(i => ({ ...i, properties: { ...i.properties, id: i.id } })),
+  }, {
     // In a perfect world I would set each entity to clampToGround
     // in modifiedEntity(), but I can't figure out how to do it there.
     clampToGround: true,
@@ -208,14 +245,14 @@ function modifiedEntity(oldEntity: Entity) {
   if (entity.polyline) {
     entity.polyline.width = new ConstantProperty(5);
   }
-  
+
   // Workaround to get polygons to show up.
   // IDK exactly why this is needed, but if you want to go down the rabbit hole:
   // https://community.cesium.com/t/polygon-clamp-to-ground-when-terrain-provider-is-used/22798/6
   if (entity.polygon) {
-      entity.polygon = new PolygonGraphics({
-          hierarchy: entity.polygon.hierarchy?.getValue(),
-      })
+    entity.polygon = new PolygonGraphics({
+      hierarchy: entity.polygon.hierarchy?.getValue(),
+    })
   }
 
   if (entity.properties?.feature_type == "peak") {
@@ -229,7 +266,7 @@ function modifiedEntity(oldEntity: Entity) {
     entity.billboard.width = new ConstantProperty(32);
     entity.billboard.height = new ConstantProperty(32);
   }
-  
+
   let color = Color.YELLOW;
   const featureType = entity.properties?.feature_type;
   if (featureType == "uptrack") {
@@ -270,7 +307,7 @@ const SVG_PARKING = `
 `;
 
 function makeImageProperty(svgString: string) {
-  const blob = new Blob([svgString], {type: 'image/svg+xml'});
+  const blob = new Blob([svgString], { type: 'image/svg+xml' });
   const url = URL.createObjectURL(blob);
   return new ConstantProperty(url);
 }

@@ -200,7 +200,7 @@ async function ItemsToEntities(items: Item[]) {
 
 function modifiedEntity(oldEntity: Entity) {
   // make a copy. This MAY not do a deep copy, IDK, watch out!
-  let entity = new Entity({
+  const entity = new Entity({
     properties: oldEntity.properties,
   });
   entity.merge(oldEntity);
@@ -219,10 +219,10 @@ function modifiedEntity(oldEntity: Entity) {
   }
 
   if (entity.properties?.feature_type == "peak") {
-    // @ts-expect-error
+    // @ts-expect-error  billboard is always present but ts doesn't know that
     entity.billboard.image = makeImageProperty(SVG_PEAK);
   } else if (entity.properties?.feature_type == "parking") {
-    // @ts-expect-error
+    // @ts-expect-error  billboard is always present but ts doesn't know that
     entity.billboard.image = makeImageProperty(SVG_PARKING);
   }
   if (entity.billboard) {

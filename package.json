@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "pnpm run gen && next build",
     "gen": "cat public/turnagain-pass.geojson | node --experimental-strip-types app/util/gpx.ts > public/turnagain-pass.gpx",
     "start": "next start",
     "lint": "next lint",

@@ -80,7 +80,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
         homeButton: false,
         sceneModePicker: false,
         baseLayerPicker: false,
-        navigationHelpButton: false,
+        navigationHelpButton: true,
         animation: false,
         timeline: false,
         fullscreenButton: false,

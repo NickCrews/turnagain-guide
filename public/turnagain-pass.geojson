@@ -177,7 +177,6 @@
                 "description": "",
                 "feature_type": "descent",
                 "distance": 1394.4746282118915,
-                "total_ascent": 15.302097000000003,
                 "total_descent": 191.19635899999992,
                 "latitude": 60.79424591707046,
                 "longitude": -149.18357653617528
@@ -552,7 +551,6 @@
                 "feature_type": "uptrack",
                 "distance": 493.94458674679794,
                 "total_ascent": 64.50537200000002,
-                "total_descent": 7.324167000000045,
                 "latitude": 60.79154314295677,
                 "longitude": -149.18265845134732
             },
@@ -916,7 +914,6 @@
                 "feature_type": "uptrack",
                 "distance": 3288.2233047995983,
                 "total_ascent": 665.873051,
-                "total_descent": 16.47924599999999,
                 "latitude": 60.789429926096176,
                 "longitude": -149.1783957492337
             },
@@ -1968,7 +1965,6 @@
                 "feature_type": "uptrack",
                 "distance": 2590.6915043997165,
                 "total_ascent": 711.21358,
-                "total_descent": 13.565992000000051,
                 "latitude": 60.75533412678126,
                 "longitude": -149.22352955114067
             },
@@ -2552,7 +2548,6 @@
                 "feature_type": "bidirectional",
                 "distance": 1990.2708938747458,
                 "total_ascent": 236.72239700000006,
-                "total_descent": 21.40370100000007,
                 "latitude": 60.78428734653695,
                 "longitude": -149.2015831517385
             },

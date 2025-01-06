@@ -6,16 +6,18 @@ interface RouteFilterBarProps {
 }
 
 export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarProps) {
-  const [selectedTypes, setSelectedTypes] = useState(filters.types)
-
   const handleSetSelectedTypes = (selected: Set<string>) => {
-    setSelectedTypes(selected)
     setFilters({ ...filters, types: selected })
+  }
+
+  const handleSetQuery = (query: string) => {
+    setFilters({ ...filters, query: query })
   }
 
   return (
     <div className="flex gap-2 p-2 items-center">
-      <DropdownToggles title="Type" options={Array.from(FEATURE_TYPES)} selected={selectedTypes} setSelected={handleSetSelectedTypes} />
+      <DropdownToggles title="Type" options={Array.from(FEATURE_TYPES)} selected={filters.types} setSelected={handleSetSelectedTypes} />
+      <SearchBar query={filters.query} setQuery={handleSetQuery} />
     </div>
   )
 }
@@ -69,5 +71,17 @@ function Toggle({ checked, setChecked, label }: { checked: boolean, setChecked: 
       <input type="checkbox" checked={checked} onChange={() => setChecked(!checked)} />
       <label>{label}</label>
     </button>
+  )
+}
+
+function SearchBar({ query, setQuery }: { query: string, setQuery: (query: string) => void }) {
+  return (
+    <input
+      type="text"
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      className="border border-gray-300 rounded-md bg-foreground text-background"
+      placeholder="Search..."
+    />
   )
 }

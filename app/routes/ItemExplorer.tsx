@@ -16,6 +16,7 @@ interface ItemExplorerProps {
 
 export interface Filters {
   types: Set<string>
+  query: string
 }
 
 function useFilters() : [Filters, (filters: Filters) => void] {
@@ -23,17 +24,21 @@ function useFilters() : [Filters, (filters: Filters) => void] {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const typeString = searchParams.get('types');
-  const types = new Set(typeString ? typeString.split(',') : Array.from(FEATURE_TYPES));
+  const types = new Set(typeString == null ? Array.from(FEATURE_TYPES) : typeString.split(','));
+  const query = searchParams.get('query') || '';
   const setFilters = (filters: Filters) => {
     router.push(pathname + '?' + filtersToQueryString(filters));
   }
-  return [{ types }, setFilters];
+  return [{ types, query }, setFilters];
 }
 
 function filtersToQueryString(filters: Filters) {
   const params = new URLSearchParams();
-  if (filters.types.size > 0) {
+  if (filters.types.size !== FEATURE_TYPES.size) {
     params.set('types', Array.from(filters.types).join(','));
+  }
+  if (filters.query) {
+    params.set('query', filters.query);
   }
   return params.toString();
 }
@@ -43,8 +48,13 @@ function filterItems(items: Item[], filters: Filters, selectedItem: Item | undef
     if (selectedItem && item.id === selectedItem.id) {
       return true;
     }
+    
     const matchesType = filters.types.has(item.properties.feature_type);
-    return matchesType;
+    
+    const terms = filters.query.toLowerCase().split(' ');
+    const matchesQuery = terms.length === 0 || terms.every(term => item.properties.title.toLowerCase().includes(term));
+    
+    return matchesType && matchesQuery;
   }
 
   return items.filter(keepItem);

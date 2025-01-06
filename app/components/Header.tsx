@@ -9,7 +9,7 @@ function HomeLink() {
 }
 
 function DesktopHeader() {
-  return <header className="relative p-4">
+  return <header className="relative p-3">
     <div className="absolute left-4 top-1/2 -translate-y-1/2">
       <HorizontalNavs />
     </div>

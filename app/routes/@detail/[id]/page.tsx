@@ -1,6 +1,6 @@
 import { Modal } from "@/app/components/Modal";
-import { ItemCollection } from "../../routes";
-import RouteDetail from "./RouteDetail";
+import RouteDetail from "@/app/components/RouteDetail";
+import { ItemCollection } from "@/app/routes/routes";
 
 const items = await ItemCollection.fromFile();
 

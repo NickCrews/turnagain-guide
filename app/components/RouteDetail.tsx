@@ -1,4 +1,4 @@
-import { Item } from '../../routes';
+import { Item } from '@/app/routes/routes';
 import { RawValue, Distance, Elevation } from '@/app/components/Units';
 interface RouteDetailProps {
     item: Item;

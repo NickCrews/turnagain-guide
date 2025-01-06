@@ -5,7 +5,12 @@ import Map from "../components/Map";
 import ItemGallery from "../components/ItemGallery";
 import { useRouter } from "next/navigation";
 
-export default function ItemExplorer({items}: {items: Item[]}) {
+interface ItemExplorerProps {
+  items: Item[]
+  selectedItem?: Item
+}
+
+export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
   const router = useRouter();
 
   const handleItemSelect = (item: Item) => {

@@ -5,5 +5,5 @@ const items = await ItemCollection.fromFile();
 const itemArray = items.getItems();
 
 export default async function Home() {
-  return <ItemExplorer items={itemArray} />;
+  return <ItemExplorer items={itemArray} selectedItem={undefined} />;
 }

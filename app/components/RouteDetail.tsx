@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import { Item } from '@/app/routes/routes';
 import { RawValue, Distance, Elevation } from '@/app/components/Units';
 interface RouteDetailProps {
@@ -12,8 +13,12 @@ function Property({ name, children }: { name: string, children?: React.ReactNode
   </div>
 }
 
-export default async function RouteDetail({ item }: RouteDetailProps) {
-  const { default: MDXProvider } = await import(`@/app/routes/pages/${item.id}.mdx`)
+export default function RouteDetail({ item }: RouteDetailProps) {
+  
+  // for this to work on the client, we need to use dynamic import
+  const MDXProvider = dynamic(() => import(`@/app/routes/pages/${item.id}.mdx`), {
+    ssr: false,
+  })
   
   const properties = [
     { name: "Feature Type", component: <RawValue value={item.properties.feature_type} />},

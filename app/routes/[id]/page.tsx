@@ -1,6 +1,5 @@
-import { Modal } from "@/app/components/Modal";
-import RouteDetail from "@/app/components/RouteDetail";
 import { ItemCollection } from "@/app/routes/routes";
+import ItemExplorer from "../ItemExplorer";
 
 const items = await ItemCollection.fromFile();
 
@@ -12,7 +11,5 @@ export default async function RouteDetailPage (
   {params}: {params: Promise<{id: string}>}
 ) {
     const p = await params;
-    return <Modal mountId="modal-root">
-      <RouteDetail item={items.getItem(p.id)} />
-    </Modal>
+    return <ItemExplorer items={items.getItems()} selectedItem={items.getItem(p.id)} />
 }

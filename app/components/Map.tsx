@@ -43,7 +43,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick, selectedIte
       }
 
       let entities = await itemsToEntities(items);
-      entities = entities.map(entity => styleEntity(entity, selectedItem));
+      entities.forEach(entity => styleEntity(entity, selectedItem));
       setViewerEntities(viewer, entities);
 
       if (onItemClick) {
@@ -127,13 +127,8 @@ async function itemsToEntities(items: Item[]) {
   return items.map(i => dataSource.entities.getById(i.id) as Entity);
 }
 
-function styleEntity(oldEntity: Entity, selectedItem?: Item) {
-  // make a copy. This MAY not do a deep copy, IDK, watch out!
-  const entity = new Entity({
-    properties: oldEntity.properties,
-  });
-  entity.merge(oldEntity);
-
+// edits in-place
+function styleEntity(entity: Entity, selectedItem?: Item) {
   if (entity.polyline) {
     entity.polyline.width = new ConstantProperty(5);
   }
@@ -200,7 +195,6 @@ function styleEntity(oldEntity: Entity, selectedItem?: Item) {
   } else {
     throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
   }
-  return entity;
 }
 
 function setViewerEntities(viewer: Viewer, entities: Entity[]) {

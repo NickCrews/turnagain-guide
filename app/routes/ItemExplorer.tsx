@@ -5,6 +5,8 @@ import Map from "../components/Map";
 import ItemGallery from "../components/ItemGallery";
 import RouteDetail from "../components/RouteDetail";
 import { useRouter } from "next/navigation";
+import RouteFilterBar from "../components/RouteFilterBar";
+import { useState } from "react";
 
 interface ItemExplorerProps {
   items: Item[]
@@ -13,7 +15,7 @@ interface ItemExplorerProps {
 
 export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
   const router = useRouter();
-
+  const [filteredItems, setFilteredItems] = useState(items);
   const handleItemSelect = (item?: Item) => {
     const url = item ? `/routes/${item.id}` : "/routes"
     router.push(url);
@@ -24,16 +26,21 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
   };
 
   return (
-    <div className="flex h-full">
-      <div className="flex-1 h-full">
-        <Map items={items} onItemClick={handleItemSelect} selectedItem={selectedItem}/>
+    <div className="h-full">
+      <div className="">
+        <RouteFilterBar allItems={items} setFilteredItems={setFilteredItems} />
       </div>
-      <div className="flex-1 max-w-lg h-full">
-        {
-          selectedItem ? 
-          <ItemDetail item={selectedItem} onBack={handleBack} /> : 
-          <ItemGallery items={items} onItemSelect={handleItemSelect}/>
-        } 
+      <div className="flex h-full">
+        <div className="flex-1 h-full">
+          <Map items={filteredItems} onItemClick={handleItemSelect} selectedItem={selectedItem}/>
+        </div>
+        <div className="flex-1 max-w-lg h-full">
+          {
+            selectedItem ? 
+            <ItemDetail item={selectedItem} onBack={handleBack} /> : 
+            <ItemGallery items={filteredItems} onItemSelect={handleItemSelect}/>
+          } 
+        </div>
       </div>
     </div>
   );

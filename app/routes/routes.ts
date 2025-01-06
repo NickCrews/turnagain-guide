@@ -2,11 +2,13 @@
 import { promises as fs } from 'fs';
 import type { Feature, Geometry } from 'geojson';
 
+export type FeatureType = "parking" |"peak" | "ascent" | "descent";
+
 // This is an extension of the GeoJsonProperties interface.
 export interface ItemProperties {
   title: string;
   description: string;
-  feature_type: "parking" |"peak" | "ascent" | "descent";
+  feature_type: FeatureType;
   /* in meters */
   distance?: number;
   /* in meters */

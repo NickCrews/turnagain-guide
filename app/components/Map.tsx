@@ -13,9 +13,9 @@ import {
 } from 'cesium'
 import { useEffect, useState, useId } from 'react'
 
-import { Item } from '../routes/routes';
+import { FeatureType, Item } from '@/app/routes/routes';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
-import { useViewer } from './ViewerContext';
+import { useViewer } from '@/app/components/ViewerContext';
 
 interface MapStaticProps {
   items: Item[];
@@ -43,8 +43,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick, selectedIte
       }
 
       let entities = await itemsToEntities(items);
-      entities = entities.map(modifiedEntity);
-      dullNonSelectedEntities(entities, selectedItem);
+      entities = entities.map(entity => styleEntity(entity, selectedItem));
       setViewerEntities(viewer, entities);
 
       if (onItemClick) {
@@ -112,19 +111,6 @@ function DownloadButton() {
   </>
 }
 
-// operates in-place
-function dullNonSelectedEntities(entities: Entity[], selectedItem?: Item) {
-  if (!selectedItem) {
-    return entities;
-  }
-  entities.forEach(ent => {
-    if (ent.properties?.id != selectedItem.id) {
-      const color = getEntityColor(ent);
-      setEntityColor(ent, color?.withAlpha(0.2) || Color.GRAY);
-    }
-  });
-}
-
 async function itemsToEntities(items: Item[]) {
   const dataSource = await GeoJsonDataSource.load({
     type: "FeatureCollection",
@@ -140,11 +126,10 @@ async function itemsToEntities(items: Item[]) {
   // This might also be a problem for MultiPolygons, etc, but not sure.
   // Currently, I was able to just convert all MultiLineStrings to LineStrings
   // in the source data, but this might not always be possible.
-  const entities = items.map(i => dataSource.entities.getById(i.id) as Entity);
-  return entities.map(modifiedEntity);
+  return items.map(i => dataSource.entities.getById(i.id) as Entity);
 }
 
-function modifiedEntity(oldEntity: Entity) {
+function styleEntity(oldEntity: Entity, selectedItem?: Item) {
   // make a copy. This MAY not do a deep copy, IDK, watch out!
   const entity = new Entity({
     properties: oldEntity.properties,
@@ -164,30 +149,59 @@ function modifiedEntity(oldEntity: Entity) {
     })
   }
 
-  if (entity.properties?.feature_type == "peak") {
-    // @ts-expect-error  billboard is always present but ts doesn't know that
-    entity.billboard.image = makeImageProperty(SVG_PEAK);
-  } else if (entity.properties?.feature_type == "parking") {
-    // @ts-expect-error  billboard is always present but ts doesn't know that
-    entity.billboard.image = makeImageProperty(SVG_PARKING);
-  }
-  if (entity.billboard) {
-    entity.billboard.width = new ConstantProperty(32);
-    entity.billboard.height = new ConstantProperty(32);
-  }
-
-  let color = Color.YELLOW;
-  const featureType = entity.properties?.feature_type;
+  let color;
+  const featureType: FeatureType = entity.properties?.feature_type;
   if (featureType == "ascent") {
     color = Color.RED;
   } else if (featureType == "descent") {
     color = Color.BLUE;
+  } else if (featureType == "parking") {
+    color = Color.WHITE;
+  } else if (featureType == "peak") {
+    color = Color.WHITE;
+  } else {
+    throw new Error(`Unknown feature type: ${featureType}`);
   }
-  if (entity.polygon) {
-    color = color.withAlpha(0.2);
-  }
-  setEntityColor(entity, color);
 
+  // If there is some selected item, and this entity is not the one selected, make this entity dull
+  const dull = selectedItem && selectedItem.id != entity.properties?.id;
+  if (entity.polygon) {
+    if (dull) {
+      color = color.withAlpha(0.1);
+    } else {
+      color = color.withAlpha(0.5);
+    }
+  } else if (entity.billboard) {
+    if (dull) {
+      color = color.withAlpha(0.2);
+    } else {
+      color = color;
+    }
+  } else {
+    if (dull) {
+      color = color.withAlpha(0.2);
+    } else {
+      color = color;
+    }
+  }
+
+  if (entity.polygon) {
+    entity.polygon.material = new ColorMaterialProperty(color);
+  } else if (entity.polyline) {
+    entity.polyline.material = new ColorMaterialProperty(color);
+  } else if (entity.billboard) {
+    if (featureType == "peak") {
+      entity.billboard.image = makeImageProperty(SVG_PEAK, color);
+    } else if (featureType == "parking") {
+      entity.billboard.image = makeImageProperty(SVG_PARKING, color);
+    } else {
+      throw new Error(`Unknown feature type for billboard: ${featureType}`);
+    }
+    entity.billboard.width = new ConstantProperty(32);
+    entity.billboard.height = new ConstantProperty(32);
+  } else {
+    throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
+  }
   return entity;
 }
 
@@ -201,45 +215,28 @@ function setViewerEntities(viewer: Viewer, entities: Entity[]) {
 // a triangle like ⏶
 const SVG_PEAK = `
   <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
-    <polygon points="50,10 90,90 10,90" fill="$ICON_COLOR" />
+    <polygon points="50,10 90,90 10,90" fill="$ICON_COLOR" fill-opacity="$ICON_ALPHA" />
   </svg>
 `;
 
 // a "P" icon
 const SVG_PARKING = `
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="$ICON_COLOR">
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="$ICON_COLOR" fill-opacity="$ICON_ALPHA">
   <path d="M240-120v-720h280q100 0 170 70t70 170q0 100-70 170t-170 70H400v240H240Zm160-400h128q33 0 56.5-23.5T608-600q0-33-23.5-56.5T528-680H400v160Z"/>
 </svg>
 `;
 
-function makeImageProperty(svgString: string, color?: string) {
+function makeImageProperty(svgString: string, color?: string | Color, alpha?: number) {
   // See /globals.css for other colors
   color = color || "#ffffff";
-  const blob = new Blob([svgString.replace("$ICON_COLOR", color)], { type: 'image/svg+xml' });
+  if (typeof color !== "string") {
+    alpha = alpha || color.alpha;
+    color = color.toCssHexString().slice(0, 7);
+  }
+  alpha = alpha || 1;
+  svgString = svgString.replace("$ICON_COLOR", color);
+  svgString = svgString.replace("$ICON_ALPHA", alpha.toString());
+  const blob = new Blob([svgString], { type: 'image/svg+xml' });
   const url = URL.createObjectURL(blob);
   return new ConstantProperty(url);
-}
-
-function setEntityColor(entity: Entity, color: Color) {
-  if (entity.polygon) {
-    entity.polygon.material = new ColorMaterialProperty(color);
-  }
-  if (entity.billboard) {
-    entity.billboard.color = new ColorMaterialProperty(color);
-  }
-  if (entity.polyline) {
-    entity.polyline.material = new ColorMaterialProperty(color);
-  }
-}
-
-function getEntityColor(entity: Entity) : Color | undefined {
-  if (entity.polygon) {
-    // @ts-expect-error  polygon.material is always present but ts doesn't know that
-    return entity.polygon.material?.color.getValue();
-  }
-  if (entity.polyline) {
-    // @ts-expect-error  polyline.material is always present but ts doesn't know that
-    return entity.polyline.material?.color.getValue();
-  }
-  return undefined;
 }

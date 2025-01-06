@@ -20,5 +20,14 @@ export function Elevation({ meters }: { meters: number }) {
   return <span onClick={onClick} className="text-sm cursor-pointer underline underline-offset-2">{`${n.toFixed(0)} ${unit}`}</span>
 }
 
+export function ElevationRange({ min, max }: { min: number, max: number }) {
+  const [unit, setUnit] = useState('ft');
+  const onClick = () => setUnit(unit === 'm' ? 'ft' : 'm');
+  const minN = unit === 'm' ? min : min * 3.28084;
+  const maxN = unit === 'm' ? max : max * 3.28084;
+  return <span onClick={onClick} className="text-sm cursor-pointer underline underline-offset-2">{`${minN.toFixed(0)} to ${maxN.toFixed(0)} ${unit}`}</span>
+}
+
+
 
   

@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 import { Item } from '@/app/routes/routes';
-import { RawValue, Distance, Elevation } from '@/app/components/Units';
+import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/Units';
 interface RouteDetailProps {
     item: Item;
   }
@@ -31,6 +31,12 @@ export default function RouteDetail({ item }: RouteDetailProps) {
   }
   if (item.properties.total_descent) {
     properties.push({ name: "Total Descent", component: <Elevation meters={item.properties.total_descent} />});
+  }
+  if (item.properties.elevation) {
+    properties.push({ name: "Elevation", component: <Elevation meters={item.properties.elevation} />});
+  }
+  if (item.properties.elevation_min && item.properties.elevation_max) {
+    properties.push({ name: "Elevation Range", component: <ElevationRange min={item.properties.elevation_min} max={item.properties.elevation_max} />});
   }
   
 

@@ -10,6 +10,8 @@
                 "feature_type": "ascent",
                 "distance": 593.0441337742518,
                 "total_ascent": 216.94984299999993,
+                "elevation_min": 474.291397,
+                "elevation_max": 691.3264,
                 "latitude": 60.7908679914805,
                 "longitude": -149.17213663505876
             },
@@ -178,6 +180,8 @@
                 "feature_type": "descent",
                 "distance": 1394.4746282118915,
                 "total_descent": 191.19635899999992,
+                "elevation_min": 295.683514,
+                "elevation_max": 474.708847,
                 "latitude": 60.79424591707046,
                 "longitude": -149.18357653617528
             },
@@ -551,6 +555,8 @@
                 "feature_type": "ascent",
                 "distance": 493.94458674679794,
                 "total_ascent": 64.50537200000002,
+                "elevation_min": 448.471938,
+                "elevation_max": 512.707836,
                 "latitude": 60.79154314295677,
                 "longitude": -149.18265845134732
             },
@@ -756,6 +762,8 @@
                 "feature_type": "descent",
                 "distance": 604.4903952834237,
                 "total_descent": 275.29182300000014,
+                "elevation_min": 678.565176,
+                "elevation_max": 954.564694,
                 "latitude": 60.78853902508095,
                 "longitude": -149.16106769732286
             },
@@ -914,6 +922,8 @@
                 "feature_type": "ascent",
                 "distance": 3288.2233047995983,
                 "total_ascent": 665.873051,
+                "elevation_min": 313.833238,
+                "elevation_max": 962.155599,
                 "latitude": 60.789429926096176,
                 "longitude": -149.1783957492337
             },
@@ -1887,6 +1897,8 @@
                 "feature_type": "descent",
                 "distance": 302.9814467472608,
                 "total_descent": 141.25361999999996,
+                "elevation_min": 816.9136,
+                "elevation_max": 958.7224,
                 "latitude": 60.78652255609131,
                 "longitude": -149.16028899891472
             },
@@ -1965,6 +1977,8 @@
                 "feature_type": "ascent",
                 "distance": 2590.6915043997165,
                 "total_ascent": 711.21358,
+                "elevation_min": 257.868,
+                "elevation_max": 965.359048,
                 "latitude": 60.75533412678126,
                 "longitude": -149.22352955114067
             },
@@ -2548,6 +2562,8 @@
                 "feature_type": "ascent",
                 "distance": 1990.2708938747458,
                 "total_ascent": 236.72239700000006,
+                "elevation_min": 280.076585,
+                "elevation_max": 498.231923,
                 "latitude": 60.78428734653695,
                 "longitude": -149.2015831517385
             },
@@ -3056,6 +3072,8 @@
                 "feature_type": "descent",
                 "distance": 810.7375124193462,
                 "total_descent": 454.204791,
+                "elevation_min": 533.813686,
+                "elevation_max": 988.018477,
                 "latitude": 60.78295961753153,
                 "longitude": -149.15957789760694
             },
@@ -3224,6 +3242,8 @@
                 "feature_type": "descent",
                 "distance": 602.1098380632068,
                 "total_descent": 351.5772689999999,
+                "elevation_min": 741.5776,
+                "elevation_max": 1094.038228,
                 "latitude": 60.78617260777243,
                 "longitude": -149.14772455265611
             },
@@ -3497,7 +3517,8 @@
             "id": "center-ridge-parking-lot",
             "properties": {
                 "title": "Center Ridge Parking Lot",
-                "feature_type": "parking"
+                "feature_type": "parking",
+                "elevation": 280
             },
             "geometry": {
                 "type": "Point",
@@ -3512,7 +3533,8 @@
             "id": "tincan-parking-lot",
             "properties": {
                 "title": "Tincan Parking Lot",
-                "feature_type": "parking"
+                "feature_type": "parking",
+                "elevation": 315
             },
             "geometry": {
                 "type": "Point",

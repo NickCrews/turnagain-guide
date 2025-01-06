@@ -42,16 +42,16 @@ export default function MapStatic({ items = [], zoomTo, onItemClick, selectedIte
         viewer.zoomTo(zoomTo);
       }
 
-      let entities = await itemsToEntities(items);
-      entities.forEach(entity => styleEntity(entity, selectedItem));
+      const entities = await itemsToEntities(items);
       setViewerEntities(viewer, entities);
+      viewer.entities.values.forEach(entity => styleEntity(entity, selectedItem));
 
       if (onItemClick) {
         const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
         // on click, call our callback
         viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
           const pickedEntity: Entity | undefined = viewer?.scene.pick(click.position)?.id;
-          const item: Item = itemsById[pickedEntity?.properties?.id];
+          const item: Item | undefined = itemsById[pickedEntity?.properties?.id];
           onItemClick(item);
         }, ScreenSpaceEventType.LEFT_CLICK);
         // on hover, change cursor to a pointer
@@ -198,8 +198,22 @@ function styleEntity(entity: Entity, selectedItem?: Item) {
 }
 
 function setViewerEntities(viewer: Viewer, entities: Entity[]) {
-  viewer.entities.removeAll();
-  entities.forEach(entity => {
+  function isMatch(e1: Entity, e2: Entity) {
+    return e1.properties?.id?.value == e2.properties?.id?.value;
+  }
+
+  // do in separate steps to avoid mutating the viewer while iterating over it
+  const entitiesToRemove = viewer.entities.values.filter(existing => 
+    !entities.some(entity => isMatch(existing, entity))
+  );
+  entitiesToRemove.forEach(entity => {
+    viewer.entities.remove(entity);
+  });
+
+  const entitiesToAdd = entities.filter(entity => 
+    !viewer.entities.values.some(existing => isMatch(existing, entity))
+  );
+  entitiesToAdd.forEach(entity => {
     viewer.entities.add(entity);
   });
 }

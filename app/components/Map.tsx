@@ -26,7 +26,6 @@ interface MapStaticProps {
 export default function MapStatic({ items = [], onItemClick, selectedItem }: MapStaticProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
-  const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
   
   useEffect(() => {
     async function initViewer() {
@@ -51,6 +50,7 @@ export default function MapStatic({ items = [], onItemClick, selectedItem }: Map
     if (!onItemClick) {
       return;
     }
+    const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
     // on click, call our callback
     viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
       const pickedEntity: Entity | undefined = viewer?.scene.pick(click.position)?.id;
@@ -62,7 +62,7 @@ export default function MapStatic({ items = [], onItemClick, selectedItem }: Map
       const pickedObject = viewer.scene.pick(hover.endPosition);
       viewer.scene.canvas.style.cursor = pickedObject ? 'pointer' : 'default';
     }, ScreenSpaceEventType.MOUSE_MOVE);
-  }, [viewer, onItemClick])
+  }, [viewer, onItemClick, items])
 
   return <div className="relative h-full w-full">
     <div id={holderId} className="h-full w-full">

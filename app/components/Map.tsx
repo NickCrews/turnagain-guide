@@ -46,6 +46,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
 
       if (onItemClick) {
         const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
+        // on click, call our callback
         viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
           const pickedEntity: Entity | undefined = viewer?.scene.pick(click.position)?.id;
           const item = itemsById[pickedEntity?.properties?.id];
@@ -53,16 +54,11 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
             onItemClick(item);
           }
         }, ScreenSpaceEventType.LEFT_CLICK);
-        // Change cursor to a pointer on hover
-        // This works, but it is misleading: cesium seems to make it really hard to click a line.
-        // Often, I can hover over a line and it will change to a pointer, but then I can't click it.
-        // This is really misleading, so for now, we'll just leave the pointer as default.
-        // Once I solve the difficult-to-click-line problem, I'll re-enable this.
-        // viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
-        //   const pickedObject = viewer.scene.pick(hover.endPosition);
-        //   const style = pickedObject ? 'pointer' : 'default';
-        //   viewer.scene.canvas.style.cursor = style;
-        // }, ScreenSpaceEventType.MOUSE_MOVE);
+        // on hover, change cursor to a pointer
+        viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
+          const pickedObject = viewer.scene.pick(hover.endPosition);
+          viewer.scene.canvas.style.cursor = pickedObject ? 'pointer' : 'default';
+        }, ScreenSpaceEventType.MOUSE_MOVE);
       }
     }
     initViewer();

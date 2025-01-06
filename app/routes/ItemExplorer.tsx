@@ -25,7 +25,7 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
   return (
     <div className="flex h-full">
       <div className="flex-1 h-full">
-        <Map items={items} onItemClick={handleItemSelect}/>
+        <Map items={items} onItemClick={handleItemSelect} selectedItem={selectedItem}/>
       </div>
       <div className="flex-1 max-w-lg h-full">
         {

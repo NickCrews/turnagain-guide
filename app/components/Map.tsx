@@ -19,6 +19,7 @@ import { useViewer } from './ViewerContext';
 
 interface MapStaticProps {
   items: Item[];
+  selectedItem?: Item;
   /*
   // If not provided, will not zoom to anything.
   */
@@ -26,7 +27,7 @@ interface MapStaticProps {
   onItemClick?: (item: Item) => void;
 }
 
-export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStaticProps) {
+export default function MapStatic({ items = [], zoomTo, onItemClick, selectedItem }: MapStaticProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
   useEffect(() => {
@@ -41,7 +42,9 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
         viewer.zoomTo(zoomTo);
       }
 
-      const entities = await ItemsToEntities(items);
+      let entities = await itemsToEntities(items);
+      entities = entities.map(modifiedEntity);
+      dullNonSelectedEntities(entities, selectedItem);
       setViewerEntities(viewer, entities);
 
       if (onItemClick) {
@@ -52,7 +55,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
           const item = itemsById[pickedEntity?.properties?.id];
           if (item) {
             onItemClick(item);
-          }
+          } 
         }, ScreenSpaceEventType.LEFT_CLICK);
         // on hover, change cursor to a pointer
         viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
@@ -65,7 +68,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
     return () => {
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
     }
-  }, [viewer, items, zoomTo, onItemClick])
+  }, [viewer, items, selectedItem, zoomTo, onItemClick])
 
   return <div className="relative h-full w-full">
     <div id={holderId} className="h-full w-full">
@@ -109,7 +112,20 @@ function DownloadButton() {
   </>
 }
 
-async function ItemsToEntities(items: Item[]) {
+// operates in-place
+function dullNonSelectedEntities(entities: Entity[], selectedItem?: Item) {
+  if (!selectedItem) {
+    return entities;
+  }
+  entities.forEach(ent => {
+    if (ent.properties?.id != selectedItem.id) {
+      const color = getEntityColor(ent);
+      setEntityColor(ent, color?.withAlpha(0.2) || Color.GRAY);
+    }
+  });
+}
+
+async function itemsToEntities(items: Item[]) {
   const dataSource = await GeoJsonDataSource.load({
     type: "FeatureCollection",
     features: items.map(i => ({ ...i, properties: { ...i.properties, id: i.id } })),
@@ -170,7 +186,7 @@ function modifiedEntity(oldEntity: Entity) {
     color = Color.PURPLE;
   }
   if (entity.polygon) {
-    color = color.withAlpha(0.4);
+    color = color.withAlpha(0.2);
   }
   setEntityColor(entity, color);
 
@@ -180,7 +196,7 @@ function modifiedEntity(oldEntity: Entity) {
 function setViewerEntities(viewer: Viewer, entities: Entity[]) {
   viewer.entities.removeAll();
   entities.forEach(entity => {
-    viewer.entities.add(modifiedEntity(entity));
+    viewer.entities.add(entity);
   });
 }
 
@@ -215,4 +231,16 @@ function setEntityColor(entity: Entity, color: Color) {
   if (entity.polyline) {
     entity.polyline.material = new ColorMaterialProperty(color);
   }
+}
+
+function getEntityColor(entity: Entity) : Color | undefined {
+  if (entity.polygon) {
+    // @ts-expect-error  polygon.material is always present but ts doesn't know that
+    return entity.polygon.material?.color.getValue();
+  }
+  if (entity.polyline) {
+    // @ts-expect-error  polyline.material is always present but ts doesn't know that
+    return entity.polyline.material?.color.getValue();
+  }
+  return undefined;
 }

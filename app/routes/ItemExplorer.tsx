@@ -4,32 +4,69 @@ import { Item } from "./routes";
 import Map from "../components/Map";
 import ItemGallery from "../components/ItemGallery";
 import RouteDetail from "../components/RouteDetail";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RouteFilterBar from "../components/RouteFilterBar";
-import { useState } from "react";
+
+export const FEATURE_TYPES = new Set(['parking', 'peak', 'ascent', 'descent']);
 
 interface ItemExplorerProps {
   items: Item[]
   selectedItem?: Item
 }
 
+export interface Filters {
+  types: Set<string>
+}
+
+function useFilters() : [Filters, (filters: Filters) => void] {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const typeString = searchParams.get('types');
+  const types = new Set(typeString ? typeString.split(',') : Array.from(FEATURE_TYPES));
+  const setFilters = (filters: Filters) => {
+    router.push(pathname + '?' + filtersToQueryString(filters));
+  }
+  return [{ types }, setFilters];
+}
+
+function filtersToQueryString(filters: Filters) {
+  const params = new URLSearchParams();
+  if (filters.types.size > 0) {
+    params.set('types', Array.from(filters.types).join(','));
+  }
+  return params.toString();
+}
+
+function filterItems(items: Item[], filters: Filters, selectedItem: Item | undefined) {
+  const keepItem = (item: Item) => {
+    if (selectedItem && item.id === selectedItem.id) {
+      return true;
+    }
+    const matchesType = filters.types.has(item.properties.feature_type);
+    return matchesType;
+  }
+
+  return items.filter(keepItem);
+}
+
 export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
   const router = useRouter();
-  const [filteredItems, setFilteredItems] = useState(items);
+  const [filters, setFilters] = useFilters();
+  const filteredItems = filterItems(items, filters, selectedItem);
+
   const handleItemSelect = (item?: Item) => {
-    const url = item ? `/routes/${item.id}` : "/routes"
-    router.push(url);
+    const path = item ? `/routes/${item.id}` : "/routes"
+    router.push(path + '?' + filtersToQueryString(filters));
   };
 
   const handleBack = () => {
-    router.push('/routes');
+    router.push('/routes' + '?' + filtersToQueryString(filters));
   };
 
   return (
     <div className="h-full">
-      <div className="">
-        <RouteFilterBar allItems={items} setFilteredItems={setFilteredItems} />
-      </div>
+      <RouteFilterBar filters={filters} setFilters={setFilters} />
       <div className="flex h-full">
         <div className="flex-1 h-full">
           <Map items={filteredItems} onItemClick={handleItemSelect} selectedItem={selectedItem}/>

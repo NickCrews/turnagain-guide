@@ -1,23 +1,21 @@
 import { useState } from 'react'
-import { Item } from '@/app/routes/routes'
-
+import { FEATURE_TYPES, Filters } from '@/app/routes/ItemExplorer'
 interface RouteFilterBarProps {
-  allItems: Item[]
-  setFilteredItems: (items: Item[]) => void
+  filters: Filters,
+  setFilters: (filters: Filters) => void
 }
 
-export default function RouteFilterBar({ allItems, setFilteredItems }: RouteFilterBarProps) {
-  const TYPES = new Set(['ascent', 'descent', 'peak', 'parking'])
-  const [selectedTypes, setSelectedTypes] = useState(TYPES)
+export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarProps) {
+  const [selectedTypes, setSelectedTypes] = useState(filters.types)
 
   const handleSetSelectedTypes = (selected: Set<string>) => {
     setSelectedTypes(selected)
-    setFilteredItems(allItems.filter(item => selected.has(item.properties.feature_type)))
+    setFilters({ ...filters, types: selected })
   }
 
   return (
     <div className="flex gap-2 p-2 items-center">
-      <DropdownToggles title="Types" options={Array.from(TYPES)} selected={selectedTypes} setSelected={handleSetSelectedTypes} />
+      <DropdownToggles title="Type" options={Array.from(FEATURE_TYPES)} selected={selectedTypes} setSelected={handleSetSelectedTypes} />
     </div>
   )
 }

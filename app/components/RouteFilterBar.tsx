@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FEATURE_TYPES, Filters } from '@/app/routes/ItemExplorer'
 interface RouteFilterBarProps {
   filters: Filters,
@@ -74,14 +74,26 @@ function Toggle({ checked, setChecked, label }: { checked: boolean, setChecked: 
   )
 }
 
+
 function SearchBar({ query, setQuery }: { query: string, setQuery: (query: string) => void }) {
+  const [rawQuery, setRawQuery] = useState(query);
+  useDebounce(() => setQuery(rawQuery), [rawQuery], 300);
   return (
     <input
       type="text"
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
+      value={rawQuery}
+      onChange={(e) => setRawQuery(e.target.value)}
       className="border border-gray-300 rounded-md bg-foreground text-background"
       placeholder="Search..."
     />
   )
+}
+
+// from https://stackoverflow.com/a/69729166/5156887
+function useDebounce(effect: () => void, dependencies: any[], delay: number) {
+  const callback = useCallback(effect, dependencies);
+  useEffect(() => {
+    const timeout = setTimeout(callback, delay);
+    return () => clearTimeout(timeout);
+  }, [callback, delay]);
 }

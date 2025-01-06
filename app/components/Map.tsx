@@ -24,7 +24,7 @@ interface MapStaticProps {
   // If not provided, will not zoom to anything.
   */
   zoomTo?: any;
-  onItemClick?: (item: Item) => void;
+  onItemClick?: (item?: Item) => void;
 }
 
 export default function MapStatic({ items = [], zoomTo, onItemClick, selectedItem }: MapStaticProps) {
@@ -51,10 +51,8 @@ export default function MapStatic({ items = [], zoomTo, onItemClick, selectedIte
         // on click, call our callback
         viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
           const pickedEntity: Entity | undefined = viewer?.scene.pick(click.position)?.id;
-          const item = itemsById[pickedEntity?.properties?.id];
-          if (item) {
-            onItemClick(item);
-          } 
+          const item: Item = itemsById[pickedEntity?.properties?.id];
+          onItemClick(item);
         }, ScreenSpaceEventType.LEFT_CLICK);
         // on hover, change cursor to a pointer
         viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {

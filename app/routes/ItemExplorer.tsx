@@ -14,8 +14,9 @@ interface ItemExplorerProps {
 export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
   const router = useRouter();
 
-  const handleItemSelect = (item: Item) => {
-    router.push(`/routes/${item.id}`);
+  const handleItemSelect = (item?: Item) => {
+    const url = item ? `/routes/${item.id}` : "/routes"
+    router.push(url);
   };
 
   const handleBack = () => {

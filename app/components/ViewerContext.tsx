@@ -170,7 +170,7 @@ export function ViewerProvider({ children }: { children: React.ReactNode }) {
     return () => {
       viewer?.destroy()
     }
-  }, [])
+  }, [viewer, mapId])
 
   return <>
     <ViewerContext.Provider value={viewer}>{children}</ViewerContext.Provider>

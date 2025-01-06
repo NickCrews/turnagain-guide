@@ -2545,7 +2545,7 @@
             "properties": {
                 "title": "Blue Diamond Route",
                 "description": "",
-                "feature_type": "bidirectional",
+                "feature_type": "uptrack",
                 "distance": 1990.2708938747458,
                 "total_ascent": 236.72239700000006,
                 "latitude": 60.78428734653695,

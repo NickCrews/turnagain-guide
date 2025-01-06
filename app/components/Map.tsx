@@ -182,8 +182,6 @@ function modifiedEntity(oldEntity: Entity) {
     color = Color.RED;
   } else if (featureType == "descent") {
     color = Color.BLUE;
-  } else if (featureType == "bidirectional") {
-    color = Color.PURPLE;
   }
   if (entity.polygon) {
     color = color.withAlpha(0.2);

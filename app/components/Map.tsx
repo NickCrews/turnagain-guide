@@ -196,7 +196,7 @@ function styleEntity(entity: Entity, selectedItem?: Item) {
 
 function setViewerEntities(viewer: Viewer, entities: Entity[]) {
   function isMatch(e1: Entity, e2: Entity) {
-    return e1.properties?.id?.value == e2.properties?.id?.value;
+    return e1.properties?.id?.getValue() == e2.properties?.id?.getValue();
   }
 
   // do in separate steps to avoid mutating the viewer while iterating over it

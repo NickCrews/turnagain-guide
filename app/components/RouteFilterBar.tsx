@@ -79,13 +79,24 @@ function SearchBar({ query, setQuery }: { query: string, setQuery: (query: strin
   const [rawQuery, setRawQuery] = useState(query);
   useDebounce(() => setQuery(rawQuery), [rawQuery], 300);
   return (
-    <input
-      type="text"
-      value={rawQuery}
-      onChange={(e) => setRawQuery(e.target.value)}
-      className="border border-gray-300 rounded-md bg-foreground text-background"
-      placeholder="Search..."
-    />
+    <div className="relative flex items-center">
+      <input
+        type="text"
+        value={rawQuery}
+        onChange={(e) => setRawQuery(e.target.value)}
+        className="rounded-md bg-foreground text-background px-1"
+        placeholder="Search..."
+      />
+      {rawQuery && (
+        <button
+          onClick={() => {
+            setRawQuery('');
+            setQuery('');
+          }}
+          className="absolute right-2 text-gray-500 hover:text-gray-700"
+        >✕</button>
+      )}
+    </div>
   )
 }
 

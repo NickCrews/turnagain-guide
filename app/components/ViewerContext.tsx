@@ -2,16 +2,59 @@
 // oops, does this force all children to be client components? is this bad?
 
 import { Cartesian3, createWorldTerrainAsync, Ion, ImageryLayer,UrlTemplateImageryProvider, Viewer } from 'cesium';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useId, useState } from 'react';
 import { WORLD_IMAGERY_URL_TEMPLATE } from "../../util/tiles";
 
-export const MapContext = createContext<Viewer | null>(null);
-
-export function useMapContext() {
-  return useContext(MapContext);
+/**
+ * ViewerContext provides a shared Cesium Viewer instance across components.
+ * This leads to better performance, and the viewer state like camera position
+ * are saved between different pages of the app.
+ * 
+ * Usage:
+ * 1. Wrap your app/component with ViewerProvider:
+ *    ```tsx
+ *    <ViewerProvider>
+ *      <YourComponent />
+ *    </ViewerProvider>
+ *    ```
+ * 
+ * 2. Create an element that will hold the Cesium Viewer with a certain id,
+ *    and pass it to useViewer(). Here, I'm using useId() to get a unique id for the container,
+ *    but you can hardcode eg "my-map-container" if you want.
+ *    ```tsx
+ *    const containerId = useId();
+ *    const viewer = useViewer(containerId);
+ *    ...
+ *    return <div id={containerId}>
+ *      The already initialized singleton Viewer will get moved here on mount, and back to the parking element on unmount.
+ *    </div>
+ *    ```
+ */
+export function useViewer(containerId: string) {
+  useEffect(() => {
+    // move all children of parking to container
+    const parkingElement = document.getElementById("cesium-parking-spot");
+    const containerElement = document.getElementById(containerId);
+    if (parkingElement && containerElement) {
+      while (parkingElement.firstChild) {
+        containerElement.appendChild(parkingElement.firstChild);
+      }
+    }
+    return () => {
+      // move all children of container to parking
+      if (parkingElement && containerElement) {
+        while (containerElement.firstChild) {
+          parkingElement.appendChild(containerElement.firstChild);
+        }
+      }
+    }
+  }, [containerId])
+  return useContext(ViewerContext);
 }
 
-export function MapContextProvider({ children }: { children: React.ReactNode }) {
+const ViewerContext = createContext<Viewer | null>(null);
+
+export function ViewerProvider({ children }: { children: React.ReactNode }) {
   // Set the limited-scope access token for prod,
   // and the default access token for dev in .env.development
   if (!process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN) {
@@ -20,6 +63,7 @@ export function MapContextProvider({ children }: { children: React.ReactNode }) 
   Ion.defaultAccessToken = process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN;
 
   const [viewer, setViewer] = useState<Viewer | null>(null);
+  const mapId = useId();
 
   useEffect(() => {
     async function initViewer() {
@@ -58,7 +102,7 @@ export function MapContextProvider({ children }: { children: React.ReactNode }) 
         }
       }
 
-      const v = new Viewer('cesiumContainer', {
+      const v = new Viewer(mapId, {
         geocoder: false,
         homeButton: false,
         sceneModePicker: false,
@@ -129,10 +173,13 @@ export function MapContextProvider({ children }: { children: React.ReactNode }) 
   }, [])
 
   return <>
-    <MapContext.Provider value={viewer}>{children}</MapContext.Provider>
-    <div id="cesiumContainerParking" className="hidden">
+    <ViewerContext.Provider value={viewer}>{children}</ViewerContext.Provider>
+    <div id="cesium-parking-spot" className="hidden">
+      {/* Cesium will initialize the map in the div with id={containerId}.
+      When a client component wants to use the map, it 
+      */}
       {/* take up full width and height, the parent sets the size */}
-      <div id="cesiumContainer" className="h-full w-full"/>
+      <div id={mapId} className="h-full w-full"/>
     </div>
   </>
 }

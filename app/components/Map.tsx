@@ -11,11 +11,11 @@ import {
   ColorMaterialProperty,
   PolygonGraphics,
 } from 'cesium'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useId } from 'react'
 
 import { Item } from '../routes/routes';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
-import { useMapContext } from './MapContext';
+import { useViewer } from './ViewerContext';
 
 interface MapStaticProps {
   items: Item[];
@@ -27,8 +27,8 @@ interface MapStaticProps {
 }
 
 export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStaticProps) {
-  const viewer = useMapContext();
-  const holderRef = useRef<HTMLDivElement>(null);
+  const holderId = useId();
+  const viewer = useViewer(holderId);
   useEffect(() => {
     async function initViewer() {
       if (!viewer) {
@@ -71,27 +71,10 @@ export default function MapStatic({ items = [], zoomTo, onItemClick }: MapStatic
     }
   }, [viewer, items, zoomTo, onItemClick])
 
-  useEffect(() => {
-    const parkingElement = document.getElementById('cesiumContainerParking');
-    const newCesiumContainer = holderRef.current;
-    // move all children of parkingElement to newCesiumContainer
-    if (parkingElement && newCesiumContainer) {
-      while (parkingElement.firstChild) {
-        newCesiumContainer.appendChild(parkingElement.firstChild);
-      }
-    }
-    return () => {
-      // move all children of newCesiumContainer to parkingElement
-      if (parkingElement && newCesiumContainer) {
-        while (newCesiumContainer.firstChild) {
-          parkingElement.appendChild(newCesiumContainer.firstChild);
-        }
-      }
-    }
-  }, [])
-
   return <div className="relative h-full w-full">
-    <div ref={holderRef} className="h-full w-full" />
+    <div id={holderId} className="h-full w-full">
+      {/* The singleton Viewer will get moved here on mount, and back to the parking element on unmount. */}
+    </div>
     <div className="absolute bottom-4 right-4">
       <DownloadButton />
     </div>

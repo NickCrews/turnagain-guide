@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import  Header from "./components/Header";
-import { MapContextProvider } from "./components/MapContext";
+import { ViewerProvider } from "./components/ViewerContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,9 +35,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Header />
-        <MapContextProvider>
+        <ViewerProvider>
           <main>{children}</main>
-        </MapContextProvider>
+        </ViewerProvider>
       </body>
     </html>
   );

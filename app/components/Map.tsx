@@ -20,14 +20,10 @@ import { useViewer } from '@/app/components/ViewerContext';
 interface MapStaticProps {
   items: Item[];
   selectedItem?: Item;
-  /*
-  // If not provided, will not zoom to anything.
-  */
-  zoomTo?: any;
   onItemClick?: (item?: Item) => void;
 }
 
-export default function MapStatic({ items = [], zoomTo, onItemClick, selectedItem }: MapStaticProps) {
+export default function MapStatic({ items = [], onItemClick, selectedItem }: MapStaticProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
   const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
@@ -38,12 +34,6 @@ export default function MapStatic({ items = [], zoomTo, onItemClick, selectedIte
         return;
       }
 
-      if (zoomTo) {
-        // The camera only moves once the provided object is loaded,
-        // so be careful if you zoomto the GeoJsonDataSource.
-        viewer.zoomTo(zoomTo);
-      }
-
       const entities = await itemsToEntities(items);
       setViewerEntities(viewer, entities);
       viewer.entities.values.forEach(entity => styleEntity(entity, selectedItem));
@@ -52,7 +42,7 @@ export default function MapStatic({ items = [], zoomTo, onItemClick, selectedIte
     return () => {
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
     }
-  }, [viewer, items, selectedItem, zoomTo])
+  }, [viewer, items, selectedItem])
 
   useEffect(() => {
     if (!viewer) {

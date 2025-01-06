@@ -74,6 +74,15 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
     router.push('/routes' + '?' + filtersToQueryString(filters));
   };
 
+  let gallery;
+  if (filteredItems.length === 0) {
+    gallery = <div className="flex h-full pt-16 justify-center text-gray-500">
+      <span>No matching items. Relax your filters.</span>
+    </div>
+  } else {
+    gallery = <ItemGallery items={filteredItems} onItemSelect={handleItemSelect}/>
+  }
+
   return (
     <div className="h-full">
       <RouteFilterBar filters={filters} setFilters={setFilters} />
@@ -85,7 +94,7 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
           {
             selectedItem ? 
             <ItemDetail item={selectedItem} onBack={handleBack} /> : 
-            <ItemGallery items={filteredItems} onItemSelect={handleItemSelect}/>
+            gallery
           } 
         </div>
       </div>

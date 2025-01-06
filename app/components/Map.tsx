@@ -30,6 +30,8 @@ interface MapStaticProps {
 export default function MapStatic({ items = [], zoomTo, onItemClick, selectedItem }: MapStaticProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
+  const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
+  
   useEffect(() => {
     async function initViewer() {
       if (!viewer) {
@@ -45,27 +47,32 @@ export default function MapStatic({ items = [], zoomTo, onItemClick, selectedIte
       const entities = await itemsToEntities(items);
       setViewerEntities(viewer, entities);
       viewer.entities.values.forEach(entity => styleEntity(entity, selectedItem));
-
-      if (onItemClick) {
-        const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
-        // on click, call our callback
-        viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
-          const pickedEntity: Entity | undefined = viewer?.scene.pick(click.position)?.id;
-          const item: Item | undefined = itemsById[pickedEntity?.properties?.id];
-          onItemClick(item);
-        }, ScreenSpaceEventType.LEFT_CLICK);
-        // on hover, change cursor to a pointer
-        viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
-          const pickedObject = viewer.scene.pick(hover.endPosition);
-          viewer.scene.canvas.style.cursor = pickedObject ? 'pointer' : 'default';
-        }, ScreenSpaceEventType.MOUSE_MOVE);
-      }
     }
     initViewer();
     return () => {
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
     }
-  }, [viewer, items, selectedItem, zoomTo, onItemClick])
+  }, [viewer, items, selectedItem, zoomTo])
+
+  useEffect(() => {
+    if (!viewer) {
+      return;
+    }
+    if (!onItemClick) {
+      return;
+    }
+    // on click, call our callback
+    viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
+      const pickedEntity: Entity | undefined = viewer?.scene.pick(click.position)?.id;
+      const item: Item | undefined = itemsById[pickedEntity?.properties?.id];
+      onItemClick(item);
+    }, ScreenSpaceEventType.LEFT_CLICK);
+    // on hover, change cursor to a pointer
+    viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
+      const pickedObject = viewer.scene.pick(hover.endPosition);
+      viewer.scene.canvas.style.cursor = pickedObject ? 'pointer' : 'default';
+    }, ScreenSpaceEventType.MOUSE_MOVE);
+  }, [viewer, onItemClick])
 
   return <div className="relative h-full w-full">
     <div id={holderId} className="h-full w-full">

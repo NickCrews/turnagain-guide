@@ -178,7 +178,7 @@ function modifiedEntity(oldEntity: Entity) {
 
   let color = Color.YELLOW;
   const featureType = entity.properties?.feature_type;
-  if (featureType == "uptrack") {
+  if (featureType == "ascent") {
     color = Color.RED;
   } else if (featureType == "descent") {
     color = Color.BLUE;

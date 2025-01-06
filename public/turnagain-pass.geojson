@@ -7,7 +7,7 @@
             "properties": {
                 "title": "Tincan Trees Uptrack",
                 "description": "",
-                "feature_type": "uptrack",
+                "feature_type": "ascent",
                 "distance": 593.0441337742518,
                 "total_ascent": 216.94984299999993,
                 "latitude": 60.7908679914805,
@@ -548,7 +548,7 @@
             "properties": {
                 "title": "Tincan Meadow to Ridge Uptrack",
                 "description": "",
-                "feature_type": "uptrack",
+                "feature_type": "ascent",
                 "distance": 493.94458674679794,
                 "total_ascent": 64.50537200000002,
                 "latitude": 60.79154314295677,
@@ -911,7 +911,7 @@
             "properties": {
                 "title": "Tincan Main Uptrack",
                 "description": "",
-                "feature_type": "uptrack",
+                "feature_type": "ascent",
                 "distance": 3288.2233047995983,
                 "total_ascent": 665.873051,
                 "latitude": 60.789429926096176,
@@ -1962,7 +1962,7 @@
             "properties": {
                 "title": "PMS Bowl Uptrack",
                 "description": "",
-                "feature_type": "uptrack",
+                "feature_type": "ascent",
                 "distance": 2590.6915043997165,
                 "total_ascent": 711.21358,
                 "latitude": 60.75533412678126,
@@ -2545,7 +2545,7 @@
             "properties": {
                 "title": "Blue Diamond Route",
                 "description": "",
-                "feature_type": "uptrack",
+                "feature_type": "ascent",
                 "distance": 1990.2708938747458,
                 "total_ascent": 236.72239700000006,
                 "latitude": 60.78428734653695,

@@ -6,7 +6,7 @@ import type { Feature, Geometry } from 'geojson';
 export interface ItemProperties {
   title: string;
   description: string;
-  feature_type: "parking" |"peak" | "ascent" | "descent" | "bidirectional";
+  feature_type: "parking" |"peak" | "ascent" | "descent";
   /* in meters */
   distance?: number;
   /* in meters */

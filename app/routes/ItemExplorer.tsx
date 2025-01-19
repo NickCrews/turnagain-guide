@@ -34,13 +34,17 @@ function useFilters() : [Filters, (filters: Filters) => void] {
 
 function filtersToQueryString(filters: Filters) {
   const params = new URLSearchParams();
-  if (filters.types.size !== FEATURE_TYPES.size) {
-    params.set('types', Array.from(filters.types).join(','));
-  }
   if (filters.query) {
     params.set('query', filters.query);
   }
-  return params.toString();
+  let result = params.toString();
+  // I want a pretty URL like `types=ascent,descent` but if we use
+  // the builtin params.toString() then the `,` gets escaped into
+  // `types=ascent%2Cdescent`
+  if (filters.types.size !== FEATURE_TYPES.size) {
+    result = result + "&types=" + Array.from(filters.types).join(',');
+  }
+  return result;
 }
 
 function filterItems(items: Item[], filters: Filters, selectedItem: Item | undefined) {

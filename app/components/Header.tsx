@@ -67,6 +67,7 @@ export default function Header() {
 
 const NAV_ITEMS = [
   { href: '/about', text: 'About' },
+  { href: '/resources', text: 'Resources' },
   { href: '/routes', text: 'Routes' },
   { href: 'mailto:nicholas.b.crews+turnagain.guide@gmail.com', text: 'Suggest an edit' },
 ]

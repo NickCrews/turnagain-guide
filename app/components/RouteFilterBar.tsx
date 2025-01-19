@@ -16,8 +16,8 @@ export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarPr
 
   return (
     <div className="flex gap-2 p-2 items-center">
-      <DropdownToggles title="Type" options={Array.from(FEATURE_TYPES)} selected={filters.types} setSelected={handleSetSelectedTypes} />
       <SearchBar query={filters.query} setQuery={handleSetQuery} />
+      <DropdownToggles title="Type" options={Array.from(FEATURE_TYPES)} selected={filters.types} setSelected={handleSetSelectedTypes} />
     </div>
   )
 }
@@ -85,7 +85,7 @@ function SearchBar({ query, setQuery }: { query: string, setQuery: (query: strin
         value={rawQuery}
         onChange={(e) => setRawQuery(e.target.value)}
         className="rounded-md bg-foreground text-background px-1"
-        placeholder="Search..."
+        placeholder="Filter..."
       />
       {rawQuery && (
         <button

@@ -108,8 +108,10 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
 
 function ItemDetail({item, onBack}: {item: Item, onBack: () => void}) {
   return <>
-    <BackHeader text="Back to search" onBack={onBack} />
-    <div className="overflow-y-auto h-full">
+    <div className="p-2">
+      <BackHeader text="Back to search" onBack={onBack} />
+    </div>
+    <div className="overflow-y-auto h-full rounded-lg px-6 pb-6 pt-3 max-w-2xl w-full">
       <RouteDetail item={item} />
     </div>
   </>
@@ -117,14 +119,12 @@ function ItemDetail({item, onBack}: {item: Item, onBack: () => void}) {
 
 function BackHeader({ text, onBack }: { text: string, onBack: () => void }) {
   return (
-    <div className="p-6 bg-background">
-      <nav className="flex justify-start">
-        <button onClick={onBack} className="close-button flex items-center gap-1">
-          <LeftArrowIcon />
-            <span className="text-sm">{text}</span>
-        </button>
-      </nav>
-    </div>
+    <nav className="flex justify-start bg-background">
+      <button onClick={onBack} className="close-button flex items-center gap-1">
+        <LeftArrowIcon />
+          <span className="text-sm">{text}</span>
+      </button>
+    </nav>
   )
 }
 

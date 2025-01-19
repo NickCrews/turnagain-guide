@@ -42,17 +42,15 @@ export default function RouteDetail({ item }: RouteDetailProps) {
 
   return (
     <>
-      <div className="rounded-lg p-6 max-w-2xl w-full">
-        <h2 className="text-2xl font-bold mb-4">{item.properties.title}</h2>
-        <div className="flex flex-col gap-2">
-          {properties.map(({ name, component }) => (
-            <Property key={name} name={name}>
-              {component}
-            </Property>
-          ))}
-        </div>
-        <MDXProvider />
+      <h2 className="text-2xl font-bold mb-4">{item.properties.title}</h2>
+      <div className="flex flex-col gap-2 mb-4">
+        {properties.map(({ name, component }) => (
+          <Property key={name} name={name}>
+            {component}
+          </Property>
+        ))}
       </div>
+      <MDXProvider />
     </>
   );
 }

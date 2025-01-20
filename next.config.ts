@@ -9,6 +9,12 @@ const basicConfig: NextConfig = {
 
   // make a static website
   output: 'export',
+  
+  // For a static website, we can't use a dynamincally optimized <Image>
+  // components. Explicitly opt out of the optimization.
+  images: {
+    unoptimized: true,
+  },
 
   // include markdown and MDX files
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],

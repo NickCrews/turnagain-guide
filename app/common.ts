@@ -7,16 +7,16 @@ import { useEffect, useState } from 'react';
  * Based on: https://dev.to/musselmanth/re-rendering-react-components-at-breakpoint-window-resizes-a-better-way-4343
  * 
  * @param innerWidth - The width threshold in pixels to check against
- * @param initialValue - The initial value of the hook if window is not available, defaults to false.
- * @returns boolean - True if window width is less than or equal to the threshold, false otherwise
+ * @returns {boolean | undefined} - A boolean indicating whether the window width is
+ *   below the specified value, or undefined if the window object is not available.
  * 
  * @example
  * ```tsx
  * const isMobile = useIsBelowWidth(768);
  * ```
  */
-export function useIsBelowWidth(innerWidth: number, initialValue: boolean = false) {
-  const [isBelowWidth, setIsBelowWidth] = useState((typeof window !== 'undefined') ? window.innerWidth <= innerWidth : initialValue);
+export function useIsBelowWidth(innerWidth: number) {
+  const [isBelowWidth, setIsBelowWidth] = useState((typeof window !== 'undefined') ? window.innerWidth <= innerWidth : undefined);
 
   useEffect(() => {
     const windowResizeHandler = () => {

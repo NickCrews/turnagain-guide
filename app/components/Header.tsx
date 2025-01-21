@@ -8,17 +8,6 @@ function HomeLink() {
   return <Link href="/routes" className="text-3xl font-bold hover:underline hover:underline-offset-4">turnagain.guide</Link>
 }
 
-function DesktopHeader() {
-  return <header className="relative p-3">
-    <div className="absolute left-4 top-1/2 -translate-y-1/2">
-      <HorizontalNavs />
-    </div>
-    <div className="text-center">
-      <HomeLink />
-    </div>
-  </header>
-}
-
 interface HamburgerProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -45,24 +34,32 @@ function Hamburger({ isOpen, setIsOpen }: HamburgerProps) {
   )
 }
 
-function MobileHeader() {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <header>
-      <div className="flex items-left gap-4 p-4">
-        <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
-        <div className="flex-grow flex justify-center">
-          <HomeLink />
-        </div>
-      </div>
-      {isOpen && <VerticalNavs onNavClick={() => setIsOpen(false)} />}
-    </header>
-  );
-}
-
 export default function Header() {
-  const isBelowWidth = useIsBelowWidth(768);
-  return isBelowWidth ? <MobileHeader /> : <DesktopHeader />;
+  const isBelowWidth = useIsBelowWidth(1200);
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <header className="relative h-12 border-b border-white border-opacity-50">
+      <div className="absolute left-4 top-1/2 -translate-y-1/2">
+        {
+          isBelowWidth ? (
+            <div className="relative">
+              <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
+            </div>
+          ) : <HorizontalNavs />
+        }
+      </div>
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <HomeLink />
+      </div>
+      {isOpen && isBelowWidth &&
+        <div className="absolute top-full left-0 bg-black z-20 w-full border-y border-white border-opacity-50">
+          <VerticalNavs onNavClick={() => setIsOpen(false)} />
+        </div>
+      }
+    </header>
+
+  );
 }
 
 const NAV_ITEMS = [
@@ -82,9 +79,9 @@ function HorizontalNavs() {
 
 function VerticalNavs({ onNavClick }: Readonly<{ onNavClick: () => void }>) {
   return <nav>
-    <ul className="flex flex-col justify-between">
+    <ul className="flex flex-col justify-between divide-y divide-white divide-opacity-50">
       {NAV_ITEMS.map(({ href, text }) => (
-        <div key={href} className="border-b border-gray-500 p-2">
+        <div key={href} className="p-2">
           <NavLink href={href} text={text} onNavClick={onNavClick} />
         </div>
       ))}
@@ -93,7 +90,7 @@ function VerticalNavs({ onNavClick }: Readonly<{ onNavClick: () => void }>) {
 }
 
 function NavLink({ href, text, onNavClick }: Readonly<{ href: string, text: string, onNavClick?: () => void }>) {
-  return <li className="justify-center items-center">
+  return <li>
     <Link
       className="hover:underline hover:underline-offset-4"
       href={href}

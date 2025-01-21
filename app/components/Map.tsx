@@ -10,10 +10,13 @@ import {
   ConstantProperty,
   ColorMaterialProperty,
   PolygonGraphics,
+  Cartesian2,
+  Cartesian3,
 } from 'cesium'
-import { useEffect, useState, useId } from 'react'
+import { useEffect, useState, useId, useRef} from 'react'
 
 import { FeatureType, Item } from '@/app/routes/routes';
+import RouteCard from './RouteCard';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/ViewerContext';
 
@@ -23,9 +26,16 @@ interface MapProps {
   onItemClick?: (item?: Item) => void;
 }
 
+interface PopupInfo {
+  item: Item;
+  position: Cartesian3;
+}
+
 export default function Map({ items = [], onItemClick, selectedItem }: MapProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
+  const popupRef = useRef<HTMLDivElement>(null);
+  const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
   
   useEffect(() => {
     async function initViewer() {
@@ -40,33 +50,58 @@ export default function Map({ items = [], onItemClick, selectedItem }: MapProps)
   }, [viewer, items, selectedItem])
 
   useEffect(() => {
-    if (!viewer) {
-      return;
-    }
-    if (!onItemClick) {
+    if (!viewer || !onItemClick) {
       return;
     }
     const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
-    // on click, call our callback
+    
+    // on click, set the tooltip
     viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
       const pickedEntity: Entity | undefined = viewer?.scene.pick(click.position)?.id;
+      if (!pickedEntity) {
+        setPopupInfo(null);
+        return;
+      }
       const item: Item | undefined = itemsById[pickedEntity?.properties?.id];
-      onItemClick(item);
+      const worldPosition = viewer.scene.pickPosition(click.position);
+      setPopupInfo({item, position: worldPosition});
     }, ScreenSpaceEventType.LEFT_CLICK);
+    
     // on hover, change cursor to a pointer
     viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
       const pickedObject = viewer.scene.pick(hover.endPosition);
       viewer.scene.canvas.style.cursor = pickedObject ? 'pointer' : 'default';
     }, ScreenSpaceEventType.MOUSE_MOVE);
+    
     return () => {
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
     }
   }, [viewer, onItemClick, items])
+  
+  useEffect(() => {
+    if (!viewer || !popupInfo || !popupRef.current) {
+      return;
+    }
+    const htmlOverlay = popupRef.current;
+    const scratch2d = new Cartesian2();  // reduce number of allocations in tight loop
+    const removeListener = viewer.scene.preRender.addEventListener(function () {
+      const canvasPosition = viewer.scene.cartesianToCanvasCoordinates(
+        popupInfo.position,
+        scratch2d
+      );
+      htmlOverlay.style.top = canvasPosition.y + "px";
+      htmlOverlay.style.left = canvasPosition.x + "px";
+    });
+    return removeListener;
+  }, [viewer, popupInfo])
 
   return <div className="relative h-full w-full">
     <div id={holderId} className="h-full w-full">
       {/* The singleton Viewer will get moved here on mount, and back to the parking element on unmount. */}
+    </div>
+    <div ref={popupRef} className="absolute -translate-x-1/2 -translate-y-1 w-64">
+      {popupInfo && <RouteCard item={popupInfo.item} onClick={onItemClick} />}
     </div>
     <div className="absolute bottom-4 right-4">
       <DownloadButton />

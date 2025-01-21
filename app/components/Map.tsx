@@ -32,15 +32,11 @@ export default function Map({ items = [], onItemClick, selectedItem }: MapProps)
       if (!viewer) {
         return;
       }
-
       const entities = await itemsToEntities(items);
       setViewerEntities(viewer, entities);
       viewer.entities.values.forEach(entity => styleEntity(entity, selectedItem));
     }
     initViewer();
-    return () => {
-      viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-    }
   }, [viewer, items, selectedItem])
 
   useEffect(() => {
@@ -62,6 +58,10 @@ export default function Map({ items = [], onItemClick, selectedItem }: MapProps)
       const pickedObject = viewer.scene.pick(hover.endPosition);
       viewer.scene.canvas.style.cursor = pickedObject ? 'pointer' : 'default';
     }, ScreenSpaceEventType.MOUSE_MOVE);
+    return () => {
+      viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
+      viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
+    }
   }, [viewer, onItemClick, items])
 
   return <div className="relative h-full w-full">

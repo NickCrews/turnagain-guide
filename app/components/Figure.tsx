@@ -36,30 +36,40 @@ export default function Figure(props: FigureProps) {
     }
   }, [isOpen, closeLightbox])
 
-  if (!isOpen) {
-    return (
-      <figure>
-        <Image alt={realAlt} src={src} {...rest} onClick={() => setIsOpen(true)} className="hover:cursor-zoom-in" />
-        {caption && figcaption}
-      </figure>
-    );
-  }
-  return createPortal(
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-75 hover:cursor-zoom-out" onClick={closeLightbox}>
-      <div className="fixed inset-4 lg:inset-16">
-        <figure className="relative h-full w-full flex flex-col items-center justify-center">
-          <button
-            className="absolute top-0 left-0 text-black text-3xl bg-white bg-opacity-80 p-2 rounded hover:bg-opacity-100"
-            onClick={closeLightbox}
-            aria-label="Close lightbox"
-          >
-            &times;
-          </button>
-          <Image alt={realAlt} src={src} {...rest} className="max-w-full max-h-full object-contain hover:cursor-default" onClick={(e) => e.stopPropagation()}/>
-          {caption && figcaption}
-        </figure>
-      </div>
-    </div>,
-    document.body
-  )
+  return <>
+    <figure>
+      <Image
+        alt={realAlt}
+        src={src}
+        {...rest}
+        onClick={() => setIsOpen(true)}
+        className="hover:cursor-zoom-in"
+      />
+      {caption && figcaption}
+    </figure>
+    {isOpen && createPortal(
+      <div className="fixed inset-0 z-50 bg-black bg-opacity-75 hover:cursor-zoom-out" onClick={closeLightbox}>
+        <div className="fixed inset-4 lg:inset-16">
+          <figure className="relative h-full w-full flex flex-col items-center justify-center">
+            <button
+              className="absolute top-0 left-0 text-black text-3xl bg-white bg-opacity-80 p-2 rounded hover:bg-opacity-100"
+              onClick={closeLightbox}
+              aria-label="Close lightbox"
+            >
+              &times;
+            </button>
+            <Image
+              alt={realAlt}
+              src={src}
+              {...rest}
+              onClick={(e) => e.stopPropagation()}
+              className="max-w-full max-h-full object-contain hover:cursor-default"
+            />
+            {caption && figcaption}
+          </figure>
+        </div>
+      </div>,
+      document.body
+    )}
+  </>
 }

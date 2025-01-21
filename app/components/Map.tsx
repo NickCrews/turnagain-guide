@@ -96,11 +96,11 @@ export default function Map({ items = [], onItemClick, selectedItem }: MapProps)
     return removeListener;
   }, [viewer, popupInfo])
 
-  return <div className="relative h-full w-full">
+  return <div className="relative h-full w-full overflow-hidden">
     <div id={holderId} className="h-full w-full">
       {/* The singleton Viewer will get moved here on mount, and back to the parking element on unmount. */}
     </div>
-    <div ref={popupRef} className="absolute -translate-x-1/2 -translate-y-1 w-64">
+    <div ref={popupRef} className="absolute -translate-x-1/2 -translate-y-full w-64">
       {popupInfo && <RouteCard item={popupInfo.item} onClick={onItemClick} />}
     </div>
     <div className="absolute bottom-4 right-4">

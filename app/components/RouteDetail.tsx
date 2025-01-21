@@ -16,7 +16,7 @@ function Property({ name, children }: { name: string, children?: React.ReactNode
 export default function RouteDetail({ item }: RouteDetailProps) {
   
   // for this to work on the client, we need to use dynamic import
-  const MDXProvider = dynamic(() => import(`@/app/routes/pages/${item.id}.mdx`), {
+  const RouteProse = dynamic(() => import(`@/app/routes/pages/${item.id}.mdx`), {
     ssr: false,
   })
   
@@ -50,7 +50,7 @@ export default function RouteDetail({ item }: RouteDetailProps) {
           </Property>
         ))}
       </div>
-      <MDXProvider />
+      <RouteProse />
     </>
   );
 }

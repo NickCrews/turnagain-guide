@@ -682,8 +682,7 @@
             "properties": {
                 "title": "Tincan Trees",
                 "description": "",
-                "feature_type": "descent",
-                "total_descent": 0
+                "feature_type": "descent"
             },
             "geometry": {
                 "type": "Polygon",

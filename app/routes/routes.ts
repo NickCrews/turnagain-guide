@@ -10,6 +10,12 @@ export interface ItemProperties {
   description: string;
   feature_type: FeatureType;
   /* in meters */
+  elevation?: number;
+  /* in meters */
+  elevation_min?: number;
+  /* in meters */
+  elevation_max?: number;
+  /* in meters */
   distance?: number;
   /* in meters */
   total_ascent?: number;

@@ -17,13 +17,13 @@ import { FeatureType, Item } from '@/app/routes/routes';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/ViewerContext';
 
-interface MapStaticProps {
+interface MapProps {
   items: Item[];
   selectedItem?: Item;
   onItemClick?: (item?: Item) => void;
 }
 
-export default function MapStatic({ items = [], onItemClick, selectedItem }: MapStaticProps) {
+export default function Map({ items = [], onItemClick, selectedItem }: MapProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
   

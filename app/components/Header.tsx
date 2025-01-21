@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import { useIsBelowWidth } from "../common";
+import { useBreakpoint } from "@/util/styles";
 import Link from "next/link";
 
 function HomeLink() {
@@ -35,24 +35,29 @@ function Hamburger({ isOpen, setIsOpen }: HamburgerProps) {
 }
 
 export default function Header() {
-  const isBelowWidth = useIsBelowWidth(1200);
   const [isOpen, setIsOpen] = useState(false);
+  const { isAboveXl, isBelowXl } = useBreakpoint('xl');
+  if (isAboveXl && isOpen) {
+    setIsOpen(false);
+  }
 
   return (
     <header className="relative h-12 border-b border-white border-opacity-50">
       <div className="absolute left-4 top-1/2 -translate-y-1/2">
         {
-          isBelowWidth ? (
+          // order is important here so that if isAboveXl is undefined (on first render)
+          // the hamburger will be shown
+          isAboveXl ? <HorizontalNavs /> : (
             <div className="relative">
               <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
-          ) : <HorizontalNavs />
+          )
         }
       </div>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <HomeLink />
       </div>
-      {isOpen && isBelowWidth &&
+      {isOpen && isBelowXl &&
         <div className="absolute top-full left-0 bg-black z-20 w-full border-y border-white border-opacity-50">
           <VerticalNavs onNavClick={() => setIsOpen(false)} />
         </div>

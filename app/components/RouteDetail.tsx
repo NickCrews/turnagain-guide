@@ -14,23 +14,16 @@ function Property({ name, children }: { name: string, children?: React.ReactNode
 }
 
 export default function RouteDetail({ item }: RouteDetailProps) {
-  
   // for this to work on the client, we need to use dynamic import
   const RouteProse = dynamic(() => import(`@/app/routes/pages/${item.id}.mdx`), {
     ssr: false,
   })
-  
+
   const properties = [
     { name: "Feature Type", component: <RawValue value={item.properties.feature_type} />},
   ];
   if (item.properties.distance) {
     properties.push({ name: "Distance", component: <Distance meters={item.properties.distance} />});
-  }
-  if (item.properties.total_ascent) {
-    properties.push({ name: "Total Ascent", component: <Elevation meters={item.properties.total_ascent} />});
-  }
-  if (item.properties.total_descent) {
-    properties.push({ name: "Total Descent", component: <Elevation meters={item.properties.total_descent} />});
   }
   if (item.properties.elevation) {
     properties.push({ name: "Elevation", component: <Elevation meters={item.properties.elevation} />});
@@ -38,7 +31,6 @@ export default function RouteDetail({ item }: RouteDetailProps) {
   if (item.properties.elevation_min && item.properties.elevation_max) {
     properties.push({ name: "Elevation Range", component: <ElevationRange min={item.properties.elevation_min} max={item.properties.elevation_max} />});
   }
-  
 
   return (
     <>

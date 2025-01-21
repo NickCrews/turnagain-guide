@@ -1,5 +1,5 @@
 import { ItemCollection } from "@/app/routes/routes";
-import ItemExplorer from "../ItemExplorer";
+import ItemExplorer from "../../components/ItemExplorer";
 import { Suspense } from "react";
 const items = await ItemCollection.fromFile();
 

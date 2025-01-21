@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { FEATURE_TYPES, Filters } from '@/app/routes/ItemExplorer'
+import { FEATURE_TYPES, Filters } from '@/app/components/ItemExplorer'
 interface RouteFilterBarProps {
   filters: Filters,
   setFilters: (filters: Filters) => void

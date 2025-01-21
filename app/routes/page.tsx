@@ -1,4 +1,4 @@
-import ItemExplorer from "./ItemExplorer";
+import ItemExplorer from "../components/ItemExplorer";
 import { ItemCollection } from "./routes";
 import { Suspense } from "react";
 

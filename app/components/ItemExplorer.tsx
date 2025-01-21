@@ -1,11 +1,11 @@
 'use client'
 
-import { Item } from "./routes";
-import Map from "../components/Map";
-import ItemGallery from "../components/ItemGallery";
-import RouteDetail from "../components/RouteDetail";
+import { Item } from "../routes/routes";
+import Map from "./Map";
+import ItemGallery from "./ItemGallery";
+import RouteDetail from "./RouteDetail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import RouteFilterBar from "../components/RouteFilterBar";
+import RouteFilterBar from "./RouteFilterBar";
 
 export const FEATURE_TYPES = new Set(['parking', 'peak', 'ascent', 'descent']);
 

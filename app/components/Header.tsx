@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import { useBreakpoint } from "@/util/styles";
+import { useBreakpoint } from "@/lib/widths";
 import Link from "next/link";
 
 function HomeLink() {

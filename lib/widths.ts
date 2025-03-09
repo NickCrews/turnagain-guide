@@ -1,7 +1,7 @@
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "@/tailwind.config";
 import { Config } from "tailwindcss/types/config";
-import {useMemo, useEffect, useState, use} from "react";
+import {useMemo, useEffect, useState} from "react";
 
 export const config = resolveConfig(tailwindConfig as unknown as Config);
 

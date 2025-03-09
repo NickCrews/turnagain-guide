@@ -3,7 +3,7 @@
 
 import { Cartesian3, createWorldTerrainAsync, Ion, ImageryLayer,UrlTemplateImageryProvider, Viewer } from 'cesium';
 import { createContext, useContext, useEffect, useId, useState } from 'react';
-import { WORLD_IMAGERY_URL_TEMPLATE } from "../../util/tiles";
+import { WORLD_IMAGERY_URL_TEMPLATE } from "../../lib/tiles";
 
 /**
  * ViewerContext provides a shared Cesium Viewer instance across components.

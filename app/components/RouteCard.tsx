@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { AtesBadges } from './ATESBadge';
+import { AtesBadges } from './ATES';
 
 interface RouteCardProps {
   item: Item;

@@ -3,6 +3,13 @@ import { FEATURE_TYPES, Filters } from '@/app/components/ItemExplorer'
 import { Input } from '@/components/ui/input'
 import { FeatureType } from '../routes/routes'
 import { ATES, ATES_VALUES } from '@/lib/terrain-rating'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import { AtesDescription } from './ATES'
+
 interface RouteFilterBarProps {
   filters: Filters,
   setFilters: (filters: Filters) => void
@@ -25,7 +32,17 @@ export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarPr
     <div className="flex gap-2 p-2 items-center">
       <SearchBar query={filters.query} setQuery={handleSetQuery} />
       <DropdownToggles title="Type" options={Array.from(FEATURE_TYPES)} selected={filters.types} setSelected={handleSetSelectedTypes} />
-      <DropdownToggles title="ATES" options={Array.from(ATES_VALUES)} selected={filters.ates_ratings} setSelected={handleSetSelectedAtesRatings} />
+      <div className="flex gap-1">
+        <DropdownToggles title="ATES" options={Array.from(ATES_VALUES)} selected={filters.ates_ratings} setSelected={handleSetSelectedAtesRatings} />
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <button className="text-sm text-gray-500 hover:text-gray-700">?</button>
+          </HoverCardTrigger>
+          <HoverCardContent className="w-80">
+            {AtesDescription()}
+          </HoverCardContent>
+        </HoverCard>
+      </div>
     </div>
   )
 }

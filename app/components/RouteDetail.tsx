@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import { Item } from '@/app/routes/routes';
 import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/Units';
-import { AtesBadges } from './ATESBadge';
+import { AtesBadges } from './ATES';
 interface RouteDetailProps {
     item: Item;
   }

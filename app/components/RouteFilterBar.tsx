@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { FEATURE_TYPES, Filters } from '@/app/components/ItemExplorer'
 import { Input } from '@/components/ui/input'
 import { FeatureType } from '../routes/routes'
+import { ATES, ATES_VALUES } from '@/lib/terrain-rating'
 interface RouteFilterBarProps {
   filters: Filters,
   setFilters: (filters: Filters) => void
@@ -12,15 +13,19 @@ export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarPr
     setFilters({ ...filters, types: selected })
   }
 
+  const handleSetSelectedAtesRatings = (selected: Set<ATES>) => {
+    setFilters({ ...filters, ates_ratings: selected })
+  }
+
   const handleSetQuery = (query: string) => {
     setFilters({ ...filters, query: query })
   }
-  const options = Array.from(FEATURE_TYPES) as FeatureType[];
 
   return (
     <div className="flex gap-2 p-2 items-center">
       <SearchBar query={filters.query} setQuery={handleSetQuery} />
-      <DropdownToggles title="Type" options={options} selected={filters.types} setSelected={handleSetSelectedTypes} />
+      <DropdownToggles title="Type" options={Array.from(FEATURE_TYPES)} selected={filters.types} setSelected={handleSetSelectedTypes} />
+      <DropdownToggles title="ATES" options={Array.from(ATES_VALUES)} selected={filters.ates_ratings} setSelected={handleSetSelectedAtesRatings} />
     </div>
   )
 }

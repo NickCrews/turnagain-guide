@@ -6,8 +6,9 @@ import ItemGallery from "./ItemGallery";
 import RouteDetail from "./RouteDetail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RouteFilterBar from "./RouteFilterBar";
+import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
 
-export const FEATURE_TYPES = new Set(['parking', 'peak', 'ascent', 'descent']);
+export const FEATURE_TYPES: Set<FeatureType> = new Set(['parking', 'peak', 'ascent', 'descent']);
 
 interface ItemExplorerProps {
   items: Item[]
@@ -16,6 +17,7 @@ interface ItemExplorerProps {
 
 export interface Filters {
   types: Set<FeatureType>
+  ates_ratings: Set<ATES>
   query: string
 }
 
@@ -23,13 +25,18 @@ function useFilters() : [Filters, (filters: Filters) => void] {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  
   const typeString = searchParams.get('types');
   const types = new Set(typeString == null ? Array.from(FEATURE_TYPES) : typeString.split(',')) as Set<FeatureType>;
+
+  const ratingsString = searchParams.get('ates');
+  const ates_ratings = new Set(ratingsString == null ? Array.from(ATES_VALUES) : ratingsString.split(',')) as Set<ATES>;
+  
   const query = searchParams.get('query') || '';
   const setFilters = (filters: Filters) => {
     router.push(pathname + '?' + filtersToQueryString(filters));
   }
-  return [{ types, query }, setFilters];
+  return [{ types, ates_ratings, query }, setFilters];
 }
 
 function filtersToQueryString(filters: Filters) {
@@ -44,6 +51,9 @@ function filtersToQueryString(filters: Filters) {
   if (filters.types.size !== FEATURE_TYPES.size) {
     result = result + "&types=" + Array.from(filters.types).join(',');
   }
+  if (filters.ates_ratings.size !== ATES_VALUES.length) {
+    result = result + "&ates=" + Array.from(filters.ates_ratings).join(',');
+  }
   return result;
 }
 
@@ -54,11 +64,12 @@ function filterItems(items: Item[], filters: Filters, selectedItem: Item | undef
     }
     
     const matchesType = filters.types.has(item.properties.feature_type);
+    const matchesAtes = item.properties.nicks_ates_ratings.some(rating => filters.ates_ratings.has(rating));
     
     const terms = filters.query.toLowerCase().split(' ');
     const matchesQuery = terms.length === 0 || terms.every(term => item.properties.title.toLowerCase().includes(term));
     
-    return matchesType && matchesQuery;
+    return matchesType && matchesQuery && matchesAtes;
   }
 
   return items.filter(keepItem);

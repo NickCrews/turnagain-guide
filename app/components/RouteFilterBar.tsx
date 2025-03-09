@@ -1,39 +1,41 @@
 import { useCallback, useEffect, useState } from 'react'
 import { FEATURE_TYPES, Filters } from '@/app/components/ItemExplorer'
 import { Input } from '@/components/ui/input'
+import { FeatureType } from '../routes/routes'
 interface RouteFilterBarProps {
   filters: Filters,
   setFilters: (filters: Filters) => void
 }
 
 export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarProps) {
-  const handleSetSelectedTypes = (selected: Set<string>) => {
+  const handleSetSelectedTypes = (selected: Set<FeatureType>) => {
     setFilters({ ...filters, types: selected })
   }
 
   const handleSetQuery = (query: string) => {
     setFilters({ ...filters, query: query })
   }
+  const options = Array.from(FEATURE_TYPES) as FeatureType[];
 
   return (
     <div className="flex gap-2 p-2 items-center">
       <SearchBar query={filters.query} setQuery={handleSetQuery} />
-      <DropdownToggles title="Type" options={Array.from(FEATURE_TYPES)} selected={filters.types} setSelected={handleSetSelectedTypes} />
+      <DropdownToggles title="Type" options={options} selected={filters.types} setSelected={handleSetSelectedTypes} />
     </div>
   )
 }
 
-interface DropdownTogglesProps {
+interface DropdownTogglesProps<T extends string> {
   title: string
-  options: string[]
-  selected: Set<string>
-  setSelected: (selected: Set<string>) => void
+  options: T[]
+  selected: Set<T>
+  setSelected: (selected: Set<T>) => void
 }
 
-function DropdownToggles({ title, options, selected, setSelected }: DropdownTogglesProps) {
+function DropdownToggles<T extends string>({ title, options, selected, setSelected }: DropdownTogglesProps<T>) {
   const [open, setOpen] = useState(false)
 
-  function setChecked(option: string, checked: boolean) {
+  function setChecked(option: T, checked: boolean) {
     const newSelected = new Set(selected)
     if (checked) {
       newSelected.add(option)

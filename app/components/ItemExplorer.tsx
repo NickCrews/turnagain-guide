@@ -1,6 +1,6 @@
 'use client'
 
-import { Item } from "../routes/routes";
+import { FeatureType, Item } from "../routes/routes";
 import Map from "./Map";
 import ItemGallery from "./ItemGallery";
 import RouteDetail from "./RouteDetail";
@@ -15,7 +15,7 @@ interface ItemExplorerProps {
 }
 
 export interface Filters {
-  types: Set<string>
+  types: Set<FeatureType>
   query: string
 }
 
@@ -24,7 +24,7 @@ function useFilters() : [Filters, (filters: Filters) => void] {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const typeString = searchParams.get('types');
-  const types = new Set(typeString == null ? Array.from(FEATURE_TYPES) : typeString.split(','));
+  const types = new Set(typeString == null ? Array.from(FEATURE_TYPES) : typeString.split(',')) as Set<FeatureType>;
   const query = searchParams.get('query') || '';
   const setFilters = (filters: Filters) => {
     router.push(pathname + '?' + filtersToQueryString(filters));

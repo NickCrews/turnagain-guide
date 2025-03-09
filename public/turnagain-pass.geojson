@@ -8,6 +8,7 @@
                 "title": "Tincan Trees Uptrack",
                 "description": "",
                 "feature_type": "ascent",
+                "nicks_ates_ratings": "simple,challenging",
                 "distance": 593.0441337742518,
                 "total_ascent": 216.94984299999993,
                 "elevation_min": 474.291397,
@@ -178,6 +179,7 @@
                 "title": "Tincan Out Track",
                 "description": "",
                 "feature_type": "descent",
+                "nicks_ates_ratings": "simple",
                 "distance": 1394.4746282118915,
                 "total_descent": 191.19635899999992,
                 "elevation_min": 295.683514,
@@ -553,6 +555,7 @@
                 "title": "Tincan Meadow to Ridge Uptrack",
                 "description": "",
                 "feature_type": "ascent",
+                "nicks_ates_ratings": "simple",
                 "distance": 493.94458674679794,
                 "total_ascent": 64.50537200000002,
                 "elevation_min": 448.471938,
@@ -682,7 +685,8 @@
             "properties": {
                 "title": "Tincan Trees",
                 "description": "",
-                "feature_type": "descent"
+                "feature_type": "descent",
+                "nicks_ates_ratings": "simple,challenging"
             },
             "geometry": {
                 "type": "Polygon",
@@ -759,6 +763,7 @@
                 "title": "CFR (Cornice F*%$in' Run)",
                 "description": "",
                 "feature_type": "descent",
+                "nicks_ates_ratings": "challenging",
                 "distance": 604.4903952834237,
                 "total_descent": 275.29182300000014,
                 "elevation_min": 678.565176,
@@ -919,6 +924,7 @@
                 "title": "Tincan Main Uptrack",
                 "description": "",
                 "feature_type": "ascent",
+                "nicks_ates_ratings": "simple",
                 "distance": 3288.2233047995983,
                 "total_ascent": 665.873051,
                 "elevation_min": 313.833238,
@@ -1894,6 +1900,7 @@
                 "title": "Tincan Common Bowl",
                 "description": "",
                 "feature_type": "descent",
+                "nicks_ates_ratings": "challenging",
                 "distance": 302.9814467472608,
                 "total_descent": 141.25361999999996,
                 "elevation_min": 816.9136,
@@ -1974,6 +1981,7 @@
                 "title": "PMS Bowl Uptrack",
                 "description": "",
                 "feature_type": "ascent",
+                "nicks_ates_ratings": "simple,challenging",
                 "distance": 2590.6915043997165,
                 "total_ascent": 711.21358,
                 "elevation_min": 257.868,
@@ -2559,6 +2567,7 @@
                 "title": "Blue Diamond Route",
                 "description": "",
                 "feature_type": "ascent",
+                "nicks_ates_ratings": "simple",
                 "distance": 1990.2708938747458,
                 "total_ascent": 236.72239700000006,
                 "elevation_min": 280.076585,
@@ -3069,6 +3078,7 @@
                 "title": "Tincan Hippie Bowl",
                 "description": "",
                 "feature_type": "descent",
+                "nicks_ates_ratings": "challenging",
                 "distance": 810.7375124193462,
                 "total_descent": 454.204791,
                 "elevation_min": 533.813686,
@@ -3239,6 +3249,7 @@
                 "title": "Todd's Run",
                 "description": "",
                 "feature_type": "descent",
+                "nicks_ates_ratings": "complex",
                 "distance": 602.1098380632068,
                 "total_descent": 351.5772689999999,
                 "elevation_min": 741.5776,
@@ -3378,7 +3389,8 @@
             "properties": {
                 "title": "The Libraries",
                 "description": "",
-                "feature_type": "descent"
+                "feature_type": "descent",
+                "nicks_ates_ratings": "complex,extreme"
             },
             "geometry": {
                 "type": "Polygon",
@@ -3489,7 +3501,8 @@
                 "latitude": 60.786418,
                 "longitude": -149.157061,
                 "elevation": 964,
-                "feature_type": "peak"
+                "feature_type": "peak",
+                "nicks_ates_ratings": "simple"
             }
         },
         {
@@ -3508,7 +3521,8 @@
                 "latitude": 60.781914,
                 "longitude": -149.141816,
                 "elevation": 1139,
-                "feature_type": "peak"
+                "feature_type": "peak",
+                "nicks_ates_ratings": "challenging"
             }
         },
         {
@@ -3517,6 +3531,7 @@
             "properties": {
                 "title": "Center Ridge Parking Lot",
                 "feature_type": "parking",
+                "nicks_ates_ratings": "simple",
                 "elevation": 280
             },
             "geometry": {
@@ -3533,6 +3548,7 @@
             "properties": {
                 "title": "Tincan Parking Lot",
                 "feature_type": "parking",
+                "nicks_ates_ratings": "simple",
                 "elevation": 315
             },
             "geometry": {

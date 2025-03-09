@@ -1,6 +1,7 @@
 
 import { promises as fs } from 'fs';
 import type { Feature, Geometry } from 'geojson';
+import { type ATES } from '@/lib/terrain-rating';
 
 export type FeatureType = "parking" |"peak" | "ascent" | "descent";
 
@@ -21,6 +22,7 @@ export interface ItemProperties {
   total_ascent?: number;
   /* in meters */
   total_descent?: number;
+  nicks_ates_ratings: ATES[];
   [key: string]: any;
 }
 
@@ -50,14 +52,15 @@ export class ItemCollection {
     }
 
     static async fromGeoJson(geojson: string) {
-        const items = JSON.parse(geojson).features as Item[];
+        const items = JSON.parse(geojson).features;
         // ensure that the items have an id
         for (const item of items) {
             if (!item.id) {
                 throw new Error("Item has no id");
             }
+            item.properties['nicks_ates_ratings'] = item.properties['nicks_ates_ratings'].split(",")
         }
-        return new ItemCollection(items);
+        return new ItemCollection(items as Item[]);
     }
 
     static async fromFile(filePath: string | null = null) {

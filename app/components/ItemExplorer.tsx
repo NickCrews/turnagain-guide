@@ -7,8 +7,12 @@ import RouteDetail from "./RouteDetail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RouteFilterBar from "./RouteFilterBar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
+import { useState } from "react";
+import {useIsBelowWidth} from "@/lib/widths";
 
 export const FEATURE_TYPES: Set<FeatureType> = new Set(['parking', 'peak', 'ascent', 'descent']);
+
+type ViewMode = 'map' | 'gallery';
 
 interface ItemExplorerProps {
   items: Item[]
@@ -79,6 +83,8 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
   const router = useRouter();
   const [filters, setFilters] = useFilters();
   const filteredItems = filterItems(items, filters, selectedItem);
+  const [viewMode, setViewMode] = useState<ViewMode>('map')
+  const isMobile = useIsBelowWidth(768) ?? true;
 
   const handleItemSelect = (item?: Item) => {
     const path = item ? `/routes/${item.id}` : "/routes"
@@ -89,7 +95,7 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
     router.push('/routes' + '?' + filtersToQueryString(filters));
   };
 
-  return (
+  const desktopInterface = (
     <div className="h-full">
       <RouteFilterBar filters={filters} setFilters={setFilters} />
       <div className="flex h-full">
@@ -106,6 +112,42 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
       </div>
     </div>
   );
+
+  const getMobileInterface = () => {
+    if (selectedItem) {
+      return <ItemDetail item={selectedItem} onBack={handleBack} />
+    }
+    const content = (
+      viewMode === 'map'
+      ? <Map items={filteredItems} onItemClick={handleItemSelect} selectedItem={selectedItem}/>
+      : <ItemGallery items={filteredItems} onItemSelect={handleItemSelect}/>
+    )
+    return (
+      <>
+        <RouteFilterBar filters={filters} setFilters={setFilters} />
+        {content}
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-10">
+          <ViewModeSwitch viewMode={viewMode} setViewMode={setViewMode} />
+        </div>
+      </>
+    )
+  }
+
+  return isMobile ? getMobileInterface() : desktopInterface;
+}
+
+function ViewModeSwitch({viewMode, setViewMode}: {viewMode: ViewMode, setViewMode: (view: ViewMode) => void}) {
+  const Item = (value: ViewMode, label: string) => (
+    <button onClick={() => setViewMode(value)} className='bg-background border p-2 rounded-lg'>
+      {label}
+    </button>
+  )
+
+  return (
+    viewMode === 'map'
+    ? Item('gallery', 'View as List')
+    : Item('map', 'View as Map')
+  )
 }
 
 function ItemDetail({item, onBack}: {item: Item, onBack: () => void}) {

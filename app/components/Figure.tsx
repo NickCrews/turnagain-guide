@@ -14,7 +14,7 @@ interface FigureProps {
 export default function Figure(props: FigureProps) {
   const { caption, alt, src, ...rest } = props;
   // This isn't accessible, but this site is for skiers...
-  const realAlt = alt || "If this is needed for you, please let me know!";
+  const realAlt = alt || "If this alt text is needed for you, please let me know at nicholas.b.crews@gmail.com!";
   const figcaption = <figcaption className="prose text-center">{caption}</figcaption>
   
   const [isOpen, setIsOpen] = useState(false);

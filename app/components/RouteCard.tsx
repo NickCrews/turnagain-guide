@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { AtesBadge } from './ATESBadge';
+import { AtesBadges } from './ATESBadge';
 
 interface RouteCardProps {
   item: Item;
@@ -27,7 +27,7 @@ export default function RouteCard({ item, onClick } : RouteCardProps) {
         <span className='text-muted-foreground'>{capitalize(item.properties.feature_type)}</span>
       </CardTitle>
       <CardDescription>
-        {item.properties.nicks_ates_ratings.map((rating) => <AtesBadge key={rating} rating={rating} />)}
+        <AtesBadges ratings={item.properties.nicks_ates_ratings} />
         {'   '}
         {item.properties.elevation_min && item.properties.elevation_max && 
           <ElevationRange min={item.properties.elevation_min} max={item.properties.elevation_max} type={item.properties.feature_type}/>

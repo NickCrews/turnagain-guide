@@ -2567,7 +2567,7 @@
                 "title": "Blue Diamond Route",
                 "description": "",
                 "feature_type": "ascent",
-                "nicks_ates_ratings": "simple",
+                "nicks_ates_ratings": "non-avalanche",
                 "distance": 1990.2708938747458,
                 "total_ascent": 236.72239700000006,
                 "elevation_min": 280.076585,
@@ -3531,7 +3531,7 @@
             "properties": {
                 "title": "Center Ridge Parking Lot",
                 "feature_type": "parking",
-                "nicks_ates_ratings": "simple",
+                "nicks_ates_ratings": "non-avalanche",
                 "elevation": 280
             },
             "geometry": {
@@ -3548,7 +3548,7 @@
             "properties": {
                 "title": "Tincan Parking Lot",
                 "feature_type": "parking",
-                "nicks_ates_ratings": "simple",
+                "nicks_ates_ratings": "non-avalanche",
                 "elevation": 315
             },
             "geometry": {

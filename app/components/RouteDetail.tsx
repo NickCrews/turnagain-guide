@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic'
 import { Item } from '@/app/routes/routes';
 import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/Units';
+import { AtesBadges } from './ATESBadge';
 interface RouteDetailProps {
     item: Item;
   }
@@ -22,6 +23,9 @@ export default function RouteDetail({ item }: RouteDetailProps) {
   const properties = [
     { name: "Feature Type", component: <RawValue value={item.properties.feature_type} />},
   ];
+  if (item.properties.nicks_ates_ratings) {
+    properties.push({ name: "Terrain", component: <AtesBadges ratings={item.properties.nicks_ates_ratings} />});
+  }
   if (item.properties.distance) {
     properties.push({ name: "Distance", component: <Distance meters={item.properties.distance} />});
   }

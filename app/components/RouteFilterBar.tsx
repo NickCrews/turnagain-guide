@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { FEATURE_TYPES, Filters } from '@/app/components/ItemExplorer'
+import { Input } from '@/components/ui/input'
 interface RouteFilterBarProps {
   filters: Filters,
   setFilters: (filters: Filters) => void
@@ -80,11 +81,10 @@ function SearchBar({ query, setQuery }: { query: string, setQuery: (query: strin
   useDebounce(() => setQuery(rawQuery), [rawQuery], 300);
   return (
     <div className="relative flex items-center">
-      <input
+      <Input
         type="text"
         value={rawQuery}
         onChange={(e) => setRawQuery(e.target.value)}
-        className="rounded-md bg-foreground text-background px-1"
         placeholder="Filter..."
       />
       {rawQuery && (

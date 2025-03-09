@@ -11,21 +11,20 @@ function HomeLink() {
 interface HamburgerProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  color: string;
 }
 
-function Hamburger({ isOpen, setIsOpen }: HamburgerProps) {
+function Hamburger({ isOpen, setIsOpen, color }: HamburgerProps) {
   return (
     <button onClick={() => setIsOpen(!isOpen)}
       className="flex flex-col justify-center items-center">
-      <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm
+      <span className={`${color} block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm
                         ${isOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`} >
       </span>
-      <span className={`bg-white block transition-all duration-300 ease-out 
-                        h-0.5 w-6 rounded-sm my-0.5
+      <span className={`${color} block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5
                         ${isOpen ? 'opacity-0' : 'opacity-100'}`} >
       </span>
-      <span className={`bg-white block transition-all duration-300 ease-out 
-                        h-0.5 w-6 rounded-sm
+      <span className={`${color} block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm
                         ${isOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`} >
       </span>
 
@@ -42,14 +41,14 @@ export default function Header() {
   }
 
   return (
-    <header className="relative h-12 border-b border-white border-opacity-50">
+    <header className="relative h-12 border-b border-border border-opacity-50">
       <div className="absolute left-4 top-1/2 -translate-y-1/2">
         {
           // order is important here so that if isAboveXl is undefined (on first render)
           // the hamburger will be shown
           isAboveXl ? <HorizontalNavs /> : (
             <div className="relative">
-              <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
+              <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} color='bg-foreground' />
             </div>
           )
         }
@@ -58,7 +57,7 @@ export default function Header() {
         <HomeLink />
       </div>
       {isOpen && isBelowXl &&
-        <div className="absolute top-full left-0 bg-black z-20 w-full border-y border-white border-opacity-50">
+        <div className="absolute top-full left-0 bg-background z-20 w-full border-y border-border border-opacity-50">
           <VerticalNavs onNavClick={() => setIsOpen(false)} />
         </div>
       }
@@ -84,7 +83,7 @@ function HorizontalNavs() {
 
 function VerticalNavs({ onNavClick }: Readonly<{ onNavClick: () => void }>) {
   return <nav>
-    <ul className="flex flex-col justify-between divide-y divide-white divide-opacity-50">
+    <ul className="flex flex-col justify-between divide-y divide-border divide-opacity-50">
       {NAV_ITEMS.map(({ href, text }) => (
         <div key={href} className="p-2">
           <NavLink href={href} text={text} onNavClick={onNavClick} />

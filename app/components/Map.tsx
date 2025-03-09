@@ -114,13 +114,13 @@ function DownloadButton() {
   return <>
     <button
       onClick={() => setIsOpen(!isOpen)}
-      className="bg-black/50 hover:bg-black/70 text-white px-3 py-1 rounded-md text-sm"
+      className="bg-background/50 hover:bg-background/70 text-foreground px-3 py-1 rounded-md text-sm"
     >
       Download ▾
     </button>
     {isOpen && (
       <div
-        className="absolute bottom-full right-0 mb-1 bg-black/50 rounded-md overflow-hidden"
+        className="absolute bottom-full right-0 mb-1 bg-background/50 rounded-md overflow-hidden"
       >
         <a
           href="/turnagain-pass.geojson"

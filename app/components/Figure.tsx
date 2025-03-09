@@ -48,11 +48,11 @@ export default function Figure(props: FigureProps) {
       {caption && figcaption}
     </figure>
     {isOpen && createPortal(
-      <div className="fixed inset-0 z-50 bg-black bg-opacity-75 hover:cursor-zoom-out" onClick={closeLightbox}>
+      <div className="fixed inset-0 z-50 bg-background bg-opacity-75 hover:cursor-zoom-out" onClick={closeLightbox}>
         <div className="fixed inset-4 lg:inset-16">
           <figure className="relative h-full w-full flex flex-col items-center justify-center">
             <button
-              className="absolute top-0 left-0 text-black text-3xl bg-white bg-opacity-80 p-2 rounded hover:bg-opacity-100"
+              className="absolute top-0 left-0 text-foreground text-3xl bg-background bg-opacity-80 p-2 rounded hover:bg-opacity-100"
               onClick={closeLightbox}
               aria-label="Close lightbox"
             >

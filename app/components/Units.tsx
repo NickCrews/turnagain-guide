@@ -30,11 +30,14 @@ export function Elevation({ meters }: { meters: number }) {
   </span>
 }
 
-export function ElevationRange({ min, max }: { min: number, max: number }) {
+export function ElevationRange({ min, max, type }: { min: number, max: number, type?: string }) {
   const [unit, setUnit] = useState('ft');
-  const minN = unit === 'm' ? min : min * 3.28084;
-  const maxN = unit === 'm' ? max : max * 3.28084;
-  const delta = maxN - minN;
+  let startN = unit === 'm' ? min : min * 3.28084;
+  let endN = unit === 'm' ? max : max * 3.28084;
+  if (type?.toLowerCase() === 'descent') {
+    [startN, endN] = [endN, startN];
+  }
+  const delta = endN - startN;
   return (
     <span
       onClick={(e) => {
@@ -43,7 +46,7 @@ export function ElevationRange({ min, max }: { min: number, max: number }) {
       }}
       className="text-sm cursor-pointer underline underline-offset-2"
     >
-      {`${minN.toFixed(0)} to ${maxN.toFixed(0)} ${unit} (${delta.toFixed(0)} ${unit})`}
+      {`${startN.toFixed(0)} to ${endN.toFixed(0)} ${unit} (${delta.toFixed(0)} ${unit})`}
     </span>)
 }
 

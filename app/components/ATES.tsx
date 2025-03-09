@@ -9,8 +9,8 @@ import {
 import Link from "@/components/ui/link"
 
 export function AtesBadge({rating}: {rating: ATES}) {
-  return <HoverCard>
-    <HoverCardTrigger asChild>
+  return <HoverCard openDelay={100}>
+    <HoverCardTrigger> {/* not asChild, if we did that then the pointer isn't a hover */ }
       <Badge style={{backgroundColor: atesColor(rating), color: atesTextColor(rating)}}>{capitalize(rating)}</Badge>
     </HoverCardTrigger>
     <HoverCardContent>

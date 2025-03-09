@@ -1,8 +1,9 @@
 'use client'
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogClose, DialogHeader } from "@/components/ui/dialog";
+import { ChevronLeft } from 'lucide-react';
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface FigureProps {
   src: string;
@@ -15,61 +16,37 @@ export default function Figure(props: FigureProps) {
   const { caption, alt, src, ...rest } = props;
   // This isn't accessible, but this site is for skiers...
   const realAlt = alt || "If this alt text is needed for you, please let me know at nicholas.b.crews@gmail.com!";
-  const figcaption = <figcaption className="prose text-center">{caption}</figcaption>
+  const figcaption = <figcaption className="prose text-center leading-6">{caption}</figcaption>
   
-  const [isOpen, setIsOpen] = useState(false);
-  const closeLightbox = useCallback(() => {
-    setIsOpen(false)
-  }, [])
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeLightbox()
-      }
-    }
-    if (isOpen) {
-      document.addEventListener("keydown", handleKeyDown)
-    }
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [isOpen, closeLightbox])
-
-  return <>
-    <figure>
-      <Image
-        alt={realAlt}
-        src={src}
-        {...rest}
-        onClick={() => setIsOpen(true)}
-        className="hover:cursor-zoom-in"
-      />
-      {caption && figcaption}
-    </figure>
-    {isOpen && createPortal(
-      <div className="fixed inset-0 z-50 bg-background bg-opacity-75 hover:cursor-zoom-out" onClick={closeLightbox}>
-        <div className="fixed inset-4 lg:inset-16">
-          <figure className="relative h-full w-full flex flex-col items-center justify-center">
-            <button
-              className="absolute top-0 left-0 text-foreground text-3xl bg-background bg-opacity-80 p-2 rounded hover:bg-opacity-100"
-              onClick={closeLightbox}
-              aria-label="Close lightbox"
-            >
-              &times;
-            </button>
-            <Image
-              alt={realAlt}
-              src={src}
-              {...rest}
-              onClick={(e) => e.stopPropagation()}
-              className="max-w-full max-h-full object-contain hover:cursor-default"
-            />
-            {caption && figcaption}
-          </figure>
-        </div>
-      </div>,
-      document.body
-    )}
-  </>
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <figure>
+          <Image
+            alt={realAlt}
+            src={src}
+            {...rest}
+            className="hover:cursor-zoom-in"
+          />
+          {caption && figcaption}
+        </figure>
+      </DialogTrigger>
+      <DialogContent className="max-w-[90vw] max-h-[90vh] p-0 border-none">
+        <DialogHeader className="bg-background">
+          <VisuallyHidden>
+            <DialogTitle>Photos</DialogTitle>
+          </VisuallyHidden>
+        </DialogHeader>
+        <figure className="relative flex flex-col items-center h-full">
+          <Image
+            alt={realAlt}
+            src={src}
+            {...rest}
+            className="max-w-full max-h-[80vh] object-contain hover:cursor-default"
+          />
+          {caption && figcaption}
+        </figure>
+      </DialogContent>
+    </Dialog>
+  );
 }

@@ -18,7 +18,7 @@ export default function RouteCard({ item, onClick } : RouteCardProps) {
     onClick={() => onClick ? onClick(item) : null}
     className="cursor-pointer hover:bg-gray-100"
   >
-    <CardHeader>
+    <CardHeader className='py-3'>
       <CardTitle>{item.properties.title}</CardTitle>
       <CardDescription>
         {capitalize(item.properties.feature_type)} {' - '}

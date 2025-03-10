@@ -80,7 +80,6 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItem: GeoItem |
 }
 
 export default function ItemExplorer({ items, selectedItem }: ItemExplorerProps) {
-  console.log("ItemExplorer", items.length, selectedItem);
   const router = useRouter();
   const [filters, setFilters] = useFilters();
   const filteredItems = filterItems(items, filters, selectedItem);

@@ -33,37 +33,15 @@ export interface GeoItem extends Feature {
   properties: GeoItemProperties;
 }
 
-
-export class GeoItemCollection {
-  items: { [key: string]: GeoItem };
-
-  constructor(items: GeoItem[]) {
-      this.items = Object.fromEntries(items.map(item => [item.id, item]));
-  }
-
-  getItem(id: string) {
-      return this.items[id];
-  }
-
-  getItems() {
-      return Object.values(this.items);
-  }
-
-  getItemIds() {
-      return Object.keys(this.items);
-  }
-
-  static async fromGeoJson(geojson: string) {
-      const items = JSON.parse(geojson).features;
-      // ensure that the items have an id
-      for (const item of items) {
-          if (!item.id) {
-              throw new Error("Item has no id");
-          }
-          const rawAtes = item.properties['nicks_ates_ratings'];
-          item.properties['nicks_ates_ratings'] = rawAtes ? rawAtes.split(',').map((r: string) => r.trim()) : [];
-      }
-      return new GeoItemCollection(items as GeoItem[]);
-  }
-
+export function fromGeoJson(geojson: string) {
+    const items = JSON.parse(geojson).features;
+    // ensure that the items have an id
+    for (const item of items) {
+        if (!item.id) {
+            throw new Error("Item has no id");
+        }
+        const rawAtes = item.properties['nicks_ates_ratings'];
+        item.properties['nicks_ates_ratings'] = rawAtes ? rawAtes.split(',').map((r: string) => r.trim()) : [];
+    }
+    return items as GeoItem[];
 }

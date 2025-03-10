@@ -1,10 +1,10 @@
-import { loadGeoItemCollection } from "@/lib/geo-item-server";
+import { loadGeoItems } from "@/lib/geo-item-server";
 import ExplorerWithRouter from "./explorer";
 
-const collection = await loadGeoItemCollection();
+const items = await loadGeoItems();
 
 export async function generateStaticParams() {
-  const withIds = collection.getItems().map((item) => ({ id: [item.id] })); // eg /routes/tincan-common
+  const withIds = items.map((item) => ({ id: [item.id] })); // eg /routes/tincan-common
   const withoutIds = [{ id: undefined }];  // the root route eg /routes
   return [...withIds, ...withoutIds];
 }
@@ -19,8 +19,13 @@ export default async function RouteDetailPage (
         // raise 404
         throw new Error("Invalid URL");
       }
-      selectedItem = collection.getItem(p.id[0]);
+      const id = p.id[0];
+      selectedItem = items.find((item) => item.id === id);
+      if (!selectedItem) {
+        // raise 404
+        throw new Error("Item not found");
+      }
     }
 
-    return <ExplorerWithRouter items={collection.getItems()} selectedItem={selectedItem} />;
+    return <ExplorerWithRouter items={items} selectedItem={selectedItem} />;
 }

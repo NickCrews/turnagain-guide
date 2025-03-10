@@ -71,13 +71,11 @@ export function ViewerProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      // TS gets mad I don't provide options, but that isn't required:
-      // @ts-expect-error https://github.com/CesiumGS/cesium/pull/12400
-      const baseLayer = await ImageryLayer.fromProviderAsync(
+      const baseLayer = ImageryLayer.fromProviderAsync(
         // TileMapServiceImageryProvider.fromUrl(
         //   buildModuleUrl("Assets/Textures/NaturalEarthII"),
         // ),
-        new UrlTemplateImageryProvider({
+        Promise.resolve(new UrlTemplateImageryProvider({
           // url : 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
           // url : 'https://tile.tracestrack.com/topo__/{z}/{x}/{y}.png',
           // Thunderforest looks like a sweet indy map provider!
@@ -90,7 +88,7 @@ export function ViewerProvider({ children }: { children: React.ReactNode }) {
           // url : 'https://api.maptiler.com/tiles/hillshade/{z}/{x}/{y}.webp?key=Xfb74aIJXmRrUdfJyYo5',
           credit: 'Map tiles by ArcGIS Online',
           // rectangle: Rectangle.fromDegrees(-149.2939, 60.7024, -148.8208, 60.8538),
-        }),
+        })),
       );
 
       async function getTerrain() {

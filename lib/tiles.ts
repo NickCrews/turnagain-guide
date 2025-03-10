@@ -25,7 +25,7 @@ function boundsToSlippys(bounds: Bounds, zoom: number) {
     const xmax = Math.floor(Math.max(x1, x2));
     const ymin = Math.floor(Math.min(y1, y2));
     const ymax = Math.floor(Math.max(y1, y2));
-    let results = [];
+    const results = [];
     for (let x = xmin; x <= xmax; x++) {
         for (let y = ymin; y <= ymax; y++) {
             results.push({ x, y });
@@ -35,7 +35,7 @@ function boundsToSlippys(bounds: Bounds, zoom: number) {
 }
 
 function slippysInBounds(bounds: Bounds, maxZoom: number) {
-    let results = [];
+    const results = [];
     for (let zoom = 0; zoom <= maxZoom; zoom++) {
         for (const slippy of boundsToSlippys(bounds, zoom)) {
             results.push({ zoom, ...slippy });

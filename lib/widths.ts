@@ -1,7 +1,7 @@
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "@/tailwind.config";
 import { Config } from "tailwindcss/types/config";
-import {useMemo, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 
 export const config = resolveConfig(tailwindConfig as unknown as Config);
 
@@ -14,7 +14,7 @@ export function useBreakpoint<K extends BreakpointKey>(breakpointKey: K) {
   const isBelow = useIsBelowWidth(breakpointValueInt);
   const capitalizedKey = breakpointKey[0].toUpperCase() + breakpointKey.substring(1);
 
-  const result = {
+  return {
       [`text${capitalizedKey}`]: breakpointValueText,
       [`number${capitalizedKey}`]: breakpointValueInt,
       [`isBelow${capitalizedKey}`]: isBelow,
@@ -25,7 +25,6 @@ export function useBreakpoint<K extends BreakpointKey>(breakpointKey: K) {
     Record<`isBelow${Capitalize<K>}`, boolean | undefined> & 
     Record<`isAbove${Capitalize<K>}`, boolean | undefined>
   );
-  return useMemo(() => result, [breakpointValueInt, isBelow]);
 }
 
 /**

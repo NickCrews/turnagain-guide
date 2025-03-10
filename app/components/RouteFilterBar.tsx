@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Filters } from '@/app/components/ItemExplorer'
 import { Input } from '@/components/ui/input'
-import { FeatureType, FEATURE_TYPES } from '@/lib/geo-item'
+import { FeatureType } from '@/lib/geo-item'
 import { ATES } from '@/lib/terrain-rating'
 import { AtesComboBox } from './ATES'
 import { GeoTypeComboBox } from './GeoTypeFilterBox'
@@ -59,7 +59,7 @@ function SearchBar({ query, setQuery }: { query: string, setQuery: (query: strin
 
 // from https://stackoverflow.com/a/69729166/5156887
 function useDebounce(effect: () => void, dependencies: any[], delay: number) {
-  const callback = useCallback(effect, dependencies);
+  const callback = useCallback(effect, [...dependencies, effect]);
   useEffect(() => {
     const timeout = setTimeout(callback, delay);
     return () => clearTimeout(timeout);

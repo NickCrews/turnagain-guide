@@ -31,7 +31,7 @@ export interface BadgeProps
     }
 
 function Badge({ className, variant, bgColor, textColor, ...props }: BadgeProps) {
-  let style: React.CSSProperties = {};
+  const style: React.CSSProperties = {};
   if (bgColor) {
     style.backgroundColor = bgColor;
   }

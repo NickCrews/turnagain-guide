@@ -74,7 +74,7 @@ export function AtesComboBox({selected, onSelected}: {selected: Set<ATES>, onSel
     itemOptions={ATES_ITEMS}
     selectedItems={Array.from(selected).map(toComboItem)}
     onSelected={(items) => onSelected(new Set(items.map(i => i.value)))}
-    descriptionCallback={(items) => description}
-    labelCallback={(items) => <span>Terrain</span>}
+    descriptionCallback={() => description}
+    labelCallback={() => <span>Terrain</span>}
   />
 }

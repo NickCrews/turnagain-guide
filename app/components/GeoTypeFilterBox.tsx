@@ -17,7 +17,7 @@ export function GeoTypeComboBox({selected, onSelected}: {selected: Set<FeatureTy
     itemOptions={ITEMS}
     selectedItems={Array.from(selected).map(toComboItem)}
     onSelected={(items) => onSelected(new Set(items.map(i => i.value)))}
-    descriptionCallback={(items) => description}
-    labelCallback={(items) => <span>Type</span>}
+    descriptionCallback={() => description}
+    labelCallback={() => <span>Type</span>}
   />
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "pnpm run gen && next build",
-    "gen": "cat public/turnagain-pass.geojson | node --experimental-strip-types app/util/gpx.ts > public/turnagain-pass.gpx",
+    "gen": "cat public/turnagain-pass.geojson | node --experimental-strip-types lib/gpx.ts > public/turnagain-pass.gpx",
     "start": "next start",
     "lint": "next lint",
     "serve": "npx http-server out/ -p 4000"

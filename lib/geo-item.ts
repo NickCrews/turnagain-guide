@@ -1,5 +1,4 @@
 
-import { promises as fs } from 'fs';
 import { type Feature, type Geometry } from 'geojson';
 import { type ATES } from '@/lib/terrain-rating';
 
@@ -34,42 +33,36 @@ export interface GeoItem extends Feature {
   properties: GeoItemProperties;
 }
 
+
 export class GeoItemCollection {
-    items: { [key: string]: GeoItem };
+  items: { [key: string]: GeoItem };
 
-    constructor(items: GeoItem[]) {
-        this.items = Object.fromEntries(items.map(item => [item.id, item]));
-    }
+  constructor(items: GeoItem[]) {
+      this.items = Object.fromEntries(items.map(item => [item.id, item]));
+  }
 
-    getItem(id: string) {
-        return this.items[id];
-    }
+  getItem(id: string) {
+      return this.items[id];
+  }
 
-    getItems() {
-        return Object.values(this.items);
-    }
+  getItems() {
+      return Object.values(this.items);
+  }
 
-    getItemIds() {
-        return Object.keys(this.items);
-    }
+  getItemIds() {
+      return Object.keys(this.items);
+  }
 
-    static async fromGeoJson(geojson: string) {
-        const items = JSON.parse(geojson).features;
-        // ensure that the items have an id
-        for (const item of items) {
-            if (!item.id) {
-                throw new Error("Item has no id");
-            }
-            item.properties['nicks_ates_ratings'] = item.properties['nicks_ates_ratings'].split(",")
-        }
-        return new GeoItemCollection(items as GeoItem[]);
-    }
+  static async fromGeoJson(geojson: string) {
+      const items = JSON.parse(geojson).features;
+      // ensure that the items have an id
+      for (const item of items) {
+          if (!item.id) {
+              throw new Error("Item has no id");
+          }
+          item.properties['nicks_ates_ratings'] = item.properties['nicks_ates_ratings'].split(",")
+      }
+      return new GeoItemCollection(items as GeoItem[]);
+  }
 
-    static async fromFile(filePath: string | null = null) {
-        if (filePath === null) {
-            filePath = process.cwd() + '/public/turnagain-pass.geojson';
-        }
-        const geojson = await fs.readFile(filePath, 'utf8');
-        return GeoItemCollection.fromGeoJson(geojson);
-    }
 }

@@ -1,10 +1,11 @@
-import { GeoItemCollection } from "@/lib/geo-item";
+import { loadGeoItemCollection } from "@/lib/geo-item-server";
 import ItemExplorer from "../../components/ItemExplorer";
 import { Suspense } from "react";
-const items = await GeoItemCollection.fromFile();
+
+const collection = await loadGeoItemCollection();
 
 export async function generateStaticParams() {
-  return items.getItems().map((item) => ({ id: item.id }));
+  return collection.getItems().map((item) => ({ id: item.id }));
 }
 
 export default async function RouteDetailPage (
@@ -12,6 +13,6 @@ export default async function RouteDetailPage (
 ) {
     const p = await params;
     return <Suspense fallback={<div>Loading...</div>}>
-      <ItemExplorer items={items.getItems()} selectedItem={items.getItem(p.id)} />
+      <ItemExplorer items={collection.getItems()} selectedItem={collection.getItem(p.id)} />
     </Suspense>
 }

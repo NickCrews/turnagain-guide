@@ -44,3 +44,16 @@ export function atesTextColor(name: ATES): string {
     throw Error(`unknown ATES value: ${name}`)
   }
 }
+
+export function maxAtes(ratings: ATES[]): ATES {
+  if (ratings.length === 0) {
+    throw Error('no ratings provided')
+  }
+  return ratings.reduce((a, b) => {
+    if (ATES_VALUES.indexOf(a) > ATES_VALUES.indexOf(b)) {
+      return a
+    } else {
+      return b
+    }
+  })
+}

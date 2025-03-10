@@ -1,8 +1,8 @@
 import ItemExplorer from "../components/ItemExplorer";
-import { GeoItemCollection } from "../../lib/geo-item";
+import { loadGeoItemCollection } from "@/lib/geo-item-server";
 import { Suspense } from "react";
 
-const items = await GeoItemCollection.fromFile();
+const items = await loadGeoItemCollection();
 const itemArray = items.getItems();
 
 export default async function Home() {

@@ -1,6 +1,6 @@
 'use client'
 
-import { FeatureType, GeoItem, FEATURE_TYPES } from "../../lib/geo-item";
+import { FeatureType, GeoItem, FEATURE_TYPES } from "@/lib/geo-item";
 import Map from "./Map";
 import ItemGallery from "./ItemGallery";
 import RouteDetail from "./RouteDetail";

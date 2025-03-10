@@ -19,6 +19,7 @@ import { FeatureType, GeoItem } from '@/lib/geo-item';
 import RouteCard from './RouteCard';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/ViewerContext';
+import { ATES, atesColor, maxAtes } from '@/lib/terrain-rating';
 
 interface MapProps {
   items: GeoItem[];
@@ -174,19 +175,10 @@ function styleEntity(entity: Entity, selectedItem?: GeoItem) {
     })
   }
 
-  let color;
   const featureType: FeatureType = entity.properties?.feature_type;
-  if (featureType == "ascent") {
-    color = Color.RED;
-  } else if (featureType == "descent") {
-    color = Color.BLUE;
-  } else if (featureType == "parking") {
-    color = Color.WHITE;
-  } else if (featureType == "peak") {
-    color = Color.WHITE;
-  } else {
-    throw new Error(`Unknown feature type: ${featureType}`);
-  }
+  const atesRatings: ATES[] = entity.properties?.nicks_ates_ratings.getValue();
+  const highestAtesRating = maxAtes(atesRatings);
+  let color = Color.fromCssColorString(atesColor(highestAtesRating));
 
   // If there is some selected item, and this entity is not the one selected, make this entity dull
   const dull = selectedItem && selectedItem.id != entity.properties?.id;

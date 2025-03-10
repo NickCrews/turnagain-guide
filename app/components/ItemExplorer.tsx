@@ -15,6 +15,7 @@ type ViewMode = 'map' | 'gallery';
 interface ItemExplorerProps {
   items: GeoItem[]
   selectedItem?: GeoItem
+  setSelectedItem?: (item: GeoItem | undefined) => void
 }
 
 export interface Filters {
@@ -79,34 +80,26 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItem: GeoItem |
   return items.filter(keepItem);
 }
 
-export default function ItemExplorer({ items, selectedItem }: ItemExplorerProps) {
-  const router = useRouter();
+export default function ItemExplorer({ items, selectedItem, setSelectedItem }: ItemExplorerProps) {
   const [filters, setFilters] = useFilters();
   const filteredItems = filterItems(items, filters, selectedItem);
   const [viewMode, setViewMode] = useState<ViewMode>('map')
   const isMobile = useIsBelowWidth(768) ?? true;
 
-  const handleItemSelect = (item?: GeoItem) => {
-    const path = item ? `/routes/${item.id}` : "/routes"
-    router.push(path + '?' + filtersToQueryString(filters));
-  };
-
-  const handleBack = () => {
-    router.push('/routes' + '?' + filtersToQueryString(filters));
-  };
+  const handleBack = () => {setSelectedItem && setSelectedItem(undefined)};
 
   const desktopInterface = (
     <div className="h-full">
       <RouteFilterBar filters={filters} setFilters={setFilters} />
       <div className="flex h-full">
         <div className="flex-1 h-full">
-          <Map items={filteredItems} onItemClick={handleItemSelect} selectedItem={selectedItem} />
+          <Map items={filteredItems} onItemClick={setSelectedItem} selectedItem={selectedItem} />
         </div>
         <div className="flex-1 max-w-lg h-full">
           {
             selectedItem ?
               <ItemDetail item={selectedItem} onBack={handleBack} /> :
-              <ItemGallery items={filteredItems} onItemSelect={handleItemSelect} />
+              <ItemGallery items={filteredItems} onItemSelect={setSelectedItem} />
           }
         </div>
       </div>
@@ -119,8 +112,8 @@ export default function ItemExplorer({ items, selectedItem }: ItemExplorerProps)
     }
     const content = (
       viewMode === 'map'
-        ? <Map items={filteredItems} onItemClick={handleItemSelect} selectedItem={selectedItem} />
-        : <ItemGallery items={filteredItems} onItemSelect={handleItemSelect} />
+        ? <Map items={filteredItems} onItemClick={setSelectedItem} selectedItem={selectedItem} />
+        : <ItemGallery items={filteredItems} onItemSelect={setSelectedItem} />
     )
     return (
       <>

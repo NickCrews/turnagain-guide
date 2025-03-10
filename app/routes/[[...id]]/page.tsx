@@ -1,6 +1,5 @@
 import { loadGeoItemCollection } from "@/lib/geo-item-server";
-import ItemExplorer from "../../components/ItemExplorer";
-import { Suspense } from "react";
+import ExplorerWithRouter from "./explorer";
 
 const collection = await loadGeoItemCollection();
 
@@ -22,7 +21,6 @@ export default async function RouteDetailPage (
       }
       selectedItem = collection.getItem(p.id[0]);
     }
-    return <Suspense fallback={<div>Loading...</div>}>
-      <ItemExplorer items={collection.getItems()} selectedItem={selectedItem} />
-    </Suspense>
+
+    return <ExplorerWithRouter items={collection.getItems()} selectedItem={selectedItem} />;
 }

@@ -53,7 +53,7 @@ export function MultiCombo<I extends Item>(
             variant='outline'
             role="combobox"
             aria-expanded={openCombobox}
-            className="h-9 w-[200px] justify-between text-foreground border"
+            className="justify-between text-foreground border"
           >
             <span className="flex truncate">
               {labelCallback(selectedItems)}
@@ -61,7 +61,7 @@ export function MultiCombo<I extends Item>(
             </span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent>
           <Command loop>
             {description}
             <CommandList>

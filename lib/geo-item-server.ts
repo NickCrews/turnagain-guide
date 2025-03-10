@@ -10,5 +10,7 @@ export async function loadGeoItemCollection(filePath: string | null = null) {
         filePath = process.cwd() + '/public/turnagain-pass.geojson';
     }
     const geojson = await fs.readFile(filePath, 'utf8');
-    return (await GeoItemCollection.fromGeoJson(geojson));
+    const collection = await GeoItemCollection.fromGeoJson(geojson);
+    console.log("Loaded collection with " + collection.getItems().length + " items");
+    return collection;
 }

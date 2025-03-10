@@ -2,9 +2,9 @@
 import { type Feature, type Geometry } from 'geojson';
 import { type ATES } from '@/lib/terrain-rating';
 
-export type FeatureType = "parking" |"peak" | "ascent" | "descent";
+export type FeatureType = "area" | "parking" |"peak" | "ascent" | "descent";
 
-export const FEATURE_TYPES: Set<FeatureType> = new Set(['parking', 'peak', 'ascent', 'descent']);
+export const FEATURE_TYPES: Set<FeatureType> = new Set(['area', 'parking', 'peak', 'ascent', 'descent']);
 
 // This is an extension of the GeoJsonProperties interface.
 export interface GeoItemProperties {
@@ -60,7 +60,8 @@ export class GeoItemCollection {
           if (!item.id) {
               throw new Error("Item has no id");
           }
-          item.properties['nicks_ates_ratings'] = item.properties['nicks_ates_ratings'].split(",")
+          const rawAtes = item.properties['nicks_ates_ratings'];
+          item.properties['nicks_ates_ratings'] = rawAtes ? rawAtes.split(',').map((r: string) => r.trim()) : [];
       }
       return new GeoItemCollection(items as GeoItem[]);
   }

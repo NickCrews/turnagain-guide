@@ -177,8 +177,8 @@ function styleEntity(entity: Entity, selectedItem?: GeoItem) {
 
   const featureType: FeatureType = entity.properties?.feature_type;
   const atesRatings: ATES[] = entity.properties?.nicks_ates_ratings.getValue();
-  const highestAtesRating = maxAtes(atesRatings);
-  let color = Color.fromCssColorString(atesColor(highestAtesRating));
+  const cssColor = (atesRatings.length > 0) ? atesColor(maxAtes(atesRatings)) : 'black';
+  let color = Color.fromCssColorString(cssColor);
 
   // If there is some selected item, and this entity is not the one selected, make this entity dull
   const dull = selectedItem && selectedItem.id != entity.properties?.id;

@@ -8,7 +8,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RouteFilterBar from "./RouteFilterBar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
 import { useState } from "react";
-import {useIsBelowWidth} from "@/lib/widths";
+import { useIsBelowWidth } from "@/lib/widths";
 
 type ViewMode = 'map' | 'gallery';
 
@@ -23,18 +23,18 @@ export interface Filters {
   query: string
 }
 
-function useFilters() : [Filters, (filters: Filters) => void] {
+function useFilters(): [Filters, (filters: Filters) => void] {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const typesRaw = new Set(searchParams.get('types')?.split(",") ?? FEATURE_TYPES);
   const types = typesRaw.intersection(FEATURE_TYPES) as Set<FeatureType>;
-  
-  const defaultAtes =  new Set(ATES_VALUES);
+
+  const defaultAtes = new Set(ATES_VALUES);
   const ratingsRaw = new Set(searchParams.get('ates')?.split(",") ?? defaultAtes);
   const atesRatings = ratingsRaw.intersection(defaultAtes) as Set<ATES>;
-  
+
   const query = searchParams.get('query') || '';
   const setFilters = (filters: Filters) => {
     router.push(pathname + '?' + filtersToQueryString(filters));
@@ -65,20 +65,21 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItem: GeoItem |
     if (selectedItem && item.id === selectedItem.id) {
       return true;
     }
-    
+
     const matchesType = filters.types.has(item.properties.feature_type);
-    const matchesAtes = item.properties.nicks_ates_ratings.some(rating => filters.atesRatings.has(rating));
-    
+    const matchesAtes = (item.properties.nicks_ates_ratings.length == 0)
+      || item.properties.nicks_ates_ratings.some(rating => filters.atesRatings.has(rating));
+
     const terms = filters.query.toLowerCase().split(' ');
     const matchesQuery = terms.length === 0 || terms.every(term => item.properties.title.toLowerCase().includes(term));
-    
+
     return matchesType && matchesQuery && matchesAtes;
   }
 
   return items.filter(keepItem);
 }
 
-export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
+export default function ItemExplorer({ items, selectedItem }: ItemExplorerProps) {
   const router = useRouter();
   const [filters, setFilters] = useFilters();
   const filteredItems = filterItems(items, filters, selectedItem);
@@ -99,14 +100,14 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
       <RouteFilterBar filters={filters} setFilters={setFilters} />
       <div className="flex h-full">
         <div className="flex-1 h-full">
-          <Map items={filteredItems} onItemClick={handleItemSelect} selectedItem={selectedItem}/>
+          <Map items={filteredItems} onItemClick={handleItemSelect} selectedItem={selectedItem} />
         </div>
         <div className="flex-1 max-w-lg h-full">
           {
-            selectedItem ? 
-            <ItemDetail item={selectedItem} onBack={handleBack} /> : 
-            <ItemGallery items={filteredItems} onItemSelect={handleItemSelect}/>
-          } 
+            selectedItem ?
+              <ItemDetail item={selectedItem} onBack={handleBack} /> :
+              <ItemGallery items={filteredItems} onItemSelect={handleItemSelect} />
+          }
         </div>
       </div>
     </div>
@@ -118,8 +119,8 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
     }
     const content = (
       viewMode === 'map'
-      ? <Map items={filteredItems} onItemClick={handleItemSelect} selectedItem={selectedItem}/>
-      : <ItemGallery items={filteredItems} onItemSelect={handleItemSelect}/>
+        ? <Map items={filteredItems} onItemClick={handleItemSelect} selectedItem={selectedItem} />
+        : <ItemGallery items={filteredItems} onItemSelect={handleItemSelect} />
     )
     return (
       <>
@@ -135,7 +136,7 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
   return isMobile ? getMobileInterface() : desktopInterface;
 }
 
-function ViewModeSwitch({viewMode, setViewMode}: {viewMode: ViewMode, setViewMode: (view: ViewMode) => void}) {
+function ViewModeSwitch({ viewMode, setViewMode }: { viewMode: ViewMode, setViewMode: (view: ViewMode) => void }) {
   const Item = (value: ViewMode, label: string) => (
     <button onClick={() => setViewMode(value)} className='bg-background border p-2 rounded-lg'>
       {label}
@@ -144,12 +145,12 @@ function ViewModeSwitch({viewMode, setViewMode}: {viewMode: ViewMode, setViewMod
 
   return (
     viewMode === 'map'
-    ? Item('gallery', 'View as List')
-    : Item('map', 'View as Map')
+      ? Item('gallery', 'View as List')
+      : Item('map', 'View as Map')
   )
 }
 
-function ItemDetail({item, onBack}: {item: GeoItem, onBack: () => void}) {
+function ItemDetail({ item, onBack }: { item: GeoItem, onBack: () => void }) {
   return <>
     <div className="p-2">
       <BackHeader text="Back to search" onBack={onBack} />
@@ -165,7 +166,7 @@ function BackHeader({ text, onBack }: { text: string, onBack: () => void }) {
     <nav className="flex justify-start bg-background">
       <button onClick={onBack} className="close-button flex items-center gap-1">
         <LeftArrowIcon />
-          <span className="text-sm">{text}</span>
+        <span className="text-sm">{text}</span>
       </button>
     </nav>
   )

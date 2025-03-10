@@ -1,9 +1,9 @@
-import { Item } from '../routes/routes';
+import { GeoItem } from '../../lib/geo-item';
 import RouteCard from './RouteCard';
 
 interface ItemGalleryProps {
-  items: Item[];
-  onItemSelect?: (item: Item) => void; 
+  items: GeoItem[];
+  onItemSelect?: (item: GeoItem) => void; 
 }
 
 export default function ItemGallery({ items, onItemSelect }: ItemGalleryProps) {

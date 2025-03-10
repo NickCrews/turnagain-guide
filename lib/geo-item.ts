@@ -1,12 +1,14 @@
 
 import { promises as fs } from 'fs';
-import type { Feature, Geometry } from 'geojson';
+import { type Feature, type Geometry } from 'geojson';
 import { type ATES } from '@/lib/terrain-rating';
 
 export type FeatureType = "parking" |"peak" | "ascent" | "descent";
 
+export const FEATURE_TYPES: Set<FeatureType> = new Set(['parking', 'peak', 'ascent', 'descent']);
+
 // This is an extension of the GeoJsonProperties interface.
-export interface ItemProperties {
+export interface GeoItemProperties {
   title: string;
   description: string;
   feature_type: FeatureType;
@@ -26,16 +28,16 @@ export interface ItemProperties {
   [key: string]: any;
 }
 
-export interface Item extends Feature {
+export interface GeoItem extends Feature {
   id: string;
   geometry: Geometry;
-  properties: ItemProperties;
+  properties: GeoItemProperties;
 }
 
-export class ItemCollection {
-    items: { [key: string]: Item };
+export class GeoItemCollection {
+    items: { [key: string]: GeoItem };
 
-    constructor(items: Item[]) {
+    constructor(items: GeoItem[]) {
         this.items = Object.fromEntries(items.map(item => [item.id, item]));
     }
 
@@ -60,7 +62,7 @@ export class ItemCollection {
             }
             item.properties['nicks_ates_ratings'] = item.properties['nicks_ates_ratings'].split(",")
         }
-        return new ItemCollection(items as Item[]);
+        return new GeoItemCollection(items as GeoItem[]);
     }
 
     static async fromFile(filePath: string | null = null) {
@@ -68,6 +70,6 @@ export class ItemCollection {
             filePath = process.cwd() + '/public/turnagain-pass.geojson';
         }
         const geojson = await fs.readFile(filePath, 'utf8');
-        return ItemCollection.fromGeoJson(geojson);
+        return GeoItemCollection.fromGeoJson(geojson);
     }
 }

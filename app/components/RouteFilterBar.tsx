@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { FEATURE_TYPES, Filters } from '@/app/components/ItemExplorer'
+import { Filters } from '@/app/components/ItemExplorer'
 import { Input } from '@/components/ui/input'
-import { FeatureType } from '../routes/routes'
+import { FeatureType, FEATURE_TYPES } from '@/lib/geo-item'
 import { ATES } from '@/lib/terrain-rating'
 import { AtesComboBox } from './ATES'
 

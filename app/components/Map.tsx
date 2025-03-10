@@ -15,19 +15,19 @@ import {
 } from 'cesium'
 import { useEffect, useState, useId, useRef} from 'react'
 
-import { FeatureType, Item } from '@/app/routes/routes';
+import { FeatureType, GeoItem } from '@/lib/geo-item';
 import RouteCard from './RouteCard';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/ViewerContext';
 
 interface MapProps {
-  items: Item[];
-  selectedItem?: Item;
-  onItemClick?: (item?: Item) => void;
+  items: GeoItem[];
+  selectedItem?: GeoItem;
+  onItemClick?: (item?: GeoItem) => void;
 }
 
 interface PopupInfo {
-  item: Item;
+  item: GeoItem;
   position: Cartesian3;
 }
 
@@ -62,7 +62,7 @@ export default function Map({ items = [], onItemClick, selectedItem }: MapProps)
         setPopupInfo(null);
         return;
       }
-      const item: Item | undefined = itemsById[pickedEntity?.properties?.id];
+      const item: GeoItem | undefined = itemsById[pickedEntity?.properties?.id];
       const worldPosition = viewer.scene.pickPosition(click.position);
       setPopupInfo({item, position: worldPosition});
     }, ScreenSpaceEventType.LEFT_CLICK);
@@ -141,7 +141,7 @@ function DownloadButton() {
   </>
 }
 
-async function itemsToEntities(items: Item[]) {
+async function itemsToEntities(items: GeoItem[]) {
   const dataSource = await GeoJsonDataSource.load({
     type: "FeatureCollection",
     features: items.map(i => ({ ...i, properties: { ...i.properties, id: i.id } })),
@@ -160,7 +160,7 @@ async function itemsToEntities(items: Item[]) {
 }
 
 // edits in-place
-function styleEntity(entity: Entity, selectedItem?: Item) {
+function styleEntity(entity: Entity, selectedItem?: GeoItem) {
   if (entity.polyline) {
     entity.polyline.width = new ConstantProperty(5);
   }

@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic'
-import { Item } from '@/app/routes/routes';
+import { GeoItem } from '@/lib/geo-item';
 import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/Units';
 import { AtesBadges } from './ATES';
 interface RouteDetailProps {
-    item: Item;
+    item: GeoItem;
   }
 
 function Property({ name, children }: { name: string, children?: React.ReactNode }) {

@@ -1,6 +1,6 @@
 'use client'
 
-import { FeatureType, Item } from "../routes/routes";
+import { FeatureType, GeoItem, FEATURE_TYPES } from "../../lib/geo-item";
 import Map from "./Map";
 import ItemGallery from "./ItemGallery";
 import RouteDetail from "./RouteDetail";
@@ -10,13 +10,11 @@ import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
 import { useState } from "react";
 import {useIsBelowWidth} from "@/lib/widths";
 
-export const FEATURE_TYPES: Set<FeatureType> = new Set(['parking', 'peak', 'ascent', 'descent']);
-
 type ViewMode = 'map' | 'gallery';
 
 interface ItemExplorerProps {
-  items: Item[]
-  selectedItem?: Item
+  items: GeoItem[]
+  selectedItem?: GeoItem
 }
 
 export interface Filters {
@@ -62,8 +60,8 @@ function filtersToQueryString(filters: Filters) {
   return result;
 }
 
-function filterItems(items: Item[], filters: Filters, selectedItem: Item | undefined) {
-  const keepItem = (item: Item) => {
+function filterItems(items: GeoItem[], filters: Filters, selectedItem: GeoItem | undefined) {
+  const keepItem = (item: GeoItem) => {
     if (selectedItem && item.id === selectedItem.id) {
       return true;
     }
@@ -87,7 +85,7 @@ export default function ItemExplorer({items, selectedItem}: ItemExplorerProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('map')
   const isMobile = useIsBelowWidth(768) ?? true;
 
-  const handleItemSelect = (item?: Item) => {
+  const handleItemSelect = (item?: GeoItem) => {
     const path = item ? `/routes/${item.id}` : "/routes"
     router.push(path + '?' + filtersToQueryString(filters));
   };
@@ -151,7 +149,7 @@ function ViewModeSwitch({viewMode, setViewMode}: {viewMode: ViewMode, setViewMod
   )
 }
 
-function ItemDetail({item, onBack}: {item: Item, onBack: () => void}) {
+function ItemDetail({item, onBack}: {item: GeoItem, onBack: () => void}) {
   return <>
     <div className="p-2">
       <BackHeader text="Back to search" onBack={onBack} />

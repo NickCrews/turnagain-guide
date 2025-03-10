@@ -1,7 +1,7 @@
-import { ItemCollection } from "@/app/routes/routes";
+import { GeoItemCollection } from "@/lib/geo-item";
 import ItemExplorer from "../../components/ItemExplorer";
 import { Suspense } from "react";
-const items = await ItemCollection.fromFile();
+const items = await GeoItemCollection.fromFile();
 
 export async function generateStaticParams() {
   return items.getItems().map((item) => ({ id: item.id }));

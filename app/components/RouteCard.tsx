@@ -1,6 +1,6 @@
 
 import { capitalize } from '@/lib/utils';
-import { Item } from '../routes/routes';
+import { GeoItem } from '../../lib/geo-item';
 import { ElevationRange, Elevation } from './Units';
 import {
   Card,
@@ -11,8 +11,8 @@ import {
 import { AtesBadges } from './ATES';
 
 interface RouteCardProps {
-  item: Item;
-  onClick?: (item: Item) => void;
+  item: GeoItem;
+  onClick?: (item: GeoItem) => void;
 }
 
 export default function RouteCard({ item, onClick } : RouteCardProps) {

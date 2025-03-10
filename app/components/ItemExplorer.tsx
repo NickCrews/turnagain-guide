@@ -21,7 +21,7 @@ interface ItemExplorerProps {
 
 export interface Filters {
   types: Set<FeatureType>
-  ates_ratings: Set<ATES>
+  atesRatings: Set<ATES>
   query: string
 }
 
@@ -30,17 +30,18 @@ function useFilters() : [Filters, (filters: Filters) => void] {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   
-  const typeString = searchParams.get('types');
-  const types = new Set(typeString == null ? Array.from(FEATURE_TYPES) : typeString.split(',')) as Set<FeatureType>;
-
-  const ratingsString = searchParams.get('ates');
-  const ates_ratings = new Set(ratingsString == null ? Array.from(ATES_VALUES) : ratingsString.split(',')) as Set<ATES>;
+  const typesRaw = new Set(searchParams.get('types')?.split(",") ?? FEATURE_TYPES);
+  const types = typesRaw.intersection(FEATURE_TYPES) as Set<FeatureType>;
+  
+  const defaultAtes =  new Set(ATES_VALUES);
+  const ratingsRaw = new Set(searchParams.get('ates')?.split(",") ?? defaultAtes);
+  const atesRatings = ratingsRaw.intersection(defaultAtes) as Set<ATES>;
   
   const query = searchParams.get('query') || '';
   const setFilters = (filters: Filters) => {
     router.push(pathname + '?' + filtersToQueryString(filters));
   }
-  return [{ types, ates_ratings, query }, setFilters];
+  return [{ types, atesRatings, query }, setFilters];
 }
 
 function filtersToQueryString(filters: Filters) {
@@ -55,8 +56,8 @@ function filtersToQueryString(filters: Filters) {
   if (filters.types.size !== FEATURE_TYPES.size) {
     result = result + "&types=" + Array.from(filters.types).join(',');
   }
-  if (filters.ates_ratings.size !== ATES_VALUES.length) {
-    result = result + "&ates=" + Array.from(filters.ates_ratings).join(',');
+  if (filters.atesRatings.size !== ATES_VALUES.length) {
+    result = result + "&ates=" + Array.from(filters.atesRatings).join(',');
   }
   return result;
 }
@@ -68,7 +69,7 @@ function filterItems(items: Item[], filters: Filters, selectedItem: Item | undef
     }
     
     const matchesType = filters.types.has(item.properties.feature_type);
-    const matchesAtes = item.properties.nicks_ates_ratings.some(rating => filters.ates_ratings.has(rating));
+    const matchesAtes = item.properties.nicks_ates_ratings.some(rating => filters.atesRatings.has(rating));
     
     const terms = filters.query.toLowerCase().split(' ');
     const matchesQuery = terms.length === 0 || terms.every(term => item.properties.title.toLowerCase().includes(term));

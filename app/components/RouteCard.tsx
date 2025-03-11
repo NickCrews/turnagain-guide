@@ -9,16 +9,21 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { AtesBadges } from './ATES';
+import { cn } from '@/lib/utils';
 
 interface RouteCardProps {
   item: GeoItem;
   onClick?: (item: GeoItem) => void;
+  hovered?: boolean;
+  setHovered?: (hovered: boolean) => void;
 }
 
-export default function RouteCard({ item, onClick } : RouteCardProps) {
+export default function RouteCard({ item, onClick, hovered, setHovered } : RouteCardProps) {
   return <Card
     onClick={() => onClick ? onClick(item) : null}
-    className="cursor-pointer hover:bg-gray-100"
+    onMouseEnter={() => setHovered && setHovered(true)}
+    onMouseLeave={() => setHovered && setHovered(false)}
+    className={cn("cursor-pointer", hovered && "bg-gray-200 border border-gray-300 shadow-md")}
   >
     <CardHeader className='py-3'>
       <CardTitle>

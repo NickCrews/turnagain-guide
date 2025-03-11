@@ -3,10 +3,12 @@ import RouteCard from './RouteCard';
 
 interface ItemGalleryProps {
   items: GeoItem[];
-  onItemSelect?: (item: GeoItem) => void; 
+  onItemSelect?: (item: GeoItem) => void;
+  hoveredItem?: GeoItem;
+  setHoveredItem?: (item: GeoItem | undefined) => void;
 }
 
-export default function ItemGallery({ items, onItemSelect }: ItemGalleryProps) {
+export default function ItemGallery({ items, onItemSelect, hoveredItem, setHoveredItem }: ItemGalleryProps) {
   if (!items || items.length === 0) {
     <div className="flex h-full pt-16 justify-center text-gray-500">
       <span>No matching items.</span>
@@ -19,6 +21,8 @@ export default function ItemGallery({ items, onItemSelect }: ItemGalleryProps) {
           key={item.id || `item-${index}`}
           item={item}
           onClick={onItemSelect}
+          hovered={hoveredItem?.id === item.id}
+          setHovered={(hovered) => setHoveredItem?.(hovered ? item : undefined)}
         /> 
       ))}
     </div>

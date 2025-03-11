@@ -10,6 +10,7 @@ import {
   ConstantProperty,
   ColorMaterialProperty,
   PolygonGraphics,
+  PolylineGraphics,
   Cartesian2,
   Cartesian3,
 } from 'cesium'
@@ -25,6 +26,8 @@ interface MapProps {
   items: GeoItem[];
   selectedItem?: GeoItem;
   onItemClick?: (item?: GeoItem) => void;
+  hoveredItem?: GeoItem;
+  setHoveredItem?: (item: GeoItem | undefined) => void;
 }
 
 interface PopupInfo {
@@ -32,7 +35,7 @@ interface PopupInfo {
   position: Cartesian3;
 }
 
-export default function Map({ items = [], onItemClick, selectedItem }: MapProps) {
+export default function Map({ items = [], onItemClick, selectedItem, hoveredItem, setHoveredItem }: MapProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
   const popupRef = useRef<HTMLDivElement>(null);
@@ -45,10 +48,10 @@ export default function Map({ items = [], onItemClick, selectedItem }: MapProps)
       }
       const entities = await itemsToEntities(items);
       setViewerEntities(viewer, entities);
-      viewer.entities.values.forEach(entity => styleEntity(entity, selectedItem));
+      viewer.entities.values.forEach(entity => styleEntity(entity, selectedItem, hoveredItem));
     }
     initViewer();
-  }, [viewer, items, selectedItem])
+  }, [viewer, items, selectedItem, hoveredItem])
 
   useEffect(() => {
     if (!viewer || !onItemClick) {
@@ -68,17 +71,21 @@ export default function Map({ items = [], onItemClick, selectedItem }: MapProps)
       setPopupInfo({item, position: worldPosition});
     }, ScreenSpaceEventType.LEFT_CLICK);
     
-    // on hover, change cursor to a pointer
+    // on hover, change cursor to a pointer and call setHoveredItem
     viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
       const pickedObject = viewer.scene.pick(hover.endPosition);
       viewer.scene.canvas.style.cursor = pickedObject ? 'pointer' : 'default';
+      if (setHoveredItem) {
+        const item: GeoItem | undefined = pickedObject ? itemsById[pickedObject.id?.properties?.id] : undefined;
+        setHoveredItem(item);
+      }
     }, ScreenSpaceEventType.MOUSE_MOVE);
     
     return () => {
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
     }
-  }, [viewer, onItemClick, items])
+  }, [viewer, onItemClick, items, setHoveredItem])
   
   useEffect(() => {
     if (!viewer || !popupInfo || !popupRef.current) {
@@ -151,20 +158,16 @@ async function itemsToEntities(items: GeoItem[]) {
     // in modifiedEntity(), but I can't figure out how to do it there.
     clampToGround: true,
   });
+  return items.map(i => fixupEntity(i, dataSource.entities.getById(i.id) as Entity));
+}
+
+function fixupEntity(item: GeoItem, entity: Entity) {
   // Warning: if the geojson contains a MultiLineString, this single feature
   // will be split into multiple entities in the GeoJsonDataSource,
   // one for each segment of the MultiLineString.
   // This might also be a problem for MultiPolygons, etc, but not sure.
   // Currently, I was able to just convert all MultiLineStrings to LineStrings
   // in the source data, but this might not always be possible.
-  return items.map(i => dataSource.entities.getById(i.id) as Entity);
-}
-
-// edits in-place
-function styleEntity(entity: Entity, selectedItem?: GeoItem) {
-  if (entity.polyline) {
-    entity.polyline.width = new ConstantProperty(5);
-  }
 
   // Workaround to get polygons to show up.
   // IDK exactly why this is needed, but if you want to go down the rabbit hole:
@@ -174,14 +177,48 @@ function styleEntity(entity: Entity, selectedItem?: GeoItem) {
       hierarchy: entity.polygon.hierarchy?.getValue(),
     })
   }
+  
+  if (entity.polyline) {
+    entity.polyline.width = new ConstantProperty(5);
+  }
+  
+  // convert any 'area' feature types from Polygon to LineString
+  // so that they show up on the map as a perimeter, instead of a filled area
+  if (item.properties.feature_type == 'area') {
+    if (entity.polygon) {
+      entity.polyline = new PolylineGraphics({
+        positions: entity.polygon.hierarchy?.getValue().positions,
+        width: new ConstantProperty(10),
+        clampToGround: true,
+      });
+      entity.polygon = undefined;
+    }
+  }
 
+  return entity;
+}
+
+// edits in-place
+function styleEntity(entity: Entity, selectedItem?: GeoItem, hoveredItem?: GeoItem) {
   const featureType: FeatureType = entity.properties?.feature_type;
   const atesRatings: ATES[] = entity.properties?.nicks_ates_ratings.getValue();
   const cssColor = (atesRatings.length > 0) ? atesColor(maxAtes(atesRatings)) : 'black';
   let color = Color.fromCssColorString(cssColor);
-
-  // If there is some selected item, and this entity is not the one selected, make this entity dull
-  const dull = selectedItem && selectedItem.id != entity.properties?.id;
+  if (featureType == "area") {
+    color = Color.WHITE
+  }
+  
+  let dull = true;
+  if (!selectedItem && !hoveredItem) {
+    dull = false;
+  }
+  if (selectedItem && selectedItem.id == entity.properties?.id) {
+    dull = false;
+  }
+  if (hoveredItem && hoveredItem.id == entity.properties?.id) {
+    dull = false;
+  }
+  
   if (entity.polygon) {
     if (dull) {
       color = color.withAlpha(0.1);

@@ -6,12 +6,14 @@ import {
   ScreenSpaceEventHandler,
   Color,
   Entity,
+  BoundingSphere,
   ConstantProperty,
   ColorMaterialProperty,
   PolygonGraphics,
   PolylineGraphics,
   Cartesian2,
   Cartesian3,
+  Viewer,
 } from 'cesium'
 import { useEffect, useState, useId, useRef} from 'react'
 
@@ -70,22 +72,22 @@ export default function Map({ items = [], onItemClick, selectedItem, hoveredItem
     
     // on click, set the tooltip
     viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
-      const pickedEntity: Entity | undefined = viewer?.scene.pick(click.position)?.id;
-      if (!pickedEntity) {
+      const entity = pickEntity(click.position, viewer);
+      if (!entity) {
         setPopupInfo(null);
         return;
       }
-      const item: GeoItem | undefined = itemsById[pickedEntity?.properties?.id];
+      const item: GeoItem | undefined = itemsById[entity?.properties?.id];
       const worldPosition = viewer.scene.pickPosition(click.position);
       setPopupInfo({item, position: worldPosition});
     }, ScreenSpaceEventType.LEFT_CLICK);
     
     // on hover, change cursor to a pointer and call setHoveredItem
     viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
-      const pickedObject = viewer.scene.pick(hover.endPosition);
-      viewer.scene.canvas.style.cursor = pickedObject ? 'pointer' : 'default';
+      const entity = pickEntity(hover.endPosition, viewer);
+      viewer.scene.canvas.style.cursor = entity ? 'pointer' : 'default';
       if (setHoveredItem) {
-        const item: GeoItem | undefined = pickedObject ? itemsById[pickedObject.id?.properties?.id] : undefined;
+        const item: GeoItem | undefined = entity ? itemsById[entity.properties?.id] : undefined;
         setHoveredItem(item);
       }
     }, ScreenSpaceEventType.MOUSE_MOVE);
@@ -96,6 +98,47 @@ export default function Map({ items = [], onItemClick, selectedItem, hoveredItem
     }
   }, [viewer, onItemClick, items, setHoveredItem])
   
+  function pickEntity(position: Cartesian2, viewer: Viewer): Entity | null {
+    // scene.drill() is buggy, and if hover over a polygon draped on terrain,
+    // and behind that polygon is another polygon draped on terrain,
+    // then sometimes drill returns the polygon behind the first one.
+    let picks = viewer.scene.drillPick(position);
+    // We prioritize billboards over everything else,
+    // and everything else over polygons.
+    const isBillboard = (obj: any) => obj.id.billboard !== undefined;
+    const isNonPolygon = (obj: any) => obj.id.polygon === undefined;
+    const anyAreBillboards = picks.some(isBillboard);
+    if (anyAreBillboards) {
+      picks = picks.filter(isBillboard);
+    }
+    const anyAreNonPolygons = picks.some(isNonPolygon);
+    if (anyAreNonPolygons) {
+      picks = picks.filter(isNonPolygon);
+    }
+
+    let closestEntity: Entity | null = null;
+    let closestDistance = Infinity;
+    picks.forEach(obj => {
+      const entity = obj.id as Entity;
+      let entityCenter: Cartesian3;
+      if (entity.polygon) {
+        entityCenter = BoundingSphere.fromPoints(entity.polygon.hierarchy!.getValue().positions).center;
+      } else if (entity.polyline) {
+        entityCenter = BoundingSphere.fromPoints(entity.polyline.positions!.getValue()).center;
+      } else if (entity.billboard) {
+        entityCenter = entity.position!.getValue()!;
+      } else {
+        throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
+      }
+      const distance = Cartesian3.distance(entityCenter, viewer.camera.position);
+      if (distance < closestDistance) {
+        closestEntity = entity;
+        closestDistance = distance;
+      }
+    });
+    return closestEntity;
+  }
+
   useEffect(() => {
     if (!viewer || !popupInfo || !popupRef.current) {
       return;
@@ -162,6 +205,7 @@ async function itemsToEntities(items: GeoItem[]) {
   const dataSource = await GeoJsonDataSource.load({
     type: "FeatureCollection",
     features: items.map(i => ({ ...i, properties: { ...i.properties, id: i.id } })),
+    // features: items.map(i => ({ id: i.id, geometry: i.geometry, properties: { ...i.properties, id: i.id } })),
   }, {
     // In a perfect world I would set each entity to clampToGround
     // in modifiedEntity(), but I can't figure out how to do it there.

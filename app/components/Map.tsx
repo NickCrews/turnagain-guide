@@ -15,7 +15,7 @@ import {
   Cartesian3,
   Viewer,
 } from 'cesium'
-import { useEffect, useState, useId, useRef} from 'react'
+import { useEffect, useState, useId, useRef, useCallback, useMemo} from 'react'
 
 import { FeatureType, GeoItem } from '@/lib/geo-item';
 import RouteCard from './RouteCard';
@@ -36,11 +36,37 @@ interface PopupInfo {
   position: Cartesian3;
 }
 
+function getNonDullItems(items: GeoItem[], selectedItem?: GeoItem, hoveredItem?: GeoItem, popupItem?: GeoItem) {
+  let nonDullItems = []
+  if (selectedItem) {
+    nonDullItems.push(selectedItem);
+  }
+  if (hoveredItem) {
+    nonDullItems.push(hoveredItem);
+  }
+  if (popupItem) {
+    nonDullItems.push(popupItem);
+  }
+  if (nonDullItems.length == 0) {
+    nonDullItems = items;
+  }
+  return nonDullItems;
+}
+
 export default function Map({ items = [], onItemClick, selectedItem, hoveredItem, setHoveredItem }: MapProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
   const popupRef = useRef<HTMLDivElement>(null);
   const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
+  const popupItem = popupInfo?.item;
+  const nonDullItems = useMemo(() => getNonDullItems(items, selectedItem, hoveredItem, popupItem), [items, selectedItem, hoveredItem, popupItem]);
+
+  const safeSetHoveredItem = useCallback((item: GeoItem | undefined) => {
+      if (setHoveredItem) {
+        setHoveredItem(item);
+      }
+    }, [setHoveredItem]
+  );
   
   useEffect(() => {
     async function initViewerAndEntities() {
@@ -61,8 +87,8 @@ export default function Map({ items = [], onItemClick, selectedItem, hoveredItem
 
   useEffect(() => {
     // update the style of all the existing entities
-    viewer?.entities.values.forEach(entity => styleEntity(entity, selectedItem, hoveredItem));
-  }, [viewer, items, selectedItem, hoveredItem])
+    viewer?.entities.values.forEach(entity => styleEntity(entity, nonDullItems));
+  }, [viewer, items, nonDullItems])
 
   useEffect(() => {
     if (!viewer || !onItemClick) {
@@ -75,69 +101,28 @@ export default function Map({ items = [], onItemClick, selectedItem, hoveredItem
       const entity = pickEntity(click.position, viewer);
       if (!entity) {
         setPopupInfo(null);
+        safeSetHoveredItem(undefined);
         return;
       }
       const item: GeoItem | undefined = itemsById[entity?.properties?.id];
       const worldPosition = viewer.scene.pickPosition(click.position);
       setPopupInfo({item, position: worldPosition});
+      safeSetHoveredItem(item);
     }, ScreenSpaceEventType.LEFT_CLICK);
     
     // on hover, change cursor to a pointer and call setHoveredItem
     viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
       const entity = pickEntity(hover.endPosition, viewer);
+      const item: GeoItem | undefined = entity ? itemsById[entity.properties?.id] : undefined;
       viewer.scene.canvas.style.cursor = entity ? 'pointer' : 'default';
-      if (setHoveredItem) {
-        const item: GeoItem | undefined = entity ? itemsById[entity.properties?.id] : undefined;
-        setHoveredItem(item);
-      }
+      safeSetHoveredItem(item);
     }, ScreenSpaceEventType.MOUSE_MOVE);
     
     return () => {
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
     }
-  }, [viewer, onItemClick, items, setHoveredItem])
-  
-  function pickEntity(position: Cartesian2, viewer: Viewer): Entity | null {
-    // scene.drill() is buggy, and if hover over a polygon draped on terrain,
-    // and behind that polygon is another polygon draped on terrain,
-    // then sometimes drill returns the polygon behind the first one.
-    let picks = viewer.scene.drillPick(position);
-    // We prioritize billboards over everything else,
-    // and everything else over polygons.
-    const isBillboard = (obj: any) => obj.id.billboard !== undefined;
-    const isNonPolygon = (obj: any) => obj.id.polygon === undefined;
-    const anyAreBillboards = picks.some(isBillboard);
-    if (anyAreBillboards) {
-      picks = picks.filter(isBillboard);
-    }
-    const anyAreNonPolygons = picks.some(isNonPolygon);
-    if (anyAreNonPolygons) {
-      picks = picks.filter(isNonPolygon);
-    }
-
-    let closestEntity: Entity | null = null;
-    let closestDistance = Infinity;
-    picks.forEach(obj => {
-      const entity = obj.id as Entity;
-      let entityCenter: Cartesian3;
-      if (entity.polygon) {
-        entityCenter = BoundingSphere.fromPoints(entity.polygon.hierarchy!.getValue().positions).center;
-      } else if (entity.polyline) {
-        entityCenter = BoundingSphere.fromPoints(entity.polyline.positions!.getValue()).center;
-      } else if (entity.billboard) {
-        entityCenter = entity.position!.getValue()!;
-      } else {
-        throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
-      }
-      const distance = Cartesian3.distance(entityCenter, viewer.camera.position);
-      if (distance < closestDistance) {
-        closestEntity = entity;
-        closestDistance = distance;
-      }
-    });
-    return closestEntity;
-  }
+  }, [viewer, onItemClick, items, safeSetHoveredItem])
 
   useEffect(() => {
     if (!viewer || !popupInfo || !popupRef.current) {
@@ -252,7 +237,7 @@ function fixupEntity(item: GeoItem, entity: Entity) {
 }
 
 // edits in-place
-function styleEntity(entity: Entity, selectedItem?: GeoItem, hoveredItem?: GeoItem) {
+function styleEntity(entity: Entity, nonDullItems: GeoItem[]) {
   const featureType: FeatureType = entity.properties?.feature_type;
   const atesRatings: ATES[] = entity.properties?.nicks_ates_ratings.getValue();
   const cssColor = (atesRatings.length > 0) ? atesColor(maxAtes(atesRatings)) : 'black';
@@ -261,16 +246,8 @@ function styleEntity(entity: Entity, selectedItem?: GeoItem, hoveredItem?: GeoIt
     color = Color.WHITE
   }
   
-  let dull = true;
-  if (!selectedItem && !hoveredItem) {
-    dull = false;
-  }
-  if (selectedItem && selectedItem.id == entity.properties?.id) {
-    dull = false;
-  }
-  if (hoveredItem && hoveredItem.id == entity.properties?.id) {
-    dull = false;
-  }
+  const nonDull = nonDullItems.some(item => item.id == entity.properties?.id);
+  const dull = !nonDull;
   
   if (entity.polygon) {
     if (dull) {
@@ -309,6 +286,47 @@ function styleEntity(entity: Entity, selectedItem?: GeoItem, hoveredItem?: GeoIt
   } else {
     throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
   }
+}
+
+function pickEntity(position: Cartesian2, viewer: Viewer): Entity | null {
+  // scene.drill() is buggy, and if hover over a polygon draped on terrain,
+  // and behind that polygon is another polygon draped on terrain,
+  // then sometimes drill returns the polygon behind the first one.
+  let picks = viewer.scene.drillPick(position);
+  // We prioritize billboards over everything else,
+  // and everything else over polygons.
+  const isBillboard = (obj: any) => obj.id.billboard !== undefined;
+  const isNonPolygon = (obj: any) => obj.id.polygon === undefined;
+  const anyAreBillboards = picks.some(isBillboard);
+  if (anyAreBillboards) {
+    picks = picks.filter(isBillboard);
+  }
+  const anyAreNonPolygons = picks.some(isNonPolygon);
+  if (anyAreNonPolygons) {
+    picks = picks.filter(isNonPolygon);
+  }
+
+  let closestEntity: Entity | null = null;
+  let closestDistance = Infinity;
+  picks.forEach(obj => {
+    const entity = obj.id as Entity;
+    let entityCenter: Cartesian3;
+    if (entity.polygon) {
+      entityCenter = BoundingSphere.fromPoints(entity.polygon.hierarchy!.getValue().positions).center;
+    } else if (entity.polyline) {
+      entityCenter = BoundingSphere.fromPoints(entity.polyline.positions!.getValue()).center;
+    } else if (entity.billboard) {
+      entityCenter = entity.position!.getValue()!;
+    } else {
+      throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
+    }
+    const distance = Cartesian3.distance(entityCenter, viewer.camera.position);
+    if (distance < closestDistance) {
+      closestEntity = entity;
+      closestDistance = distance;
+    }
+  });
+  return closestEntity;
 }
 
 // a triangle like ⏶

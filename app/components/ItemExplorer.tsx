@@ -29,18 +29,30 @@ function useFilters(): [Filters, (filters: Filters) => void] {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const typesRaw = new Set(searchParams.get('types')?.split(",") ?? FEATURE_TYPES);
-  const types = typesRaw.intersection(FEATURE_TYPES) as Set<FeatureType>;
+  function filtersFromStrings(typesString: string | null, atesString: string | null, queryString: string): Filters {
+    const typesRaw = typesString === null ? FEATURE_TYPES : new Set(typesString.split(","));
+    const types = typesRaw.intersection(FEATURE_TYPES) as Set<FeatureType>;
 
-  const defaultAtes = new Set(ATES_VALUES);
-  const ratingsRaw = new Set(searchParams.get('ates')?.split(",") ?? defaultAtes);
-  const atesRatings = ratingsRaw.intersection(defaultAtes) as Set<ATES>;
+    const defaultAtes = new Set(ATES_VALUES);
+    const ratingsRaw = atesString === null ? defaultAtes : new Set(atesString.split(","));
+    const atesRatings = ratingsRaw.intersection(defaultAtes) as Set<ATES>;
 
-  const query = searchParams.get('query') || '';
+    return { types, atesRatings, query: queryString };
+  }
+
+  const typesString = searchParams.get('types');
+  const atesString = searchParams.get('ates');
+  const queryString = searchParams.get('query') ?? '';
+  const filters = useMemo(() => filtersFromStrings(
+    typesString,
+    atesString,
+    queryString
+  ), [typesString, atesString, queryString]);
+
   const setFilters = (filters: Filters) => {
     router.push(pathname + '?' + filtersToQueryString(filters));
   }
-  return [{ types, atesRatings, query }, setFilters];
+  return [filters, setFilters];
 }
 
 function filtersToQueryString(filters: Filters) {
@@ -82,11 +94,14 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string 
 
 export default function ItemExplorer({ items, selectedItem, setSelectedItem }: ItemExplorerProps) {
   const [filters, setFilters] = useFilters();
-  let filteredItems = filterItems(items, filters, selectedItem?.id);
-  filteredItems = useMemo(() => filteredItems, [
+  // let filteredItems = ;
+  const filteredItems = useMemo(() => filterItems(items, filters, selectedItem?.id), [
     // Use a stable representation of the array content instead of the reference.
     // This is avoid re-rendering all child components when the array reference changes.
-    JSON.stringify(filteredItems.map(item => item.id))
+    // JSON.stringify(filteredItems.map(item => item.id))
+    items,
+    filters,
+    selectedItem?.id
   ]);
   const [viewMode, setViewMode] = useState<ViewMode>('map')
   const isMobile = useIsBelowWidth(768) ?? true;
@@ -100,7 +115,7 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     // isMobile,
   //   hoveredItem,
   // });
-  const handleBack = () => {setSelectedItem && setSelectedItem(undefined)};
+  const handleBack = () => { if (setSelectedItem) setSelectedItem(undefined) };
 
   const map = <Map
     items={filteredItems}

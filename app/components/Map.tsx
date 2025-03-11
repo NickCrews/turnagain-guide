@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  Viewer,
   GeoJsonDataSource,
   ScreenSpaceEventType,
   ScreenSpaceEventHandler,

@@ -42,15 +42,25 @@ export default function Map({ items = [], onItemClick, selectedItem, hoveredItem
   const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
   
   useEffect(() => {
-    async function initViewer() {
+    async function initViewerAndEntities() {
       if (!viewer) {
         return;
       }
+      console.log("initViewerAndEntities");
       const entities = await itemsToEntities(items);
-      setViewerEntities(viewer, entities);
-      viewer.entities.values.forEach(entity => styleEntity(entity, selectedItem, hoveredItem));
+      entities.forEach(entity => {
+        if (viewer.entities.values.some(e => e.properties?.id?.getValue() == entity.properties?.id?.getValue())) {
+          return;
+        }
+        viewer.entities.add(entity);
+      });
     }
-    initViewer();
+    initViewerAndEntities();
+  }, [viewer, items])
+
+  useEffect(() => {
+    // update the style of all the existing entities
+    viewer?.entities.values.forEach(entity => styleEntity(entity, selectedItem, hoveredItem));
   }, [viewer, items, selectedItem, hoveredItem])
 
   useEffect(() => {
@@ -188,7 +198,7 @@ function fixupEntity(item: GeoItem, entity: Entity) {
     if (entity.polygon) {
       entity.polyline = new PolylineGraphics({
         positions: entity.polygon.hierarchy?.getValue().positions,
-        width: new ConstantProperty(10),
+        width: new ConstantProperty(5),
         clampToGround: true,
       });
       entity.polygon = undefined;
@@ -256,27 +266,6 @@ function styleEntity(entity: Entity, selectedItem?: GeoItem, hoveredItem?: GeoIt
   } else {
     throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
   }
-}
-
-function setViewerEntities(viewer: Viewer, entities: Entity[]) {
-  function isMatch(e1: Entity, e2: Entity) {
-    return e1.properties?.id?.getValue() == e2.properties?.id?.getValue();
-  }
-
-  // do in separate steps to avoid mutating the viewer while iterating over it
-  const entitiesToRemove = viewer.entities.values.filter(existing => 
-    !entities.some(entity => isMatch(existing, entity))
-  );
-  entitiesToRemove.forEach(entity => {
-    viewer.entities.remove(entity);
-  });
-
-  const entitiesToAdd = entities.filter(entity => 
-    !viewer.entities.values.some(existing => isMatch(existing, entity))
-  );
-  entitiesToAdd.forEach(entity => {
-    viewer.entities.add(entity);
-  });
 }
 
 // a triangle like ⏶

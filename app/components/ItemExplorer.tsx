@@ -7,7 +7,7 @@ import RouteDetail from "./RouteDetail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RouteFilterBar from "./RouteFilterBar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
 
 type ViewMode = 'map' | 'gallery';
@@ -61,9 +61,9 @@ function filtersToQueryString(filters: Filters) {
   return result;
 }
 
-function filterItems(items: GeoItem[], filters: Filters, selectedItem: GeoItem | undefined) {
+function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string | undefined) {
   const keepItem = (item: GeoItem) => {
-    if (selectedItem && item.id === selectedItem.id) {
+    if (selectedItemId && item.id === selectedItemId) {
       return true;
     }
 
@@ -82,7 +82,12 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItem: GeoItem |
 
 export default function ItemExplorer({ items, selectedItem, setSelectedItem }: ItemExplorerProps) {
   const [filters, setFilters] = useFilters();
-  const filteredItems = filterItems(items, filters, selectedItem);
+  let filteredItems = filterItems(items, filters, selectedItem?.id);
+  filteredItems = useMemo(() => filteredItems, [
+    // Use a stable representation of the array content instead of the reference.
+    // This is avoid re-rendering all child components when the array reference changes.
+    JSON.stringify(filteredItems.map(item => item.id))
+  ]);
   const [viewMode, setViewMode] = useState<ViewMode>('map')
   const isMobile = useIsBelowWidth(768) ?? true;
   const [hoveredItem, setHoveredItem] = useState<GeoItem | undefined>(undefined);

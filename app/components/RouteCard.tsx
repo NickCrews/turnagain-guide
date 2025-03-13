@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { AtesBadges } from './ATES';
 import { cn } from '@/lib/utils';
+import { AreaBadge } from './Area';
 
 interface RouteCardProps {
   item: GeoItem;
@@ -32,6 +33,7 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
         <span className='text-muted-foreground'>{capitalize(item.properties.feature_type)}</span>
       </CardTitle>
       <CardDescription>
+        {item.properties.area && <AreaBadge areaId={item.properties.area} />}
         <AtesBadges ratings={item.properties.nicks_ates_ratings} />
         {'   '}
         {item.properties.elevation_min && item.properties.elevation_max && 

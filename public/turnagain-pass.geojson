@@ -694,6 +694,7 @@
                 "title": "Eddie's Approach and Uptrack",
                 "feature_type": "ascent",
                 "nicks_ates_ratings": "simple",
+                "area": "eddies-area",
                 "description": "",
                 "latitude": 60.81313469806224,
                 "longitude": -149.13096187950717,
@@ -2128,8 +2129,9 @@
             "id": "eddies-front-face",
             "properties": {
                 "title": "Eddie's Front Face",
-                "description": "",
                 "feature_type": "descent",
+                "area": "eddies-area",
+                "description": "",
                 "nicks_ates_ratings": "simple,challenging"
             },
             "geometry": {
@@ -2295,8 +2297,9 @@
             "type": "Feature",
             "id": "eddies-north-bowl",
             "properties": {
-                "title": "Eddie's N Bowl",
+                "title": "Eddie's North Bowl",
                 "feature_type": "descent",
+                "area": "eddies-area",
                 "description": "",
                 "nicks_ates_ratings": "simple",
                 "latitude": 60.80207157090275,
@@ -3045,8 +3048,9 @@
             "id": "tincan-trees-uptrack",
             "properties": {
                 "title": "Tincan Trees Uptrack",
-                "description": "",
                 "feature_type": "ascent",
+                "area": "tincan-area",
+                "description": "",
                 "nicks_ates_ratings": "simple,challenging",
                 "distance": 593.0441337742518,
                 "total_ascent": 216.94984299999993,
@@ -3216,8 +3220,9 @@
             "id": "tincan-out-track",
             "properties": {
                 "title": "Tincan Out Track",
-                "description": "",
                 "feature_type": "descent",
+                "area": "tincan-area",
+                "description": "",
                 "nicks_ates_ratings": "simple",
                 "distance": 1394.4746282118915,
                 "total_descent": 191.19635899999992,
@@ -3592,8 +3597,9 @@
             "id": "tincan-meadow-to-ridge-uptrack",
             "properties": {
                 "title": "Tincan Meadow to Ridge Uptrack",
-                "description": "",
                 "feature_type": "ascent",
+                "area": "tincan-area",
+                "description": "",
                 "nicks_ates_ratings": "simple",
                 "distance": 493.94458674679794,
                 "total_ascent": 64.50537200000002,
@@ -3723,8 +3729,9 @@
             "id": "tincan-trees",
             "properties": {
                 "title": "Tincan Trees",
-                "description": "",
                 "feature_type": "descent",
+                "area": "tincan-area",
+                "description": "",
                 "nicks_ates_ratings": "simple,challenging"
             },
             "geometry": {
@@ -3800,8 +3807,9 @@
             "id": "cfr",
             "properties": {
                 "title": "CFR (Cornice F*%$in' Run)",
-                "description": "",
                 "feature_type": "descent",
+                "area": "tincan-area",
+                "description": "",
                 "nicks_ates_ratings": "challenging",
                 "distance": 604.4903952834237,
                 "total_descent": 275.29182300000014,
@@ -3961,8 +3969,9 @@
             "id": "tincan-uptrack",
             "properties": {
                 "title": "Tincan Main Uptrack",
-                "description": "",
                 "feature_type": "ascent",
+                "area": "tincan-area",
+                "description": "",
                 "nicks_ates_ratings": "simple",
                 "distance": 3288.2233047995983,
                 "total_ascent": 665.873051,
@@ -4937,8 +4946,9 @@
             "id": "tincan-common-bowl",
             "properties": {
                 "title": "Tincan Common Bowl",
-                "description": "",
                 "feature_type": "descent",
+                "area": "tincan-area",
+                "description": "",
                 "nicks_ates_ratings": "challenging",
                 "distance": 302.9814467472608,
                 "total_descent": 141.25361999999996,
@@ -5018,8 +5028,9 @@
             "id": "pms-bowl-uptrack",
             "properties": {
                 "title": "PMS Bowl Uptrack",
-                "description": "",
                 "feature_type": "ascent",
+                "area": "magnum-area",
+                "description": "",
                 "nicks_ates_ratings": "simple,challenging",
                 "distance": 2590.6915043997165,
                 "total_ascent": 711.21358,
@@ -5604,6 +5615,7 @@
             "id": "blue-diamond-route",
             "properties": {
                 "title": "Blue Diamond Route",
+                "area": "tincan-area",
                 "description": "",
                 "feature_type": "ascent",
                 "nicks_ates_ratings": "non-avalanche",
@@ -6115,6 +6127,7 @@
             "id": "tincan-hippie-bowl",
             "properties": {
                 "title": "Tincan Hippie Bowl",
+                "area": "tincan-area",
                 "description": "",
                 "feature_type": "descent",
                 "nicks_ates_ratings": "challenging",
@@ -6286,6 +6299,7 @@
             "id": "todds-run",
             "properties": {
                 "title": "Todd's Run",
+                "area": "tincan-area",
                 "description": "",
                 "feature_type": "descent",
                 "nicks_ates_ratings": "complex",
@@ -6427,6 +6441,7 @@
             "id": "the-libraries",
             "properties": {
                 "title": "The Libraries",
+                "area": "tincan-area",
                 "description": "",
                 "feature_type": "descent",
                 "nicks_ates_ratings": "complex,extreme"
@@ -6536,6 +6551,7 @@
             },
             "properties": {
                 "title": "Tincan Common Peak",
+                "area": "tincan-area",
                 "description": "",
                 "latitude": 60.786418,
                 "longitude": -149.157061,
@@ -6556,6 +6572,7 @@
             },
             "properties": {
                 "title": "Tincan Proper Peak",
+                "area": "tincan-area",
                 "description": "",
                 "latitude": 60.781914,
                 "longitude": -149.141816,
@@ -6570,6 +6587,7 @@
             "properties": {
                 "title": "Coastal Parking Lot",
                 "feature_type": "parking",
+                "area": "wolverine-area",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 19
             },
@@ -6586,6 +6604,7 @@
             "id": "gods-country-parking-lot",
             "properties": {
                 "title": "God's Country Parking Lot",
+                "area": null,
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 44
@@ -6603,6 +6622,7 @@
             "id": "eddies-parking-lot",
             "properties": {
                 "title": "Eddies Parking Lot",
+                "area": "eddies-area",
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 124
@@ -6620,6 +6640,7 @@
             "id": "seattle-ridge-parking-lot",
             "properties": {
                 "title": "Seattle Ridge Parking Lot",
+                "area": null,
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 305
@@ -6637,6 +6658,7 @@
             "id": "tincan-parking-lot",
             "properties": {
                 "title": "Tincan Parking Lot",
+                "area": "tincan-area",
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 315
@@ -6654,6 +6676,7 @@
             "id": "motorized-parking-lot",
             "properties": {
                 "title": "Motorized Parking Lot",
+                "area": null,
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 279
@@ -6671,6 +6694,7 @@
             "id": "center-ridge-parking-lot",
             "properties": {
                 "title": "Center Ridge Parking Lot",
+                "area": "tincan-area",
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 280
@@ -6688,6 +6712,7 @@
             "id": "sunburst-parking-lot",
             "properties": {
                 "title": "Sunburst Parking Lot",
+                "area": "sunburst-area",
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 275
@@ -6705,6 +6730,7 @@
             "id": "cornbiscuit-parking-lot",
             "properties": {
                 "title": "Cornbiscuit Parking Lot",
+                "area": "cornbiscuit-area",
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 275
@@ -6722,6 +6748,7 @@
             "id": "lipps-parking-lot",
             "properties": {
                 "title": "Lipps Parking Lot",
+                "area": "lipps-area",
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 237
@@ -6739,6 +6766,7 @@
             "id": "johnson-pass-parking-lot",
             "properties": {
                 "title": "Johnson Pass Parking Lot",
+                "area": "petes-north-area",
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 203

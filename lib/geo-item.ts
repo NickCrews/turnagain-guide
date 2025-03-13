@@ -24,6 +24,8 @@ export interface GeoItemProperties {
   /* in meters */
   total_descent?: number;
   nicks_ates_ratings: ATES[];
+  /* the id of the other item that represents the area, eg 'tincan-area' */
+  area: string | null
   [key: string]: any;
 }
 

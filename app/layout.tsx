@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import  Header from "./components/Header";
 import { ViewerProvider } from "./components/ViewerContext";
+import { GeoItemsProvider } from "@/components/ui/itemsContext";
+import { loadGeoItems } from "@/lib/geo-item-server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,17 +28,20 @@ export const viewport: Viewport = {
   themeColor: "#FFFFFF",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const items = await loadGeoItems();
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Header />
         <ViewerProvider>
-          <main>{children}</main>
+          <GeoItemsProvider items={items}>
+            <main>{children}</main>
+          </GeoItemsProvider>
         </ViewerProvider>
       </body>
     </html>

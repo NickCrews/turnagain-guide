@@ -10,7 +10,13 @@ import { MultiCombo } from "@/components/ui/multi-combo"
 import Link from "@/components/ui/link"
 
 export function AtesBadge({rating, hover}: {rating: ATES, hover?: boolean}) {
-  const badge = <Badge bgColor={atesColor(rating)} textColor={atesTextColor(rating)} className="whitespace-nowrap">{capitalize(rating)}</Badge>
+  const badge = <Badge
+      bgColor={atesColor(rating)}
+      textColor={atesTextColor(rating)}
+      className="whitespace-nowrap"
+    >
+      {capitalize(rating)}
+    </Badge>
   if (!hover) {
     return badge
   }

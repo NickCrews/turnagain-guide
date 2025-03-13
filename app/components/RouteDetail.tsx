@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic'
 import { GeoItem } from '@/lib/geo-item';
 import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/Units';
 import { AtesBadges } from './ATES';
+import { AreaBadge } from './Area';
 interface RouteDetailProps {
     item: GeoItem;
   }
@@ -20,9 +21,15 @@ export default function RouteDetail({ item }: RouteDetailProps) {
     ssr: false,
   })
 
-  const properties = [
+  let properties = [
     { name: "Feature Type", component: <RawValue value={item.properties.feature_type} />},
   ];
+  if (item.properties.area) {
+    properties = [
+      { name: "Area", component: <AreaBadge areaId={item.properties.area} />},
+      ...properties,
+    ]
+  }
   if (item.properties.nicks_ates_ratings) {
     properties.push({ name: "Terrain", component: <AtesBadges ratings={item.properties.nicks_ates_ratings} />});
   }

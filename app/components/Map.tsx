@@ -22,6 +22,7 @@ import RouteCard from './RouteCard';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/ViewerContext';
 import { ATES, atesColor, maxAtes } from '@/lib/terrain-rating';
+import { areaColor } from './Area';
 
 interface MapProps {
   items: GeoItem[];
@@ -243,7 +244,8 @@ function styleEntity(entity: Entity, nonDullItems: GeoItem[]) {
   const cssColor = (atesRatings.length > 0) ? atesColor(maxAtes(atesRatings)) : 'black';
   let color = Color.fromCssColorString(cssColor);
   if (featureType == "area") {
-    color = Color.WHITE
+    color = Color.fromCssColorString(areaColor(entity.properties?.id.getValue()));
+    console.log(entity.properties?.id.getValue(), color);
   }
   
   const nonDull = nonDullItems.some(item => item.id == entity.properties?.id);

@@ -34,7 +34,7 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
       </CardTitle>
       <CardDescription>
         {item.properties.area && <AreaBadge areaId={item.properties.area} />}
-        <AtesBadges ratings={item.properties.nicks_ates_ratings} />
+        <AtesBadges ratings={item.properties.nicks_ates_ratings} hover={false} />
         {'   '}
         {item.properties.elevation_min && item.properties.elevation_max && 
           <ElevationRange min={item.properties.elevation_min} max={item.properties.elevation_max} type={item.properties.feature_type}/>

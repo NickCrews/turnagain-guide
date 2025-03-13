@@ -30,9 +30,9 @@ export function AtesBadge({rating, hover}: {rating: ATES, hover?: boolean}) {
   </HoverCard>
 }
 
-export function AtesBadges({ratings}: {ratings: ATES[]}) {
+export function AtesBadges({ratings, hover}: {ratings: ATES[], hover:boolean}) {
   return <>
-    {ratings.map((rating) => <AtesBadge key={rating} rating={rating} />)}
+    {ratings.map((rating) => <AtesBadge key={rating} rating={rating} hover={hover} />)}
   </>
 }
 

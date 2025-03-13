@@ -4,6 +4,7 @@ import { FeatureType } from '@/lib/geo-item'
 import { ATES } from '@/lib/terrain-rating'
 import { AtesComboBox } from './ATES'
 import { GeoTypeComboBox } from './GeoTypeFilterBox'
+import { AreaComboBox } from './Area'
 
 interface RouteFilterBarProps {
   filters: Filters,
@@ -11,6 +12,10 @@ interface RouteFilterBarProps {
 }
 
 export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarProps) {
+  const handleSetSelectedAreas = (areas: Set<string>) => {
+    setFilters({ ...filters, areas })
+  }
+
   const handleSetSelectedTypes = (types: Set<FeatureType>) => {
     setFilters({ ...filters, types })
   }
@@ -26,6 +31,7 @@ export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarPr
   return (
     <div className="flex gap-2 p-2 items-center">
       <SearchBar query={filters.query} setQuery={handleSetQuery} />
+      <AreaComboBox selected={filters.areas} onSelected={handleSetSelectedAreas}/>
       <GeoTypeComboBox selected={filters.types} onSelected={handleSetSelectedTypes}/>
       <AtesComboBox selected={filters.atesRatings} onSelected={handleSetSelectedAtesRatings}/>
     </div>

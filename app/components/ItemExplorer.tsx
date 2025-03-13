@@ -9,6 +9,7 @@ import RouteFilterBar from "./RouteFilterBar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
 import { useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
+import { useGeoItems } from "@/components/ui/itemsContext";
 
 type ViewMode = 'map' | 'gallery';
 
@@ -19,6 +20,7 @@ interface ItemExplorerProps {
 }
 
 export interface Filters {
+  areas: Set<string>
   types: Set<FeatureType>
   atesRatings: Set<ATES>
   query: string
@@ -28,8 +30,13 @@ function useFilters(): [Filters, (filters: Filters) => void] {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const allAreaIds = useGeoItems().filter(item => item.properties.feature_type === 'area').map(item => item.id);
 
-  function filtersFromStrings(typesString: string | null, atesString: string | null, queryString: string): Filters {
+  function filtersFromStrings(areaString: string | null, typesString: string | null, atesString: string | null, queryString: string): Filters {
+    const defaultAreas = new Set(allAreaIds);
+    const areasRaw = areaString === null ? defaultAreas : new Set(areaString.split(","));
+    const areas = areasRaw.intersection(defaultAreas);
+
     const typesRaw = typesString === null ? FEATURE_TYPES : new Set(typesString.split(","));
     const types = typesRaw.intersection(FEATURE_TYPES) as Set<FeatureType>;
 
@@ -37,25 +44,27 @@ function useFilters(): [Filters, (filters: Filters) => void] {
     const ratingsRaw = atesString === null ? defaultAtes : new Set(atesString.split(","));
     const atesRatings = ratingsRaw.intersection(defaultAtes) as Set<ATES>;
 
-    return { types, atesRatings, query: queryString };
+    return { areas, types, atesRatings, query: queryString };
   }
 
+  const areaString = searchParams.get('areas');
   const typesString = searchParams.get('types');
   const atesString = searchParams.get('ates');
   const queryString = searchParams.get('query') ?? '';
   const filters = useMemo(() => filtersFromStrings(
+    areaString,
     typesString,
     atesString,
     queryString
-  ), [typesString, atesString, queryString]);
+  ), [areaString, typesString, atesString, queryString]);
 
   const setFilters = (filters: Filters) => {
-    router.push(pathname + '?' + filtersToQueryString(filters));
+    router.push(pathname + '?' + filtersToQueryString(filters, allAreaIds));
   }
   return [filters, setFilters];
 }
 
-function filtersToQueryString(filters: Filters) {
+function filtersToQueryString(filters: Filters, allAreaIds: string[]) {
   const params = new URLSearchParams();
   if (filters.query) {
     params.set('query', filters.query);
@@ -64,6 +73,9 @@ function filtersToQueryString(filters: Filters) {
   // I want a pretty URL like `types=ascent,descent` but if we use
   // the builtin params.toString() then the `,` gets escaped into
   // `types=ascent%2Cdescent`
+  if (filters.areas.size !== allAreaIds.length) {
+    result = result + "&areas=" + Array.from(filters.areas).join(',');
+  }
   if (filters.types.size !== FEATURE_TYPES.size) {
     result = result + "&types=" + Array.from(filters.types).join(',');
   }
@@ -79,6 +91,7 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string 
       return true;
     }
 
+    const matchesArea = filters.areas.has(item.properties.area ?? '');
     const matchesType = filters.types.has(item.properties.feature_type);
     const matchesAtes = (item.properties.nicks_ates_ratings.length == 0)
       || item.properties.nicks_ates_ratings.some(rating => filters.atesRatings.has(rating));
@@ -86,7 +99,7 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string 
     const terms = filters.query.toLowerCase().split(' ');
     const matchesQuery = terms.length === 0 || terms.every(term => item.properties.title.toLowerCase().includes(term));
 
-    return matchesType && matchesQuery && matchesAtes;
+    return matchesArea && matchesType && matchesAtes && matchesQuery;
   }
 
   return items.filter(keepItem);

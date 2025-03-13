@@ -31,7 +31,7 @@ export default function RouteDetail({ item }: RouteDetailProps) {
     ]
   }
   if (item.properties.nicks_ates_ratings) {
-    properties.push({ name: "Terrain", component: <AtesBadges ratings={item.properties.nicks_ates_ratings} />});
+    properties.push({ name: "Terrain", component: <AtesBadges ratings={item.properties.nicks_ates_ratings} hover={true} />});
   }
   if (item.properties.distance) {
     properties.push({ name: "Distance", component: <Distance meters={item.properties.distance} />});

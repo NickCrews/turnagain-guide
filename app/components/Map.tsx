@@ -245,7 +245,6 @@ function styleEntity(entity: Entity, nonDullItems: GeoItem[]) {
   let color = Color.fromCssColorString(cssColor);
   if (featureType == "area") {
     color = Color.fromCssColorString(areaColor(entity.properties?.id.getValue()));
-    console.log(entity.properties?.id.getValue(), color);
   }
   
   const nonDull = nonDullItems.some(item => item.id == entity.properties?.id);

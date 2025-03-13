@@ -34,14 +34,14 @@ function useFilters(): [Filters, (filters: Filters) => void] {
 
   function filtersFromStrings(areaString: string | null, typesString: string | null, atesString: string | null, queryString: string): Filters {
     const defaultAreas = new Set(allAreaIds);
-    const areasRaw = areaString === null ? defaultAreas : new Set(areaString.split(","));
+    const areasRaw = new Set((areaString ?? "").split(","));
     const areas = areasRaw.intersection(defaultAreas);
 
-    const typesRaw = typesString === null ? FEATURE_TYPES : new Set(typesString.split(","));
+    const typesRaw = new Set((typesString ?? "").split(","));
     const types = typesRaw.intersection(FEATURE_TYPES) as Set<FeatureType>;
 
     const defaultAtes = new Set(ATES_VALUES);
-    const ratingsRaw = atesString === null ? defaultAtes : new Set(atesString.split(","));
+    const ratingsRaw = new Set((atesString ?? "").split(","));
     const atesRatings = ratingsRaw.intersection(defaultAtes) as Set<ATES>;
 
     return { areas, types, atesRatings, query: queryString };
@@ -69,20 +69,28 @@ function filtersToQueryString(filters: Filters, allAreaIds: string[]) {
   if (filters.query) {
     params.set('query', filters.query);
   }
-  let result = params.toString();
+  const clauses = [];
   // I want a pretty URL like `types=ascent,descent` but if we use
   // the builtin params.toString() then the `,` gets escaped into
   // `types=ascent%2Cdescent`
-  if (filters.areas.size !== allAreaIds.length) {
-    result = result + "&areas=" + Array.from(filters.areas).join(',');
+  if (filters.areas.size && filters.areas.size !== allAreaIds.length) {
+    clauses.push("areas=" + Array.from(filters.areas).join(','));
   }
-  if (filters.types.size !== FEATURE_TYPES.size) {
-    result = result + "&types=" + Array.from(filters.types).join(',');
+  if (filters.types.size && filters.types.size !== FEATURE_TYPES.size) {
+    clauses.push("types=" + Array.from(filters.types).join(','));
   }
-  if (filters.atesRatings.size !== ATES_VALUES.length) {
-    result = result + "&ates=" + Array.from(filters.atesRatings).join(',');
+  if (filters.atesRatings.size && filters.atesRatings.size !== ATES_VALUES.length) {
+    clauses.push("ates=" + Array.from(filters.atesRatings).join(','));
   }
-  return result;
+  let clausesString = clauses.join('&');
+  let queryString = params.toString();
+  if (clausesString.length) {
+    if (queryString.length) {
+      clausesString = "&" + clausesString;
+    }
+    queryString = queryString + clausesString;
+  }
+  return queryString;
 }
 
 function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string | undefined) {
@@ -91,9 +99,9 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string 
       return true;
     }
 
-    const matchesArea = filters.areas.has(item.properties.area ?? '');
-    const matchesType = filters.types.has(item.properties.feature_type);
-    const matchesAtes = (item.properties.nicks_ates_ratings.length == 0)
+    const matchesArea = filters.areas.size == 0 || filters.areas.has(item.properties.area ?? '');
+    const matchesType = filters.types.size == 0 || filters.types.has(item.properties.feature_type);
+    const matchesAtes = filters.atesRatings.size == 0 || (item.properties.nicks_ates_ratings.length == 0)
       || item.properties.nicks_ates_ratings.some(rating => filters.atesRatings.has(rating));
 
     const terms = filters.query.toLowerCase().split(' ');

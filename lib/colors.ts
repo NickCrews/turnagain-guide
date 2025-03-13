@@ -9,7 +9,6 @@
  */
 export function hashStringToColor(str: string, saturation: number = 100, lightness: number = 25) {
   const hash = hashString(str);
-  console.log(str, hash, hash % 360);
   return `hsl(${(hash % 360)}, ${saturation}%, ${lightness}%)`;
 }
 

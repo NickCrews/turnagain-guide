@@ -73,13 +73,13 @@ function filtersToQueryString(filters: Filters, allAreaIds: string[]) {
   // I want a pretty URL like `types=ascent,descent` but if we use
   // the builtin params.toString() then the `,` gets escaped into
   // `types=ascent%2Cdescent`
-  if (filters.areas.size && filters.areas.size !== allAreaIds.length) {
+  if (filters.areas.size) {
     clauses.push("areas=" + Array.from(filters.areas).join(','));
   }
-  if (filters.types.size && filters.types.size !== FEATURE_TYPES.size) {
+  if (filters.types.size) {
     clauses.push("types=" + Array.from(filters.types).join(','));
   }
-  if (filters.atesRatings.size && filters.atesRatings.size !== ATES_VALUES.length) {
+  if (filters.atesRatings.size) {
     clauses.push("ates=" + Array.from(filters.atesRatings).join(','));
   }
   let clausesString = clauses.join('&');

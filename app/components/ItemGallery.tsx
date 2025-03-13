@@ -9,6 +9,7 @@ interface ItemGalleryProps {
 }
 
 export default function ItemGallery({ items, onItemSelect, hoveredItem, setHoveredItem }: ItemGalleryProps) {
+  items = items.filter((item) => item.properties.feature_type != 'area');
   if (!items || items.length === 0) {
     <div className="flex h-full pt-16 justify-center text-gray-500">
       <span>No matching items.</span>

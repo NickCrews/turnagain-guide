@@ -67,6 +67,6 @@ function subRoutes(childrenIds: string[]) {
   const children = items.filter((item) => childrenIds.includes(item.id));
   return <>
     <h3 className="text-xl font-bold mb-4">Sub Routes</h3>
-    <ItemGallery items={children} />;
+    <ItemGallery items={children} onItemSelect='link' />
   </>
 }

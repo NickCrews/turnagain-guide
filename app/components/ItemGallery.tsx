@@ -3,7 +3,7 @@ import RouteCard from './RouteCard';
 
 interface ItemGalleryProps {
   items: GeoItem[];
-  onItemSelect?: (item: GeoItem) => void;
+  onItemSelect?: 'link' | ((item: GeoItem) => void);
   hoveredItem?: GeoItem;
   setHoveredItem?: (item: GeoItem | undefined) => void;
 }

@@ -12,29 +12,43 @@ import {
 import { AtesBadges } from './ATES';
 import { cn } from '@/lib/utils';
 import { AreaBadge } from './Area';
+import { useRouter } from 'next/navigation';
 
 interface RouteCardProps {
   item: GeoItem;
-  onClick?: (item: GeoItem) => void;
+  onClick?: 'link' | ((item: GeoItem) => void);
   hovered?: boolean;
   setHovered?: (hovered: boolean) => void;
 }
 
 export default function RouteCard({ item, onClick, hovered, setHovered } : RouteCardProps) {
+  const router = useRouter();
+  if (onClick === 'link') {
+    onClick = (item: GeoItem) => router.push(`/routes/${item.id}`);
+  }
+  let banner = null;
+    if (item.properties.thumbnail) {
+      banner = <img
+        src={item.properties.thumbnail}
+        alt={item.properties.title}
+        className="w-full h-48 rounded-t-xl object-cover"
+      />
+    }
   return <Card
     onClick={() => onClick ? onClick(item) : null}
     onMouseEnter={() => setHovered && setHovered(true)}
     onMouseLeave={() => setHovered && setHovered(false)}
-    className={cn("cursor-pointer", hovered && "bg-gray-200 border border-gray-300 shadow-md")}
+    className={cn("cursor-pointer", hovered && "bg-gray-200 border border-gray-300 shadow-xl")}
   >
-    <CardHeader className='py-3'>
+    {banner}
+    <CardHeader className='p-3'>
       <CardTitle>
         {item.properties.title}
         {' - '}
         <span className='text-muted-foreground'>{capitalize(item.properties.feature_type)}</span>
       </CardTitle>
     </CardHeader>
-    <CardContent>
+    <CardContent className='p-3 pt-0'>
       <CardDescription>
         {item.properties.area && <AreaBadge areaId={item.properties.area} />}
         <AtesBadges ratings={item.properties.nicks_ates_ratings} hover={false} />
@@ -44,7 +58,6 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
         }
         {item.properties.elevation && <Elevation meters={item.properties.elevation}/>}
       </CardDescription>
-      {item.properties.thumbnail && <img src={item.properties.thumbnail} alt={item.properties.title} />}
     </CardContent>
   </Card>
 }

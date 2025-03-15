@@ -3,6 +3,8 @@ import { GeoItem } from '@/lib/geo-item';
 import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/Units';
 import { AtesBadges } from './ATES';
 import { AreaBadge } from './Area';
+import { useGeoItems } from '@/components/ui/itemsContext';
+import ItemGallery from './ItemGallery';
 interface RouteDetailProps {
     item: GeoItem;
   }
@@ -54,6 +56,17 @@ export default function RouteDetail({ item }: RouteDetailProps) {
         ))}
       </div>
       <RouteProse />
+      {subRoutes(item.properties.children)}
     </>
   );
+}
+
+function subRoutes(childrenIds: string[]) {
+  const items = useGeoItems();
+  if (childrenIds.length === 0) return null;
+  const children = items.filter((item) => childrenIds.includes(item.id));
+  return <>
+    <h3 className="text-xl font-bold mb-4">Sub Routes</h3>
+    <ItemGallery items={children} />;
+  </>
 }

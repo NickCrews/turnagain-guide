@@ -28,6 +28,12 @@ export interface GeoItemProperties {
   thumbnail?: string;
   /* the id of the other item that represents the area, eg 'tincan-area' */
   area: string | null
+  /** 
+   * The ids of the items that are children of this item.
+   * This is only going to be filled in for areas.
+   * For "leaf" items, this will be an empty array.
+   */
+  children: string[];
   [key: string]: any;
 }
 
@@ -47,5 +53,35 @@ export function fromGeoJson(geojson: string) {
         const rawAtes = item.properties['nicks_ates_ratings'];
         item.properties['nicks_ates_ratings'] = rawAtes ? rawAtes.split(',').map((r: string) => r.trim()) : [];
     }
-    return items as GeoItem[];
+    let geoItems = items as GeoItem[];
+    geoItems = addChildrenField(geoItems);
+    return geoItems;
+}
+
+// For all areas, add a children field that contains the ids of the children items.
+// The original data representation is pointers of child->parent,
+// where the child item stores the area, so we need to reverse it.
+function addChildrenField(items: GeoItem[]) {
+  const parentToChildrenMap = new Map();
+  items.forEach(obj => {
+      parentToChildrenMap.set(obj.id, []);
+  });
+
+  // Populate the map with child IDs
+  items.forEach(item => {
+      if (item.properties.area) {
+          parentToChildrenMap.get(item.properties.area).push(item.id);
+      }
+  });
+
+  // Add the children field to each object
+  return items.map(obj => {
+      return {
+          ...obj,
+          properties: {
+              ...obj.properties,
+              children: parentToChildrenMap.get(obj.id),
+          },
+      };
+  });
 }

@@ -17,6 +17,7 @@
 
 # testing
 /coverage
+img_raw/
 
 # next.js
 /.next/

@@ -4,6 +4,7 @@ import { GeoItem } from '../../lib/geo-item';
 import { ElevationRange, Elevation } from './Units';
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -32,6 +33,8 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
         {' - '}
         <span className='text-muted-foreground'>{capitalize(item.properties.feature_type)}</span>
       </CardTitle>
+    </CardHeader>
+    <CardContent>
       <CardDescription>
         {item.properties.area && <AreaBadge areaId={item.properties.area} />}
         <AtesBadges ratings={item.properties.nicks_ates_ratings} hover={false} />
@@ -41,6 +44,7 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
         }
         {item.properties.elevation && <Elevation meters={item.properties.elevation}/>}
       </CardDescription>
-    </CardHeader>
+      {item.properties.thumbnail && <img src={item.properties.thumbnail} alt={item.properties.title} />}
+    </CardContent>
   </Card>
 }

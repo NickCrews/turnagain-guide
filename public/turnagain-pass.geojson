@@ -7,7 +7,8 @@
             "properties": {
                 "title": "Magnum Area",
                 "feature_type": "area",
-                "description": ""
+                "description": "",
+                "thumbnail": "/img/magnum-cornbiscuit-overview.jpg"
             },
             "geometry": {
                 "type": "Polygon",
@@ -118,7 +119,8 @@
             "properties": {
                 "title": "Sharkfin Area",
                 "feature_type": "area",
-                "description": ""
+                "description": "",
+                "thumbnail": "/img/sharkfin-wolverine-overview.jpg"
             },
             "geometry": {
                 "type": "Polygon",
@@ -209,7 +211,8 @@
             "properties": {
                 "title": "Sunburst Area",
                 "feature_type": "area",
-                "description": ""
+                "description": "",
+                "thumbnail": "/img/sunburst-magnum-overview.jpg"
             },
             "geometry": {
                 "type": "Polygon",
@@ -416,7 +419,8 @@
             "properties": {
                 "title": "Lipps Area",
                 "feature_type": "area",
-                "description": ""
+                "description": "",
+                "thumbnail": "/img/lipps-overview.jpg"
             },
             "geometry": {
                 "type": "Polygon",
@@ -552,7 +556,8 @@
             "properties": {
                 "title": "Tincan Area",
                 "feature_type": "area",
-                "description": ""
+                "description": "",
+                "thumbnail": "/img/tincan-overview.jpg"
             },
             "geometry": {
                 "type": "Polygon",
@@ -696,6 +701,7 @@
                 "nicks_ates_ratings": "simple",
                 "area": "eddies-area",
                 "description": "",
+                "thumbnail": "/img/eddies-overview.jpg",
                 "latitude": 60.81313469806224,
                 "longitude": -149.13096187950717,
                 "distance": 4616.4533523725895,
@@ -2131,6 +2137,7 @@
                 "title": "Eddie's Front Face",
                 "feature_type": "descent",
                 "area": "eddies-area",
+                "thumbnail": "/img/eddies-overview.jpg",
                 "description": "",
                 "nicks_ates_ratings": "simple,challenging"
             },
@@ -2208,6 +2215,7 @@
             "properties": {
                 "title": "Wolverine Area",
                 "feature_type": "area",
+                "thumbnail": "/img/sharkfin-wolverine-overview.jpg",
                 "description": ""
             },
             "geometry": {
@@ -2301,6 +2309,7 @@
                 "feature_type": "descent",
                 "area": "eddies-area",
                 "description": "",
+                "thumbnail": "/img/eddies-overview.jpg",
                 "nicks_ates_ratings": "simple",
                 "latitude": 60.80207157090275,
                 "longitude": -149.12433652506442,
@@ -2705,6 +2714,7 @@
             "properties": {
                 "title": "Eddie's Area",
                 "description": "",
+                "thumbnail": "/img/eddies-overview.jpg",
                 "feature_type": "area"
             },
             "geometry": {
@@ -2902,6 +2912,7 @@
             "properties": {
                 "title": "Cornbiscuit Area",
                 "description": "",
+                "thumbnail": "/img/magnum-cornbiscuit-overview.jpg",
                 "feature_type": "area"
             },
             "geometry": {
@@ -3051,6 +3062,7 @@
                 "feature_type": "ascent",
                 "area": "tincan-area",
                 "description": "",
+                "thumbnail": "/img/tincan-overview.jpg",
                 "nicks_ates_ratings": "simple,challenging",
                 "distance": 593.0441337742518,
                 "total_ascent": 216.94984299999993,
@@ -3223,6 +3235,7 @@
                 "feature_type": "descent",
                 "area": "tincan-area",
                 "description": "",
+                "thumbnail": "/img/tincan-overview.jpg",
                 "nicks_ates_ratings": "simple",
                 "distance": 1394.4746282118915,
                 "total_descent": 191.19635899999992,
@@ -3600,6 +3613,7 @@
                 "feature_type": "ascent",
                 "area": "tincan-area",
                 "description": "",
+                "thumbnail": "/img/tincan-overview.jpg",
                 "nicks_ates_ratings": "simple",
                 "distance": 493.94458674679794,
                 "total_ascent": 64.50537200000002,
@@ -3732,6 +3746,7 @@
                 "feature_type": "descent",
                 "area": "tincan-area",
                 "description": "",
+                "thumbnail": "/img/tincan-overview.jpg",
                 "nicks_ates_ratings": "simple,challenging"
             },
             "geometry": {
@@ -3810,6 +3825,7 @@
                 "feature_type": "descent",
                 "area": "tincan-area",
                 "description": "",
+                "thumbnail": "/img/eddies-spines-and-todds.jpg",
                 "nicks_ates_ratings": "challenging",
                 "distance": 604.4903952834237,
                 "total_descent": 275.29182300000014,
@@ -3972,6 +3988,7 @@
                 "feature_type": "ascent",
                 "area": "tincan-area",
                 "description": "",
+                "thumbnail": "/img/tincan-overview.jpg",
                 "nicks_ates_ratings": "simple",
                 "distance": 3288.2233047995983,
                 "total_ascent": 665.873051,
@@ -4949,6 +4966,7 @@
                 "feature_type": "descent",
                 "area": "tincan-area",
                 "description": "",
+                "thumbnail": "/img/tincan-overview.jpg",
                 "nicks_ates_ratings": "challenging",
                 "distance": 302.9814467472608,
                 "total_descent": 141.25361999999996,
@@ -5618,6 +5636,7 @@
                 "area": "tincan-area",
                 "description": "",
                 "feature_type": "ascent",
+                "thumbnail": "/img/blue-diamond.jpg",
                 "nicks_ates_ratings": "non-avalanche",
                 "distance": 1990.2708938747458,
                 "total_ascent": 236.72239700000006,
@@ -6129,6 +6148,7 @@
                 "title": "Tincan Hippie Bowl",
                 "area": "tincan-area",
                 "description": "",
+                "thumbnail": "/img/libraries-overview.jpg",
                 "feature_type": "descent",
                 "nicks_ates_ratings": "challenging",
                 "distance": 810.7375124193462,
@@ -6302,6 +6322,7 @@
                 "area": "tincan-area",
                 "description": "",
                 "feature_type": "descent",
+                "thumbnail": "/img/eddies-spines-and-todds.jpg",
                 "nicks_ates_ratings": "complex",
                 "distance": 602.1098380632068,
                 "total_descent": 351.5772689999999,
@@ -6443,6 +6464,7 @@
                 "title": "The Libraries",
                 "area": "tincan-area",
                 "description": "",
+                "thumbnail": "/img/libraries-ridge.jpg",
                 "feature_type": "descent",
                 "nicks_ates_ratings": "complex,extreme"
             },
@@ -6641,6 +6663,7 @@
             "properties": {
                 "title": "Seattle Ridge Parking Lot",
                 "area": null,
+                "thumbnail": "/img/seattle-ridge-uptrack.jpg",
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 305
@@ -6659,6 +6682,7 @@
             "properties": {
                 "title": "Tincan Parking Lot",
                 "area": "tincan-area",
+                "thumbnail": "/img/tincan-overview.jpg",
                 "feature_type": "parking",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 315
@@ -6678,6 +6702,7 @@
                 "title": "Motorized Parking Lot",
                 "area": null,
                 "feature_type": "parking",
+                "thumbnail": "/img/seattle-ridge-overview.jpg",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 279
             },
@@ -6696,6 +6721,7 @@
                 "title": "Center Ridge Parking Lot",
                 "area": "tincan-area",
                 "feature_type": "parking",
+                "thumbnail": "/img/blue-diamond.jpg",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 280
             },
@@ -6714,6 +6740,7 @@
                 "title": "Sunburst Parking Lot",
                 "area": "sunburst-area",
                 "feature_type": "parking",
+                "thumbnail": "/img/sunburst-magnum-overview.jpg",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 275
             },
@@ -6732,6 +6759,7 @@
                 "title": "Cornbiscuit Parking Lot",
                 "area": "cornbiscuit-area",
                 "feature_type": "parking",
+                "thumbnail": "/img/magnum-cornbiscuit-overview.jpg",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 275
             },
@@ -6750,6 +6778,7 @@
                 "title": "Lipps Parking Lot",
                 "area": "lipps-area",
                 "feature_type": "parking",
+                "thumbnail": "/img/lipps-overview.jpg",
                 "nicks_ates_ratings": "non-avalanche",
                 "elevation": 237
             },

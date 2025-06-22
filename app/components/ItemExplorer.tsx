@@ -115,7 +115,6 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string 
 
 export default function ItemExplorer({ items, selectedItem, setSelectedItem }: ItemExplorerProps) {
   const [filters, setFilters] = useFilters();
-  // let filteredItems = ;
   const filteredItems = useMemo(() => filterItems(items, filters, selectedItem?.id), [
     // Use a stable representation of the array content instead of the reference.
     // This is avoid re-rendering all child components when the array reference changes.
@@ -126,7 +125,6 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
   ]);
   const [viewMode, setViewMode] = useState<ViewMode>('map')
   const isMobile = useIsBelowWidth(768) ?? true;
-  const [hoveredItem, setHoveredItem] = useState<GeoItem | null>(null);
   // console.log('ItemExplorer', {
     // items,
     // selectedItem,
@@ -140,16 +138,12 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
 
   const map = <Map
     items={filteredItems}
-    onItemClick={setSelectedItem}
+    setSelectedItem={setSelectedItem}
     selectedItem={selectedItem}
-    hoveredItem={hoveredItem || undefined}
-    setHoveredItem={setHoveredItem}
-  />
+  />;
   const gallery = <ItemGallery
     items={filteredItems}
     onItemSelect={setSelectedItem}
-    hoveredItem={hoveredItem || undefined}
-    setHoveredItem={setHoveredItem}
   />
 
   const desktopInterface = (

@@ -4,11 +4,9 @@ import RouteCard from './RouteCard';
 interface ItemGalleryProps {
   items: GeoItem[];
   onItemSelect?: 'link' | ((item: GeoItem) => void);
-  hoveredItem?: GeoItem;
-  setHoveredItem?: (item: GeoItem | null) => void;
 }
 
-export default function ItemGallery({ items, onItemSelect, hoveredItem, setHoveredItem }: ItemGalleryProps) {
+export default function ItemGallery({ items, onItemSelect}: ItemGalleryProps) {
   items = items.filter((item) => item.properties.feature_type != 'area');
   if (!items || items.length === 0) {
     <div className="flex h-full pt-16 justify-center text-gray-500">
@@ -22,8 +20,6 @@ export default function ItemGallery({ items, onItemSelect, hoveredItem, setHover
           key={item.id || `item-${index}`}
           item={item}
           onClick={onItemSelect}
-          hovered={hoveredItem?.id === item.id}
-          setHovered={(hovered) => setHoveredItem?.(hovered ? item : null)}
         /> 
       ))}
     </div>

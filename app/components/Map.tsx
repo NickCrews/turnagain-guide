@@ -15,9 +15,10 @@ import {
   Cartesian3,
   Viewer,
 } from 'cesium'
-import { useEffect, useState, useId, useRef, useCallback, useMemo} from 'react'
+import { useEffect, useState, useId, useRef, useMemo} from 'react'
 
 import { FeatureType, GeoItem } from '@/lib/geo-item';
+import { useDebounce } from '@/lib/debounce';
 import RouteCard from './RouteCard';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/ViewerContext';
@@ -27,9 +28,7 @@ import { areaColor } from './Area';
 interface MapProps {
   items: GeoItem[];
   selectedItem?: GeoItem;
-  onItemClick?: (item: GeoItem | null) => void;
-  hoveredItem?: GeoItem;
-  setHoveredItem?: (item: GeoItem | null) => void;
+  setSelectedItem?: (item: GeoItem | null) => void;
 }
 
 interface PopupInfo {
@@ -37,13 +36,10 @@ interface PopupInfo {
   position: Cartesian3;
 }
 
-function getNonDullItems(items: GeoItem[], selectedItem?: GeoItem, hoveredItem?: GeoItem, popupItem?: GeoItem) {
+function getNonDullItems(items: GeoItem[], selectedItem?: GeoItem, popupItem?: GeoItem) {
   let nonDullItems = []
   if (selectedItem) {
     nonDullItems.push(selectedItem);
-  }
-  if (hoveredItem) {
-    nonDullItems.push(hoveredItem);
   }
   if (popupItem) {
     nonDullItems.push(popupItem);
@@ -54,36 +50,22 @@ function getNonDullItems(items: GeoItem[], selectedItem?: GeoItem, hoveredItem?:
   return nonDullItems;
 }
 
-export default function Map({ items = [], onItemClick, selectedItem, hoveredItem, setHoveredItem }: MapProps) {
+export default function Map({ items = [], setSelectedItem, selectedItem }: MapProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
   const popupRef = useRef<HTMLDivElement>(null);
   const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
   const popupItem = popupInfo?.item;
-  const nonDullItems = useMemo(() => getNonDullItems(items, selectedItem, hoveredItem, popupItem), [items, selectedItem, hoveredItem, popupItem]);
+  const nonDullItems = useMemo(() => getNonDullItems(items, selectedItem, popupItem), [items, selectedItem, popupItem]);
+  const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
 
-  const wrappedOnItemClick = useCallback((item: GeoItem | null) => {
-    if (onItemClick) {
-      onItemClick(item);
-    }
-  }, [onItemClick]);
-
-  const delayedSetPopupInfo = useCallback((popupInfo: PopupInfo | null) => {
-    // delay setting the popup info to avoid flickering when hovering over items
-    setTimeout(() => {
-      setPopupInfo(popupInfo);
-      if (setHoveredItem) {
-        setHoveredItem(popupInfo ? popupInfo.item : null);
-      }
-    }, 300);
-  }, [setHoveredItem]);
+  const delayedSetPopupInfo = useDebounce(setPopupInfo, 300);
 
   useEffect(() => {
     async function initViewerAndEntities() {
       if (!viewer) {
         return;
       }
-      console.log("initViewerAndEntities");
       const entities = await itemsToEntities(items);
       entities.forEach(entity => {
         if (viewer.entities.values.some(e => e.properties?.id?.getValue() == entity.properties?.id?.getValue())) {
@@ -97,37 +79,38 @@ export default function Map({ items = [], onItemClick, selectedItem, hoveredItem
 
   useEffect(() => {
     // update the style of all the existing entities
+    // console.log("styleEntities", items.length, nonDullItems.length);
     viewer?.entities.values.forEach(entity => styleEntity(entity, nonDullItems));
   }, [viewer, items, nonDullItems])
 
   useEffect(() => {
-    if (!viewer || !onItemClick) {
+    if (!viewer || !setSelectedItem) {
       return;
     }
-    const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
-    
-    // on click, set the tooltip
-    viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
+    const handleClick = (click: ScreenSpaceEventHandler.PositionedEvent) => {
       const entity = pickEntity(click.position, viewer);
       const item: GeoItem | null = itemsById[entity?.properties?.id];
-      wrappedOnItemClick(item);
-    }, ScreenSpaceEventType.LEFT_CLICK);
-    
-    // on hover, change cursor to a pointer and call setHoveredItem
-    viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
+      setSelectedItem(item);
+    };
+    viewer.screenSpaceEventHandler.setInputAction(handleClick, ScreenSpaceEventType.LEFT_CLICK);
+    return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
+  }, [viewer, items])
+
+  useEffect(() => {
+    if (!viewer) {
+      return;
+    }
+    const handleHover = (hover: ScreenSpaceEventHandler.MotionEvent) => {
       const entity = pickEntity(hover.endPosition, viewer);
       const item: GeoItem | null = entity ? itemsById[entity.properties?.id] : null;
       viewer.scene.canvas.style.cursor = entity ? 'pointer' : 'default';
       const position = viewer.scene.pickPosition(hover.endPosition);
       const popupInfo = item ? { item, position } : null;
       delayedSetPopupInfo(popupInfo);
-    }, ScreenSpaceEventType.MOUSE_MOVE);
-    
-    return () => {
-      viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-      viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
-    }
-  }, [viewer, wrappedOnItemClick, setHoveredItem, items])
+    };
+    viewer.screenSpaceEventHandler.setInputAction(handleHover, ScreenSpaceEventType.MOUSE_MOVE);
+    return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
+  }, [viewer, itemsById, delayedSetPopupInfo])
 
   useEffect(() => {
     if (!viewer || !popupInfo || !popupRef.current) {
@@ -151,7 +134,7 @@ export default function Map({ items = [], onItemClick, selectedItem, hoveredItem
       {/* The singleton Viewer will get moved here on mount, and back to the parking element on unmount. */}
     </div>
     <div ref={popupRef} className="absolute -translate-x-1/2 -translate-y-full w-64">
-      {popupInfo && <RouteCard item={popupInfo.item} onClick={onItemClick} />}
+      {popupInfo && <RouteCard item={popupInfo.item} onClick={setSelectedItem} />}
     </div>
     <div className="absolute bottom-4 right-4">
       <DownloadButton />

@@ -5,7 +5,7 @@ interface ItemGalleryProps {
   items: GeoItem[];
   onItemSelect?: 'link' | ((item: GeoItem) => void);
   hoveredItem?: GeoItem;
-  setHoveredItem?: (item: GeoItem | undefined) => void;
+  setHoveredItem?: (item: GeoItem | null) => void;
 }
 
 export default function ItemGallery({ items, onItemSelect, hoveredItem, setHoveredItem }: ItemGalleryProps) {
@@ -23,7 +23,7 @@ export default function ItemGallery({ items, onItemSelect, hoveredItem, setHover
           item={item}
           onClick={onItemSelect}
           hovered={hoveredItem?.id === item.id}
-          setHovered={(hovered) => setHoveredItem?.(hovered ? item : undefined)}
+          setHovered={(hovered) => setHoveredItem?.(hovered ? item : null)}
         /> 
       ))}
     </div>

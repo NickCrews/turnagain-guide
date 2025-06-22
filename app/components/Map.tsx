@@ -27,9 +27,9 @@ import { areaColor } from './Area';
 interface MapProps {
   items: GeoItem[];
   selectedItem?: GeoItem;
-  onItemClick?: (item?: GeoItem) => void;
+  onItemClick?: (item: GeoItem | null) => void;
   hoveredItem?: GeoItem;
-  setHoveredItem?: (item: GeoItem | undefined) => void;
+  setHoveredItem?: (item: GeoItem | null) => void;
 }
 
 interface PopupInfo {
@@ -62,13 +62,22 @@ export default function Map({ items = [], onItemClick, selectedItem, hoveredItem
   const popupItem = popupInfo?.item;
   const nonDullItems = useMemo(() => getNonDullItems(items, selectedItem, hoveredItem, popupItem), [items, selectedItem, hoveredItem, popupItem]);
 
-  const safeSetHoveredItem = useCallback((item: GeoItem | undefined) => {
+  const wrappedOnItemClick = useCallback((item: GeoItem | null) => {
+    if (onItemClick) {
+      onItemClick(item);
+    }
+  }, [onItemClick]);
+
+  const delayedSetPopupInfo = useCallback((popupInfo: PopupInfo | null) => {
+    // delay setting the popup info to avoid flickering when hovering over items
+    setTimeout(() => {
+      setPopupInfo(popupInfo);
       if (setHoveredItem) {
-        setHoveredItem(item);
+        setHoveredItem(popupInfo ? popupInfo.item : null);
       }
-    }, [setHoveredItem]
-  );
-  
+    }, 300);
+  }, [setHoveredItem]);
+
   useEffect(() => {
     async function initViewerAndEntities() {
       if (!viewer) {
@@ -100,30 +109,25 @@ export default function Map({ items = [], onItemClick, selectedItem, hoveredItem
     // on click, set the tooltip
     viewer.screenSpaceEventHandler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
       const entity = pickEntity(click.position, viewer);
-      if (!entity) {
-        setPopupInfo(null);
-        safeSetHoveredItem(undefined);
-        return;
-      }
-      const item: GeoItem | undefined = itemsById[entity?.properties?.id];
-      const worldPosition = viewer.scene.pickPosition(click.position);
-      setPopupInfo({item, position: worldPosition});
-      safeSetHoveredItem(item);
+      const item: GeoItem | null = itemsById[entity?.properties?.id];
+      wrappedOnItemClick(item);
     }, ScreenSpaceEventType.LEFT_CLICK);
     
     // on hover, change cursor to a pointer and call setHoveredItem
     viewer.screenSpaceEventHandler.setInputAction((hover: ScreenSpaceEventHandler.MotionEvent) => {
       const entity = pickEntity(hover.endPosition, viewer);
-      const item: GeoItem | undefined = entity ? itemsById[entity.properties?.id] : undefined;
+      const item: GeoItem | null = entity ? itemsById[entity.properties?.id] : null;
       viewer.scene.canvas.style.cursor = entity ? 'pointer' : 'default';
-      safeSetHoveredItem(item);
+      const position = viewer.scene.pickPosition(hover.endPosition);
+      const popupInfo = item ? { item, position } : null;
+      delayedSetPopupInfo(popupInfo);
     }, ScreenSpaceEventType.MOUSE_MOVE);
     
     return () => {
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
       viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
     }
-  }, [viewer, onItemClick, items, safeSetHoveredItem])
+  }, [viewer, wrappedOnItemClick, setHoveredItem, items])
 
   useEffect(() => {
     if (!viewer || !popupInfo || !popupRef.current) {

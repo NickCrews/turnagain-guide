@@ -16,7 +16,7 @@ type ViewMode = 'map' | 'gallery';
 interface ItemExplorerProps {
   items: GeoItem[]
   selectedItem?: GeoItem
-  setSelectedItem?: (item: GeoItem | undefined) => void
+  setSelectedItem?: (item: GeoItem | null) => void
 }
 
 export interface Filters {
@@ -126,7 +126,7 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
   ]);
   const [viewMode, setViewMode] = useState<ViewMode>('map')
   const isMobile = useIsBelowWidth(768) ?? true;
-  const [hoveredItem, setHoveredItem] = useState<GeoItem | undefined>(undefined);
+  const [hoveredItem, setHoveredItem] = useState<GeoItem | null>(null);
   // console.log('ItemExplorer', {
     // items,
     // selectedItem,
@@ -136,19 +136,19 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     // isMobile,
   //   hoveredItem,
   // });
-  const handleBack = () => { if (setSelectedItem) setSelectedItem(undefined) };
+  const handleBack = () => { if (setSelectedItem) setSelectedItem(null) };
 
   const map = <Map
     items={filteredItems}
     onItemClick={setSelectedItem}
     selectedItem={selectedItem}
-    hoveredItem={hoveredItem}
+    hoveredItem={hoveredItem || undefined}
     setHoveredItem={setHoveredItem}
   />
   const gallery = <ItemGallery
     items={filteredItems}
     onItemSelect={setSelectedItem}
-    hoveredItem={hoveredItem}
+    hoveredItem={hoveredItem || undefined}
     setHoveredItem={setHoveredItem}
   />
 

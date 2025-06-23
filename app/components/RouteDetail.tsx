@@ -3,7 +3,9 @@ import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/
 import { AtesBadges } from './ATES';
 import { AreaBadge } from './Area';
 import { useGeoItems } from '@/components/ui/itemsContext';
+import Link, { LinkProps } from '@/components/ui/link';
 import ItemGallery from './ItemGallery';
+import { Point } from 'geojson';
 interface RouteDetailProps {
     item: GeoItem;
   }
@@ -37,6 +39,13 @@ export default function RouteDetail({ item }: RouteDetailProps) {
   }
   if (item.properties.elevation_min && item.properties.elevation_max) {
     properties.push({ name: "Elevation Range", component: <ElevationRange min={item.properties.elevation_min} max={item.properties.elevation_max} />});
+  }
+  if (item.properties.feature_type === 'parking') {
+    // add link to google maps
+    const point = item.geometry as Point;
+    const [longitude, latitude] = point.coordinates;
+    const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+    properties.push({ name: "Directions", component: <Link href={url}>View on Google Maps</Link> });
   }
 
   return (

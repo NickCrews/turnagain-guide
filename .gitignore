@@ -13,6 +13,7 @@
 # generated
 /public/sw.js
 /public/Cesium
+/public/turnagain-pass.geojson
 /public/turnagain-pass.gpx
 
 # testing

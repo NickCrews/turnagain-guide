@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic'
 import { GeoItem } from '@/lib/geo-item';
 import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/Units';
 import { AtesBadges } from './ATES';
@@ -18,11 +17,6 @@ function Property({ name, children }: { name: string, children?: React.ReactNode
 }
 
 export default function RouteDetail({ item }: RouteDetailProps) {
-  // for this to work on the client, we need to use dynamic import
-  const RouteProse = dynamic(() => import(`@/app/routes/pages/${item.id}.mdx`), {
-    ssr: false,
-  })
-
   let properties = [
     { name: "Feature Type", component: <RawValue value={item.properties.feature_type} />},
   ];
@@ -55,7 +49,23 @@ export default function RouteDetail({ item }: RouteDetailProps) {
           </Property>
         ))}
       </div>
-      <RouteProse />
+      {item.properties.thumbnail && (
+        <figure className="mb-4">
+          <img
+            src={item.properties.thumbnail}
+            alt={item.properties.title}
+            className="w-full h-auto rounded-lg shadow-md"
+          />
+          {item.properties.description && (
+            <figcaption className="text-sm text-gray-500 mt-2">
+              {item.properties.description}
+            </figcaption>
+          )}
+        </figure>
+      )}
+      <article className="prose prose-sm prose-slate">
+        {item.mdxJsx}
+      </article>
       {subRoutes(item.properties.children)}
     </>
   );

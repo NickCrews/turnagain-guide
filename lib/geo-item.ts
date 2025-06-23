@@ -41,27 +41,14 @@ export interface GeoItem extends Feature {
   id: string;
   geometry: Geometry;
   properties: GeoItemProperties;
-}
-
-export function fromGeoJson(geojson: string) {
-    const items = JSON.parse(geojson).features;
-    // ensure that the items have an id
-    for (const item of items) {
-        if (!item.id) {
-            throw new Error("Item has no id");
-        }
-        const rawAtes = item.properties['nicks_ates_ratings'];
-        item.properties['nicks_ates_ratings'] = rawAtes ? rawAtes.split(',').map((r: string) => r.trim()) : [];
-    }
-    let geoItems = items as GeoItem[];
-    geoItems = addChildrenField(geoItems);
-    return geoItems;
+  /** The serialized MDX content of the item. */
+  mdxJsx: React.JSX.Element;
 }
 
 // For all areas, add a children field that contains the ids of the children items.
 // The original data representation is pointers of child->parent,
 // where the child item stores the area, so we need to reverse it.
-function addChildrenField(items: GeoItem[]) {
+export function addChildrenField(items: GeoItem[]) {
   const parentToChildrenMap = new Map();
   items.forEach(obj => {
       parentToChildrenMap.set(obj.id, []);

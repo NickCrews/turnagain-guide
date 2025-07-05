@@ -10,6 +10,7 @@ import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
 import { useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
 import { useGeoItems } from "@/components/ui/itemsContext";
+import { ChevronLeft } from "lucide-react";
 
 type ViewMode = 'map' | 'gallery';
 
@@ -195,29 +196,15 @@ function ViewModeSwitch({ viewMode, setViewMode }: { viewMode: ViewMode, setView
 function ItemDetail({ item, onBack }: { item: GeoItem, onBack: () => void }) {
   return <>
     <div className="p-2">
-      <BackHeader text="Back to search" onBack={onBack} />
+      <nav className="flex justify-start bg-background">
+        <button onClick={onBack} className="close-button flex items-center gap-1">
+          <ChevronLeft />
+          <span className="text-sm">Back to search</span>
+        </button>
+      </nav>
     </div>
     <div className="overflow-y-auto h-full rounded-lg px-6 pb-6 pt-3 max-w-2xl w-full">
       <RouteDetail item={item} />
     </div>
   </>
-}
-
-function BackHeader({ text, onBack }: { text: string, onBack: () => void }) {
-  return (
-    <nav className="flex justify-start bg-background">
-      <button onClick={onBack} className="close-button flex items-center gap-1">
-        <LeftArrowIcon />
-        <span className="text-sm">{text}</span>
-      </button>
-    </nav>
-  )
-}
-
-function LeftArrowIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-    </svg>
-  )
 }

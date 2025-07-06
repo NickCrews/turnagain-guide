@@ -16,13 +16,16 @@ async function readMDXFile(filePath: string): Promise<GeoItem> {
   const rawContent = await fs.readFile(filePath, 'utf-8')
   
   // Serialize the MDX content for client-side rendering
-  const {content: mdxJsx, frontmatter} = await evaluate({
+  const {content: mdxJsx, frontmatter, error} = await evaluate({
     source: rawContent,
     options:{
       parseFrontmatter: true, // We already parsed frontmatter with front-matter
     },
     components: {},
   });
+  if (error) {
+    throw new Error(`Error parsing MDX file ${filePath}: ${error.message}`);
+  }
   const {id, geojson: geojsonString, ...rawProperties} = frontmatter as any;
   if (!id) {
     throw new Error(`MDX file ${filePath} is missing an 'id' frontmatter attribute.`);

@@ -38,7 +38,11 @@ function useFilters(): [Filters, (filters: Filters) => void] {
   const searchParams = useSearchParams();
   const allAreaIds = useGeoItems().filter(item => item.properties.feature_type === 'area').map(item => item.id);
 
-  function filtersFromStrings(areaString: string | null, typesString: string | null, atesString: string | null, queryString: string): Filters {
+  const areaString = searchParams.get('areas');
+  const typesString = searchParams.get('types');
+  const atesString = searchParams.get('ates');
+  const queryString = searchParams.get('query') ?? '';
+  const filters = useMemo(() => {
     const defaultAreas = new Set(allAreaIds);
     const areasRaw = new Set((areaString ?? "").split(","));
     const areas = areasRaw.intersection(defaultAreas);
@@ -51,18 +55,7 @@ function useFilters(): [Filters, (filters: Filters) => void] {
     const atesRatings = ratingsRaw.intersection(defaultAtes) as Set<ATES>;
 
     return { areas, types, atesRatings, query: queryString };
-  }
-
-  const areaString = searchParams.get('areas');
-  const typesString = searchParams.get('types');
-  const atesString = searchParams.get('ates');
-  const queryString = searchParams.get('query') ?? '';
-  const filters = useMemo(() => filtersFromStrings(
-    areaString,
-    typesString,
-    atesString,
-    queryString
-  ), [areaString, typesString, atesString, queryString]);
+  }, [areaString, typesString, atesString, queryString, allAreaIds]);
 
   const setFilters = (filters: Filters) => {
     router.push(pathname + '?' + filtersToQueryString(filters));

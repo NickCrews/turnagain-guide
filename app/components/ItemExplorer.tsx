@@ -65,12 +65,12 @@ function useFilters(): [Filters, (filters: Filters) => void] {
   ), [areaString, typesString, atesString, queryString]);
 
   const setFilters = (filters: Filters) => {
-    router.push(pathname + '?' + filtersToQueryString(filters, allAreaIds));
+    router.push(pathname + '?' + filtersToQueryString(filters));
   }
   return [filters, setFilters];
 }
 
-function filtersToQueryString(filters: Filters, allAreaIds: string[]) {
+function filtersToQueryString(filters: Filters) {
   const params = new URLSearchParams();
   if (filters.query) {
     params.set('query', filters.query);

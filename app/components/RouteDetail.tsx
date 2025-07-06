@@ -3,7 +3,7 @@ import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/
 import { AtesBadges } from './ATES';
 import { AreaBadge } from './Area';
 import { useGeoItems } from '@/components/ui/itemsContext';
-import Link, { LinkProps } from '@/components/ui/link';
+import Link from '@/components/ui/link';
 import ItemGallery from './ItemGallery';
 import { Point } from 'geojson';
 interface RouteDetailProps {
@@ -74,12 +74,12 @@ export default function RouteDetail({ item }: RouteDetailProps) {
       <article className="prose prose-sm prose-slate">
         {item.mdxJsx}
       </article>
-      {subRoutes(item.properties.children)}
+      <SubRoutes childrenIds={item.properties.children} />
     </>
   );
 }
 
-function subRoutes(childrenIds: string[]) {
+function SubRoutes({ childrenIds }: { childrenIds: string[] }) {
   const items = useGeoItems();
   if (childrenIds.length === 0) return null;
   const children = items.filter((item) => childrenIds.includes(item.id));

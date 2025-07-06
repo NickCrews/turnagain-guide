@@ -27,7 +27,7 @@ import { areaColor } from './Area';
 
 interface MapProps {
   items: GeoItem[];
-  selectedItem?: GeoItem;
+  selectedItem?: GeoItem | null;
   setSelectedItem?: (item: GeoItem | null) => void;
 }
 
@@ -36,7 +36,7 @@ interface PopupInfo {
   position: Cartesian3;
 }
 
-function getNonDullItems(items: GeoItem[], selectedItem?: GeoItem, popupItem?: GeoItem) {
+function getNonDullItems(items: GeoItem[], selectedItem?: GeoItem | null, popupItem?: GeoItem | null) {
   let nonDullItems = []
   if (selectedItem) {
     nonDullItems.push(selectedItem);

@@ -11,12 +11,17 @@ import { useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
 import { useGeoItems } from "@/components/ui/itemsContext";
 import { ChevronLeft } from "lucide-react";
-
-type ViewMode = 'map' | 'gallery';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer'
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface ItemExplorerProps {
   items: GeoItem[]
-  selectedItem?: GeoItem
+  selectedItem?: GeoItem | null
   setSelectedItem?: (item: GeoItem | null) => void
 }
 
@@ -124,7 +129,6 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     filters,
     selectedItem?.id
   ]);
-  const [viewMode, setViewMode] = useState<ViewMode>('map')
   const isMobile = useIsBelowWidth(768) ?? true;
   // console.log('ItemExplorer', {
     // items,
@@ -154,7 +158,7 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
         <div className="flex-1 h-full">{map}</div>
         <div className="flex-1 max-w-lg h-full">
           {
-            selectedItem ? <ItemDetail item={selectedItem} onBack={handleBack} /> : gallery
+            selectedItem ? <ItemDetailDesktop item={selectedItem} onBack={handleBack} /> : gallery
           }
         </div>
       </div>
@@ -163,37 +167,32 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
 
   const getMobileInterface = () => {
     if (selectedItem) {
-      return <ItemDetail item={selectedItem} onBack={handleBack} />
+      return (
+        <>
+          <RouteFilterBar filters={filters} setFilters={setFilters} />
+          {map}
+          <RouteDetailsDrawer
+            onClose={handleBack}
+            item={selectedItem}
+          />
+        </>
+      );
     }
     return (
       <>
         <RouteFilterBar filters={filters} setFilters={setFilters} />
-        {viewMode === 'map' ? map : gallery}
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-10">
-          <ViewModeSwitch viewMode={viewMode} setViewMode={setViewMode} />
-        </div>
+        {map}
+        <GalleryDrawer>
+          {gallery}
+        </GalleryDrawer>
       </>
-    )
+    );
   }
 
   return isMobile ? getMobileInterface() : desktopInterface;
 }
 
-function ViewModeSwitch({ viewMode, setViewMode }: { viewMode: ViewMode, setViewMode: (view: ViewMode) => void }) {
-  const Item = (value: ViewMode, label: string) => (
-    <button onClick={() => setViewMode(value)} className='bg-background border p-2 rounded-lg'>
-      {label}
-    </button>
-  )
-
-  return (
-    viewMode === 'map'
-      ? Item('gallery', 'View as List')
-      : Item('map', 'View as Map')
-  )
-}
-
-function ItemDetail({ item, onBack }: { item: GeoItem, onBack: () => void }) {
+function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void }) {
   return <>
     <div className="p-2">
       <nav className="flex justify-start bg-background">
@@ -204,7 +203,83 @@ function ItemDetail({ item, onBack }: { item: GeoItem, onBack: () => void }) {
       </nav>
     </div>
     <div className="overflow-y-auto h-full rounded-lg px-6 pb-6 pt-3 max-w-2xl w-full">
+      <RouteTitle title={item.properties.title} />
       <RouteDetail item={item} />
     </div>
   </>
+}
+
+function GalleryDrawer({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const snapPoints = ['75px', .85];
+  const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
+  return (
+    <Drawer
+      open={true}
+      // Allow interacting with background stuff
+      modal={false}
+      activeSnapPoint={snap}
+      snapPoints={snapPoints}
+      setActiveSnapPoint={setSnap}
+    >
+      <DrawerContent className="h-full">
+        <DrawerHeader>
+          <DrawerTitle>
+            Routes
+          </DrawerTitle>
+        </DrawerHeader>
+        {children}
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+
+function RouteDetailsDrawer({
+  onClose,
+  item,
+}: {
+  onClose?: () => void,
+  item: GeoItem
+}) {
+  const snapPoints = ['130px', .5, .85];
+  const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
+  return (
+    <Drawer
+      open={true}
+      onOpenChange={(open) => {
+        if (!open && onClose) {
+          onClose();
+        }
+      }}
+      // Allow interacting with background stuff
+      modal={false}
+      activeSnapPoint={snap}
+      snapPoints={snapPoints}
+      setActiveSnapPoint={setSnap}
+    >
+      <DrawerContent className="h-full">
+        <DrawerHeader>
+          <RouteTitle title={item.properties.title} />
+          {/* For accessibility */}
+          <VisuallyHidden>
+        <DrawerTitle>
+          {item.properties.title}
+        </DrawerTitle>
+          </VisuallyHidden>
+        </DrawerHeader>
+        {/* TODO: this scroll behavior isn't great. */}
+        <div className="overflow-y-auto h-full">
+          <RouteDetail item={item} />
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+function RouteTitle({ title }: { title: string }) {
+  return <h2 className="text-2xl font-bold mb-4">{title}</h2>
 }

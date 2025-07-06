@@ -50,7 +50,6 @@ export default function RouteDetail({ item }: RouteDetailProps) {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-4">{item.properties.title}</h2>
       <div className="flex flex-col gap-2 mb-4">
         {properties.map(({ name, component }) => (
           <Property key={name} name={name}>

@@ -7,6 +7,7 @@
     "gen:gpx": "node --experimental-strip-types lib/generate-geojson.ts && cat public/turnagain-pass.geojson | node --experimental-strip-types lib/gpx.ts > public/turnagain-pass.gpx",
     "gen:geojson": "node --experimental-strip-types lib/generate-geojson.ts",
     "gen": "pnpm run gen:geojson && pnpm run gen:gpx",
+    "add-component": "pnpm dlx shadcn@latest add",
     "migrate:mdx": "uv run scripts/migrate-metadata-to-mdx.py",
     "dev": "next dev",
     "build": "pnpm run gen && next build",
@@ -43,7 +44,8 @@
     "react-dom": "^19.0.0",
     "serwist": "^9.0.11",
     "tailwind-merge": "^3.0.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

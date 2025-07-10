@@ -24,7 +24,8 @@ async function readMDXFile(filePath: string): Promise<GeoItem> {
     components: {},
   });
   if (error) {
-    throw new Error(`Error parsing MDX file ${filePath}: ${error.message}`);
+    // no nothing for now so Dylan can actually work
+    // throw new Error(`Error parsing MDX file ${filePath}: ${error.message}`);
   }
   const {id, geojson: geojsonString, ...rawProperties} = frontmatter as any;
   if (!id) {

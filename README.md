@@ -1,16 +1,23 @@
 # turnagain.guide
 
-- [ ] make basic UI like zillow's
+The source code for the website [turnagain.guide](https://turnagain.guide),
+a digital backcountry skiing guidebook for Turnagain Pass, Alaska.
 
-## Development
+## Feedback and Contributions
 
-First, run the development server:
+We welcome corrections, suggestions, and feedback from the community.
 
-```bash
-pnpm dev
-```
+Contact: `nicholas.b.crews+turnagain.guide<at>gmail.com`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For technical contributions, see [CONTRIBUTING.md](CONTRIBUTING.md)
 
-Run all images through https://squoosh.app to make them smaller before committing them
-to the git repo.
+## Goals
+
+- **Free and open** - Public land information should be publicly accessible
+- **Community-driven** - Built with input from the local skiing community
+- **Useful** - Practical information to help plan safe, enjoyable trips
+- **Digital-first** - Taking advantage of modern web capabilities while maintaining offline access
+
+## License
+
+Released into the public domain. All contributions are also public domain.

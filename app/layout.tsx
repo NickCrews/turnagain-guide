@@ -4,7 +4,7 @@ import "./globals.css";
 import  Header from "./components/Header";
 import { ViewerProvider } from "./components/ViewerContext";
 import { GeoItemsProvider } from "@/components/ui/itemsContext";
-import { loadGeoItems } from "@/lib/geo-item-server";
+import { loadGeoItems } from "@/lib/geo-item";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

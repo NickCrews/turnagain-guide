@@ -1,0 +1,126 @@
+import { geoItem as blueDiamondRoute } from './blue-diamond-route';
+import { geoItem as centerRidgeParkingLot } from './center-ridge-parking-lot';
+import { geoItem as cfr } from './cfr';
+import { geoItem as coastalParkingLot } from './coastal-parking-lot';
+import { geoItem as cornbiscuitArea } from './cornbiscuit-area';
+import { geoItem as cornbiscuitParkingLot } from './cornbiscuit-parking-lot';
+import { geoItem as eddiesApproachAndUptrack } from './eddies-approach-and-uptrack';
+import { geoItem as eddiesArea } from './eddies-area';
+import { geoItem as eddiesFrontFace } from './eddies-front-face';
+import { geoItem as eddiesNorthBowl } from './eddies-north-bowl';
+import { geoItem as eddiesParkingLot } from './eddies-parking-lot';
+import { geoItem as godsCountryParkingLot } from './gods-country-parking-lot';
+import { geoItem as goldpanArea } from './goldpan-area';
+import { geoItem as johnsonPassParkingLot } from './johnson-pass-parking-lot';
+import { geoItem as lippsArea } from './lipps-area';
+import { geoItem as lippsParkingLot } from './lipps-parking-lot';
+import { geoItem as magnumArea } from './magnum-area';
+import { geoItem as motorizedParkingLot } from './motorized-parking-lot';
+import { geoItem as pastoralArea } from './pastoral-area';
+import { geoItem as petesNorthArea } from './petes-north-area';
+import { geoItem as petesSouthArea } from './petes-south-area';
+import { geoItem as pmsBowlUptrack } from './pms-bowl-uptrack';
+import { geoItem as seattleRidgeParkingLot } from './seattle-ridge-parking-lot';
+import { geoItem as sharkfinArea } from './sharkfin-area';
+import { geoItem as sunburstArea } from './sunburst-area';
+import { geoItem as sunburstParkingLot } from './sunburst-parking-lot';
+import { geoItem as theLibraries } from './the-libraries';
+import { geoItem as tincanArea } from './tincan-area';
+import { geoItem as tincanCommonBowl } from './tincan-common-bowl';
+import { geoItem as tincanCommonPeak } from './tincan-common-peak';
+import { geoItem as tincanHippieBowl } from './tincan-hippie-bowl';
+import { geoItem as tincanMeadowToRidgeUptrack } from './tincan-meadow-to-ridge-uptrack';
+import { geoItem as tincanOutTrack } from './tincan-out-track';
+import { geoItem as tincanParkingLot } from './tincan-parking-lot';
+import { geoItem as tincanProperPeak } from './tincan-proper-peak';
+import { geoItem as tincanTrees } from './tincan-trees';
+import { geoItem as tincanTreesUptrack } from './tincan-trees-uptrack';
+import { geoItem as tincanUptrack } from './tincan-uptrack';
+import { geoItem as toddsRun } from './todds-run';
+import { geoItem as wolverineArea } from './wolverine-area';
+
+// Add new exports here when creating new route files
+export const allGeoItems = [
+  blueDiamondRoute,
+  centerRidgeParkingLot,
+  cfr,
+  coastalParkingLot,
+  cornbiscuitArea,
+  cornbiscuitParkingLot,
+  eddiesApproachAndUptrack,
+  eddiesArea,
+  eddiesFrontFace,
+  eddiesNorthBowl,
+  eddiesParkingLot,
+  godsCountryParkingLot,
+  goldpanArea,
+  johnsonPassParkingLot,
+  lippsArea,
+  lippsParkingLot,
+  magnumArea,
+  motorizedParkingLot,
+  pastoralArea,
+  petesNorthArea,
+  petesSouthArea,
+  pmsBowlUptrack,
+  seattleRidgeParkingLot,
+  sharkfinArea,
+  sunburstArea,
+  sunburstParkingLot,
+  theLibraries,
+  tincanArea,
+  tincanCommonBowl,
+  tincanCommonPeak,
+  tincanHippieBowl,
+  tincanMeadowToRidgeUptrack,
+  tincanOutTrack,
+  tincanParkingLot,
+  tincanProperPeak,
+  tincanTrees,
+  tincanTreesUptrack,
+  tincanUptrack,
+  toddsRun,
+  wolverineArea,
+];
+
+export type ValidRouteId = 
+  | "blue-diamond-route"
+  | "center-ridge-parking-lot"
+  | "cfr"
+  | "coastal-parking-lot"
+  | "cornbiscuit-area"
+  | "cornbiscuit-parking-lot"
+  | "eddies-approach-and-uptrack"
+  | "eddies-area"
+  | "eddies-front-face" 
+  | "eddies-north-bowl"
+  | "eddies-parking-lot"
+  | "gods-country-parking-lot"
+  | "goldpan-area"
+  | "johnson-pass-parking-lot"
+  | "lipps-area"
+  | "lipps-parking-lot"
+  | "magnum-area"
+  | "motorized-parking-lot"
+  | "pastoral-area"
+  | "petes-north-area"
+  | "petes-south-area"
+  | "pms-bowl-uptrack"
+  | "seattle-ridge-parking-lot"
+  | "sharkfin-area"
+  | "sunburst-area"
+  | "sunburst-parking-lot"
+  | "the-libraries"
+  | "tincan-area"
+  | "tincan-common-bowl"
+  | "tincan-common-peak"
+  | "tincan-hippie-bowl"
+  | "tincan-meadow-to-ridge-uptrack"
+  | "tincan-out-track"
+  | "tincan-parking-lot"
+  | "tincan-proper-peak"
+  | "tincan-trees-uptrack"
+  | "tincan-trees"
+  | "tincan-uptrack"
+  | "todds-run"
+  | "wolverine-area";

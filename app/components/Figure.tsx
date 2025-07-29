@@ -3,11 +3,13 @@
 import Image from "next/image";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { StaticImageData } from "next/image";
+import { ReactNode } from "react";
 
 interface FigureProps {
-  src: string;
+  src: string | StaticImageData;
   alt?: string;
-  caption?: string;
+  caption?: string | ReactNode;
   [key: string]: any;
 }
 

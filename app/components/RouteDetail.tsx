@@ -72,7 +72,7 @@ export default function RouteDetail({ item }: RouteDetailProps) {
         </figure>
       )}
       <article className="prose prose-sm prose-slate">
-        {item.mdxJsx}
+        {item.proseJsx}
       </article>
       <SubRoutes childrenIds={item.properties.children} />
     </>

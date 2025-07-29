@@ -1,4 +1,4 @@
-import { loadGeoItems } from "@/lib/geo-item-server";
+import { loadGeoItems } from "@/lib/geo-item";
 import ExplorerWithRouter from "./explorer";
 
 export async function generateStaticParams() {

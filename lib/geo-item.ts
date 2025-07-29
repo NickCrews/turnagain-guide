@@ -1,6 +1,7 @@
 
 import { type Feature, type Geometry } from 'geojson';
 import { type ATES } from '@/lib/terrain-rating';
+import { allGeoItems } from '@/routes';
 
 export type FeatureType = "area" | "parking" |"peak" | "ascent" | "descent";
 
@@ -9,7 +10,7 @@ export const FEATURE_TYPES: Set<FeatureType> = new Set(['area', 'parking', 'peak
 // This is an extension of the GeoJsonProperties interface.
 export interface GeoItemProperties {
   title: string;
-  description: string;
+  description?: string;
   feature_type: FeatureType;
   /* in meters */
   elevation?: number;
@@ -27,7 +28,7 @@ export interface GeoItemProperties {
   /* The relative url of an image to be used as a thumbnail, eg 'img/tincan-overview.jpg' */
   thumbnail?: string;
   /* the id of the other item that represents the area, eg 'tincan-area' */
-  area: string | null
+  area?: string;
   /** 
    * The ids of the items that are children of this item.
    * This is only going to be filled in for areas.
@@ -41,8 +42,8 @@ export interface GeoItem extends Feature {
   id: string;
   geometry: Geometry;
   properties: GeoItemProperties;
-  /** The serialized MDX content of the item. */
-  mdxJsx: React.JSX.Element;
+  /** The prose/article that describes the item, with text, pictures, etc. */
+  proseJsx: React.JSX.Element;
 }
 
 // For all areas, add a children field that contains the ids of the children items.
@@ -56,8 +57,14 @@ export function addChildrenField(items: GeoItem[]) {
 
   // Populate the map with child IDs
   items.forEach(item => {
+    console.log("Processing item", item.id, item.properties.area);
+    console.log(parentToChildrenMap);
       if (item.properties.area) {
-          parentToChildrenMap.get(item.properties.area).push(item.id);
+        let area = parentToChildrenMap.get(item.properties.area);
+        if (!area) {
+          throw new Error(`Area ${item.properties.area} is not a valid parent`);
+        }
+        area.push(item.id);
       }
   });
 
@@ -71,4 +78,10 @@ export function addChildrenField(items: GeoItem[]) {
           },
       };
   });
+}
+
+export async function loadGeoItems() {
+  const withChildren = addChildrenField(allGeoItems);
+  console.log("Loaded " + withChildren.length + " geoitems");
+  return withChildren;
 }

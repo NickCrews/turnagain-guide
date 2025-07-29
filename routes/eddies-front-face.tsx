@@ -1,5 +1,6 @@
 import Figure from "@/app/components/Figure";
 import Link from "@/components/ui/link";
+import RouteLink from "@/app/components/RouteLink";
 import ImgEddiesOverview from "@/public/img/eddies-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
 
@@ -36,7 +37,7 @@ export const geoItem: GeoItem = {
   proseJsx: (
     <>
       <p>
-        The skin track goes up the looker's left side of the face, skirting
+        The <RouteLink routeID="eddies-approach-and-uptrack">skin track</RouteLink> goes up the looker's left side of the face, skirting
         right next to and sometimes weaving into the trees. This provides a
       </p>
 

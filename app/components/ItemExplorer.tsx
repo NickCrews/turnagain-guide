@@ -266,7 +266,7 @@ function RouteDetailsDrawer({
       snapPoints={snapPoints}
       setActiveSnapPoint={setSnap}
     >
-      <DrawerContent className="h-full">
+      <DrawerContent className="h-full overflow-y-auto">
         <DrawerHeader>
           <RouteTitle title={item.properties.title} />
           {/* For accessibility */}
@@ -276,8 +276,7 @@ function RouteDetailsDrawer({
         </DrawerTitle>
           </VisuallyHidden>
         </DrawerHeader>
-        {/* TODO: this scroll behavior isn't great. */}
-        <div className="overflow-y-auto h-full">
+        <div className="px-4 pb-4">
           <RouteDetail item={item} />
         </div>
       </DrawerContent>

@@ -2,7 +2,6 @@ import withSerwistInit from '@serwist/next';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import { NextConfig } from 'next';
-import createMDX from '@next/mdx';
 
 const basicConfig: NextConfig = {
   // Next.js config options
@@ -23,7 +22,7 @@ const basicConfig: NextConfig = {
   },
 
   // include markdown and MDX files
-  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  pageExtensions: ['js', 'jsx', 'md', 'ts', 'tsx'],
 
   // configure webpack to work with Cesium
   webpack: (config, { webpack, isServer }) => {
@@ -80,9 +79,5 @@ const withSerwist = withSerwistInit({
   reloadOnOnline: false,
 });
 
-const withMDX = createMDX({
-  // Add markdown plugins here, as desired
 
-})
-
-export default withSerwist(withMDX(basicConfig));
+export default withSerwist(basicConfig);

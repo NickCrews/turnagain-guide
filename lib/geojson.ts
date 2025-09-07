@@ -1,5 +1,3 @@
-import { fileURLToPath } from "url";
-import { allGeoItems } from "@/routes";
 import { type GeoItem } from "./geo-item";
 import {type FeatureCollection } from 'geojson';
 

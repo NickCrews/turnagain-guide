@@ -94,7 +94,7 @@ export default function Map({ items = [], setSelectedItem, selectedItem }: MapPr
     };
     viewer.screenSpaceEventHandler.setInputAction(handleClick, ScreenSpaceEventType.LEFT_CLICK);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-  }, [viewer, items])
+  }, [viewer, items, setSelectedItem, itemsById])
 
   useEffect(() => {
     if (!viewer) {

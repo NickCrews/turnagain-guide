@@ -1,9 +1,5 @@
 // copied and modified from
 // https://github.com/tyrasd/togpx/blob/ad56b38d393088db4753b9ae2f545dd21c88ebb4/index.js
-// 
-// cat public/turnagain-pass.geojson | node --experimental-strip-types app/util/gpx.ts > public/turnagain-pass.gpx
-
-import { fileURLToPath } from "url";
 
 interface GeoJSONFeature {
   type: string;

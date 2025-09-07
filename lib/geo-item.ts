@@ -60,7 +60,7 @@ export function addChildrenField(items: GeoItem[]) {
     console.log("Processing item", item.id, item.properties.area);
     console.log(parentToChildrenMap);
       if (item.properties.area) {
-        let area = parentToChildrenMap.get(item.properties.area);
+        const area = parentToChildrenMap.get(item.properties.area);
         if (!area) {
           throw new Error(`Area ${item.properties.area} is not a valid parent`);
         }

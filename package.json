@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "add-component": "pnpm dlx shadcn@latest add",
-    "migrate:mdx": "uv run scripts/migrate-metadata-to-mdx.py",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

@@ -62,7 +62,7 @@ interface GPX {
   };
 }
 
-function geojsonToGpx(geojson: any, options: GPXOptions = {}): GPX {
+export default function gpxFromGeojson(geojson: any, options: GPXOptions = {}): GPX {
   const defaults: GPXOptions = {
     includePolygons: false,
     creator: "togpx",
@@ -234,22 +234,4 @@ function geojsonToGpx(geojson: any, options: GPXOptions = {}): GPX {
     }
   });
   return gpx;
-}
-
-export default geojsonToGpx;
-
-
-async function cli() {
-  const fs = await import('fs');
-  const { XMLBuilder } = await import('fast-xml-parser');
-  const geojson = JSON.parse(fs.readFileSync(0, 'utf8'));
-  const gpx = geojsonToGpx(geojson);
-  const builder = new XMLBuilder({attributeNamePrefix: "@", ignoreAttributes: false, format: true});
-  const xml = builder.build(gpx);
-  console.log(xml);
-}
-
-// if called as a script, not imported, run cli
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  cli();
 }

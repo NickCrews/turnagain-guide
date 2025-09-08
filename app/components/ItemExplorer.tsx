@@ -98,7 +98,7 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string 
       return true;
     }
 
-    const matchesArea = filters.areas.size == 0 || filters.areas.has(item.properties.area ?? '');
+    const matchesArea = filters.areas.size == 0 || filters.areas.has(item.properties.area ?? '') || (filters.areas.has(item.id) && item.properties.feature_type == "area");
     const matchesType = filters.types.size == 0 || filters.types.has(item.properties.feature_type);
     const matchesAtes = filters.atesRatings.size == 0 || (item.properties.nicks_ates_ratings.length == 0)
       || item.properties.nicks_ates_ratings.some(rating => filters.atesRatings.has(rating));

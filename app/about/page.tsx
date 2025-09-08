@@ -16,8 +16,8 @@ export default function AboutPage() {
       <p>
         Please get in touch at <em>nicholas.b.crews+turnagain.guide@gmail.com</em>.
         I would love corrections, suggestions, or to hear what has been
-        working for you and what hasn't.
-        The help of many will polish this to it's best version.
+        working for you and what hasn&apos;t.
+        The help of many will polish this to it&apos;s best version.
         Note that I reserve the right to make final decisions (for now)
       </p>
       

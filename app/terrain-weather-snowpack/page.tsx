@@ -1,5 +1,3 @@
-import {Elevation} from '@/app/components/Units'
-
 export default function TerrainWeatherSnowpackPage() {
   return (
     <div className="prose p-4 mx-auto">
@@ -52,7 +50,7 @@ export default function TerrainWeatherSnowpackPage() {
       <p>
         The magic number to pay attention to is 1000 feet:
         That is the highest elevation of the road, and often around the elevation you park at.
-        If it's higher, you can still have good skiing, but you are going to have to
+        If it&apos;s higher, you can still have good skiing, but you are going to have to
         pay the toll of climbing through the rain line to get it.
       </p>
       
@@ -61,11 +59,11 @@ export default function TerrainWeatherSnowpackPage() {
         The sun has less effect in Alaska than you might be used to if you are coming from
         more equatorial areas, and it is less focused.
         In other areas, in the middle of winter (Dec to Feb), you often need to be aware of how
-        the sun is affecting the snow. Even if it isn't warming it enough to cause wet slides,
+        the sun is affecting the snow. Even if it isn&apos;t warming it enough to cause wet slides,
         it still could be causing melt-freeze crusts, etc.
-        In Turnagain Pass, unless there are exposed rocks to absorb the heat, or it's a very warm
-        day, I usually don't think about the solar input that much until the springtime.
-        If it's a super sunny pow day in January, as long as it's fairly cold I wouldn't
+        In Turnagain Pass, unless there are exposed rocks to absorb the heat, or it&apos;s a very warm
+        day, I usually don&apos;t think about the solar input that much until the springtime.
+        If it&apos;s a super sunny pow day in January, as long as it&apos;s fairly cold I wouldn&apos;t
         write off skiing a direct South line.
       </p>
       <p>
@@ -75,12 +73,12 @@ export default function TerrainWeatherSnowpackPage() {
         Second, the orbits the horizon instead of arcing straight overhead,
         which generally leads to any one patch of snow being hit by direct sun for a smaller
         fraction of the day.
-        Third, it's a lot cloudier than Colorado.
+        Third, it&apos;s a lot cloudier than Colorado.
       </p>
       
       <h3>Radiative Cooling</h3>
       <p>
-        The "inverse" of solar input is radiative cooling.
+        The &ldquo;inverse&rdquo; of solar input is radiative cooling.
         This is when the snow emits UV radiation that travels through a clear sky
         and makes it out to space, taking thermal energy with it.
         This clear sky is important: on a cloudy day, the UV radiation hits the clouds,
@@ -102,7 +100,7 @@ export default function TerrainWeatherSnowpackPage() {
         day, and then freeze solid at night.
         Around here, because of the moderately warm ambient air temperatures,
         the freezing at night often requires a clear sky.
-        We can have bad corn seasons when we don't get those clear skies consitently:
+        We can have bad corn seasons when we don&apos;t get those clear skies consitently:
         the snow melts during the warm day, but then sort of just stays as slop at night.
       </p>
       <p>
@@ -140,7 +138,7 @@ export default function TerrainWeatherSnowpackPage() {
         Oftentimes a high pressure system from the center of alaska flows South past Anchorage
         and down Turnagain Arm, blasting Turnagain Pass with high winds at first,
         which then settle into a period of clear and cold weather.
-        It's a bummer when these happen too strongly, because the initial winds
+        It&apos;s a bummer when these happen too strongly, because the initial winds
         can ruin the snow from the previous storm, and then you are stuck with this
         beautiful weather but a bunch of terrible snow.
         When this system moves in with less wind, then this pattern can make for
@@ -160,7 +158,7 @@ export default function TerrainWeatherSnowpackPage() {
       
       <h3>Ground Hoar</h3>
       <p>
-        We don't usually get it. Hurray! So that means we don't usually have to
+        We don&apos;t usually get it. Hurray! So that means we don&apos;t usually have to
         worry about avalanches breaking at the ground.
       </p>
       
@@ -183,7 +181,7 @@ export default function TerrainWeatherSnowpackPage() {
         This actually is pretty rare, most glide cracks we see become inactive
         and then new snow fills in the crack.
         But when they do release, they release usually to the ground, and very large.
-        Usually you can't trigger them yourself, but you just want to minimize
+        Usually you can&apos;t trigger them yourself, but you just want to minimize
         your exposure by not lingering underneath them.
       </p>
       <p>In general</p>
@@ -191,7 +189,7 @@ export default function TerrainWeatherSnowpackPage() {
         <li>try to avoid them if you can</li>
         <li>be especially cautious in bad visibility</li>
         <li>
-          if there is no better route, I wouldn't think it was crazy to quickly scoot
+          if there is no better route, I wouldn&apos;t think it was crazy to quickly scoot
           around them
         </li>
       </ul>

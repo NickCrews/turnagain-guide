@@ -7,10 +7,10 @@ export default function ResourcesPage() {
       <p>
         The <a href="https://www.facebook.com/groups/583971298332539/">Alaska Backcountry Ski Addiction</a>
         Facebook group is a great place to ask questions, share photos, and find partners.
-        It's probably the most active backcountry skiing group in Alaska.
+        It&apos;s probably the most active backcountry skiing group in Alaska.
       </p>
       <p>
-        If you're a woman, a less gatekeepy and bro-y alternative is the
+        If you&apos;re a woman, a less gatekeepy and bro-y alternative is the
         <a href="https://www.facebook.com/groups/316805289670797"> AK Chicks Who Backcountry Ski/Splitboard</a>
         Facebook group.
       </p>
@@ -38,7 +38,7 @@ export default function ResourcesPage() {
         <li>
           <a href="https://www.powderhoundak.com/">Powder Hound Ski Shop</a> is a ski shop in Girdwood.
           They are a little more resort-oriented (since they are at the base of Alyeska),
-          so they don't have as wide of a selection of backcountry gear (eg skins)
+          so they don&apos;t have as wide of a selection of backcountry gear (eg skins)
           as AMH, but otherwise are great.
         </li>
       </ul>
@@ -52,7 +52,7 @@ export default function ResourcesPage() {
         </li>
         <li>
           <a href="https://remarkableadv.com/">Remarkable Adventures</a> is a guide service based in Girdwood
-          ran by AMGA Certified Ski Guide Nick D'Alessio.
+          ran by AMGA Certified Ski Guide Nick D&apos;Alessio.
         </li>
         <li>
           <a href="https://www.stockalpine.com/">Joe Stock</a> is an IFMGA Mountain Guide based in Anchorage.

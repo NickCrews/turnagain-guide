@@ -117,7 +117,7 @@ export default function Map({ items = [], setSelectedItem, selectedItem }: MapPr
       return;
     }
     const htmlOverlay = popupRef.current;
-    let canvasPosition = new Cartesian2();  // reduce number of allocations in tight loop
+    const canvasPosition = new Cartesian2();  // reduce number of allocations in tight loop
     const removeListener = viewer.scene.preRender.addEventListener(function () {
       viewer.scene.cartesianToCanvasCoordinates(popupInfo.position, canvasPosition);
       htmlOverlay.style.top = canvasPosition.y + "px";

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import  Header from "./components/Header";
 import { ViewerProvider } from "./components/ViewerContext";
 import { GeoItemsProvider } from "@/components/ui/itemsContext";
 import { loadGeoItems } from "@/lib/geo-item";
@@ -37,10 +36,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Header />
         <ViewerProvider>
           <GeoItemsProvider items={items}>
-            <main>{children}</main>
+            {children}
           </GeoItemsProvider>
         </ViewerProvider>
       </body>

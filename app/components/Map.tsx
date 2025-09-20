@@ -94,7 +94,7 @@ export default function Map({ items = [], setSelectedItem, selectedItem }: MapPr
     };
     viewer.screenSpaceEventHandler.setInputAction(handleClick, ScreenSpaceEventType.LEFT_CLICK);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-  }, [viewer, items])
+  }, [viewer, items, setSelectedItem, itemsById])
 
   useEffect(() => {
     if (!viewer) {
@@ -117,12 +117,9 @@ export default function Map({ items = [], setSelectedItem, selectedItem }: MapPr
       return;
     }
     const htmlOverlay = popupRef.current;
-    const scratch2d = new Cartesian2();  // reduce number of allocations in tight loop
+    const canvasPosition = new Cartesian2();  // reduce number of allocations in tight loop
     const removeListener = viewer.scene.preRender.addEventListener(function () {
-      const canvasPosition = viewer.scene.cartesianToCanvasCoordinates(
-        popupInfo.position,
-        scratch2d
-      );
+      viewer.scene.cartesianToCanvasCoordinates(popupInfo.position, canvasPosition);
       htmlOverlay.style.top = canvasPosition.y + "px";
       htmlOverlay.style.left = canvasPosition.x + "px";
     });

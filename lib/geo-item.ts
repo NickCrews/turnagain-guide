@@ -54,11 +54,7 @@ export function addChildrenField(items: GeoItem[]) {
   items.forEach(obj => {
       parentToChildrenMap.set(obj.id, []);
   });
-
-  // Populate the map with child IDs
   items.forEach(item => {
-    console.log("Processing item", item.id, item.properties.area);
-    console.log(parentToChildrenMap);
       if (item.properties.area) {
         const area = parentToChildrenMap.get(item.properties.area);
         if (!area) {
@@ -67,8 +63,6 @@ export function addChildrenField(items: GeoItem[]) {
         area.push(item.id);
       }
   });
-
-  // Add the children field to each object
   return items.map(obj => {
       return {
           ...obj,

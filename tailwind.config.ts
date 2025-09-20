@@ -3,11 +3,8 @@ import type { Config } from "tailwindcss";
 export default {
     darkMode: ["class"],
     content: [
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    // without this, tailwind doesn't think we use the 'prose' class
-    // and so it gets purged from the bundle
-    "./mdx-components.tsx",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
   	extend: {

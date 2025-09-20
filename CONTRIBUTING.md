@@ -1,14 +1,20 @@
 # Contributing
-
+## Setup
+1. Copy the `example.env` to another file called `.env`. 
+2. Either get a Cesium api key from another developer or make a free account with Cesium to get an api key. 
+Paste the API key into the variable for the cesium api key.
+3. Run 
 ```bash
 pnpm install
 ```
+and 
 
 ```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Run all images through https://squoosh.app to make them smaller before committing them
-to the git repo.
+## Development Notes
+- Run `pnpm next lint` before committing to ensure you are not inadvertantly introducing code with linting errors. 
+- Run all images through https://squoosh.app to make them smaller before committing them to the git repo.

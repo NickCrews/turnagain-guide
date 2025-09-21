@@ -144,11 +144,19 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     onItemSelect={setSelectedItem}
   />
 
+  const filterBar = (
+    <div className="absolute top-0 left-0 z-10">
+      <RouteFilterBar filters={filters} setFilters={setFilters} />
+    </div>
+  )
+
   const desktopInterface = (
     <div className="h-full">
-      <RouteFilterBar filters={filters} setFilters={setFilters} />
       <div className="flex h-full">
-        <div className="flex-1 h-full">{map}</div>
+        <div className="flex-1 h-full relative">
+          {map}
+          {filterBar}
+        </div>
         <div className="flex-1 max-w-lg h-full">
           {
             selectedItem ? <ItemDetailDesktop item={selectedItem} onBack={handleBack} /> : gallery
@@ -162,8 +170,10 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     if (selectedItem) {
       return (
         <>
-          <RouteFilterBar filters={filters} setFilters={setFilters} />
-          {map}
+          <div className="relative h-full">
+            {map}
+            {filterBar}
+          </div>
           <RouteDetailsDrawer
             onClose={handleBack}
             item={selectedItem}
@@ -173,8 +183,10 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     }
     return (
       <>
-        <RouteFilterBar filters={filters} setFilters={setFilters} />
-        {map}
+        <div className="relative h-full">
+          {map}
+          {filterBar}
+        </div>
         <GalleryDrawer>
           {gallery}
         </GalleryDrawer>

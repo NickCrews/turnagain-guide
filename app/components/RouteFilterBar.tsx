@@ -40,7 +40,7 @@ export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarPr
 
 function SearchBar({ query, setQuery }: { query: string, setQuery: (query: string) => void }) {
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center bg-background rounded-md">
       <Input
         type="text"
         value={query}

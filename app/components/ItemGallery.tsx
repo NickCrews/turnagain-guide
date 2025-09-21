@@ -9,9 +9,13 @@ interface ItemGalleryProps {
 export default function ItemGallery({ items, onItemSelect}: ItemGalleryProps) {
   items = items.filter((item) => item.properties.feature_type != 'area');
   if (!items || items.length === 0) {
-    <div className="flex h-full pt-16 justify-center text-gray-500">
-      <span>No matching items.</span>
-    </div>
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-gray-500 text-lg">
+        <img src="/lost.webp" alt="No items found" className="w-64 h-64 mb-4 opacity-50" />
+        <p>No matching items.</p>
+        <p>Try adjusting your filters.</p>
+      </div>
+    );
   }
   return (
     <div className="relative h-full">

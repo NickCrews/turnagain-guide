@@ -47,7 +47,7 @@ function useComboItems(): [(areaId: string) => ComboItem, ComboItem[]] {
     const item = getAreaInfo(areaId, items);
     return {
       value: areaId,
-      label: item.properties.title,
+      label: item.properties.title.replace(/ Area$/i, ''),
       bgColor: areaColor(item.id),
       textColor: 'black',
     }

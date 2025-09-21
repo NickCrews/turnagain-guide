@@ -46,48 +46,75 @@ export function MultiCombo<I extends Item>(
   const description = descriptionCallback ? descriptionCallback(selectedItems) : <></>
 
   return (
-    <div className="max-w-[200px]">
-      <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
-        <PopoverTrigger asChild>
-          <Button
-            variant='outline'
-            role="combobox"
-            aria-expanded={openCombobox}
-            className="justify-between text-foreground border"
-          >
-            <span className="flex truncate">
-              {labelCallback(selectedItems)}
-              <ChevronDown className="ml-4 w-4 opacity-50" />
-            </span>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <Command loop>
-            {description}
-            <CommandList>
-              {items.map((item) => {
-                const isSelected = selectedItems.some((i) => i.value == item.value);
-                return (
-                  <CommandItem
+    <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
+      <PopoverTrigger asChild>
+        <Button
+          variant='outline'
+          role="combobox"
+          aria-expanded={openCombobox}
+          className={cn(
+            "justify-between text-foreground border h-9 px-3 py-2 transition-colors",
+            selectedItems.length > 0
+              ? "ring-2 ring-primary"
+              : ""
+          )}
+        >
+          <div className="flex gap-1 items-center flex-1 min-w-0 overflow-hidden">
+            {selectedItems.length > 0 ? (
+              <div className="flex gap-1 items-center min-w-0 overflow-hidden">
+                {selectedItems.slice(0, 3).map((item) => (
+                  <Badge
                     key={item.value}
-                    value={item.value}
-                    onSelect={() => setItemSelected(selectedItems, item, !isSelected)}
+                    variant="secondary"
+                    style={{
+                      borderColor: `${item.bgColor}20`,
+                      backgroundColor: item.bgColor,
+                      color: item.textColor,
+                    }}
+                    className="text-xs px-2 py-0 h-6 flex items-center whitespace-nowrap shrink-0"
                   >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        isSelected ? "opacity-100" : "opacity-0",
-                      )}
-                    />
-                    {ItemToBadge(item)}
-                  </CommandItem>
-                );
-              })}
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
-    </div>
+                    <span className="truncate">{item.label}</span>
+                  </Badge>
+                ))}
+                {selectedItems.length > 3 && (
+                  <span className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
+                    +{selectedItems.length - 3}
+                  </span>
+                )}
+              </div>
+            ) : (
+              labelCallback(selectedItems)
+            )}
+          </div>
+          <ChevronDown className="ml-2 w-4 h-4 opacity-50 shrink-0" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <Command loop>
+          {description}
+          <CommandList>
+            {items.map((item) => {
+              const isSelected = selectedItems.some((i) => i.value == item.value);
+              return (
+                <CommandItem
+                  key={item.value}
+                  value={item.value}
+                  onSelect={() => setItemSelected(selectedItems, item, !isSelected)}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      isSelected ? "opacity-100" : "opacity-0",
+                    )}
+                  />
+                  {ItemToBadge(item)}
+                </CommandItem>
+              );
+            })}
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }
 

@@ -5,14 +5,29 @@ export default function ResourcesPage() {
       
       <h2>Facebook Groups</h2>
       <p>
-        The <a href="https://www.facebook.com/groups/583971298332539/">Alaska Backcountry Ski Addiction</a>
+        The <a href="https://www.facebook.com/groups/583971298332539/">Alaska Backcountry Ski Addiction</a>{" "}
         Facebook group is a great place to ask questions, share photos, and find partners.
         It&apos;s probably the most active backcountry skiing group in Alaska.
       </p>
       <p>
         If you&apos;re a woman, a less gatekeepy and bro-y alternative is the
-        <a href="https://www.facebook.com/groups/316805289670797"> AK Chicks Who Backcountry Ski/Splitboard</a>
+        {" "}<a href="https://www.facebook.com/groups/316805289670797">
+          AK Chicks Who Backcountry Ski/Splitboard
+        </a>{" "}
         Facebook group.
+      </p>
+
+      <h2>Mapping Software</h2>
+      <p>
+        This site does not try to be a full-featured mapping application.
+        For that, I recommend something like
+        {" "}<a href="https://www.gaiagps.com/">GaiaGPS</a>,{" "}
+        <a href="https://www.onxmaps.com/">onX Maps</a>,{" "}
+        or <a href="https://caltopo.com/">CalTopo</a>.
+        All of these support importing maps data, and this site provides downloadable
+        {" "} <a href="/turnagain-pass.geojson" download>GeoJSON</a> and
+        {" "} <a href="/turnagain-pass.gpx" download>GPX</a> files for that purpose.
+        These files contain all routes, areas, and points of interest shown on this site.
       </p>
       
       <h2>Strava Heatmap</h2>

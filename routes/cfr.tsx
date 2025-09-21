@@ -56,7 +56,7 @@ export const geoItem: GeoItem = {
         This goes from the summit of Tincan Common down the NW ridge, the
         lefthand skyline when looking at Tincan from the parking lot. This often
         is wind-affected, but when it has good snow, it is a long, consistent,
-        fairly safe run that is often overlooked and untouched. I've only skied
+        fairly safe run that is often overlooked and untouched. I&apos;ve only skied
         it once, usually I opt for lapping Tincan Common, but it is a nice
         alternative to have in your back pocket.
       </p>

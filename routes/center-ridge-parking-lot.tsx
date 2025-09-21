@@ -24,8 +24,8 @@ export const geoItem: GeoItem = {
         planning on descending from
         <RouteLink routeID="the-libraries">The Libraries</RouteLink>,
         <RouteLink routeID="tincan-hippie-bowl">Hippy Bowl</RouteLink>, or
-        somewhere else up center ridge valley, because it's all down hill to
-        here when skiing down center ridge valley. It's just a little bit harder
+        somewhere else up center ridge valley, because it&apos;s all down hill to
+        here when skiing down center ridge valley. It&apos;s just a little bit harder
         to get back to
         <RouteLink routeID="tincan-parking-lot">Tincan Parking Lot</RouteLink>
         from center ridge valley, requiring a bit of sidestepping (if you are on

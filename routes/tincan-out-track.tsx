@@ -114,8 +114,8 @@ export const geoItem: GeoItem = {
         The benefit of this route is that it allows for slightly better skiing
         through Tincan Trees on your last descent; the skiing down the ridge is
         slightly worse. The downside of this route is that it can be confusing
-        if you don't know where you are going. Usually you will find a track
-        from others before you, although if it hasn't snowed recently these
+        if you don&apos;t know where you are going. Usually you will find a track
+        from others before you, although if it hasn&apos;t snowed recently these
         tracks can become a maze of people skiing and skinning in all different
         directions. If you follow the GPS track you will be fine.
       </p>

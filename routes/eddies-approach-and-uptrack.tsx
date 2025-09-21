@@ -260,13 +260,13 @@ export const geoItem: GeoItem = {
   },
   proseJsx: <>
     <p>
-      Park at the <RouteLink routeID="eddies-parking-lot">Eddie's Pulloff</RouteLink>
+      Park at the <RouteLink routeID="eddies-parking-lot">Eddie&apos;s Pulloff</RouteLink>
       and follow the Iditarod Trail upvalley for 30 minutes.
       Depending on coverage, you may need to take your skis off in a few places,
       but often you can ski the whole way.
       This is fairly low elevation, and with lots of tree cover,
       so often snow bombs off the trees fall onto the trail and turn it into
-      a bit of a crusty mess, but the trail is low angle enough that this isn't
+      a bit of a crusty mess, but the trail is low angle enough that this isn&apos;t
       really a problem.
     </p>
     <p>
@@ -275,11 +275,11 @@ export const geoItem: GeoItem = {
       Competent snowboarders should be able to ride most of this,
       only needing to take their board off in a few places.
       If you are a beginner, you might need to go slightly slower,
-      and this can be a bit more of a slog, but it isn't terrible.
+      and this can be a bit more of a slog, but it isn&apos;t terrible.
     </p>
     <p>
       The trail eventually comes within a hundred feet of the alder
-      fields at the base of Eddie's, and this is where you break through the
+      fields at the base of Eddie&apos;s, and this is where you break through the
       old growth head up this meadow.
       At low snow levels, these alders can be a bit of a pain, and it might be worth it
       to continue up the Iditarod Trail a bit further until you can break into the
@@ -294,14 +294,14 @@ export const geoItem: GeoItem = {
       duck into the thick old growth to avoid these, even though it is a bit slower.
     </p>
     <p>
-      Once you are on the ridge proper, it's a beautiful skin up to the top.
+      Once you are on the ridge proper, it&apos;s a beautiful skin up to the top.
     </p>
     <p>
       You ride back down the <RouteLink routeID="eddies-front-face"> Front Face</RouteLink>
-      that was on your skinner's right.
+      that was on your skinner&apos;s right.
       Or, for a more mellow ride, you can ride the
       <RouteLink routeID="eddies-north-bowl">North Bowl</RouteLink>
-      on skinner's left.
+      on skinner&apos;s left.
     </p>
   </>,
 };

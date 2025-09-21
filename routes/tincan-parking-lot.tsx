@@ -37,7 +37,7 @@ export const geoItem: GeoItem = {
       </p>
 
       <p>
-        Once you park, it's a chaotic scramble/slide down the embankment and
+        Once you park, it&apos;s a chaotic scramble/slide down the embankment and
         across the meadow. On the far side of a meadow, CNFAIC usually has a
         beacon checker machine. Slide past it one at a time to verify that your
         beacon is working.
@@ -50,14 +50,14 @@ export const geoItem: GeoItem = {
         length of the whole of Turnagain Pass, all the way down to Turnagain Arm
         1000 feet below. You better watch out though, or you might run into a
         roving band of retired ladies from Girdwood drinking gin and tonics and
-        eating cake for someone's birthday.
+        eating cake for someone&apos;s birthday.
       </p>
 
       <p>
         Very very rarely is the parking lot so full that there is no room. When
         this happens, choose a different zone, or continue South up the highway
         to the Center Ridge parking lot, and you can access the Tincan ridge
-        from the slightly longer and lower quality "Blue Diamond" approach
+        from the slightly longer and lower quality &quot;Blue Diamond&quot; approach
         trail.
       </p>
     </>

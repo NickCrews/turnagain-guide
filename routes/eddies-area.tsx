@@ -43,7 +43,7 @@ export const geoItem: GeoItem = {
         Eddies is an area with many low angle options, some steeper runs, and if
         you keep going back the ridge, some ski movie spines. The downsides of
         eddies are the 40 minute approach through the woods, and the slightly
-        lower elevation. If it weren't for these two downsides, I bet this would
+        lower elevation. If it weren&apos;t for these two downsides, I bet this would
         be just as popular of an area as{" "}
         <RouteLink routeID="tincan-area">Tincan</RouteLink>.
       </p>

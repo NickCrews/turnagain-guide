@@ -16,5 +16,5 @@ pnpm dev
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Development Notes
-- Run `pnpm next lint` before committing to ensure you are not inadvertantly introducing code with linting errors. 
+- Run `pnpm lint` before committing to ensure you are not inadvertantly introducing code with linting errors. 
 - Run all images through https://squoosh.app to make them smaller before committing them to the git repo.

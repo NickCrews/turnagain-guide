@@ -20,13 +20,13 @@ export const geoItem: GeoItem = {
   proseJsx: <>
     <p>
       Park here to access
-      <RouteLink routeID="eddies-area">Eddie's Area</RouteLink>
+      <RouteLink routeID="eddies-area">Eddie&apos;s Area</RouteLink>
       via the
       <RouteLink routeID="eddies-approach-and-uptrack">skin track</RouteLink>.
     </p>
     <p>
       This is a large pullout on the East side of the highway.
-      After a storm, it isn't a high priority for DOT, and often receives a
+      After a storm, it isn&apos;t a high priority for DOT, and often receives a
       marginal plowing job for the first ~24 hours after a storm.
       Usually enough just for cars to parrallel pull off the highway, but not
       really enough for parking. If you encounter this, you can usually

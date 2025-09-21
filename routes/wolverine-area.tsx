@@ -38,8 +38,8 @@ export const geoItem: GeoItem = {
     <>
       <p>
         Sharkfin and Wolverine are difficult to access, seldom visited areas. I
-        won't bother writing about them much because I've never been there, so I
-        don't have much to add.
+        won&apos;t bother writing about them much because I&apos;ve never been there, so I
+        don&apos;t have much to add.
       </p>
 
       <Figure

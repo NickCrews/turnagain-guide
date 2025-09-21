@@ -21,7 +21,7 @@ export const geoItem: GeoItem = {
     <>
       <p>
         Sometimes plowed. If you want to go up Seattle Ridge, sometimes called
-        "sunnyside", this is the best parking lot for that. The entire West side
+        &quot;sunnyside&quot;, this is the best parking lot for that. The entire West side
         of the Seward Highway is open to motorized vehicles, so you will be
         sharing the terrain with lots of snowmachines. During the middle of the
         season they will have ripped up a lot of the ridable snow. But early

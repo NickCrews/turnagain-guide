@@ -19,7 +19,7 @@ export const geoItem: GeoItem = {
     <>
       <p>
         This is the location of the only pit toilet in the area, as well as an
-        emergency phone. There aren't any routes that start from here.
+        emergency phone. There aren&apos;t any routes that start from here.
       </p>
     </>
   ),

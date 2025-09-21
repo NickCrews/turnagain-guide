@@ -75,7 +75,7 @@ export const geoItem: GeoItem = {
         section is a little more steep, and is composed of several large steep
         gullies with complex bumpy terrain. It can be quite playful, with
         chances to ski mini spines, but also makes it more likely to trigger
-        something on a convexity, and the "funneling" action can make it more
+        something on a convexity, and the &quot;funneling&quot; action can make it more
         consequential. A very nice linkup for a stable day is to ski this run
         all the way to the bottom, and then scooch upvalley to find something in
         <RouteLink routeID="the-libraries">The Libraries</RouteLink>.

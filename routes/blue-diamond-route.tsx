@@ -129,7 +129,7 @@ export const geoItem: GeoItem = {
         </RouteLink>
         up to join the
         <RouteLink routeID="tincan-uptrack">Tincan Uptrack</RouteLink>
-        about halfway to treeline. It's a slightly easier skin and ski than the
+        about halfway to treeline. It&apos;s a slightly easier skin and ski than the
         lower half of the
         <RouteLink routeID="tincan-uptrack">Tincan Uptrack</RouteLink>. I like
         to do it when going with my mom, but otherwise most people generally

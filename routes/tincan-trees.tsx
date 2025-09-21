@@ -35,13 +35,13 @@ export const geoItem: GeoItem = {
   proseJsx: (
     <>
       <p>
-        The meadows on the north side of the ridge are known as "Tincan Trees".
+        The meadows on the north side of the ridge are known as &quot;Tincan Trees&quot;.
         The terrain is composed of many small lumps and rollovers, with a mix of
         open meadows and dense stands of trees, with tight passages connecting
         the meadows. There are many complex mini drainages and ridges, so if you
         are adventurous you can often find less-touched snow if you venture out
         of the obvious runs. The laps are fairly short, maybe 800 vertical feet,
-        but the uptrack is easy so it doesn't feel totally stupid.
+        but the uptrack is easy so it doesn&apos;t feel totally stupid.
       </p>
 
       <p>
@@ -55,7 +55,7 @@ export const geoItem: GeoItem = {
         terrain, but if you are careless it also is very possible to ski over a
         small but steep and abrupt rollover and trigger a slide in high
         avalanche conditions, eg if you are skiing in the middle of a storm.
-        These would be small, but with terrain traps, or if your partners aren't
+        These would be small, but with terrain traps, or if your partners aren&apos;t
         watching you, it could be serious. On many storm days I have seen small
         slides triggered in this zone.
       </p>

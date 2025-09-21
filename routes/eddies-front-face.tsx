@@ -37,7 +37,7 @@ export const geoItem: GeoItem = {
   proseJsx: (
     <>
       <p>
-        The <RouteLink routeID="eddies-approach-and-uptrack">skin track</RouteLink> goes up the looker's left side of the face, skirting
+        The <RouteLink routeID="eddies-approach-and-uptrack">skin track</RouteLink> goes up the looker&apos;s left side of the face, skirting
         right next to and sometimes weaving into the trees. This provides a
       </p>
 
@@ -48,7 +48,7 @@ export const geoItem: GeoItem = {
       </p>
 
       <p>
-        The steeper lines are on the lookers right side. They aren't super large
+        The steeper lines are on the lookers right side. They aren&apos;t super large
         or connected, but the individual rollovers can be steep, and{" "}
         <Link href="https://www.cnfaic.org/observations/#/view/observations/04c54368-a34b-4ffd-a230-4294de7bf6d1">
           can have significant avalanches

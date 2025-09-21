@@ -66,7 +66,7 @@ export const geoItem: GeoItem = {
         All of these require bootpacking, but some of them are possible to skin
         up 3/4 of the way. Most of them have great runouts on wide aprons, which
         makes the consequences of an avalanche much less severe. They are all
-        South facing. In midwinter, the sun doesn't have a huge effect except on
+        South facing. In midwinter, the sun doesn&apos;t have a huge effect except on
         the warmest days. In the springtime though, you need to take the solar
         aspect into account, which usually means going early.
       </p>

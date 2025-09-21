@@ -225,7 +225,7 @@ export const geoItem: GeoItem = {
         the way to very near the sumimit, the starting point of Tincan Common.
         You are out of large-scale avalanche terrain the entire time. There are
         a few small but steep rollovers that I might be concerned about on the
-        highest danger days, but in general it is very safe. If it's a high
+        highest danger days, but in general it is very safe. If it&apos;s a high
         danger but good weather, a very nice route is to skin all the way to the
         top of Tincan Common, enjoy the awesome views, and ski right back down
         the skintrack.

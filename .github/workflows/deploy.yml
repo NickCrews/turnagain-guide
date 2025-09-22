@@ -6,6 +6,8 @@ name: Build static site as a test
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -37,7 +39,32 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build with Next.js
-        run: pnpm next build
+      - name: Build
+        run: pnpm build
         env:
           NEXT_PUBLIC_CESIUM_ACCESS_TOKEN: ${{ secrets.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN }}
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        # Version of pnpm is set in package.json "packageManager" field
+        # with:
+        #     version: 10.14.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint
+        run: pnpm lint
+

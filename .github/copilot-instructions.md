@@ -9,6 +9,7 @@ Turnagain Guide is a Next.js web application that provides a digital backcountry
 ### Prerequisites and Installation
 - Install pnpm globally: `npm install -g pnpm@10.14.0`
 - The project requires Node.js LTS and uses pnpm as the package manager (specified in package.json packageManager field)
+- Do NOT use `npm` or `yarn` commands. These would generate package-lock.json or yarn.lock files which are not used. Do not ever add these files to the repo.
 
 ### Bootstrap, Build, and Development Workflow
 - **Install dependencies**: `pnpm install` -- takes ~25 seconds. NEVER CANCEL.

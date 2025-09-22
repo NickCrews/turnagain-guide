@@ -19,16 +19,17 @@ function Property({ name, children }: { name: string, children?: React.ReactNode
 }
 
 export default function RouteDetail({ item }: RouteDetailProps) {
-  let properties = [
-    { name: "Feature Type", component: <RawValue value={item.properties.feature_type} />},
-  ];
+  let properties: { name: string, component: React.ReactNode }[] = [];
+  if (item.properties.feature_type !== 'area') {
+    properties.push({ name: "Feature Type", component: <RawValue value={item.properties.feature_type} />});
+  }
   if (item.properties.area) {
     properties = [
       { name: "Area", component: <AreaBadge areaId={item.properties.area} />},
       ...properties,
     ]
   }
-  if (item.properties.nicks_ates_ratings) {
+  if (item.properties.nicks_ates_ratings.length) {
     properties.push({ name: "Terrain", component: <AtesBadges ratings={item.properties.nicks_ates_ratings} hover={true} />});
   }
   if (item.properties.distance) {

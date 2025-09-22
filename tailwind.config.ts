@@ -92,5 +92,5 @@ export default {
   		}
   	}
   },
-  plugins: [require('@tailwindcss/typography'), require("tailwindcss-animate")], // eslint-disable-line @typescript-eslint/no-require-imports
+  // plugins: [require('@tailwindcss/typography'), require("tailwindcss-animate")], // eslint-disable-line @typescript-eslint/no-require-imports
 } satisfies Config;

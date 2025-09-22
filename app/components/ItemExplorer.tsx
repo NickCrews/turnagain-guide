@@ -266,8 +266,8 @@ function RouteDetailsDrawer({
       snapPoints={snapPoints}
       setActiveSnapPoint={setSnap}
     >
-      <DrawerContent className="h-full overflow-y-auto">
-        <DrawerHeader>
+      <DrawerContent className="h-full flex flex-col">
+        <DrawerHeader className="flex-shrink-0">
           <RouteTitle title={item.properties.title} />
           {/* For accessibility */}
           <VisuallyHidden>
@@ -276,7 +276,7 @@ function RouteDetailsDrawer({
         </DrawerTitle>
           </VisuallyHidden>
         </DrawerHeader>
-        <div className="px-4 pb-4">
+        <div className="px-4 pb-4 overflow-y-auto flex-1 overscroll-contain">
           <RouteDetail item={item} />
         </div>
       </DrawerContent>

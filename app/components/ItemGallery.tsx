@@ -19,7 +19,7 @@ export default function ItemGallery({ items, onItemSelect}: ItemGalleryProps) {
   }
   return (
     <div className="relative h-full">
-      <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 left-0 right-0 h-4 bg-linear-to-b from-white to-transparent pointer-events-none z-10" />
       <div className="overflow-y-auto h-full flex flex-col gap-2 mx-2 pt-2 pb-2">
         {items.map((item, index) => (
           <RouteCard
@@ -29,7 +29,7 @@ export default function ItemGallery({ items, onItemSelect}: ItemGalleryProps) {
           /> 
         ))}
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-4 bg-linear-to-t from-white to-transparent pointer-events-none z-10" />
     </div>
   );
 }

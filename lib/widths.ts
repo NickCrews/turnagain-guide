@@ -1,27 +1,27 @@
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "@/tailwind.config";
-import { Config } from "tailwindcss/types/config";
 import {useEffect, useState} from "react";
 
-export const config = resolveConfig(tailwindConfig as unknown as Config);
+import defaultTheme from 'tailwindcss/defaultTheme'
 
-const breakpoints = config.theme.screens;
-type BreakpointKey = keyof typeof breakpoints;
-export function useBreakpoint<K extends BreakpointKey>(breakpointKey: K) {
-  // breakpointValueText is something like "640px"
+type CssAbsoluteUnit = "cm" | "mm" | "in" | "px" | "pt" | "pc";
+type CssRelativeUnit = "em" | "ex" | "ch" | "rem" | "vw" | "vh" | "vmin" | "vmax" | "%";
+type CssLengthUnit = CssAbsoluteUnit | CssRelativeUnit;
+
+type CssLength = `${number}${CssLengthUnit}`;
+
+type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+const breakpoints = defaultTheme.screens as Record<Breakpoint, CssLength>;
+
+export function useBreakpoint<K extends Breakpoint>(breakpointKey: K) {
   const breakpointValueText = breakpoints[breakpointKey];
-  const breakpointValueInt = Number(breakpointValueText.replace(/[^0-9]/g, ""));
-  const isBelow = useIsBelowWidth(breakpointValueInt);
+  const isBelow = useIsBelowWidth(breakpointValueText);
   const capitalizedKey = breakpointKey[0].toUpperCase() + breakpointKey.substring(1);
 
   return {
       [`text${capitalizedKey}`]: breakpointValueText,
-      [`number${capitalizedKey}`]: breakpointValueInt,
       [`isBelow${capitalizedKey}`]: isBelow,
       [`isAbove${capitalizedKey}`]: isBelow === undefined ? undefined : !isBelow,
   } as (
     Record<`text${Capitalize<K>}`, string> &
-    Record<`number${Capitalize<K>}`, number> &
     Record<`isBelow${Capitalize<K>}`, boolean | undefined> & 
     Record<`isAbove${Capitalize<K>}`, boolean | undefined>
   );
@@ -33,27 +33,38 @@ export function useBreakpoint<K extends BreakpointKey>(breakpointKey: K) {
  * 
  * Based on: https://dev.to/musselmanth/re-rendering-react-components-at-breakpoint-window-resizes-a-better-way-4343
  * 
- * @param innerWidth - The width threshold in pixels to check against
+ * @param width - 
+ *    The width threshold to check against. Can be a
+ *    - number, eg pixels
+ *    - string, eg "640px", "40rem"
+ *    - tailwindcss breakpoint key, eg "sm", "md", "lg", "xl", "2xl"
  * @returns {boolean | undefined} - A boolean indicating whether the window width is
  *   below the specified value, or undefined if the window object is not available.
  * 
  * @example
  * ```tsx
  * const isMobile = useIsBelowWidth(768);
+ * const isMobileRem = useIsBelowWidth("48rem");
  * ```
  */
-export function useIsBelowWidth(innerWidth: number) : boolean | undefined {
+export function useIsBelowWidth(width: number | CssLength | Breakpoint) : boolean | undefined {
   const [isBelowWidth, setIsBelowWidth] = useState<boolean | undefined>(undefined);
+  // convert from tailwind breakpoint key to pixels
+  if (typeof width === 'string' && breakpoints[width as Breakpoint]) {
+    width = breakpoints[width as Breakpoint];
+  }
+  const widthString = typeof width === 'number' ? `${width}px` : width;
 
   useEffect(() => {
-    const windowResizeHandler = () => {
-      setIsBelowWidth(window.innerWidth <= innerWidth);
+    if (typeof window === 'undefined') return;
+    
+    const mediaQuery = window.matchMedia(`(max-width: ${widthString})`);
+    const handleChange = (event: MediaQueryListEvent) => {
+      setIsBelowWidth(event.matches);
     };
-    windowResizeHandler();
-
-    window.addEventListener('resize', windowResizeHandler);
-    return () => window.removeEventListener('resize', windowResizeHandler);
-  }, [innerWidth]);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [widthString]);
 
   return isBelowWidth;
 };

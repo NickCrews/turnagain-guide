@@ -123,7 +123,7 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     filters,
     selectedItem?.id
   ]);
-  const isMobile = useIsBelowWidth(768) ?? true;
+  const isMobile = useIsBelowWidth("sm") ?? true;
   // console.log('ItemExplorer', {
     // items,
     // selectedItem,

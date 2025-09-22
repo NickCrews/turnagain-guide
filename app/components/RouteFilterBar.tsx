@@ -30,16 +30,16 @@ export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarPr
 
   return (
     <div className="flex gap-2 p-2 items-center overflow-x-auto min-w-0">
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <SearchBar query={filters.query} setQuery={handleSetQuery} />
       </div>
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <AreaComboBox selected={filters.areas} onSelected={handleSetSelectedAreas}/>
       </div>
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <GeoTypeComboBox selected={filters.types} onSelected={handleSetSelectedTypes}/>
       </div>
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <AtesComboBox selected={filters.atesRatings} onSelected={handleSetSelectedAtesRatings}/>
       </div>
     </div>

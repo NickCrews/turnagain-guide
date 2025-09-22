@@ -62,20 +62,7 @@ export function MultiCombo<I extends Item>(
           <div className="flex gap-1 items-center flex-1 min-w-0 overflow-hidden">
             {selectedItems.length > 0 ? (
               <div className="flex gap-1 items-center min-w-0 overflow-hidden">
-                {selectedItems.slice(0, 3).map((item) => (
-                  <Badge
-                    key={item.value}
-                    variant="secondary"
-                    style={{
-                      borderColor: `${item.bgColor}20`,
-                      backgroundColor: item.bgColor,
-                      color: item.textColor,
-                    }}
-                    className="text-xs px-2 py-0 h-6 flex items-center whitespace-nowrap shrink-0"
-                  >
-                    <span className="truncate">{item.label}</span>
-                  </Badge>
-                ))}
+                {selectedItems.slice(0, 3).map(ItemToBadge)}
                 {selectedItems.length > 3 && (
                   <span className="text-xs text-muted-foreground whitespace-nowrap shrink-0">
                     +{selectedItems.length - 3}
@@ -127,7 +114,7 @@ const ItemToBadge = ({ label, value, bgColor, textColor }: Item) => {
       backgroundColor: bgColor,
       color: textColor,
     }}
-    className="whitespace-nowrap"
+    className="whitespace-nowrap border-2"
   >
     {label}
 </Badge>

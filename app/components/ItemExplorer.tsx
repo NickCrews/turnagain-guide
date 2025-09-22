@@ -10,14 +10,15 @@ import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
 import { useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
 import { useGeoItems } from "@/components/ui/itemsContext";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, X } from "lucide-react";
 import {
   Drawer,
   DrawerContent,
-  DrawerHeader,
   DrawerTitle,
+  DrawerClose,
+  DrawerHandle,
 } from '@/components/ui/drawer'
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { Button } from "@/components/ui/button";
 
 interface ItemExplorerProps {
   items: GeoItem[]
@@ -208,7 +209,7 @@ function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void
       </nav>
     </div>
     <div className="overflow-y-auto h-full rounded-lg px-6 pb-6 pt-3 max-w-2xl w-full">
-      <RouteTitle title={item.properties.title} />
+      <h2 className='text-2xl font-bold mb-4'>{item.properties.title}</h2>
       <RouteDetail item={item} />
     </div>
   </>
@@ -231,11 +232,10 @@ function GalleryDrawer({
       setActiveSnapPoint={setSnap}
     >
       <DrawerContent className="h-full">
-        <DrawerHeader>
-          <DrawerTitle>
-            Routes
-          </DrawerTitle>
-        </DrawerHeader>
+        <DrawerHandle />
+        <DrawerTitle className="text-center">
+          Routes
+        </DrawerTitle>
         {children}
       </DrawerContent>
     </Drawer>
@@ -266,16 +266,18 @@ function RouteDetailsDrawer({
       snapPoints={snapPoints}
       setActiveSnapPoint={setSnap}
     >
-      <DrawerContent className="h-full">
-        <DrawerHeader>
-          <RouteTitle title={item.properties.title} />
-          {/* For accessibility */}
-          <VisuallyHidden>
-        <DrawerTitle>
-          {item.properties.title}
-        </DrawerTitle>
-          </VisuallyHidden>
-        </DrawerHeader>
+      <DrawerContent className="h-full px-2">
+        <DrawerHandle />
+        <div className="flex items-center justify-between p-2">
+          <DrawerTitle>
+            {item.properties.title}
+          </DrawerTitle>
+          <DrawerClose asChild>
+            <Button variant="outline" size="icon-xs-rounded" onClick={onClose} aria-label="Close">
+              <X />
+            </Button>
+          </DrawerClose>
+        </div>
         {/* TODO: this scroll behavior isn't great. */}
         <div className="overflow-y-auto h-full">
           <RouteDetail item={item} />
@@ -283,8 +285,4 @@ function RouteDetailsDrawer({
       </DrawerContent>
     </Drawer>
   );
-}
-
-function RouteTitle({ title }: { title: string }) {
-  return <h2 className="text-2xl font-bold mb-4">{title}</h2>
 }

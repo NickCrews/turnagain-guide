@@ -53,7 +53,7 @@ export function MultiCombo<I extends Item>(
           role="combobox"
           aria-expanded={openCombobox}
           className={cn(
-            "justify-between text-foreground border h-9 px-3 py-2 transition-colors",
+            "justify-between text-foreground border h-9 py-2 transition-colors",
             selectedItems.length > 0
               ? "ring-2 ring-primary"
               : ""
@@ -73,10 +73,10 @@ export function MultiCombo<I extends Item>(
               labelCallback(selectedItems)
             )}
           </div>
-          <ChevronDown className="ml-2 w-4 h-4 opacity-50 shrink-0" />
+          <ChevronDown className="w-4 h-4 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className="p-2">
         <Command loop>
           {description}
           <CommandList>
@@ -90,7 +90,7 @@ export function MultiCombo<I extends Item>(
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
+                      "h-4 w-4",
                       isSelected ? "opacity-100" : "opacity-0",
                     )}
                   />

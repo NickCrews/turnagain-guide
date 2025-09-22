@@ -56,12 +56,11 @@ export function useIsBelowWidth(width: number | CssLength | Breakpoint) : boolea
   const widthString = typeof width === 'number' ? `${width}px` : width;
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
     const mediaQuery = window.matchMedia(`(max-width: ${widthString})`);
     const handleChange = (event: MediaQueryListEvent) => {
       setIsBelowWidth(event.matches);
     };
+    setIsBelowWidth(mediaQuery.matches);
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [widthString]);

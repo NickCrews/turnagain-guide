@@ -11,10 +11,14 @@ import { geoItem as eddiesNorthBowl } from './eddies-north-bowl';
 import { geoItem as eddiesParkingLot } from './eddies-parking-lot';
 import { geoItem as godsCountryParkingLot } from './gods-country-parking-lot';
 import { geoItem as goldpanArea } from './goldpan-area';
+import { geoItem as granddaddyCouloir } from './granddaddy-couloir';
 import { geoItem as johnsonPassParkingLot } from './johnson-pass-parking-lot';
 import { geoItem as lippsArea } from './lipps-area';
 import { geoItem as lippsParkingLot } from './lipps-parking-lot';
+import { geoItem as lippsPeak } from './lipps-peak';
 import { geoItem as magnumArea } from './magnum-area';
+import { geoItem as magnumFrontFace } from './magnum-front-face';
+import { geoItem as magnumPeak } from './magnum-peak';
 import { geoItem as motorizedParkingLot } from './motorized-parking-lot';
 import { geoItem as pastoralArea } from './pastoral-area';
 import { geoItem as petesNorthArea } from './petes-north-area';
@@ -54,10 +58,14 @@ export const allGeoItems = [
   eddiesParkingLot,
   godsCountryParkingLot,
   goldpanArea,
+  granddaddyCouloir,
   johnsonPassParkingLot,
   lippsArea,
   lippsParkingLot,
+  lippsPeak,
   magnumArea,
+  magnumFrontFace,
+  magnumPeak,
   motorizedParkingLot,
   pastoralArea,
   petesNorthArea,

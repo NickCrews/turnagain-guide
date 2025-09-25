@@ -93,13 +93,22 @@ function filtersToQueryString(filters: Filters) {
   return queryString;
 }
 
-function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string | undefined) {
-  const keepItem = (item: GeoItem) => {
+// This is a GeoItem, but with an additional isVisible property
+export interface ItemWithVisibility extends GeoItem {
+  isVisible: boolean
+}
+
+function addItemVisibility(items: GeoItem[], filters: Filters, selectedItemId: string | undefined) {
+  const isItemVisible = (item: GeoItem) => {
     if (selectedItemId && item.id === selectedItemId) {
       return true;
     }
 
-    const matchesArea = filters.areas.size == 0 || filters.areas.has(item.properties.area ?? '') || (filters.areas.has(item.id) && item.properties.feature_type == "area");
+    const matchesArea = item.properties.feature_type === "area" ? (
+      filters.areas.size > 0 && filters.areas.has(item.id)
+    ) : (
+      filters.areas.size == 0 || filters.areas.has(item.properties.area ?? '')
+    );
     const matchesType = filters.types.size == 0 || filters.types.has(item.properties.feature_type);
     const matchesAtes = filters.atesRatings.size == 0 || (item.properties.nicks_ates_ratings.length == 0)
       || item.properties.nicks_ates_ratings.some(rating => filters.atesRatings.has(rating));
@@ -110,12 +119,15 @@ function filterItems(items: GeoItem[], filters: Filters, selectedItemId: string 
     return matchesArea && matchesType && matchesAtes && matchesQuery;
   }
 
-  return items.filter(keepItem);
+  return items.map(item => ({
+    ...item,
+    isVisible: isItemVisible(item),
+  }))
 }
 
 export default function ItemExplorer({ items, selectedItem, setSelectedItem }: ItemExplorerProps) {
   const [filters, setFilters] = useFilters();
-  const filteredItems = useMemo(() => filterItems(items, filters, selectedItem?.id), [
+  const itemsWithVisibility = useMemo(() => addItemVisibility(items, filters, selectedItem?.id), [
     // Use a stable representation of the array content instead of the reference.
     // This is avoid re-rendering all child components when the array reference changes.
     // JSON.stringify(filteredItems.map(item => item.id))
@@ -136,12 +148,12 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
   const handleBack = () => { if (setSelectedItem) setSelectedItem(null) };
 
   const map = <Map
-    items={filteredItems}
+    items={itemsWithVisibility}
     setSelectedItem={setSelectedItem}
     selectedItem={selectedItem}
   />;
   const gallery = <ItemGallery
-    items={filteredItems}
+    items={itemsWithVisibility}
     onItemSelect={setSelectedItem}
   />
 

@@ -15,18 +15,18 @@ import {
   Cartesian3,
   Viewer,
 } from 'cesium'
-import { useEffect, useState, useId, useRef, useMemo} from 'react'
+import { useEffect, useState, useId, useRef, useMemo } from 'react'
 
-import { FeatureType, GeoItem } from '@/lib/geo-item';
+import { type GeoItem } from '@/lib/geo-item';
 import { useDebounce } from '@/lib/debounce';
 import RouteCard from './RouteCard';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/ViewerContext';
-import { ATES, atesColor, maxAtes } from '@/lib/terrain-rating';
-import { areaColor } from './Area';
+import { atesColor, maxAtes } from '@/lib/terrain-rating';
+import { type ItemWithVisibility } from './ItemExplorer';
 
 interface MapProps {
-  items: GeoItem[];
+  items: ItemWithVisibility[];
   selectedItem?: GeoItem | null;
   setSelectedItem?: (item: GeoItem | null) => void;
 }
@@ -36,27 +36,27 @@ interface PopupInfo {
   position: Cartesian3;
 }
 
-function getNonDullItems(items: GeoItem[], selectedItem?: GeoItem | null, popupItem?: GeoItem | null) {
-  let nonDullItems = []
-  if (selectedItem) {
-    nonDullItems.push(selectedItem);
+function fixupItemVisibilities(items: ItemWithVisibility[], selectedItem?: GeoItem | null, popupItem?: GeoItem | null) {
+  const isVisible = (item: ItemWithVisibility) => {
+    if (selectedItem || popupItem) {
+      const isInArea = selectedItem?.properties.feature_type === 'area' ? item.properties.area === selectedItem.id : false;
+      return item.id === selectedItem?.id || item.id === popupItem?.id || isInArea;
+    }
+    return item.isVisible;
   }
-  if (popupItem) {
-    nonDullItems.push(popupItem);
-  }
-  if (nonDullItems.length == 0) {
-    nonDullItems = items;
-  }
-  return nonDullItems;
+  return items.map(item => ({
+    ...item,
+    isVisible: isVisible(item),
+  }));
 }
 
-export default function Map({ items = [], setSelectedItem, selectedItem }: MapProps) {
+export default function Map({ items, setSelectedItem, selectedItem }: MapProps) {
   const holderId = useId();
   const viewer = useViewer(holderId);
   const popupRef = useRef<HTMLDivElement>(null);
   const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
   const popupItem = popupInfo?.item;
-  const nonDullItems = useMemo(() => getNonDullItems(items, selectedItem, popupItem), [items, selectedItem, popupItem]);
+  items = useMemo(() => fixupItemVisibilities(items, selectedItem, popupItem), [items, selectedItem, popupItem]);
   const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
 
   const delayedSetPopupInfo = useDebounce(setPopupInfo, 300);
@@ -67,21 +67,29 @@ export default function Map({ items = [], setSelectedItem, selectedItem }: MapPr
         return;
       }
       const entities = await itemsToEntities(items);
-      entities.forEach(entity => {
-        if (viewer.entities.values.some(e => e.properties?.id?.getValue() == entity.properties?.id?.getValue())) {
-          return;
+      const toRemove = viewer.entities.values.filter(e => !itemsById[e.properties!.id!.getValue()]);
+      const toAdd = entities.filter(e => !viewer.entities.getById(e.properties!.id!.getValue()));
+      const toUpdate = viewer.entities.values.filter(e => itemsById[e.properties!.id!.getValue()]);
+      console.log("Entities: have", viewer.entities.values.length, "add", toAdd.length, "update", toUpdate.length, "remove", toRemove.length);
+      toRemove.forEach(e => viewer.entities.remove(e));
+      toAdd.forEach(e => {
+        const item = itemsById[e.properties!.id!.getValue()];
+        if (!item) {
+          throw new Error(`item not found for entity ${e.properties?.id}`);
         }
-        viewer.entities.add(entity);
+        fixAndStyleEntity(item, e);
+        viewer.entities.add(e);
+      });
+      toUpdate.forEach(e => {
+        const item = itemsById[e.properties!.id!.getValue()];
+        if (!item) {
+          throw new Error(`item not found for entity ${e.properties?.id}`);
+        }
+        fixAndStyleEntity(item, e);
       });
     }
     initViewerAndEntities();
-  }, [viewer, items])
-
-  useEffect(() => {
-    // update the style of all the existing entities
-    // console.log("styleEntities", items.length, nonDullItems.length);
-    viewer?.entities.values.forEach(entity => styleEntity(entity, nonDullItems));
-  }, [viewer, items, nonDullItems])
+  }, [viewer, items]);
 
   useEffect(() => {
     if (!viewer || !setSelectedItem) {
@@ -171,26 +179,36 @@ function DownloadButton() {
   </>
 }
 
-async function itemsToEntities(items: GeoItem[]) {
+async function itemsToEntities(items: ItemWithVisibility[]) {
+  // TODO: memoize this if everything besides the visibility is unchanged
   const dataSource = await GeoJsonDataSource.load({
     type: "FeatureCollection",
-    features: items.map(i => ({ ...i, properties: { ...i.properties, id: i.id } })),
-    // features: items.map(i => ({ id: i.id, geometry: i.geometry, properties: { ...i.properties, id: i.id } })),
+    features: items.map(i => ({ ...i, properties: {...i.properties, id: i.id } })),
   }, {
     // In a perfect world I would set each entity to clampToGround
     // in modifiedEntity(), but I can't figure out how to do it there.
     clampToGround: true,
   });
-  return items.map(i => fixupEntity(i, dataSource.entities.getById(i.id) as Entity));
+  const entities = dataSource.entities.values;
+  return entities;
 }
 
-function fixupEntity(item: GeoItem, entity: Entity) {
+/**
+ * Mutates the entity in-place to fix the style
+ */
+function fixAndStyleEntity(item: ItemWithVisibility, entity: Entity): void {
   // Warning: if the geojson contains a MultiLineString, this single feature
   // will be split into multiple entities in the GeoJsonDataSource,
   // one for each segment of the MultiLineString.
   // This might also be a problem for MultiPolygons, etc, but not sure.
   // Currently, I was able to just convert all MultiLineStrings to LineStrings
   // in the source data, but this might not always be possible.
+  if (item.geometry.type == "MultiLineString") {
+    throw new Error(`item is a "MultiLineString", but should be a LineString: ${item.id}`);
+  }
+  if (item.geometry.type == "MultiPolygon") {
+    throw new Error(`item is a "MultiPolygon", but should be a Polygon: ${item.id}`);
+  }
 
   // Workaround to get polygons to show up.
   // IDK exactly why this is needed, but if you want to go down the rabbit hole:
@@ -218,40 +236,22 @@ function fixupEntity(item: GeoItem, entity: Entity) {
     }
   }
 
-  return entity;
-}
-
-// edits in-place
-function styleEntity(entity: Entity, nonDullItems: GeoItem[]) {
-  const featureType: FeatureType = entity.properties?.feature_type;
-  const atesRatings: ATES[] = entity.properties?.nicks_ates_ratings.getValue();
+  const id = item.id;
+  const featureType = item.properties.feature_type;
+  const atesRatings = item.properties.nicks_ates_ratings;
   const cssColor = (atesRatings.length > 0) ? atesColor(maxAtes(atesRatings)) : 'black';
   let color = Color.fromCssColorString(cssColor);
-  if (featureType == "area") {
-    color = Color.fromCssColorString(areaColor(entity.properties?.id.getValue()));
+
+  if (entity.polygon) {
+    color = item.isVisible ? color.withAlpha(0.5) : color.withAlpha(0.1);
+  } else if (entity.billboard) {
+    color = item.isVisible ? color : color.withAlpha(0.2);
+  } else {
+    color = item.isVisible ? color : color.withAlpha(0.2);
   }
   
-  const nonDull = nonDullItems.some(item => item.id == entity.properties?.id);
-  const dull = !nonDull;
-  
-  if (entity.polygon) {
-    if (dull) {
-      color = color.withAlpha(0.1);
-    } else {
-      color = color.withAlpha(0.5);
-    }
-  } else if (entity.billboard) {
-    if (dull) {
-      color = color.withAlpha(0.2);
-    } else {
-      color = color;
-    }
-  } else {
-    if (dull) {
-      color = color.withAlpha(0.2);
-    } else {
-      color = color;
-    }
+  if (item.properties.feature_type === "area") {
+    color = item.isVisible ? color.withAlpha(1) : color.withAlpha(0);
   }
 
   if (entity.polygon) {
@@ -271,6 +271,7 @@ function styleEntity(entity: Entity, nonDullItems: GeoItem[]) {
   } else {
     throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
   }
+  // console.log(`Styled entity ${id} (${featureType}) with color ${color.toCssHexString()} and opacity ${color.alpha}, visible=${item.isVisible}`);
 }
 
 function pickEntity(position: Cartesian2, viewer: Viewer): Entity | null {

@@ -89,7 +89,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
       });
     }
     initViewerAndEntities();
-  }, [viewer, items]);
+  }, [viewer, items, itemsById]);
 
   useEffect(() => {
     if (!viewer || !setSelectedItem) {
@@ -269,7 +269,7 @@ function fixAndStyleEntity(item: ItemWithVisibility, entity: Entity): void {
     entity.billboard.width = new ConstantProperty(32);
     entity.billboard.height = new ConstantProperty(32);
   } else {
-    throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
+    throw new Error(`entity is not a billboard, polygon, or polyline: ${id}`);
   }
   // console.log(`Styled entity ${id} (${featureType}) with color ${color.toCssHexString()} and opacity ${color.alpha}, visible=${item.isVisible}`);
 }

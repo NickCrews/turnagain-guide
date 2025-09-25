@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 
-export const geoItem: GeoItem = {
+export const geoItem = {
   id: "tincan-proper-peak",
   type: "Feature",
   geometry: {
@@ -19,4 +19,4 @@ export const geoItem: GeoItem = {
     longitude: -149.141816,
   },
   proseJsx: <>{/* Add content here */}</>,
-};
+} as const satisfies GeoItem;

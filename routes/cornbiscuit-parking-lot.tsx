@@ -1,7 +1,7 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
 
-export const geoItem: GeoItem = {
+export const geoItem = {
   id: "cornbiscuit-parking-lot",
   type: "Feature",
   geometry: {
@@ -28,4 +28,4 @@ export const geoItem: GeoItem = {
       </p>
     </>
   ),
-};
+} as const satisfies GeoItem;

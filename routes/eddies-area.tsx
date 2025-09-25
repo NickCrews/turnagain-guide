@@ -3,7 +3,7 @@ import Figure from "@/app/components/Figure";
 import ImgEddiesOverview from "@/public/img/eddies-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
 
-export const geoItem: GeoItem = {
+export const geoItem = {
   id: "eddies-area",
   type: "Feature",
   geometry: {
@@ -54,4 +54,4 @@ export const geoItem: GeoItem = {
       />
     </>
   ),
-};
+} as const satisfies GeoItem;

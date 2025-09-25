@@ -81,46 +81,6 @@ export const allGeoItems = [
   tincanUptrack,
   toddsRun,
   wolverineArea,
-];
+] as const;
 
-export type ValidRouteId = 
-  | "blue-diamond-route"
-  | "center-ridge-parking-lot"
-  | "cfr"
-  | "coastal-parking-lot"
-  | "cornbiscuit-area"
-  | "cornbiscuit-parking-lot"
-  | "eddies-approach-and-uptrack"
-  | "eddies-area"
-  | "eddies-front-face" 
-  | "eddies-north-bowl"
-  | "eddies-parking-lot"
-  | "gods-country-parking-lot"
-  | "goldpan-area"
-  | "johnson-pass-parking-lot"
-  | "lipps-area"
-  | "lipps-parking-lot"
-  | "magnum-area"
-  | "motorized-parking-lot"
-  | "pastoral-area"
-  | "petes-north-area"
-  | "petes-south-area"
-  | "pms-bowl-uptrack"
-  | "seattle-ridge-parking-lot"
-  | "sharkfin-area"
-  | "sunburst-area"
-  | "sunburst-parking-lot"
-  | "the-libraries"
-  | "tincan-area"
-  | "tincan-common-bowl"
-  | "tincan-common-peak"
-  | "tincan-hippie-bowl"
-  | "tincan-meadow-to-ridge-uptrack"
-  | "tincan-out-track"
-  | "tincan-parking-lot"
-  | "tincan-proper-peak"
-  | "tincan-trees-uptrack"
-  | "tincan-trees"
-  | "tincan-uptrack"
-  | "todds-run"
-  | "wolverine-area";
+export type ValidRouteId = typeof allGeoItems[number]["id"];

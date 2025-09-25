@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 
-export const geoItem: GeoItem = {
+export const geoItem = {
   id: "lipps-area",
   type: "Feature",
   geometry: {
@@ -42,4 +42,4 @@ export const geoItem: GeoItem = {
     children: [],
   },
   proseJsx: <>{/* Add content here */}</>,
-};
+} as const satisfies GeoItem;

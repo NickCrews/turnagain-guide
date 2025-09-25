@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 
-export const geoItem: GeoItem = {
+export const geoItem = {
   id: "johnson-pass-parking-lot",
   type: "Feature",
   geometry: {
@@ -17,4 +17,4 @@ export const geoItem: GeoItem = {
     elevation: 203,
   },
   proseJsx: <>{/* Add content here */}</>,
-};
+} as const satisfies GeoItem;

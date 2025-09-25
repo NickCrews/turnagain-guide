@@ -1,7 +1,7 @@
 import Link from "@/components/ui/link";
 import { type GeoItem } from "@/lib/geo-item";
 
-export const geoItem: GeoItem = {
+export const geoItem = {
   id: "tincan-parking-lot",
   type: "Feature",
   geometry: {
@@ -62,4 +62,4 @@ export const geoItem: GeoItem = {
       </p>
     </>
   ),
-};
+} as const satisfies GeoItem;

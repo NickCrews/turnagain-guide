@@ -2,7 +2,7 @@ import Figure from "@/app/components/Figure";
 import ImgTincanOVerview from "@/public/img/tincan-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
 
-export const geoItem: GeoItem = {
+export const geoItem = {
   id: "tincan-trees",
   type: "Feature",
   geometry: {
@@ -66,4 +66,4 @@ export const geoItem: GeoItem = {
       />
     </>
   ),
-};
+} as const satisfies GeoItem;

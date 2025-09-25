@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 
-export const geoItem: GeoItem = {
+export const geoItem = {
   id: "eddies-north-bowl",
   type: "Feature",
   geometry: {
@@ -71,4 +71,4 @@ export const geoItem: GeoItem = {
     longitude: -149.12433652506442,
   },
   proseJsx: <>{/* Add content here */}</>,
-};
+} as const satisfies GeoItem;

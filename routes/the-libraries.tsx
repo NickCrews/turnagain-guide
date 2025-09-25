@@ -4,7 +4,7 @@ import ImgLibrariesRidge from "@/public/img/libraries-ridge.jpg";
 import ImgLibrariesEarly from "@/public/img/libraries-early.jpg";
 import { type GeoItem } from "@/lib/geo-item";
 
-export const geoItem: GeoItem = {
+export const geoItem = {
   id: "the-libraries",
   type: "Feature",
   geometry: {
@@ -87,4 +87,4 @@ export const geoItem: GeoItem = {
       />
     </>
   ),
-};
+} as const satisfies GeoItem;

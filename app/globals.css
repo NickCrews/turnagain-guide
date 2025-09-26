@@ -4,6 +4,8 @@
 See https://github.com/tailwindlabs/tailwindcss/discussions/16776 */
 @source not "../public";
 
+@plugin "@tailwindcss/typography";
+
 @custom-variant dark (&:is(.dark *));
 
 @layer base {

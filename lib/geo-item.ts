@@ -49,7 +49,7 @@ export interface GeoItem extends Feature {
 // For all areas, add a children field that contains the ids of the children items.
 // The original data representation is pointers of child->parent,
 // where the child item stores the area, so we need to reverse it.
-export function addChildrenField(items: GeoItem[]) {
+export function addChildrenField(items: readonly GeoItem[]) {
   const parentToChildrenMap = new Map();
   items.forEach(obj => {
       parentToChildrenMap.set(obj.id, []);

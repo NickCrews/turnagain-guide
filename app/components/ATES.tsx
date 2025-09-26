@@ -37,7 +37,7 @@ export function AtesBadges({ratings, hover}: {ratings: ATES[], hover:boolean}) {
 }
 
 export function AtesDescription() {
-  return <>
+  return <div className="overflow-auto h-[50vh]">
     <p className="font-bold text-destructive">
       The ATES rating is provided as a courtesy by the author, who has no official
       capacity to rate terrain. Use at your own risk.
@@ -50,7 +50,7 @@ export function AtesDescription() {
     forest density, slope shape, terrain traps, avalanche frequency/magnitude,
     starting zone size and density, runout zone characteristics,
     interaction with avalanche paths, and route options for managing exposure.
-  </>
+  </div >
 }
 
 const toComboItem = (name: ATES) => ({

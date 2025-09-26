@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ViewerProvider } from "./components/ViewerContext";
+import { ElevationUnitsProvider, DistanceUnitsProvider } from "@/app/components/UnitsContext";
 import { GeoItemsProvider } from "@/components/ui/itemsContext";
 import { loadGeoItems } from "@/lib/geo-item";
 
@@ -36,11 +37,15 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ViewerProvider>
-          <GeoItemsProvider items={items}>
-            {children}
-          </GeoItemsProvider>
-        </ViewerProvider>
+          <ViewerProvider>
+            <GeoItemsProvider items={items}>
+              <ElevationUnitsProvider>
+                <DistanceUnitsProvider>
+                  {children}
+                </DistanceUnitsProvider>
+              </ElevationUnitsProvider>
+            </GeoItemsProvider>
+          </ViewerProvider>
       </body>
     </html>
   );

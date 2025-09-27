@@ -210,55 +210,41 @@ function fixAndStyleEntity(item: ItemWithVisibility, entity: Entity): void {
     throw new Error(`item is a "MultiPolygon", but should be a Polygon: ${item.id}`);
   }
 
-  // Workaround to get polygons to show up.
-  // IDK exactly why this is needed, but if you want to go down the rabbit hole:
-  // https://community.cesium.com/t/polygon-clamp-to-ground-when-terrain-provider-is-used/22798/6
-  if (entity.polygon) {
-    entity.polygon = new PolygonGraphics({
-      hierarchy: entity.polygon.hierarchy?.getValue(),
-    })
-  }
-  
-  if (entity.polyline) {
-    entity.polyline.width = new ConstantProperty(5);
-  }
-  
-  // convert any 'area' feature types from Polygon to LineString
-  // so that they show up on the map as a perimeter, instead of a filled area
-  if (item.properties.feature_type == 'area') {
-    if (entity.polygon) {
-      entity.polyline = new PolylineGraphics({
-        positions: entity.polygon.hierarchy?.getValue().positions,
-        width: new ConstantProperty(5),
-        clampToGround: true,
-      });
-      entity.polygon = undefined;
-    }
-  }
-
   const id = item.id;
   const featureType = item.properties.feature_type;
   const atesRatings = item.properties.nicks_ates_ratings;
   const cssColor = (atesRatings.length > 0) ? atesColor(maxAtes(atesRatings)) : 'black';
   let color = Color.fromCssColorString(cssColor);
 
+  // Workaround to get polygons to show up.
+  // IDK exactly why this is needed, but if you want to go down the rabbit hole:
+  // https://community.cesium.com/t/polygon-clamp-to-ground-when-terrain-provider-is-used/22798/6
   if (entity.polygon) {
     color = item.isVisible ? color.withAlpha(0.5) : color.withAlpha(0.1);
-  } else if (entity.billboard) {
-    color = item.isVisible ? color : color.withAlpha(0.2);
-  } else {
-    color = item.isVisible ? color : color.withAlpha(0.2);
-  }
-  
-  if (item.properties.feature_type === "area") {
-    color = item.isVisible ? color.withAlpha(1) : color.withAlpha(0);
-  }
-
-  if (entity.polygon) {
-    entity.polygon.material = new ColorMaterialProperty(color);
+    entity.polygon = new PolygonGraphics({
+      hierarchy: entity.polygon.hierarchy?.getValue(),
+      material: new ColorMaterialProperty(color),
+      // These outline properties don't seem to do anything?
+      // So instead we add a PolylineGraphics perimeter below.
+      // outline: true,
+      // outlineColor: new ConstantProperty(Color.CORAL),
+      // outlineWidth: 5,
+    });
+    // Add a perimeter line, since outline on the PolygonGrpahics doesn't seem to work.
+    const outlineColor = item.isVisible ? color.withAlpha(1.0) : color.withAlpha(0.1);
+    entity.polyline = new PolylineGraphics({
+      positions: entity.polygon.hierarchy?.getValue().positions,
+      material: new ColorMaterialProperty(outlineColor),
+      width: new ConstantProperty(2),
+      clampToGround: true,
+    });
+    //
   } else if (entity.polyline) {
+    color = item.isVisible ? color : color.withAlpha(0.2);
+    entity.polyline.width = new ConstantProperty(5);
     entity.polyline.material = new ColorMaterialProperty(color);
   } else if (entity.billboard) {
+    color = item.isVisible ? color : color.withAlpha(0.2);
     if (featureType == "peak") {
       entity.billboard.image = makeImageProperty(SVG_PEAK, color);
     } else if (featureType == "parking") {
@@ -271,6 +257,25 @@ function fixAndStyleEntity(item: ItemWithVisibility, entity: Entity): void {
   } else {
     throw new Error(`entity is not a billboard, polygon, or polyline: ${id}`);
   }
+
+  // Ensure any 'area' features are rendered as polylines
+  // so that they show up on the map as a perimeter, instead of a filled area
+  if (item.properties.feature_type == 'area') {
+    const positions = entity.polygon?.hierarchy ? entity.polygon.hierarchy?.getValue().positions : entity.polyline?.positions?.getValue();
+    color = Color.YELLOW;
+    color = item.isVisible ? color.withAlpha(.8) : color.withAlpha(0);
+    entity.polyline = new PolylineGraphics({
+      positions: positions,
+      material: new ColorMaterialProperty(color),
+      width: new ConstantProperty(8),
+      clampToGround: true,
+    });
+    entity.polygon = undefined;
+  }
+
+  // if (id === "magnum-front-face"){
+  //   console.log("styled entity", id, entity);
+  // }
   // console.log(`Styled entity ${id} (${featureType}) with color ${color.toCssHexString()} and opacity ${color.alpha}, visible=${item.isVisible}`);
 }
 

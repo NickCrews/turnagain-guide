@@ -1,14 +1,13 @@
 import { GeoItem } from '../../lib/geo-item';
-import { type ItemWithVisibility } from './ItemExplorer';
 import RouteCard from './RouteCard';
 
 interface ItemGalleryProps {
-  items: ItemWithVisibility[];
+  items: GeoItem[];
   onItemSelect?: 'link' | ((item: GeoItem) => void);
 }
 
 export default function ItemGallery({ items, onItemSelect}: ItemGalleryProps) {
-  items = items.filter((item) => item.properties.feature_type != 'area' && item.isVisible);
+  items = items.filter((item) => item.properties.feature_type != 'area');
   const nItems = items.length;
   if (nItems === 0) {
     return (

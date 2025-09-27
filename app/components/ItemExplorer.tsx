@@ -135,6 +135,7 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     filters,
     selectedItem?.id
   ]);
+  const visibleItems = itemsWithVisibility.filter(item => item.isVisible);
   const isMobile = useIsBelowWidth("sm") ?? true;
   // console.log('ItemExplorer', {
     // items,
@@ -153,7 +154,7 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     selectedItem={selectedItem}
   />;
   const gallery = <ItemGallery
-    items={itemsWithVisibility}
+    items={visibleItems}
     onItemSelect={setSelectedItem}
   />
 

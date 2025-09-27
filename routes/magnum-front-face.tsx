@@ -1,4 +1,3 @@
-import Link from "@/components/ui/link";
 import RouteLink from "@/app/components/RouteLink";
 import { type GeoItem } from "@/lib/geo-item";
 
@@ -106,7 +105,7 @@ export const geoItem = {
         and avalanches are moderately common.
       </p>
       <p>
-        On the looker's left side of this face is a ridge that people often skin
+        On the looker&apos;s left side of this face is a ridge that people often skin
         up to access <RouteLink routeID="magnum-peak">Magnum Peak</RouteLink> when
         departing from the <RouteLink routeID="sunburst-parking-lot">Sunburst Parking Lot</RouteLink>.
         Start up the normal sunburst skin track, and then cut right (South) across

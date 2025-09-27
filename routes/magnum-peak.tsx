@@ -22,7 +22,7 @@ export const geoItem = {
   proseJsx: (
     <>
       <p>
-        This isn't truly a peak, but is the logical high point for riding down.
+        This isn&apos;t truly a peak, but is the logical high point for riding down.
       </p>
       <p>
         You can have a mellow ski back down the ridge to the top

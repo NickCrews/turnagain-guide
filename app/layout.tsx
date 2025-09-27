@@ -5,6 +5,7 @@ import { ViewerProvider } from "./components/ViewerContext";
 import { ElevationUnitsProvider, DistanceUnitsProvider } from "@/app/components/UnitsContext";
 import { GeoItemsProvider } from "@/components/ui/itemsContext";
 import { loadGeoItems } from "@/lib/geo-item";
+import { TouchProvider } from "@/components/ui/touch-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,9 @@ export default async function RootLayout({
             <GeoItemsProvider items={items}>
               <ElevationUnitsProvider>
                 <DistanceUnitsProvider>
-                  {children}
+                  <TouchProvider>
+                    {children}
+                  </TouchProvider>
                 </DistanceUnitsProvider>
               </ElevationUnitsProvider>
             </GeoItemsProvider>

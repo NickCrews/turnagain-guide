@@ -2,32 +2,34 @@ import { Badge } from "@/components/ui/badge"
 import { ATES, atesColor, atesTextColor, ATES_VALUES } from "@/lib/terrain-rating"
 import { capitalize } from "@/lib/utils"
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
+  HybridTooltip,
+  HybridTooltipContent,
+  HybridTooltipTrigger,
+} from "@/components/ui/hybrid-tooltip"
 import { MultiCombo } from "@/components/ui/multi-combo"
 import Link from "@/components/ui/link"
 
 export function AtesBadge({rating, hover}: {rating: ATES, hover?: boolean}) {
   const badge = <Badge
-      bgColor={atesColor(rating)}
-      textColor={atesTextColor(rating)}
-      className="whitespace-nowrap"
-    >
-      {capitalize(rating)}
-    </Badge>
+    bgColor={atesColor(rating)}
+    textColor={atesTextColor(rating)}
+    className="whitespace-nowrap"
+  >
+    {capitalize(rating)}
+  </Badge>
   if (!hover) {
     return badge
   }
-  return <HoverCard openDelay={100}>
-    <HoverCardTrigger> {/* not asChild, if we did that then the pointer isn't a hover */ }
-      {badge}
-    </HoverCardTrigger>
-    <HoverCardContent>
-      {AtesDescription()}
-    </HoverCardContent>
-  </HoverCard>
+  return (
+    <HybridTooltip delayDuration={0}>
+      <HybridTooltipTrigger className="hover:cursor-help">
+        {badge}
+      </HybridTooltipTrigger>
+      <HybridTooltipContent>
+        {AtesDescription()}
+      </HybridTooltipContent>
+    </HybridTooltip>
+  )
 }
 
 export function AtesBadges({ratings, hover}: {ratings: ATES[], hover:boolean}) {
@@ -37,7 +39,7 @@ export function AtesBadges({ratings, hover}: {ratings: ATES[], hover:boolean}) {
 }
 
 export function AtesDescription() {
-  return <div className="overflow-auto h-[50vh]">
+  return <div className="overflow-auto w-80">
     <p className="font-bold text-destructive">
       The ATES rating is provided as a courtesy by the author, who has no official
       capacity to rate terrain. Use at your own risk.
@@ -66,14 +68,17 @@ export function AtesComboBox({selected, onSelected}: {selected: Set<ATES>, onSel
   const description = (
     <span className="mx-2">
       ATES {' - '}
-      <HoverCard>
-        <HoverCardTrigger className="text-sm text-gray-500 hover:text-gray-700 hover:cursor-pointer">
+      <HybridTooltip delayDuration={0}>
+        <HybridTooltipTrigger
+          className="text-sm text-gray-500 hover:text-gray-700 hover:cursor-help"
+          tabIndex={-1}
+        >
           ?
-        </HoverCardTrigger>
-        <HoverCardContent className="w-80">
+        </HybridTooltipTrigger>
+        <HybridTooltipContent>
           {AtesDescription()}
-        </HoverCardContent>
-      </HoverCard>
+        </HybridTooltipContent>
+      </HybridTooltip>
     </span>
   )
   return <MultiCombo

@@ -1,3 +1,4 @@
+import { geoItem as basketballPeak } from './basketball-peak';
 import { geoItem as blueDiamondRoute } from './blue-diamond-route';
 import { geoItem as centerRidgeParkingLot } from './center-ridge-parking-lot';
 import { geoItem as cfr } from './cfr';
@@ -13,6 +14,7 @@ import { geoItem as eddiesNorthBowl } from './eddies-north-bowl';
 import { geoItem as eddiesParkingLot } from './eddies-parking-lot';
 import { geoItem as godsCountryParkingLot } from './gods-country-parking-lot';
 import { geoItem as goldpanArea } from './goldpan-area';
+import { geoItem as goldpanPeak } from './goldpan-peak';
 import { geoItem as granddaddyCouloir } from './granddaddy-couloir';
 import { geoItem as johnsonPassParkingLot } from './johnson-pass-parking-lot';
 import { geoItem as kickstepPeak } from './kickstep-peak';
@@ -59,6 +61,7 @@ import { geoItem as wolverineArea } from './wolverine-area';
 
 // Add new exports here when creating new route files
 export const allGeoItems = [
+  basketballPeak,
   blueDiamondRoute,
   centerRidgeParkingLot,
   cfr,
@@ -74,6 +77,7 @@ export const allGeoItems = [
   eddiesParkingLot,
   godsCountryParkingLot,
   goldpanArea,
+  goldpanPeak,
   granddaddyCouloir,
   johnsonPassParkingLot,
   kickstepPeak,

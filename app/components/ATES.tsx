@@ -15,13 +15,13 @@ export function AtesBadge({rating, hover}: {rating: ATES, hover?: boolean}) {
     textColor={atesTextColor(rating)}
     className="whitespace-nowrap"
   >
-    {capitalize(rating)}
+    {capitalize(rating) + (hover ? ' - ?' : '')}
   </Badge>
   if (!hover) {
     return badge
   }
   return (
-    <HybridTooltip delayDuration={0}>
+    <HybridTooltip>
       <HybridTooltipTrigger className="hover:cursor-help">
         {badge}
       </HybridTooltipTrigger>

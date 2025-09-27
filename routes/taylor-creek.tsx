@@ -500,7 +500,7 @@ export const geoItem = {
       <p>
         While I rated this as &quot;simple&quot; ATES terrain, it does have
         significant overhead avalanche risk in certain conditions.
-        Usually I don't worry about it, except for either really
+        Usually I don&apos;t worry about it, except for either really
         busy days and people above me, or when conditions allow for
         extremely remote triggers, or there is risk of spontaneous
         avalanches (eg heavy precipitation, rapid warming, etc).

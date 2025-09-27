@@ -1,6 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
 import { type GeoItem } from "@/lib/geo-item";
-import { Route } from "lucide-react";
 
 export const geoItem = {
   id: "sunburst-parking-lot",
@@ -25,7 +24,7 @@ export const geoItem = {
     </p>
     <p>
       During temperature inversions, this can be much colder than the
-      higher terrain, so don't be discouraged by that!
+      higher terrain, so don&apos;t be discouraged by that!
     </p>
     <p>
       Start up <RouteLink routeID="sunburst-meadows-uptrack">Sunburst Meadows Uptrack</RouteLink> or,

@@ -101,7 +101,7 @@ export const geoItem = {
     </p>
     <p>
       This has moderate avalanche danger.
-      It's easy to avoid any rock bands and sharp rollovers that would act as trigger points.
+      It&apos;s easy to avoid any rock bands and sharp rollovers that would act as trigger points.
       But, the whole face is still fairly steep.
       Luckily, the popularity of the area means that you often will have some tests of stability from other people.
       Of course, this depends on the flavor of the avalanche hazard.

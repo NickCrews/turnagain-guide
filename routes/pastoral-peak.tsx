@@ -21,7 +21,7 @@ export const geoItem = {
     <>
     <p>
       This is one of the highest peaks in the area, and a great viewpoint.
-      It's a long tour, and the ratio of effort to skiing isn't as good
+      It&apos;s a long tour, and the ratio of effort to skiing isn&apos;t as good
       as some alternatives, but the views and the adventure make it worth it.
     </p>
     <p>

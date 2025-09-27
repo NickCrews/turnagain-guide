@@ -501,7 +501,7 @@ export const geoItem = {
       <p>
         A very popular ascent route to access the Sunburst Ridge.
         This is a fast and efficient skin.
-        It's possible to lap a lot of excellent skiing using this uptrack.
+        It&apos;s possible to lap a lot of excellent skiing using this uptrack.
         Start from the top of the <RouteLink routeID="sunburst-meadows-uptrack">
         Sunburst Meadows Uptrack</RouteLink>
       </p>
@@ -512,7 +512,7 @@ export const geoItem = {
         above you is probably the biggest danger.
       </p>
       <p>
-        You don't have to go all the way to the top.
+        You don&apos;t have to go all the way to the top.
         Anywhere off the South side of the ridge is good skiing,
         stop wherever you see a line you like.
       </p>

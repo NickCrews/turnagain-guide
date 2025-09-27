@@ -102,22 +102,14 @@ export const geoItem = {
         Early and late season this is an alder-covered hellscape.
         But come mid-season, once the alders are down, there is a lot of fun to be had here.
         There are also plenty of steeps and rollovers that can get windloaded,
-        and avalanches are moderately common.
+        at the top.
+        If you want some fun dad pow though, you can totally lap the lower
+        half of the face and never get into anything too steep.
       </p>
       <p>
-        On the looker&apos;s left side of this face is a ridge that people often skin
-        up to access <RouteLink routeID="magnum-peak">Magnum Peak</RouteLink> when
-        departing from the <RouteLink routeID="sunburst-parking-lot">Sunburst Parking Lot</RouteLink>.
-        Start up the normal sunburst skin track, and then cut right (South) across
-        Taylor Creek once you level out into the Taylor Creek hanging valley.
-        It often requires a touch of bootpacking at the top where
-        it is steepest and often wind-board.
-      </p>
-      <p>
-        The terrain on this ridge slowly gets steeper the higher you go.
-        This is nice, because you can skin as high as you are comfortable with,
-        and then drop off the West side (straight towards the parking lot)
-        when you reach your limit.
+        On the looker&apos;s left side of this face is
+        the <RouteLink routeID="magnum-northeast-ridge">Magnum Northeast Ridge</RouteLink>,
+        which is a great way to lap this face.
       </p>
     </>
   ),

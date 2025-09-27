@@ -1,3 +1,4 @@
+import RouteLink from "@/app/components/RouteLink";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -39,5 +40,18 @@ export const geoItem = {
     nicks_ates_ratings: [],
     children: [],
   },
-  proseJsx: <>{/* Add content here */}</>,
+  proseJsx: <>
+    <p>
+      Sunburst is one of the most popular areas in Turnagain, and for good reason:
+      Short approach, huge expanses of long and consistent lines all along the
+      South face of Sunburst, and reasonably safe terrain.
+    </p>
+    <p>
+      If you are trying to keep it chill, the lower alder meadows all along the base
+      of Sunburst (and <RouteLink routeID="magnum-area">Magnum</RouteLink>,
+      <RouteLink routeID="cornbiscuit-area">Cornbiscuit</RouteLink>, and <RouteLink routeID="lipps-area">Lipps</RouteLink>) provide
+      some 500 vertical foot
+      party laps.
+    </p>
+  </>,
 } as const satisfies GeoItem;

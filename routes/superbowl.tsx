@@ -265,7 +265,7 @@ export const geoItem = {
     title: "Super Bowl",
     feature_type: "descent",
     thumbnail: "/img/superbowl-from-cornbiscuit.jpg",
-    nicks_ates_ratings: ["challenging"],
+    nicks_ates_ratings: ["complex"],
     children: [],
     area: "cornbiscuit-area",
     elevation_min: 787,

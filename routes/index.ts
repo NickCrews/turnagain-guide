@@ -21,19 +21,28 @@ import { geoItem as lippsParkingLot } from './lipps-parking-lot';
 import { geoItem as lippsPeak } from './lipps-peak';
 import { geoItem as magnumArea } from './magnum-area';
 import { geoItem as magnumFrontFace } from './magnum-front-face';
+import { geoItem as magnumNortheastRidge } from './magnum-northeast-ridge';
 import { geoItem as magnumPeak } from './magnum-peak';
 import { geoItem as mistressPeak } from './mistress-peak';
 import { geoItem as motorizedParkingLot } from './motorized-parking-lot';
 import { geoItem as pastoralArea } from './pastoral-area';
+import { geoItem as pastoralPeak } from './pastoral-peak';
 import { geoItem as petesNorthArea } from './petes-north-area';
 import { geoItem as petesSouthArea } from './petes-south-area';
 import { geoItem as pmsBowlUptrack } from './pms-bowl-uptrack';
 import { geoItem as seattleRidgeParkingLot } from './seattle-ridge-parking-lot';
 import { geoItem as sharkfinArea } from './sharkfin-area';
 import { geoItem as sunburstArea } from './sunburst-area';
+import { geoItem as sunburstMeadowsUptrack } from './sunburst-meadows-uptrack';
+import { geoItem as sunburstMeadowsUptrackEarly } from './sunburst-meadows-uptrack-early';
 import { geoItem as sunburstParkingLot } from './sunburst-parking-lot';
+import { geoItem as sunburstPeak } from './sunburst-peak';
+import { geoItem as sunburstRidgeUptrack } from './sunburst-ridge-uptrack';
+import { geoItem as sunburstSouthFace } from './sunburst-south-face';
 import { geoItem as superbowl } from './superbowl';
 import { geoItem as theLibraries } from './the-libraries';
+import { geoItem as taylorCreek } from './taylor-creek';
+import { geoItem as taylorPassToPastoralPeak } from './taylor-pass-to-pastoral-peak';
 import { geoItem as tincanArea } from './tincan-area';
 import { geoItem as tincanCommonBowl } from './tincan-common-bowl';
 import { geoItem as tincanCommonPeak } from './tincan-common-peak';
@@ -73,18 +82,27 @@ export const allGeoItems = [
   lippsPeak,
   magnumArea,
   magnumFrontFace,
+  magnumNortheastRidge,
   magnumPeak,
   mistressPeak,
   motorizedParkingLot,
   pastoralArea,
+  pastoralPeak,
   petesNorthArea,
   petesSouthArea,
   pmsBowlUptrack,
   seattleRidgeParkingLot,
   sharkfinArea,
   sunburstArea,
+  sunburstMeadowsUptrack,
+  sunburstMeadowsUptrackEarly,
   sunburstParkingLot,
+  sunburstPeak,
+  sunburstRidgeUptrack,
+  sunburstSouthFace,
   superbowl,
+  taylorCreek,
+  taylorPassToPastoralPeak,
   theLibraries,
   tincanArea,
   tincanCommonBowl,

@@ -25,7 +25,7 @@ export const geoItem = {
       Approach up the Center Ridge Drainage.
     </p>
     <p>
-      Great photos and trip reports can be found on <Link href="https://www.mikerecords.com/2015/01/kickstep-1252015.html">Mike Record's Blog</Link>.
+      Great photos and trip reports can be found on <Link href="https://www.mikerecords.com/2015/01/kickstep-1252015.html">Mike Record&apos;s Blog</Link>.
     </p>
     </>
   ),

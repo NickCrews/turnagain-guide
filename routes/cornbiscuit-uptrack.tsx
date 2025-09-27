@@ -747,7 +747,7 @@ export const geoItem = {
   },
   proseJsx: <>
     <p>
-      I give this a "complex" ATES rating because I think people often take this too casually.
+      I give this a &quot;complex&quot; ATES rating because I think people often take this too casually.
     </p>
   </>,
 } as const satisfies GeoItem;

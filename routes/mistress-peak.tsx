@@ -20,7 +20,7 @@ export const geoItem = {
   proseJsx: (
     <>
     <p>
-      I don't know much about this. It's ridden either Northwest into
+      I don&apos;t know much about this. It&apos;s ridden either Northwest into
       the <RouteLink routeID="goldpan-area">Goldpan Cirque</RouteLink> or South into
       the Pastoral-Lipps valley.
     </p>

@@ -11,7 +11,7 @@ export const geoItem = {
   properties: {
     title: "Lipps Peak",
     feature_type: "peak",
-    thumbnail: "/img/granddaddy-distant.jpg",
+    thumbnail: "/img/lipps-north-side.jpg",
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "lipps-area",

@@ -21,6 +21,7 @@ import { geoItem as kickstepPeak } from './kickstep-peak';
 import { geoItem as lippsArea } from './lipps-area';
 import { geoItem as lippsParkingLot } from './lipps-parking-lot';
 import { geoItem as lippsPeak } from './lipps-peak';
+import { geoItem as lippsUptrack } from './lipps-uptrack';
 import { geoItem as magnumArea } from './magnum-area';
 import { geoItem as magnumFrontFace } from './magnum-front-face';
 import { geoItem as magnumNortheastRidge } from './magnum-northeast-ridge';
@@ -84,6 +85,7 @@ export const allGeoItems = [
   lippsArea,
   lippsParkingLot,
   lippsPeak,
+  lippsUptrack,
   magnumArea,
   magnumFrontFace,
   magnumNortheastRidge,

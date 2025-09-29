@@ -56,8 +56,8 @@ export const geoItem = {
   proseJsx: (
     <>
       <p>
-        This South facing bowl is slightly uphill of{" "}
-        <RouteLink routeID="tincan-common-bowl">Tincan Common Bowl</RouteLink>.
+        This South facing bowl is slightly uphill of
+        of <RouteLink routeID="tincan-common-bowl">Tincan Common Bowl</RouteLink>.
         It is less popular, and a nice alternative when Common Bowl is crowded.
       </p>
 
@@ -77,8 +77,8 @@ export const geoItem = {
         chances to ski mini spines, but also makes it more likely to trigger
         something on a convexity, and the &quot;funneling&quot; action can make it more
         consequential. A very nice linkup for a stable day is to ski this run
-        all the way to the bottom, and then scooch upvalley to find something in
-        <RouteLink routeID="the-libraries">The Libraries</RouteLink>.
+        all the way to the bottom, and then scooch upvalley to find something
+        in <RouteLink routeID="the-libraries">The Libraries</RouteLink>.
       </p>
     </>
   ),

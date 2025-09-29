@@ -1,14 +1,14 @@
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
-  id: "tincan-proper-peak",
+  id: "tincan-proper",
   type: "Feature",
   geometry: {
     type: "Point",
     coordinates: [-149.141816, 60.781914],
   },
   properties: {
-    title: "Tincan Proper Peak",
+    title: "Tincan Proper",
     feature_type: "peak",
     thumbnail: "",
     nicks_ates_ratings: ["challenging"],

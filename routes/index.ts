@@ -12,6 +12,7 @@ import { geoItem as eddiesArea } from './eddies-area';
 import { geoItem as eddiesFrontFace } from './eddies-front-face';
 import { geoItem as eddiesNorthBowl } from './eddies-north-bowl';
 import { geoItem as eddiesParkingLot } from './eddies-parking-lot';
+import { geoItem as eddiesPeak } from './eddies-peak';
 import { geoItem as godsCountryParkingLot } from './gods-country-parking-lot';
 import { geoItem as goldpanArea } from './goldpan-area';
 import { geoItem as goldpanPeak } from './goldpan-peak';
@@ -31,10 +32,13 @@ import { geoItem as motorizedParkingLot } from './motorized-parking-lot';
 import { geoItem as pastoralArea } from './pastoral-area';
 import { geoItem as pastoralPeak } from './pastoral-peak';
 import { geoItem as petesNorthArea } from './petes-north-area';
+import { geoItem as petesNorthPeak } from './petes-north-peak';
 import { geoItem as petesSouthArea } from './petes-south-area';
+import { geoItem as petesSouthPeak } from './petes-south-peak';
 import { geoItem as pmsBowlUptrack } from './pms-bowl-uptrack';
 import { geoItem as seattleRidgeParkingLot } from './seattle-ridge-parking-lot';
 import { geoItem as sharkfinArea } from './sharkfin-area';
+import { geoItem as sharkfinPeak } from './sharkfin-peak';
 import { geoItem as sunburstArea } from './sunburst-area';
 import { geoItem as sunburstMeadowsUptrack } from './sunburst-meadows-uptrack';
 import { geoItem as sunburstMeadowsUptrackEarly } from './sunburst-meadows-uptrack-early';
@@ -48,17 +52,19 @@ import { geoItem as taylorCreek } from './taylor-creek';
 import { geoItem as taylorPassToPastoralPeak } from './taylor-pass-to-pastoral-peak';
 import { geoItem as tincanArea } from './tincan-area';
 import { geoItem as tincanCommonBowl } from './tincan-common-bowl';
-import { geoItem as tincanCommonPeak } from './tincan-common-peak';
+import { geoItem as tincanCommon } from './tincan-common';
 import { geoItem as tincanHippieBowl } from './tincan-hippie-bowl';
 import { geoItem as tincanMeadowToRidgeUptrack } from './tincan-meadow-to-ridge-uptrack';
 import { geoItem as tincanOutTrack } from './tincan-out-track';
 import { geoItem as tincanParkingLot } from './tincan-parking-lot';
-import { geoItem as tincanProperPeak } from './tincan-proper-peak';
+import { geoItem as tincanPeak } from './tincan-peak';
+import { geoItem as tincanProper } from './tincan-proper';
 import { geoItem as tincanTrees } from './tincan-trees';
 import { geoItem as tincanTreesUptrack } from './tincan-trees-uptrack';
 import { geoItem as tincanUptrack } from './tincan-uptrack';
 import { geoItem as toddsRun } from './todds-run';
 import { geoItem as wolverineArea } from './wolverine-area';
+import { geoItem as wolverinePeak } from './wolverine-peak';
 
 // Add new exports here when creating new route files
 export const allGeoItems = [
@@ -76,6 +82,7 @@ export const allGeoItems = [
   eddiesFrontFace,
   eddiesNorthBowl,
   eddiesParkingLot,
+  eddiesPeak,
   godsCountryParkingLot,
   goldpanArea,
   goldpanPeak,
@@ -95,10 +102,13 @@ export const allGeoItems = [
   pastoralArea,
   pastoralPeak,
   petesNorthArea,
+  petesNorthPeak,
   petesSouthArea,
+  petesSouthPeak,
   pmsBowlUptrack,
   seattleRidgeParkingLot,
   sharkfinArea,
+  sharkfinPeak,
   sunburstArea,
   sunburstMeadowsUptrack,
   sunburstMeadowsUptrackEarly,
@@ -112,17 +122,19 @@ export const allGeoItems = [
   theLibraries,
   tincanArea,
   tincanCommonBowl,
-  tincanCommonPeak,
+  tincanCommon,
   tincanHippieBowl,
   tincanMeadowToRidgeUptrack,
   tincanOutTrack,
   tincanParkingLot,
-  tincanProperPeak,
+  tincanPeak,
+  tincanProper,
   tincanTrees,
   tincanTreesUptrack,
   tincanUptrack,
   toddsRun,
   wolverineArea,
+  wolverinePeak,
 ] as const;
 
 export type ValidRouteId = typeof allGeoItems[number]["id"];

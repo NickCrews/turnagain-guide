@@ -3,7 +3,7 @@ import ExplorerWithRouter from "./explorer";
 
 export async function generateStaticParams() {
   const items = await loadGeoItems();
-  const withIds = items.map((item) => ({ id: [item.id] })); // eg /routes/tincan-common
+  const withIds = items.map((item) => ({ id: [item.id] })); // eg /routes/tincan-proper
   const withoutIds = [{ id: undefined }];  // the root route eg /routes
   return [...withIds, ...withoutIds];
 }

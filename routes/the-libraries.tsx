@@ -53,7 +53,7 @@ export const geoItem = {
         caption={
           <>
             Looking East down the ridge of The Libraries from the top of
-            <RouteLink routeID="tincan-proper-peak">
+            <RouteLink routeID="tincan-proper">
               Tincan Proper.
             </RouteLink>{" "}
             In the background is Kickstep Peak. This is from early January, this

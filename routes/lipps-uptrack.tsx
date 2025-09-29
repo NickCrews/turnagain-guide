@@ -588,7 +588,7 @@ export const geoItem = {
       <p>
         To get to the summit you need to expose yourself to some serious
         avalanche terrain. The face is wide, steep, the runout is not great,
-        and it's hard to avoid being under people above you.
+        and it&apos;s hard to avoid being under people above you.
         The best way up is the South side of the face.
         Aim in that direction as you switchback your way up through the
         alder meadows.
@@ -598,7 +598,7 @@ export const geoItem = {
         you came up.
         When whooping down the fun low-angle meadows, it can
         be tempting to drift right (North), but if you do that you will end up in
-        an alder filled gully (we call it a &quot;stunt ditch&quot; because that's fun)
+        an alder filled gully (we call it a &quot;stunt ditch&quot; because that&apos;s fun)
         that is possible to navigate but requires gymnastics.
       </p>
     </>

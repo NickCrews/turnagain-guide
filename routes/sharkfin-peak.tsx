@@ -21,7 +21,7 @@ export const geoItem = {
     <>
     <p>
       Sharksfin is the small, skinny, and long ridge to the North of Eddies.
-      It isn't very popular because there is no easy trail to get there.
+      It isn&apos;t very popular because there is no easy trail to get there.
       The best way is to start at
       the <RouteLink routeID="eddies-parking-lot">Eddies Parking Lot</RouteLink> and
       start up the
@@ -29,7 +29,7 @@ export const geoItem = {
       at some point cutting left (North) over to Sharksfin.
     </p>
     <p>
-      I haven't actually been there myself and I'm not sure what the
+      I haven&apos;t actually been there myself and I&apos;m not sure what the
       terrain and riding is like.
     </p>
     </>

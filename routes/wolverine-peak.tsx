@@ -1,4 +1,3 @@
-import RouteLink from "@/app/components/RouteLink";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

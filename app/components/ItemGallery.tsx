@@ -1,5 +1,6 @@
 import { GeoItem } from '../../lib/geo-item';
 import RouteCard from './RouteCard';
+import { imageCarousel } from '@/components/ui/image-carousel';
 
 interface ItemGalleryProps {
   items: GeoItem[];
@@ -24,7 +25,13 @@ export default function ItemGallery({ items, onItemSelect}: ItemGalleryProps) {
       <div className="mx-2 pt-2 pb-1">
         <div className="text-muted-foreground text-sm font-medium mb-2 items-center">{nItems} item{nItems === 1 ? '' : 's'} match the given filters</div>
       </div>
+      {imageCarousel([
+          "/img/libraries-early.jpg",
+          "/img/libraries-overview.jpg",
+          "/img/libraries-ridge.jpg"
+        ])}
       <div className="overflow-y-auto h-full flex flex-col gap-2 mx-2 pb-2">
+        
         {items.map((item, index) => (
           <RouteCard
             key={item.id || `item-${index}`}

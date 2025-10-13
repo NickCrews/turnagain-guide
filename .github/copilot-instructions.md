@@ -15,8 +15,8 @@ Turnagain Guide is a Next.js web application that provides a digital backcountry
 - **Install dependencies**: `pnpm install` -- takes ~25 seconds. NEVER CANCEL.
 - **Lint code**: `pnpm lint` -- takes ~3 seconds. ALWAYS run before committing.
 - **Build for production**: `pnpm build` -- takes ~32-40 seconds. NEVER CANCEL. Set timeout to 90+ seconds.
-- **Development server**: `pnpm dev` -- starts in ~3 seconds on http://localhost:3000
-- **Static server**: `pnpm serve` -- serves built static files on http://localhost:4000
+- **Development server**: `pnpm dev` -- starts in ~3 seconds on http://localhost:1337
+- **Static server**: `pnpm serve` -- serves built static files on http://localhost:1338
 
 ### Environment Requirements and Limitations
 - **Network restrictions**: Google Fonts will fail to load in restricted environments. Build may fail with font fetch errors.
@@ -46,8 +46,8 @@ If Google Fonts access is blocked:
 
 ### Manual Validation Requirements
 - **ALWAYS test actual functionality** after code changes, not just build success
-- **Development server validation**: Start `pnpm dev` and verify http://localhost:3000 loads without errors
-- **Production build validation**: Run full `pnpm build && pnpm serve` cycle and test http://localhost:4000
+- **Development server validation**: Start `pnpm dev` and verify http://localhost:1337 loads without errors
+- **Production build validation**: Run full `pnpm build && pnpm serve` cycle and test http://localhost:1338
 - **Map functionality**: The main application is a 3D map interface - verify it loads and displays terrain data
 - **Route navigation**: Test clicking between different ski routes and areas
 - **Mobile responsiveness**: Check layout works on different screen sizes
@@ -150,9 +150,9 @@ public/             # Static assets including images
 1. Make code changes
 2. Run `pnpm lint` to check for issues
 3. Start development server with `pnpm dev`
-4. Test functionality in browser at localhost:3000
+4. Test functionality in browser at localhost:1337
 5. Run full build cycle: `pnpm build && pnpm serve`
-6. Test production build at localhost:4000
+6. Test production build at localhost:1338
 7. Verify no console errors or broken functionality
 
 ### Deployment

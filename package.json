@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "add-component": "pnpm dlx shadcn@latest add",
-    "dev": "next dev",
+    "dev": "next dev --port 1337",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "serve": "pnpx http-server out/ -p 4000"
+    "serve": "pnpx http-server out/ -p 1338"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

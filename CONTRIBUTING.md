@@ -13,7 +13,7 @@ and
 pnpm dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:1337](http://localhost:1337) with your browser to see the result.
 
 ## Development Notes
 - Run `pnpm lint` before committing to ensure you are not inadvertantly introducing code with linting errors. 

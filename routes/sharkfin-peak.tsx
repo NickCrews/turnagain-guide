@@ -16,6 +16,7 @@ export const geoItem = {
     children: [],
     area: "sharkfin-area",
     elevation: 517,
+    images: [],
   },
   proseJsx: (
     <>

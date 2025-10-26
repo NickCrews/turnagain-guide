@@ -43,6 +43,7 @@ export const geoItem = {
     thumbnail: "/img/tincan-overview.jpg",
     nicks_ates_ratings: [],
     children: [],
+    images: [],
   },
   proseJsx: (
     <>

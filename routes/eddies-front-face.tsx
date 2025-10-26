@@ -33,6 +33,7 @@ export const geoItem = {
     area: "eddies-area",
     nicks_ates_ratings: ["challenging"],
     children: [],
+    images: [],
   },
   proseJsx: (
     <>

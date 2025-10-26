@@ -36,6 +36,7 @@ export const geoItem = {
     thumbnail: "/img/eddies-overview.jpg",
     nicks_ates_ratings: [],
     children: [],
+    images: [],
   },
   proseJsx: (
     <>

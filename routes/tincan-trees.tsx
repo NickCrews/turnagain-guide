@@ -31,6 +31,7 @@ export const geoItem = {
     nicks_ates_ratings: ["simple", "challenging"],
     children: [],
     area: "tincan-area",
+    images: [],
   },
   proseJsx: (
     <>

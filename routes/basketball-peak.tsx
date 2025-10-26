@@ -16,6 +16,7 @@ export const geoItem = {
     children: [],
     area: "goldpan-area",
     elevation: 1243,
+    images: [],
   },
   proseJsx: (
     <>

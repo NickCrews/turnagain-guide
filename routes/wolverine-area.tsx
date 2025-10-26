@@ -33,6 +33,7 @@ export const geoItem = {
     thumbnail: "/img/sharkfin-wolverine-overview.jpg",
     nicks_ates_ratings: [],
     children: [],
+    images: [],
   },
   proseJsx: (
     <>

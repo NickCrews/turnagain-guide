@@ -95,6 +95,7 @@ export const geoItem = {
     children: [],
     elevation_min: 304,
     elevation_max: 914,
+    images: [],
   },
   proseJsx: (
     <>

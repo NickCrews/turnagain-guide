@@ -33,6 +33,7 @@ export const geoItem = {
     total_descent: 141.25361999999996,
     nicks_ates_ratings: ["challenging"],
     children: [],
+    images: [],
   },
   proseJsx: (
     <>

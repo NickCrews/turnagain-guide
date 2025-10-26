@@ -18,6 +18,7 @@ export const geoItem = {
     elevation: 1139,
     latitude: 60.781914,
     longitude: -149.141816,
+    images: [],
   },
   proseJsx: (
     <>

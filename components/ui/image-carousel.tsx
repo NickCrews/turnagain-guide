@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Image } from "@/lib/image";
 
 function leftArrow() {
     return (
@@ -19,11 +20,10 @@ function rightArrow() {
 }
 
 
-export function imageCarousel(images: Array<string>) {
+export function imageCarousel(images: Image[]) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const rightClickOnCLick = () => {
-        console.log(selectedIndex);
         if (selectedIndex + 1 < images.length){
             setSelectedIndex(selectedIndex + 1);
         }
@@ -33,7 +33,6 @@ export function imageCarousel(images: Array<string>) {
     }
 
     const leftClickOnCLick = () => {
-        console.log(selectedIndex);
         if (selectedIndex - 1 >= 0){
             setSelectedIndex(selectedIndex - 1);
         }
@@ -65,7 +64,6 @@ export function imageCarousel(images: Array<string>) {
     const getImageWithClassesApplied = (imagePath: string, imageIndex: number) => {
         const baseClasses = "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2 transition duration-500 ease-in-out";
         if (imageIndex == selectedIndex) {
-            console.log("returning selected index!")
             return (
                 <img
                     src={imagePath}
@@ -75,7 +73,6 @@ export function imageCarousel(images: Array<string>) {
             );
         }
         else if (imageIndex == getNextImageOnRightIndex()) {
-            console.log("returning next image")
             return (
                 <img
                     src={imagePath}
@@ -85,7 +82,6 @@ export function imageCarousel(images: Array<string>) {
             );
         }
         else if (imageIndex == getNextImageOnLeftIndex()) {
-            console.log("returning previous image")
             return (
                 <img
                     src={imagePath}
@@ -95,7 +91,6 @@ export function imageCarousel(images: Array<string>) {
             );
         }
         else {
-            console.log("returning other image")
             return  (
                 <img
                     src={imagePath}
@@ -112,7 +107,7 @@ export function imageCarousel(images: Array<string>) {
                 {leftArrow() }
             </div>
             <div className="overflow-hidden">
-                {images.map(getImageWithClassesApplied)}
+                {images.map((image, index) => getImageWithClassesApplied(image.imagePath, index))}
             </div>
             <div className="absolute right-3 top-1/2 z-30" onClick={rightClickOnCLick}>
                 {rightArrow()}

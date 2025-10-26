@@ -29,6 +29,7 @@ export const geoItem = {
     thumbnail: "/img/magnum-cornbiscuit-overview.jpg",
     nicks_ates_ratings: [],
     children: [],
+    images: [],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

@@ -69,6 +69,7 @@ export const geoItem = {
     distance: 1141.2642087937406,
     latitude: 60.80207157090275,
     longitude: -149.12433652506442,
+    images: [],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

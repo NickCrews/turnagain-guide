@@ -31,6 +31,7 @@ export const geoItem = {
     thumbnail: "",
     nicks_ates_ratings: [],
     children: [],
+    images: [],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

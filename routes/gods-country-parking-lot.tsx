@@ -14,6 +14,7 @@ export const geoItem = {
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     elevation: 44,
+    images: [],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

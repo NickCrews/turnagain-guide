@@ -15,6 +15,12 @@ interface FigureProps {
 
 export default function Figure(props: FigureProps) {
   const { caption, alt, src, ...rest } = props;
+  if (!("width" in rest)){
+    rest["width"] = 500;
+  }
+  if (!("height" in rest)){
+    rest["height"] = 500;
+  }
   // This isn't accessible, but this site is for skiers...
   const realAlt = alt || "If this alt text is needed for you, please let me know at nicholas.b.crews@gmail.com!";
   const figcaption = <figcaption className="prose text-center leading-6">{caption}</figcaption>

@@ -16,6 +16,7 @@ export const geoItem = {
     children: [],
     area: "tincan-area",
     elevation: 1328,
+    images: [],
   },
   proseJsx: (
     <>

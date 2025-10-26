@@ -3,6 +3,26 @@ import RouteLink from "@/app/components/RouteLink";
 import ImgLibrariesRidge from "@/public/img/libraries-ridge.jpg";
 import ImgLibrariesEarly from "@/public/img/libraries-early.jpg";
 import { type GeoItem } from "@/lib/geo-item";
+import { ImageWithTitleAndDescription } from "@/lib/image";
+import { StaticImageData } from "next/image";
+
+
+const thumbnailImage: ImageWithTitleAndDescription = {
+  imagePath: "/img/libraries-ridge.jpg",
+  description: "The ridge of tincan showing the libraries area.",
+  title: "Libraries Ridge"
+}
+
+const librariesEarly: ImageWithTitleAndDescription = {
+  imagePath: "/img/libraries-early.jpg",
+  description: "The libraries from the lookers far left side",
+  title: "Libraries Lookers Left"
+}
+
+const librariesOverview: ImageWithTitleAndDescription = {
+  imagePath: "/img/libraries-overview.jpg",
+  title: "test"
+}
 
 export const geoItem = {
   id: "the-libraries",
@@ -34,10 +54,11 @@ export const geoItem = {
   properties: {
     title: "The Libraries",
     feature_type: "descent",
-    thumbnail: "/img/libraries-ridge.jpg",
+    thumbnail: thumbnailImage,
     nicks_ates_ratings: ["complex", "extreme"],
     children: [],
     area: "tincan-area",
+    images: [thumbnailImage, librariesEarly, librariesOverview],
   },
   proseJsx: (
     <>
@@ -49,7 +70,7 @@ export const geoItem = {
       </p>
 
       <Figure
-        src={ImgLibrariesRidge}
+        src={thumbnailImage.imagePath}
         caption={
           <>
             Looking East down the ridge of The Libraries from the top of
@@ -77,7 +98,7 @@ export const geoItem = {
       </p>
 
       <Figure
-        src={ImgLibrariesEarly}
+        src={librariesEarly.imagePath}
         caption={
           <>
             Looking up some of the first (Westmost) lines in The Libraries from

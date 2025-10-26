@@ -13,6 +13,7 @@ import { AtesBadges } from './ATES';
 import { cn } from '@/lib/utils';
 import { AreaBadge } from './Area';
 import { useRouter } from 'next/navigation';
+import { imageCarousel } from '@/components/ui/image-carousel';
 
 interface RouteCardProps {
   item: GeoItem;
@@ -27,7 +28,12 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
     onClick = (item: GeoItem) => router.push(`/routes/${item.id}`);
   }
   let banner = null;
-    if (item.properties.thumbnail) {
+  if (item.properties.images.length > 1) {
+    banner = imageCarousel (
+      item.properties.images
+    )
+  }
+  else if (item.properties.thumbnail) {
       banner = <img
         src={item.properties.thumbnail}
         alt={item.properties.title}
@@ -38,7 +44,7 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
     onClick={() => onClick ? onClick(item) : null}
     onMouseEnter={() => setHovered && setHovered(true)}
     onMouseLeave={() => setHovered && setHovered(false)}
-    className={cn("cursor-pointer", hovered && "bg-gray-200 border border-gray-300 shadow-xl")}
+    className={cn("cursor-pointer", hovered && "bg-gray-200 border border-gray-300 shadow-xl z-10")}
   >
     {banner}
     <CardHeader className='p-3'>

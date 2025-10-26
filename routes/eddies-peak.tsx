@@ -16,6 +16,7 @@ export const geoItem = {
     children: [],
     area: "eddies-area",
     elevation: 902,
+    images: [],
   },
   proseJsx: (
     <>

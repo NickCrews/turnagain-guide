@@ -39,6 +39,7 @@ export const geoItem = {
     thumbnail: "/img/sunburst-magnum-overview.jpg",
     nicks_ates_ratings: [],
     children: [],
+    images: [],
   },
   proseJsx: <>
     <p>

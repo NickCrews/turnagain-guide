@@ -22,7 +22,7 @@ interface GPXOptions {
   featureCoordTimes?: ((feature: GeoJSONFeature) => any) | string;
 }
 
-interface GPXPoint {
+export interface GPXPoint {
   "@lat": number;
   "@lon": number;
   "name"?: string;

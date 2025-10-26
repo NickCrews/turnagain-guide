@@ -15,6 +15,7 @@ export const geoItem = {
     children: [],
     area: "petes-south-area",
     elevation: 1159,
+    images: [],
   },
   proseJsx: (
     <>

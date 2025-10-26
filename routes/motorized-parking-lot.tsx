@@ -14,6 +14,7 @@ export const geoItem = {
     elevation: 279,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
+    images: [],
   },
   proseJsx: (
     <>

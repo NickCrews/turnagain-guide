@@ -52,6 +52,7 @@ export const geoItem = {
     latitude: 60.78295961753153,
     longitude: -149.15957789760694,
     total_descent: 454.204791,
+    images: [],
   },
   proseJsx: (
     <>

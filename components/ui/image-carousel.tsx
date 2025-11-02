@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Image } from "@/lib/image";
+import { Image, ImageWithTitleAndDescription } from "@/lib/image";
 
 function leftArrow() {
     return (
@@ -20,7 +20,7 @@ function rightArrow() {
 }
 
 
-export function imageCarousel(images: Image[]) {
+export default function ImageCarousel(images: Image[]) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const rightClickOnCLick = (e: React.MouseEvent<HTMLElement>) => {
@@ -66,14 +66,23 @@ export function imageCarousel(images: Image[]) {
 
 
 
-    const getImageWithClassesApplied = (imagePath: string, imageIndex: number) => {
+    const getImageWithClassesApplied = (image: Image, imageIndex: number) => {
         const baseClasses = "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2 transition duration-500 ease-in-out";
+        const imagePath = image.imagePath;
+        let imageAltText = "";
+        if ((image as ImageWithTitleAndDescription).description) {
+            imageAltText = (image as ImageWithTitleAndDescription).description
+        }
+        else if ((image as ImageWithTitleAndDescription).title) {
+            imageAltText = (image as ImageWithTitleAndDescription).title;
+        }
         if (imageIndex == selectedIndex) {
             return (
                 <img
                     src={imagePath}
                     className={cn(baseClasses, "-translate-x-1/2 -translate-y-1/2")}
                     key={imageIndex}
+                    alt={imageAltText}
                 />
             );
         }
@@ -83,6 +92,7 @@ export function imageCarousel(images: Image[]) {
                     src={imagePath}
                     className={cn(baseClasses, "translate-x-10/1 -translate-y-1/2")}
                     key={imageIndex}
+                    alt={imageAltText}
                 />
             );
         }
@@ -92,6 +102,8 @@ export function imageCarousel(images: Image[]) {
                     src={imagePath}
                     className={cn(baseClasses, "-translate-x-10/1 -translate-y-1/2")}
                     key={imageIndex}
+                    alt={imageAltText}
+
                 />
             );
         }
@@ -101,18 +113,20 @@ export function imageCarousel(images: Image[]) {
                     src={imagePath}
                     className={cn(baseClasses, "hidden")}
                     key={imageIndex}
+                    alt={imageAltText}
                 />
             );
         }
     }
-    
+
     return (
         <div className="relative h-48">
             <div className="absolute left-3 top-1/2 z-30" onClick={leftClickOnCLick}>
                 {leftArrow() }
             </div>
             <div className="overflow-hidden">
-                {images.map((image, index) => getImageWithClassesApplied(image.imagePath, index))}
+                {images.map((image, index) => getImageWithClassesApplied(image, index))
+                }
             </div>
             <div className="absolute right-3 top-1/2 z-30" onClick={rightClickOnCLick}>
                 {rightArrow()}

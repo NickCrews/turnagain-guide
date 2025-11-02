@@ -1,6 +1,5 @@
 import { GeoItem } from '../../lib/geo-item';
 import RouteCard from './RouteCard';
-import { imageCarousel } from '@/components/ui/image-carousel';
 
 interface ItemGalleryProps {
   items: GeoItem[];

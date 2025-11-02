@@ -13,7 +13,7 @@ import { AtesBadges } from './ATES';
 import { cn } from '@/lib/utils';
 import { AreaBadge } from './Area';
 import { useRouter } from 'next/navigation';
-import { imageCarousel } from '@/components/ui/image-carousel';
+import ImageCarousel from '@/components/ui/image-carousel';
 
 interface RouteCardProps {
   item: GeoItem;
@@ -29,7 +29,7 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
   }
   let banner = null;
   if (item.properties.images.length > 1) {
-    banner = imageCarousel (
+    banner = ImageCarousel (
       item.properties.images
     )
   }

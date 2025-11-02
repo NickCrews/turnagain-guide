@@ -1,11 +1,7 @@
 import Figure from "@/app/components/Figure";
 import RouteLink from "@/app/components/RouteLink";
-import ImgLibrariesRidge from "@/public/img/libraries-ridge.jpg";
-import ImgLibrariesEarly from "@/public/img/libraries-early.jpg";
 import { type GeoItem } from "@/lib/geo-item";
 import { ImageWithTitleAndDescription } from "@/lib/image";
-import { StaticImageData } from "next/image";
-
 
 const thumbnailImage: ImageWithTitleAndDescription = {
   imagePath: "/img/libraries-ridge.jpg",

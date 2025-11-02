@@ -4,7 +4,7 @@ import { Image, ImageWithTitleAndDescription } from "@/lib/image";
 
 function leftArrow() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-8 stroke-gray-800 opacity-90">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-8 stroke-black">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
         </svg>
 
@@ -13,7 +13,7 @@ function leftArrow() {
 
 function rightArrow() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-8 stroke-gray-800 opacity-90">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-8 stroke-black">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
         </svg>
     )
@@ -90,7 +90,7 @@ export default function ImageCarousel(images: Image[]) {
             return (
                 <img
                     src={imagePath}
-                    className={cn(baseClasses, "translate-x-10/1 -translate-y-1/2")}
+                    className={cn(baseClasses, "translate-x-3/2 -translate-y-1/2")}
                     key={imageIndex}
                     alt={imageAltText}
                 />
@@ -100,7 +100,7 @@ export default function ImageCarousel(images: Image[]) {
             return (
                 <img
                     src={imagePath}
-                    className={cn(baseClasses, "-translate-x-10/1 -translate-y-1/2")}
+                    className={cn(baseClasses, "-translate-x-3/2 -translate-y-1/2")}
                     key={imageIndex}
                     alt={imageAltText}
 

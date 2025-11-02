@@ -23,7 +23,11 @@ function rightArrow() {
 export function imageCarousel(images: Image[]) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const rightClickOnCLick = () => {
+    const rightClickOnCLick = (e: React.MouseEvent<HTMLElement>) => {
+        // Event is manually handled to navigate to the route page, so we need to use stopPropagation instead
+        // of preventDefault. preventDefault only stops default actions, so will do nothing to prevent the route
+        // card from going to the route page after the left or right arrow is pressed.
+        e.stopPropagation();
         if (selectedIndex + 1 < images.length){
             setSelectedIndex(selectedIndex + 1);
         }
@@ -32,7 +36,8 @@ export function imageCarousel(images: Image[]) {
         }
     }
 
-    const leftClickOnCLick = () => {
+    const leftClickOnCLick = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
         if (selectedIndex - 1 >= 0){
             setSelectedIndex(selectedIndex - 1);
         }

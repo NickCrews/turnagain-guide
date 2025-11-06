@@ -1,5 +1,6 @@
 import RouteLink from "@/app/components/RouteLink";
 import { magnumCenter } from "@/imageRegistry/imagesWithPaths";
+import { sunburstMagnumImageText } from "@/imageRegistry/imagesWithText";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -19,7 +20,7 @@ export const geoItem = {
     elevation: 1139,
     latitude: 60.781914,
     longitude: -149.141816,
-    images: [],
+    images: [magnumCenter, sunburstMagnumImageText],
   },
   proseJsx: (
     <>

@@ -2,6 +2,7 @@ import RouteLink from "@/app/components/RouteLink";
 import Figure from "@/app/components/Figure";
 import ImgEddiesOverview from "@/public/img/eddies-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
+import { eddiesOverview } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "eddies-area",
@@ -33,7 +34,7 @@ export const geoItem = {
   properties: {
     title: "Eddie's Area",
     feature_type: "area",
-    thumbnail: "/img/eddies-overview.jpg",
+    thumbnail: eddiesOverview,
     nicks_ates_ratings: [],
     children: [],
     images: [],

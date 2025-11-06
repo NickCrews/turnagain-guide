@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import Link from "@/components/ui/link";
+import { eddiesSpinesAndTodds } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "todds-run",
@@ -36,7 +37,7 @@ export const geoItem = {
   properties: {
     title: "Todd's Run",
     feature_type: "descent",
-    thumbnail: "/img/eddies-spines-and-todds.jpg",
+    thumbnail: eddiesSpinesAndTodds,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "tincan-area",

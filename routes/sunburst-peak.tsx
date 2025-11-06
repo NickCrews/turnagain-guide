@@ -12,7 +12,6 @@ export const geoItem = {
   properties: {
     title: "Sunburst Peak",
     feature_type: "peak",
-    thumbnail: "",
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "sunburst-area",

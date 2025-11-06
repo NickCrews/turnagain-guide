@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
+import { taylorPass } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "taylor-creek",
@@ -481,7 +482,7 @@ export const geoItem = {
   properties: {
     title: "Taylor Creek Route",
     feature_type: "ascent",
-    thumbnail: "/img/taylor-pass-from-magnum.jpg",
+    thumbnail: taylorPass,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "sunburst-area",

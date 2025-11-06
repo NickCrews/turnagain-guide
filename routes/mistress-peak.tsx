@@ -11,7 +11,6 @@ export const geoItem = {
   properties: {
     title: "Mistress Peak",
     feature_type: "peak",
-    // thumbnail: "/img/kickstep-from-road.jpg",
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "goldpan-area",

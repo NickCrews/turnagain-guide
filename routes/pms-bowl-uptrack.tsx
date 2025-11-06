@@ -1,3 +1,4 @@
+import { pmsBowlFromCornbiscuit } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -124,7 +125,7 @@ export const geoItem = {
   properties: {
     title: "PMS Bowl Uptrack",
     feature_type: "ascent",
-    thumbnail: "/img/pms-bowl-from-cornbiscuit.jpg",
+    thumbnail: pmsBowlFromCornbiscuit,
     nicks_ates_ratings: ["simple", "challenging"],
     children: [],
     area: "magnum-area",

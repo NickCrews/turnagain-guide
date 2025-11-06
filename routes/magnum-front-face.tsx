@@ -1,4 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
+import { magnumFrontFace } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -89,7 +90,7 @@ export const geoItem = {
   properties: {
     title: "Magnum Front Face",
     feature_type: "descent",
-    thumbnail: "/img/magnum-front-face.jpg",
+    thumbnail: magnumFrontFace,
     area: "magnum-area",
     nicks_ates_ratings: ["complex"],
     children: [],

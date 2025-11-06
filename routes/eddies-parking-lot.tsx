@@ -11,7 +11,6 @@ export const geoItem = {
   properties: {
     title: "Eddies Parking Lot",
     feature_type: "parking",
-    thumbnail: "",
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "eddies-area",

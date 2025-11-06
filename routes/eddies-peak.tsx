@@ -1,4 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
+import { eddiesOverview } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -11,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Eddies Peak",
     feature_type: "peak",
-    thumbnail: "/img/eddies-overview.jpg",
+    thumbnail: eddiesOverview,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "eddies-area",

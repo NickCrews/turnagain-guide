@@ -26,7 +26,6 @@ export const geoItem = {
   properties: {
     title: "Pete's South Area",
     feature_type: "area",
-    thumbnail: "",
     nicks_ates_ratings: [],
     children: [],
     images: [],

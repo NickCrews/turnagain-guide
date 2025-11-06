@@ -1,4 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
+import { magnumCenter } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -11,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Magnum \"Peak\"",
     feature_type: "peak",
-    thumbnail: "",
+    thumbnail: magnumCenter,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "magnum-area",

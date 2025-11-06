@@ -487,7 +487,6 @@ export const geoItem = {
   properties: {
     title: "Sunburst Ridge Uptrack",
     feature_type: "ascent",
-    thumbnail: "",
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "sunburst-area",

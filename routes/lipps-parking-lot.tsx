@@ -1,3 +1,4 @@
+import { lippsOverview } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -10,7 +11,7 @@ export const geoItem = {
   properties: {
     title: "Lipps Parking Lot",
     feature_type: "parking",
-    thumbnail: "/img/lipps-overview.jpg",
+    thumbnail: lippsOverview,
     area: "lipps-area",
     elevation: 237,
     nicks_ates_ratings: ["non-avalanche"],

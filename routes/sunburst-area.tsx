@@ -1,4 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
+import { sunburstAndMagnum } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -36,7 +37,7 @@ export const geoItem = {
   properties: {
     title: "Sunburst Area",
     feature_type: "area",
-    thumbnail: "/img/sunburst-magnum-overview.jpg",
+    thumbnail: sunburstAndMagnum,
     nicks_ates_ratings: [],
     children: [],
     images: [],

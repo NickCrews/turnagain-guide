@@ -1,3 +1,4 @@
+import { tincanOverview } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -23,7 +24,7 @@ export const geoItem = {
   properties: {
     title: "Tincan Common Bowl",
     feature_type: "descent",
-    thumbnail: "/img/tincan-overview.jpg",
+    thumbnail: tincanOverview,
     area: "tincan-area",
     distance: 302.9814467472608,
     elevation_max: 958.7224,

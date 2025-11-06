@@ -1,5 +1,6 @@
 import RouteLink from "@/app/components/RouteLink";
 import { type GeoItem } from "@/lib/geo-item";
+import { blueDiamond } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "center-ridge-parking-lot",
@@ -11,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Center Ridge Parking Lot",
     feature_type: "parking",
-    thumbnail: "/img/blue-diamond.jpg",
+    thumbnail: blueDiamond,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "tincan-area",

@@ -1,3 +1,4 @@
+import { magnumAndCornbisbuit } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -26,7 +27,7 @@ export const geoItem = {
   properties: {
     title: "Cornbiscuit Area",
     feature_type: "area",
-    thumbnail: "/img/magnum-cornbiscuit-overview.jpg",
+    thumbnail: magnumAndCornbisbuit,
     nicks_ates_ratings: [],
     children: [],
     images: [],

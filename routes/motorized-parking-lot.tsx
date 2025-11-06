@@ -1,3 +1,4 @@
+import { seattleRidge } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -10,7 +11,7 @@ export const geoItem = {
   properties: {
     title: "Motorized Parking Lot",
     feature_type: "parking",
-    thumbnail: "/img/seattle-ridge-overview.jpg",
+    thumbnail: seattleRidge,
     elevation: 279,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],

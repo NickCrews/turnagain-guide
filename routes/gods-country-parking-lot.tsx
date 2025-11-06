@@ -10,7 +10,6 @@ export const geoItem = {
   properties: {
     title: "God's Country Parking Lot",
     feature_type: "parking",
-    thumbnail: "",
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     elevation: 44,

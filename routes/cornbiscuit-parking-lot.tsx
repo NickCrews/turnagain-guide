@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
+import { magnumAndCornbisbuit } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "cornbiscuit-parking-lot",
@@ -11,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Cornbiscuit Parking Lot",
     feature_type: "parking",
-    thumbnail: "/img/magnum-cornbiscuit-overview.jpg",
+    thumbnail: magnumAndCornbisbuit,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "cornbiscuit-area",

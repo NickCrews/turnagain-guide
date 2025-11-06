@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
+import { magnumFrontFace } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "magnum-northeast-ridge",
@@ -433,7 +434,7 @@ export const geoItem = {
   properties: {
     title: "Magnum Northeast Ridge",
     feature_type: "ascent",
-    thumbnail: "/img/magnum-front-face.jpg",
+    thumbnail: magnumFrontFace,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "magnum-area",

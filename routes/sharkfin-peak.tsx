@@ -1,4 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
+import { wolverineOverview } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -11,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Sharkfin Peak",
     feature_type: "peak",
-    thumbnail: "/img/sharkfin-wolverine-overview.jpg",
+    thumbnail: wolverineOverview,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "sharkfin-area",

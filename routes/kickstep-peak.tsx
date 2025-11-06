@@ -1,4 +1,5 @@
 import Link from "@/components/ui/link";
+import { kickstepFromRoad } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -11,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Kickstep Peak",
     feature_type: "peak",
-    thumbnail: "/img/kickstep-from-road.jpg",
+    thumbnail: kickstepFromRoad,
     // also include somewhere: /img/kickstep-from-bascketball.jpg
     nicks_ates_ratings: ["extreme"],
     children: [],

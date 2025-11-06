@@ -1,4 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
+import { grandaddy } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -192,7 +193,7 @@ export const geoItem = {
   properties: {
     title: "Granddaddy Couloir",
     feature_type: "descent",
-    thumbnail: "/img/granddaddy-distant.jpg",
+    thumbnail: grandaddy,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "lipps-area",

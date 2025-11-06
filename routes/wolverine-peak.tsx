@@ -10,7 +10,6 @@ export const geoItem = {
   properties: {
     title: "Wolverine Peak",
     feature_type: "peak",
-    thumbnail: "",
     nicks_ates_ratings: ["extreme"],
     children: [],
     area: "wolverine-area",

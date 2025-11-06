@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
+import { superbowlFromCornbiscuit } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "superbowl",
@@ -264,7 +265,7 @@ export const geoItem = {
   properties: {
     title: "Super Bowl",
     feature_type: "descent",
-    thumbnail: "/img/superbowl-from-cornbiscuit.jpg",
+    thumbnail: superbowlFromCornbiscuit,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "cornbiscuit-area",

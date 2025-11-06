@@ -29,7 +29,6 @@ export const geoItem = {
   properties: {
     title: "Pastoral Area",
     feature_type: "area",
-    thumbnail: "",
     nicks_ates_ratings: [],
     children: [],
     images: [],

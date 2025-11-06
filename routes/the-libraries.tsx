@@ -1,5 +1,6 @@
 import Figure from "@/app/components/Figure";
 import RouteLink from "@/app/components/RouteLink";
+import { librariesRidge } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 import { ImageWithTitleAndDescription } from "@/lib/image";
 
@@ -50,11 +51,11 @@ export const geoItem = {
   properties: {
     title: "The Libraries",
     feature_type: "descent",
-    thumbnail: thumbnailImage,
+    thumbnail: librariesRidge,
     nicks_ates_ratings: ["complex", "extreme"],
     children: [],
     area: "tincan-area",
-    images: [thumbnailImage, librariesEarly, librariesOverview],
+    images: [librariesRidge, librariesEarly, librariesOverview],
   },
   proseJsx: (
     <>

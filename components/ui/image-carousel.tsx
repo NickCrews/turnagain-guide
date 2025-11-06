@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Image, ImageWithTitleAndDescription } from "@/lib/image";
+import { GuideImage, getImageAltText } from "@/lib/image";
 
 function leftArrow() {
     return (
@@ -20,7 +20,7 @@ function rightArrow() {
 }
 
 
-export default function ImageCarousel(images: Image[]) {
+export default function ImageCarousel(images: GuideImage[]) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const rightClickOnCLick = (e: React.MouseEvent<HTMLElement>) => {
@@ -66,16 +66,10 @@ export default function ImageCarousel(images: Image[]) {
 
 
 
-    const getImageWithClassesApplied = (image: Image, imageIndex: number) => {
+    const getImageWithClassesApplied = (image: GuideImage, imageIndex: number) => {
         const baseClasses = "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2 transition duration-500 ease-in-out";
         const imagePath = image.imagePath;
-        let imageAltText = "";
-        if ((image as ImageWithTitleAndDescription).description) {
-            imageAltText = (image as ImageWithTitleAndDescription).description
-        }
-        else if ((image as ImageWithTitleAndDescription).title) {
-            imageAltText = (image as ImageWithTitleAndDescription).title;
-        }
+        let imageAltText = getImageAltText(image);
         if (imageIndex == selectedIndex) {
             return (
                 <img

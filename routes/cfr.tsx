@@ -1,4 +1,5 @@
 import { type GeoItem } from "@/lib/geo-item";
+import { eddiesSpinesAndTodds } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "cfr",
@@ -39,7 +40,7 @@ export const geoItem = {
   properties: {
     title: "CFR (Cornice F*%$in' Run)",
     feature_type: "descent",
-    thumbnail: "/img/eddies-spines-and-todds.jpg",
+    thumbnail: eddiesSpinesAndTodds,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "tincan-area",

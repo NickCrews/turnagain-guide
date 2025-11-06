@@ -1,3 +1,4 @@
+import { lippsOverview } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -37,7 +38,7 @@ export const geoItem = {
   properties: {
     title: "Lipps Area",
     feature_type: "area",
-    thumbnail: "/img/lipps-overview.jpg",
+    thumbnail: lippsOverview,
     nicks_ates_ratings: [],
     children: [],
     images: [],

@@ -1,3 +1,4 @@
+import { cornbiscuitNorth } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -737,7 +738,7 @@ export const geoItem = {
   properties: {
     title: "Cornbiscuit Uptrack",
     feature_type: "ascent",
-    thumbnail: "/img/cornbiscuit-north-side.jpg",
+    thumbnail: cornbiscuitNorth,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "cornbiscuit-area",

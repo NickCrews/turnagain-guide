@@ -23,7 +23,6 @@ export const geoItem = {
   properties: {
     title: "Goldpan Area",
     feature_type: "area",
-    thumbnail: "",
     nicks_ates_ratings: [],
     children: [],
     images: [],

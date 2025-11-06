@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
+import { blueDiamond } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "blue-diamond-route",
@@ -110,7 +111,7 @@ export const geoItem = {
   properties: {
     title: "Blue Diamond Route",
     feature_type: "ascent",
-    thumbnail: "/img/blue-diamond.jpg",
+    thumbnail: blueDiamond,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "tincan-area",

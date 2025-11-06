@@ -11,7 +11,6 @@ export const geoItem = {
   properties: {
     title: "Pastoral Peak",
     feature_type: "peak",
-    thumbnail: "",
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "pastoral-area",

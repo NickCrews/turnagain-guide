@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
+import { librariesMiddle } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "tincan-hippie-bowl",
@@ -42,7 +43,7 @@ export const geoItem = {
   properties: {
     title: "Tincan Hippie Bowl",
     feature_type: "descent",
-    thumbnail: "/img/libraries-overview.jpg",
+    thumbnail: librariesMiddle,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "tincan-area",

@@ -10,7 +10,6 @@ export const geoItem = {
   properties: {
     title: "Coastal Parking Lot",
     feature_type: "parking",
-    thumbnail: "",
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "wolverine-area",

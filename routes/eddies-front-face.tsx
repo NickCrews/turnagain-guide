@@ -3,6 +3,7 @@ import Link from "@/components/ui/link";
 import RouteLink from "@/app/components/RouteLink";
 import ImgEddiesOverview from "@/public/img/eddies-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
+import { eddiesOverview } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "eddies-front-face",
@@ -29,7 +30,7 @@ export const geoItem = {
   properties: {
     title: "Eddie's Front Face",
     feature_type: "descent",
-    thumbnail: "/img/eddies-overview.jpg",
+    thumbnail: eddiesOverview,
     area: "eddies-area",
     nicks_ates_ratings: ["challenging"],
     children: [],

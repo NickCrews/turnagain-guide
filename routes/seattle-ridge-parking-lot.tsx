@@ -1,6 +1,6 @@
 import Figure from "@/app/components/Figure";
-import ImgSeattleRidgeUptrack from "@/public/img/seattle-ridge-uptrack.jpg";
 import { type GeoItem } from "@/lib/geo-item";
+import { seattleRidgeUptrack } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "seattle-ridge-parking-lot",
@@ -12,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Seattle Ridge Parking Lot",
     feature_type: "parking",
-    thumbnail: "/img/seattle-ridge-uptrack.jpg",
+    thumbnail: seattleRidgeUptrack,
     elevation: 305,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
@@ -32,7 +32,7 @@ export const geoItem = {
       </p>
 
       <Figure
-        src={ImgSeattleRidgeUptrack}
+        src={seattleRidgeUptrack.imagePath}
         caption={
           <>
             The common uptrack for Seattle Ridge. You can barely see the

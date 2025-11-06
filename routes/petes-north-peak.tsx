@@ -10,7 +10,6 @@ export const geoItem = {
   properties: {
     title: "Pete's North Peak",
     feature_type: "peak",
-    thumbnail: "",
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "petes-north-area",

@@ -1,5 +1,6 @@
 import RouteLink from "@/app/components/RouteLink";
 import { type GeoItem } from "@/lib/geo-item";
+import { bootingBasketball } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "basketball-peak",
@@ -11,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Basketball Peak",
     feature_type: "peak",
-    thumbnail: "/img/booting-basketball.jpg",
+    thumbnail: bootingBasketball,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "goldpan-area",

@@ -11,7 +11,6 @@ export const geoItem = {
   properties: {
     title: "Tincan Peak",
     feature_type: "peak",
-    thumbnail: "",
     nicks_ates_ratings: [],
     children: [],
     area: "tincan-area",

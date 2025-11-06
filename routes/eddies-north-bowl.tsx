@@ -1,3 +1,4 @@
+import { eddiesOverview } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -60,7 +61,7 @@ export const geoItem = {
   properties: {
     title: "Eddie's North Bowl",
     feature_type: "descent",
-    thumbnail: "/img/eddies-overview.jpg",
+    thumbnail: eddiesOverview,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "eddies-area",

@@ -702,7 +702,6 @@ export const geoItem = {
   properties: {
     title: "Taylor Pass to Pastoral Peak",
     feature_type: "ascent",
-    thumbnail: "",
     nicks_ates_ratings: ["simple", "challenging"],
     children: [],
     area: "pastoral-area",

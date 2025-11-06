@@ -1,6 +1,7 @@
 import Figure from "@/app/components/Figure";
 import ImgTincanOVerview from "@/public/img/tincan-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
+import { tincanOverview } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "tincan-trees",
@@ -27,7 +28,7 @@ export const geoItem = {
   properties: {
     title: "Tincan Trees",
     feature_type: "descent",
-    thumbnail: "/img/tincan-overview.jpg",
+    thumbnail: tincanOverview,
     nicks_ates_ratings: ["simple", "challenging"],
     children: [],
     area: "tincan-area",

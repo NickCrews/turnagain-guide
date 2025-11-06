@@ -1,4 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
+import { goldpan } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -11,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Goldpan Peak",
     feature_type: "peak",
-    thumbnail: "/img/goldpan-pano.jpg",
+    thumbnail: goldpan,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "goldpan-area",

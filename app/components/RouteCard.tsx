@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { AreaBadge } from './Area';
 import { useRouter } from 'next/navigation';
 import ImageCarousel from '@/components/ui/image-carousel';
+import { getImageAltText } from '@/lib/image';
 
 interface RouteCardProps {
   item: GeoItem;
@@ -34,9 +35,10 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
     )
   }
   else if (item.properties.thumbnail) {
+    const altText = getImageAltText(item.properties.thumbnail)
       banner = <img
-        src={item.properties.thumbnail}
-        alt={item.properties.title}
+        src={item.properties.thumbnail.imagePath}
+        alt={altText}
         className="w-full h-48 rounded-t-xl object-cover"
       />
     }

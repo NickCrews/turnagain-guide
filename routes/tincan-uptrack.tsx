@@ -1,3 +1,4 @@
+import { tincanOverview } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -202,7 +203,7 @@ export const geoItem = {
   properties: {
     title: "Tincan Main Uptrack",
     feature_type: "ascent",
-    thumbnail: "/img/tincan-overview.jpg",
+    thumbnail: tincanOverview,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "tincan-area",

@@ -1,7 +1,7 @@
 
 import { type Feature, type Geometry } from 'geojson';
 import { type ATES } from '@/lib/terrain-rating';
-import { Image } from '@/lib/image';
+import { GuideImage } from '@/lib/image';
 import { allGeoItems } from '@/routes';
 
 export type FeatureType = "area" | "parking" |"peak" | "ascent" | "descent";
@@ -27,7 +27,7 @@ export interface GeoItemProperties {
   total_descent?: number;
   nicks_ates_ratings: ATES[];
   /* The relative url of an image to be used as a thumbnail, eg 'img/tincan-overview.jpg' */
-  thumbnail?: string | Image;
+  thumbnail?: GuideImage;
   /* the id of the other item that represents the area, eg 'tincan-area' */
   area?: string;
   /** 
@@ -36,7 +36,7 @@ export interface GeoItemProperties {
    * For "leaf" items, this will be an empty array.
    */
   children: string[];
-  images: Image[];
+  images: GuideImage[];
   [key: string]: any;
 }
 

@@ -1,6 +1,7 @@
 import Figure from "@/app/components/Figure";
 import ImgSharkfinWolverine from "@/public/img/sharkfin-wolverine-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
+import { wolverineOverview } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "wolverine-area",
@@ -30,7 +31,7 @@ export const geoItem = {
   properties: {
     title: "Wolverine Area",
     feature_type: "area",
-    thumbnail: "/img/sharkfin-wolverine-overview.jpg",
+    thumbnail: wolverineOverview,
     nicks_ates_ratings: [],
     children: [],
     images: [],

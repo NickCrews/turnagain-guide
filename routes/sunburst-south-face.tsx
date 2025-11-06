@@ -1,4 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
+import { sunburstAndMagnum } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -80,7 +81,7 @@ export const geoItem = {
     title: "Sunburst South Face",
     area: "sunburst-area",
     feature_type: "descent",
-    thumbnail: "/img/sunburst-magnum-overview.jpg",
+    thumbnail: sunburstAndMagnum,
     nicks_ates_ratings: ["challenging", "complex"],
     children: [],
     elevation_min: 624,

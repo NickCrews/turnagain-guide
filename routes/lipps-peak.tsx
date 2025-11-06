@@ -1,4 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
+import { lippsNorth } from "@/imageRegistry/imagesWithPaths";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -11,7 +12,7 @@ export const geoItem = {
   properties: {
     title: "Lipps Peak",
     feature_type: "peak",
-    thumbnail: "/img/lipps-north-side.jpg",
+    thumbnail: lippsNorth,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "lipps-area",

@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
+import { tincanOverview } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "tincan-trees-uptrack",
@@ -42,7 +43,7 @@ export const geoItem = {
   properties: {
     title: "Tincan Trees Uptrack",
     feature_type: "ascent",
-    thumbnail: "/img/tincan-overview.jpg",
+    thumbnail: tincanOverview,
     nicks_ates_ratings: ["simple", "challenging"],
     children: [],
     area: "tincan-area",

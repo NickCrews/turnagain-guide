@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
+import { sunburstApproachGully } from "@/imageRegistry/imagesWithPaths";
 
 export const geoItem = {
   id: "sunburst-meadows-uptrack-early",
@@ -318,7 +319,7 @@ export const geoItem = {
   properties: {
     title: "Sunburst Meadows Uptrack - Early Season",
     feature_type: "ascent",
-    thumbnail: "img/sunburst-approach-gully.jpg",
+    thumbnail: sunburstApproachGully,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "sunburst-area",

@@ -6,6 +6,7 @@ import { useGeoItems } from '@/components/ui/itemsContext';
 import Link from '@/components/ui/link';
 import ItemGallery from './ItemGallery';
 import { Point } from 'geojson';
+import { getImageAltText } from '@/lib/image';
 interface RouteDetailProps {
     item: GeoItem;
   }
@@ -61,8 +62,8 @@ export default function RouteDetail({ item }: RouteDetailProps) {
       {item.properties.thumbnail && (
         <figure className="mb-4">
           <img
-            src={item.properties.thumbnail}
-            alt={item.properties.title}
+            src={item.properties.thumbnail.imagePath}
+            alt={getImageAltText(item.properties.thumbnail)}
             className="w-full h-auto rounded-lg shadow-md"
           />
           {item.properties.description && (

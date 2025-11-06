@@ -67,16 +67,17 @@ export default function ImageCarousel(images: GuideImage[]) {
 
 
     const getImageWithClassesApplied = (image: GuideImage, imageIndex: number) => {
-        const baseClasses = "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2 transition duration-500 ease-in-out";
+        const baseClasses = "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2 overflow-scroll";
         const imagePath = image.imagePath;
         const imageAltText = getImageAltText(image);
         if (imageIndex == selectedIndex) {
             return (
                 <img
                     src={imagePath}
-                    className={cn(baseClasses, "-translate-x-1/2 -translate-y-1/2")}
+                    className={cn(baseClasses, "-translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out")}
                     key={imageIndex}
                     alt={imageAltText}
+                    title={imageAltText}
                 />
             );
         }
@@ -84,9 +85,10 @@ export default function ImageCarousel(images: GuideImage[]) {
             return (
                 <img
                     src={imagePath}
-                    className={cn(baseClasses, "translate-x-3/2 -translate-y-1/2")}
+                    className={cn(baseClasses, "translate-x-31/20 -translate-y-1/2" )}
                     key={imageIndex}
                     alt={imageAltText}
+                    title={imageAltText}
                 />
             );
         }
@@ -94,9 +96,10 @@ export default function ImageCarousel(images: GuideImage[]) {
             return (
                 <img
                     src={imagePath}
-                    className={cn(baseClasses, "-translate-x-3/2 -translate-y-1/2")}
+                    className={cn(baseClasses, "-translate-x-31/20 -translate-y-1/2")}
                     key={imageIndex}
                     alt={imageAltText}
+                    title={imageAltText}
 
                 />
             );

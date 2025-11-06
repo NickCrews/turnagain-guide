@@ -39,6 +39,7 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
       banner = <img
         src={item.properties.thumbnail.imagePath}
         alt={altText}
+        title={altText}
         className="w-full h-48 rounded-t-xl object-cover"
       />
     }

@@ -2,9 +2,10 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { getImageAltText, GuideImage } from "@/lib/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProgressIndicator from "./progress-indicator";
 
 export default function ImageCarousel(images: GuideImage[]) {
-    const doShowArrows = images.length > 1;
+    const hasMultiple = images.length > 1;
     const [selectedIndex, setSelectedIndex] = useState(0);
     const rightIndex = (selectedIndex + 1) % images.length;
     const leftIndex = (selectedIndex - 1 + images.length) % images.length;
@@ -86,7 +87,7 @@ export default function ImageCarousel(images: GuideImage[]) {
 
     return (
         <div className="relative h-48 group">
-            {doShowArrows && <button
+            {hasMultiple && <button
                 className={cn(arrowClassBase, "left-3")}
                 onClick={leftClickOnClick}
             >
@@ -97,12 +98,16 @@ export default function ImageCarousel(images: GuideImage[]) {
                     getImageWithClassesApplied(image, index)
                 )}
             </div>
-            {doShowArrows && <button
+            {hasMultiple && <button
                 className={cn(arrowClassBase, "right-3")}
                 onClick={rightClickOnClick}
             >
                 <ChevronRight size={48} className="text-white" />
             </button>}
+            {hasMultiple && <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-40">
+                <ProgressIndicator total={images.length} current={selectedIndex} />
+            </div>
+        }
         </div>
     );
 }

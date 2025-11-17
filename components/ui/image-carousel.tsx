@@ -27,7 +27,7 @@ export default function ImageCarousel(images: GuideImage[]) {
         imageIndex: number,
     ) => {
         const baseClasses =
-            "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2";
+            "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2 object-cover";
         const imagePath = image.imagePath;
         const imageAltText = getImageAltText(image);
         if (imageIndex == selectedIndex) {

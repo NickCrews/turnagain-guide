@@ -10,7 +10,7 @@ export default function ImageCarousel(images: GuideImage[]) {
     const rightIndex = (selectedIndex + 1) % images.length;
     const leftIndex = (selectedIndex - 1 + images.length) % images.length;
 
-    const rightClickOnClick = (e: React.MouseEvent<HTMLElement>) => {
+    const rightClickOnClick = (e: React.MouseEvent) => {
         // Event is manually handled to navigate to the route page, so we need to use stopPropagation instead
         // of preventDefault. preventDefault only stops default actions, so will do nothing to prevent the route
         // card from going to the route page after the left or right arrow is pressed.
@@ -18,7 +18,7 @@ export default function ImageCarousel(images: GuideImage[]) {
         setSelectedIndex(rightIndex);
     };
 
-    const leftClickOnClick = (e: React.MouseEvent<HTMLElement>) => {
+    const leftClickOnClick = (e: React.MouseEvent) => {
         e.stopPropagation();
         setSelectedIndex(leftIndex);
     };
@@ -82,32 +82,47 @@ export default function ImageCarousel(images: GuideImage[]) {
         }
     };
 
-    const arrowClassBase =
-        "absolute top-1/2 -translate-y-1/2 z-30 h-12 w-12 rounded-lg bg-black/30 shadow-lg backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-black/50 transition opacity-0 group-hover:opacity-100 transition-opacity duration-200";
-
     return (
         <div className="relative h-48 group">
-            {hasMultiple && <button
-                className={cn(arrowClassBase, "left-3")}
-                onClick={leftClickOnClick}
-            >
-                <ChevronLeft size={48} className="text-white" />
-            </button>}
+            {hasMultiple && NextButton({ onClick: rightClickOnClick, className: "right-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
             <div className="overflow-hidden">
                 {images.map((image, index) =>
                     getImageWithClassesApplied(image, index)
                 )}
             </div>
-            {hasMultiple && <button
-                className={cn(arrowClassBase, "right-3")}
-                onClick={rightClickOnClick}
-            >
-                <ChevronRight size={48} className="text-white" />
-            </button>}
+            {hasMultiple && PrevButton({ onClick: leftClickOnClick, className: "left-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
             {hasMultiple && <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-40">
                 <ProgressIndicator total={images.length} current={selectedIndex} />
             </div>
-        }
+            }
         </div>
+    );
+}
+
+export function NextButton({ onClick, className }: { onClick: (e: React.MouseEvent) => void, className?: string }) {
+    return (
+        <button
+            className={cn(
+                "h-12 w-12 rounded-lg bg-black/30 shadow-lg backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-black/50 transition",
+                className
+            )}
+            onClick={onClick}
+        >
+            <ChevronRight size={48} className="text-white" />
+        </button>
+    );
+}
+
+export function PrevButton({ onClick, className }: { onClick: (e: React.MouseEvent) => void, className?: string }) {
+    return (
+        <button
+            className={cn(
+                "h-12 w-12 rounded-lg bg-black/30 shadow-lg backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-black/50 transition",
+                className
+            )}
+            onClick={onClick}
+        >
+            <ChevronLeft size={48} className="text-white" />
+        </button>
     );
 }

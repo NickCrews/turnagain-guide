@@ -71,11 +71,8 @@ export const sunburstApproachGully = {
 } as const satisfies GuideImage;
 export const sunburstAndMagnum = {
   imagePath: "/img/sunburst-magnum-overview.jpg",
-} as const satisfies GuideImage;
-export const sunburstMagnumImageText = {
-    title: "Sunburst and Magnum",
-    description: "Sunburst on the left side and Magnum on the Right.",
-    ...sunburstAndMagnum,
+  title: "Sunburst and Magnum",
+  description: "Sunburst on the left side and Magnum on the Right, with the Taylor Creek valley in between.",
 } as const satisfies GuideImage;
 export const superbowlFromCornbiscuit = {
   imagePath: "/img/superbowl-from-cornbiscuit.jpg",

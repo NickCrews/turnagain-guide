@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
-import { magnumFrontFace, sunburstMagnumImageText } from "@/imageRegistry/images";
+import { magnumFrontFace, sunburstAndMagnum } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "magnum-northeast-ridge",
@@ -441,7 +441,7 @@ export const geoItem = {
     elevation_max: 1049,
     distance: 1520,
     total_ascent: 419,
-    images: [magnumFrontFace, sunburstMagnumImageText],
+    images: [magnumFrontFace, sunburstAndMagnum],
   },
   proseJsx: (
     <>

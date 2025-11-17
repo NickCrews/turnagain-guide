@@ -265,7 +265,6 @@ export const geoItem = {
   properties: {
     title: "Super Bowl",
     feature_type: "descent",
-    thumbnail: superbowlFromCornbiscuit,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "cornbiscuit-area",
@@ -275,7 +274,7 @@ export const geoItem = {
     total_descent: 367.20001220703125,
     latitude: 60.74769225814426,
     longitude: -149.20086496948142,
-    images: [],
+    images: [superbowlFromCornbiscuit],
   },
   proseJsx: (
     <>

@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Tincan Parking Lot",
     feature_type: "parking",
-    thumbnail: tincanOverview,
     area: "tincan-area",
     elevation: 315,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
-    images: [],
+    images: [tincanOverview],
   },
   proseJsx: (
     <>

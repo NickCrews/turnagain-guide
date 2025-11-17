@@ -193,14 +193,13 @@ export const geoItem = {
   properties: {
     title: "Granddaddy Couloir",
     feature_type: "descent",
-    thumbnail: grandaddy,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "lipps-area",
     elevation_max: 1319,
     elevation_min: 928,
     distance: 618,
-    images: [],
+    images: [grandaddy],
   },
   proseJsx: (
     <>

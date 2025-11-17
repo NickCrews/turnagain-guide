@@ -560,7 +560,6 @@ export const geoItem = {
   properties: {
     title: "Lipps Uptrack",
     feature_type: "ascent",
-    thumbnail: undefined,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "lipps-area",

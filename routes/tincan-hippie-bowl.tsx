@@ -43,7 +43,6 @@ export const geoItem = {
   properties: {
     title: "Tincan Hippie Bowl",
     feature_type: "descent",
-    thumbnail: librariesMiddle,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "tincan-area",
@@ -53,7 +52,7 @@ export const geoItem = {
     latitude: 60.78295961753153,
     longitude: -149.15957789760694,
     total_descent: 454.204791,
-    images: [],
+    images: [librariesMiddle],
   },
   proseJsx: (
     <>

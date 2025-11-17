@@ -111,7 +111,6 @@ export const geoItem = {
   properties: {
     title: "Blue Diamond Route",
     feature_type: "ascent",
-    thumbnail: blueDiamond,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "tincan-area",
@@ -120,7 +119,7 @@ export const geoItem = {
     distance: 1990.2708938747458,
     latitude: 60.78428734653695,
     longitude: -149.2015831517385,
-    images: []
+    images: [blueDiamond],
   },
   proseJsx: (
     <>

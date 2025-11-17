@@ -40,7 +40,6 @@ export const geoItem = {
   properties: {
     title: "CFR (Cornice F*%$in' Run)",
     feature_type: "descent",
-    thumbnail: eddiesSpinesAndTodds,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "tincan-area",
@@ -50,7 +49,7 @@ export const geoItem = {
     latitude: 60.78853902508095,
     longitude: -149.16106769732286,
     total_descent: 275.29182300000014,
-    images: [],
+    images: [eddiesSpinesAndTodds],
     
   },
   proseJsx: (

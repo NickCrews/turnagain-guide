@@ -84,7 +84,6 @@ export const geoItem = {
   properties: {
     title: "Tincan Out Track",
     feature_type: "descent",
-    thumbnail: tincanOverview,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "tincan-area",
@@ -94,7 +93,7 @@ export const geoItem = {
     latitude: 60.79424591707046,
     longitude: -149.18357653617528,
     total_descent: 191.19635899999992,
-    images: [],
+    images: [tincanOverview],
   },
   proseJsx: (
     <>

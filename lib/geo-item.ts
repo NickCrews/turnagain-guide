@@ -4,7 +4,7 @@ import { type ATES } from '@/lib/terrain-rating';
 import { GuideImage } from '@/lib/image';
 import { allGeoItems } from '@/routes';
 
-export type FeatureType = "area" | "parking" |"peak" | "ascent" | "descent";
+export type FeatureType = "area" | "parking" | "peak" | "ascent" | "descent";
 
 export const FEATURE_TYPES: Set<FeatureType> = new Set(['area', 'parking', 'peak', 'ascent', 'descent']);
 
@@ -19,6 +19,8 @@ export interface GeoItemProperties {
   elevation_min?: number;
   /* in meters */
   elevation_max?: number;
+  latitude?: number;
+  longitude?: number;
   /* in meters */
   distance?: number;
   /* in meters */
@@ -26,8 +28,6 @@ export interface GeoItemProperties {
   /* in meters */
   total_descent?: number;
   nicks_ates_ratings: ATES[];
-  /* The relative url of an image to be used as a thumbnail, eg 'img/tincan-overview.jpg' */
-  thumbnail?: GuideImage;
   /* the id of the other item that represents the area, eg 'tincan-area' */
   area?: string;
   /** 
@@ -36,8 +36,8 @@ export interface GeoItemProperties {
    * For "leaf" items, this will be an empty array.
    */
   children: string[];
+  /** The first image will be interpreted as the thumbnail */
   images: GuideImage[];
-  [key: string]: any;
 }
 
 export interface GeoItem extends Feature {
@@ -54,25 +54,25 @@ export interface GeoItem extends Feature {
 export function addChildrenField(items: readonly GeoItem[]) {
   const parentToChildrenMap = new Map();
   items.forEach(obj => {
-      parentToChildrenMap.set(obj.id, []);
+    parentToChildrenMap.set(obj.id, []);
   });
   items.forEach(item => {
-      if (item.properties.area) {
-        const area = parentToChildrenMap.get(item.properties.area);
-        if (!area) {
-          throw new Error(`Area ${item.properties.area} is not a valid parent`);
-        }
-        area.push(item.id);
+    if (item.properties.area) {
+      const area = parentToChildrenMap.get(item.properties.area);
+      if (!area) {
+        throw new Error(`Area ${item.properties.area} is not a valid parent`);
       }
+      area.push(item.id);
+    }
   });
   return items.map(obj => {
-      return {
-          ...obj,
-          properties: {
-              ...obj.properties,
-              children: parentToChildrenMap.get(obj.id),
-          },
-      };
+    return {
+      ...obj,
+      properties: {
+        ...obj.properties,
+        children: parentToChildrenMap.get(obj.id),
+      },
+    };
   });
 }
 

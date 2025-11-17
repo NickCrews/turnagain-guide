@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Cornbiscuit Parking Lot",
     feature_type: "parking",
-    thumbnail: magnumAndCornbisbuit,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "cornbiscuit-area",
     elevation: 275,
-    images: [],
+    images: [magnumAndCornbisbuit],
   },
   proseJsx: (
     <>

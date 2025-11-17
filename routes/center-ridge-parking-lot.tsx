@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Center Ridge Parking Lot",
     feature_type: "parking",
-    thumbnail: blueDiamond,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "tincan-area",
     elevation: 280,
-    images: [],
+    images: [blueDiamond],
   },
   proseJsx: (
     <>

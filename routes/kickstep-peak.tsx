@@ -12,13 +12,12 @@ export const geoItem = {
   properties: {
     title: "Kickstep Peak",
     feature_type: "peak",
-    thumbnail: kickstepFromRoad,
-    // also include somewhere: /img/kickstep-from-bascketball.jpg
     nicks_ates_ratings: ["extreme"],
     children: [],
     area: "tincan-area",
     elevation: 1417,
-    images: [],
+    // also include somewhere: /img/kickstep-from-bascketball.jpg
+    images: [kickstepFromRoad],
   },
   proseJsx: (
     <>

@@ -738,14 +738,13 @@ export const geoItem = {
   properties: {
     title: "Cornbiscuit Uptrack",
     feature_type: "ascent",
-    thumbnail: cornbiscuitNorth,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "cornbiscuit-area",
     elevation_min: 273,
     elevation_max: 1000,
     distance: 5610,
-    images: [],
+    images: [cornbiscuitNorth],
   },
   proseJsx: <>
     <p>

@@ -24,7 +24,6 @@ export const geoItem = {
   properties: {
     title: "Tincan Common Bowl",
     feature_type: "descent",
-    thumbnail: tincanOverview,
     area: "tincan-area",
     distance: 302.9814467472608,
     elevation_max: 958.7224,
@@ -34,7 +33,7 @@ export const geoItem = {
     total_descent: 141.25361999999996,
     nicks_ates_ratings: ["challenging"],
     children: [],
-    images: [],
+    images: [tincanOverview],
   },
   proseJsx: (
     <>

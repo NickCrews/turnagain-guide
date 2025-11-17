@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Eddies Peak",
     feature_type: "peak",
-    thumbnail: eddiesOverview,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "eddies-area",
     elevation: 902,
-    images: [],
+    images: [eddiesOverview],
   },
   proseJsx: (
     <>

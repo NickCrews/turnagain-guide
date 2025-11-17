@@ -81,12 +81,11 @@ export const geoItem = {
     title: "Sunburst South Face",
     area: "sunburst-area",
     feature_type: "descent",
-    thumbnail: sunburstAndMagnum,
     nicks_ates_ratings: ["challenging", "complex"],
     children: [],
     elevation_min: 624,
     elevation_max: 1156,
-    images: [],
+    images: [sunburstAndMagnum],
   },
   proseJsx: <>
     <p>

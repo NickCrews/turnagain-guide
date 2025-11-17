@@ -3,7 +3,7 @@
 import { FeatureType, GeoItem, FEATURE_TYPES } from "@/lib/geo-item";
 import Map from "./Map";
 import ItemGallery from "./ItemGallery";
-import RouteDetail from "./RouteDetail";
+import { RouteProperties, RouteProse, SubRoutes } from "./RouteDetail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RouteFilterBar from "./RouteFilterBar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
@@ -19,6 +19,7 @@ import {
   DrawerHandle,
 } from '@/components/ui/drawer'
 import { Button } from "@/components/ui/button";
+import ImageCarousel from "@/components/ui/image-carousel";
 
 interface ItemExplorerProps {
   items: GeoItem[]
@@ -222,8 +223,11 @@ function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void
       </nav>
     </div>
     <div className="overflow-y-auto h-full rounded-lg px-6 pb-6 pt-3 max-w-2xl w-full">
+      {item.properties.images && ImageCarousel(item.properties.images)}
       <h2 className='text-2xl font-bold mb-4'>{item.properties.title}</h2>
-      <RouteDetail item={item} />
+      <RouteProperties item={item} />
+      <RouteProse item={item} />
+      <SubRoutes childrenIds={item.properties.children} />
     </div>
   </>
 }
@@ -293,7 +297,10 @@ function RouteDetailsDrawer({
         </div>
         {/* TODO: this scroll behavior isn't great. */}
         <div className="overflow-y-auto h-full">
-          <RouteDetail item={item} />
+            {item.properties.images && ImageCarousel(item.properties.images)}
+            <RouteProperties item={item} />
+            <RouteProse item={item} />
+            <SubRoutes childrenIds={item.properties.children} />
         </div>
       </DrawerContent>
     </Drawer>

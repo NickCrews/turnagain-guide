@@ -33,10 +33,9 @@ export const geoItem = {
   properties: {
     title: "Magnum Area",
     feature_type: "area",
-    thumbnail: magnumAndCornbisbuit,
     nicks_ates_ratings: [],
     children: [],
-    images: [],
+    images: [magnumAndCornbisbuit],
   },
   proseJsx: <></>,
 } as const satisfies GeoItem;

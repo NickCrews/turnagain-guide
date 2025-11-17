@@ -27,10 +27,9 @@ export const geoItem = {
   properties: {
     title: "Cornbiscuit Area",
     feature_type: "area",
-    thumbnail: magnumAndCornbisbuit,
     nicks_ates_ratings: [],
     children: [],
-    images: [],
+    images: [magnumAndCornbisbuit],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

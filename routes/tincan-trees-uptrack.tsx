@@ -43,7 +43,6 @@ export const geoItem = {
   properties: {
     title: "Tincan Trees Uptrack",
     feature_type: "ascent",
-    thumbnail: tincanOverview,
     nicks_ates_ratings: ["simple", "challenging"],
     children: [],
     area: "tincan-area",
@@ -52,7 +51,7 @@ export const geoItem = {
     distance: 593.0441337742518,
     latitude: 60.7908679914805,
     longitude: -149.17213663505876,
-    images: [],
+    images: [tincanOverview],
   },
   proseJsx: (
     <>

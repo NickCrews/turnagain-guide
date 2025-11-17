@@ -41,10 +41,9 @@ export const geoItem = {
   properties: {
     title: "Tincan Area",
     feature_type: "area",
-    thumbnail: tincanOverview,
     nicks_ates_ratings: [],
     children: [],
-    images: [],
+    images: [tincanOverview],
   },
   proseJsx: (
     <>

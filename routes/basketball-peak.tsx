@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Basketball Peak",
     feature_type: "peak",
-    thumbnail: bootingBasketball,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "goldpan-area",
     elevation: 1243,
-    images: [],
+    images: [bootingBasketball],
   },
   proseJsx: (
     <>

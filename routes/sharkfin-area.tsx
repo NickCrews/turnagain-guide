@@ -31,10 +31,9 @@ export const geoItem = {
   properties: {
     title: "Sharkfin Area",
     feature_type: "area",
-    thumbnail: wolverineOverview,
     nicks_ates_ratings: [],
     children: [],
-    images: [],
+    images: [wolverineOverview],
   },
   proseJsx: (
     <>

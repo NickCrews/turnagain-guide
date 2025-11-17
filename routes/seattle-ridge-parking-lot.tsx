@@ -12,11 +12,10 @@ export const geoItem = {
   properties: {
     title: "Seattle Ridge Parking Lot",
     feature_type: "parking",
-    thumbnail: seattleRidgeUptrack,
     elevation: 305,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
-    images: [],
+    images: [seattleRidgeUptrack],
   },
   proseJsx: (
     <>

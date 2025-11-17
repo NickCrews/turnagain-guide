@@ -11,11 +11,10 @@ export const geoItem = {
   properties: {
     title: "Motorized Parking Lot",
     feature_type: "parking",
-    thumbnail: seattleRidge,
     elevation: 279,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
-    images: [],
+    images: [seattleRidge],
   },
   proseJsx: (
     <>

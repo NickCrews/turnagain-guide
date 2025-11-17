@@ -482,7 +482,6 @@ export const geoItem = {
   properties: {
     title: "Taylor Creek Route",
     feature_type: "ascent",
-    thumbnail: taylorPass,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "sunburst-area",
@@ -490,7 +489,7 @@ export const geoItem = {
     elevation_max: 970,
     distance: 2100,
     total_ascent: 342,
-    images: [],
+    images: [taylorPass],
   },
   proseJsx: (
     <>

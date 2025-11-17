@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Lipps Peak",
     feature_type: "peak",
-    thumbnail: lippsNorth,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "lipps-area",
     elevation: 1318,
-    images: [],
+    images: [lippsNorth],
   },
   proseJsx: (
     <>

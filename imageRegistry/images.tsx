@@ -72,6 +72,11 @@ export const sunburstApproachGully = {
 export const sunburstAndMagnum = {
   imagePath: "/img/sunburst-magnum-overview.jpg",
 } as const satisfies GuideImage;
+export const sunburstMagnumImageText = {
+    title: "Sunburst and Magnum",
+    description: "Sunburst on the left side and Magnum on the Right.",
+    ...sunburstAndMagnum,
+} as const satisfies GuideImage;
 export const superbowlFromCornbiscuit = {
   imagePath: "/img/superbowl-from-cornbiscuit.jpg",
 } as const satisfies GuideImage;

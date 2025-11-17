@@ -1,4 +1,4 @@
-import { seattleRidge } from "@/imageRegistry/imagesWithPaths";
+import { seattleRidge } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

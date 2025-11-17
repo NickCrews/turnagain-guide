@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
-import { eddiesOverview } from "@/imageRegistry/imagesWithPaths";
+import { eddiesOverview } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "eddies-approach-and-uptrack",

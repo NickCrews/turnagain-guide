@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
-import { tincanOverview } from "@/imageRegistry/imagesWithPaths";
+import { tincanOverview } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "tincan-meadow-to-ridge-uptrack",

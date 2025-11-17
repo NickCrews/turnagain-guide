@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
-import { wolverineOverview } from "@/imageRegistry/imagesWithPaths";
+import { wolverineOverview } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

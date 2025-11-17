@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
-import { magnumAndCornbisbuit } from "@/imageRegistry/imagesWithPaths";
+import { magnumAndCornbisbuit } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "cornbiscuit-parking-lot",

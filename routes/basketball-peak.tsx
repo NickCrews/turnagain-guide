@@ -1,6 +1,6 @@
 import RouteLink from "@/app/components/RouteLink";
 import { type GeoItem } from "@/lib/geo-item";
-import { bootingBasketball } from "@/imageRegistry/imagesWithPaths";
+import { bootingBasketball } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "basketball-peak",

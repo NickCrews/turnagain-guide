@@ -1,7 +1,7 @@
 import Figure from "@/app/components/Figure";
 import ImgTincanOVerview from "@/public/img/tincan-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
-import { tincanOverview } from "@/imageRegistry/imagesWithPaths";
+import { tincanOverview } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "tincan-trees",

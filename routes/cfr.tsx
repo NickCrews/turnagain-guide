@@ -1,5 +1,5 @@
 import { type GeoItem } from "@/lib/geo-item";
-import { eddiesSpinesAndTodds } from "@/imageRegistry/imagesWithPaths";
+import { eddiesSpinesAndTodds } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "cfr",

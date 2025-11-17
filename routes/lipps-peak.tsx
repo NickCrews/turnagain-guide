@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
-import { lippsNorth } from "@/imageRegistry/imagesWithPaths";
+import { lippsNorth } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

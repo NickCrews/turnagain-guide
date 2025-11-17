@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
-import { goldpan } from "@/imageRegistry/imagesWithPaths";
+import { goldpan } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

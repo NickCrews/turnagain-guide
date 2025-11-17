@@ -1,5 +1,5 @@
 import Link from "@/components/ui/link";
-import { kickstepFromRoad } from "@/imageRegistry/imagesWithPaths";
+import { kickstepFromRoad } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

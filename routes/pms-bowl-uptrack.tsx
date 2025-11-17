@@ -1,4 +1,4 @@
-import { pmsBowlFromCornbiscuit } from "@/imageRegistry/imagesWithPaths";
+import { pmsBowlFromCornbiscuit } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

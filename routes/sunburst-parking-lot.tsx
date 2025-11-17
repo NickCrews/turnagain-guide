@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
-import { sunburstAndMagnum } from "@/imageRegistry/imagesWithPaths";
+import { sunburstAndMagnum } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

@@ -1,6 +1,6 @@
 import Figure from "@/app/components/Figure";
 import RouteLink from "@/app/components/RouteLink";
-import { librariesLeftSide, librariesMiddle, librariesRidge } from "@/imageRegistry/imagesWithPaths";
+import { librariesLeftSide, librariesMiddle, librariesRidge } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

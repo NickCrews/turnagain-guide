@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
-import { librariesMiddle } from "@/imageRegistry/imagesWithPaths";
+import { librariesMiddle } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "tincan-hippie-bowl",

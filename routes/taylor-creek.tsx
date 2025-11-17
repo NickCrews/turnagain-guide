@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
-import { taylorPass } from "@/imageRegistry/imagesWithPaths";
+import { taylorPass } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "taylor-creek",

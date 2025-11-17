@@ -1,4 +1,4 @@
-import { eddiesOverview } from "@/imageRegistry/imagesWithPaths";
+import { eddiesOverview } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

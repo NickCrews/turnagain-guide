@@ -3,7 +3,7 @@ import Link from "@/components/ui/link";
 import RouteLink from "@/app/components/RouteLink";
 import ImgEddiesOverview from "@/public/img/eddies-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
-import { eddiesOverview } from "@/imageRegistry/imagesWithPaths";
+import { eddiesOverview } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "eddies-front-face",

@@ -1,4 +1,4 @@
-import { magnumAndCornbisbuit } from "@/imageRegistry/imagesWithPaths";
+import { magnumAndCornbisbuit } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

@@ -1,6 +1,6 @@
 import Figure from "@/app/components/Figure";
 import { type GeoItem } from "@/lib/geo-item";
-import { seattleRidgeUptrack } from "@/imageRegistry/imagesWithPaths";
+import { seattleRidgeUptrack } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "seattle-ridge-parking-lot",

@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
-import { cornbiscuitNorth } from "@/imageRegistry/imagesWithPaths";
+import { cornbiscuitNorth } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/RouteLink";
-import { blueDiamond } from "@/imageRegistry/imagesWithPaths";
+import { blueDiamond } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "blue-diamond-route",

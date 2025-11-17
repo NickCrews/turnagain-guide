@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
-import { magnumFrontFace } from "@/imageRegistry/imagesWithPaths";
+import { magnumFrontFace } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

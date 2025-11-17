@@ -2,7 +2,7 @@ import RouteLink from "@/app/components/RouteLink";
 import Figure from "@/app/components/Figure";
 import ImgEddiesOverview from "@/public/img/eddies-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
-import { eddiesOverview } from "@/imageRegistry/imagesWithPaths";
+import { eddiesOverview } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "eddies-area",

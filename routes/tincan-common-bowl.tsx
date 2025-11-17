@@ -1,4 +1,4 @@
-import { tincanOverview } from "@/imageRegistry/imagesWithPaths";
+import { tincanOverview } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {

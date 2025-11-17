@@ -1,111 +1,75 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { GuideImage, getImageAltText } from "@/lib/image";
-
-function leftArrow() {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-8 stroke-black">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-        </svg>
-
-    )
-}
-
-function rightArrow() {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-8 stroke-black">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-        </svg>
-    )
-}
-
+import { getImageAltText, GuideImage } from "@/lib/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ImageCarousel(images: GuideImage[]) {
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const rightIndex = (selectedIndex + 1) % images.length;
+    const leftIndex = (selectedIndex - 1 + images.length) % images.length;
 
-    const rightClickOnCLick = (e: React.MouseEvent<HTMLElement>) => {
+    const rightClickOnClick = (e: React.MouseEvent<HTMLElement>) => {
         // Event is manually handled to navigate to the route page, so we need to use stopPropagation instead
         // of preventDefault. preventDefault only stops default actions, so will do nothing to prevent the route
         // card from going to the route page after the left or right arrow is pressed.
         e.stopPropagation();
-        if (selectedIndex + 1 < images.length){
-            setSelectedIndex(selectedIndex + 1);
-        }
-        else {
-            setSelectedIndex(0);
-        }
-    }
+        setSelectedIndex(rightIndex);
+    };
 
-    const leftClickOnCLick = (e: React.MouseEvent<HTMLElement>) => {
+    const leftClickOnClick = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
-        if (selectedIndex - 1 >= 0){
-            setSelectedIndex(selectedIndex - 1);
-        }
-        else {
-            setSelectedIndex(images.length - 1);
-        }
-    }
+        setSelectedIndex(leftIndex);
+    };
 
-    const getNextImageOnRightIndex = () => {
-        if (selectedIndex + 1 < images.length){
-            return selectedIndex + 1;
-        }
-        else {
-            return 0;
-        }
-    }
-
-    const getNextImageOnLeftIndex = () => {
-        if (selectedIndex - 1 >= 0){
-            return selectedIndex -1;
-        }
-        else {
-            return images.length - 1;
-        }
-    }
-
-
-
-    const getImageWithClassesApplied = (image: GuideImage, imageIndex: number) => {
-        const baseClasses = "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2";
+    const getImageWithClassesApplied = (
+        image: GuideImage,
+        imageIndex: number,
+    ) => {
+        const baseClasses =
+            "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2";
         const imagePath = image.imagePath;
         const imageAltText = getImageAltText(image);
         if (imageIndex == selectedIndex) {
             return (
                 <img
                     src={imagePath}
-                    className={cn(baseClasses, "-translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out")}
+                    className={cn(
+                        baseClasses,
+                        "-translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out",
+                    )}
                     key={imageIndex}
                     alt={imageAltText}
                     title={imageAltText}
                 />
             );
-        }
-        else if (imageIndex == getNextImageOnRightIndex()) {
+        } else if (imageIndex == rightIndex) {
             return (
                 <img
                     src={imagePath}
-                    className={cn(baseClasses, "translate-x-31/20 -translate-y-1/2" )}
+                    className={cn(
+                        baseClasses,
+                        "translate-x-31/20 -translate-y-1/2",
+                    )}
                     key={imageIndex}
                     alt={imageAltText}
                     title={imageAltText}
                 />
             );
-        }
-        else if (imageIndex == getNextImageOnLeftIndex()) {
+        } else if (imageIndex == leftIndex) {
             return (
                 <img
                     src={imagePath}
-                    className={cn(baseClasses, "-translate-x-31/20 -translate-y-1/2")}
+                    className={cn(
+                        baseClasses,
+                        "-translate-x-31/20 -translate-y-1/2",
+                    )}
                     key={imageIndex}
                     alt={imageAltText}
                     title={imageAltText}
-
                 />
             );
-        }
-        else {
-            return  (
+        } else {
+            return (
                 <img
                     src={imagePath}
                     className={cn(baseClasses, "hidden")}
@@ -114,20 +78,30 @@ export default function ImageCarousel(images: GuideImage[]) {
                 />
             );
         }
-    }
+    };
+
+    const arrowClassBase =
+        "absolute top-1/2 -translate-y-1/2 z-30 h-12 w-12 rounded-lg bg-black/30 shadow-lg backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-black/50 transition opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
     return (
-        <div className="relative h-48">
-            <div className="absolute left-3 top-1/2 z-30" onClick={leftClickOnCLick}>
-                {leftArrow() }
-            </div>
+        <div className="relative h-48 group">
+            <button
+                className={cn(arrowClassBase, "left-3")}
+                onClick={leftClickOnClick}
+            >
+                <ChevronLeft size={48} className="text-white" />
+            </button>
             <div className="overflow-hidden">
-                {images.map((image, index) => getImageWithClassesApplied(image, index))
-                }
+                {images.map((image, index) =>
+                    getImageWithClassesApplied(image, index)
+                )}
             </div>
-            <div className="absolute right-3 top-1/2 z-30" onClick={rightClickOnCLick}>
-                {rightArrow()}
-            </div>
+            <button
+                className={cn(arrowClassBase, "right-3")}
+                onClick={rightClickOnClick}
+            >
+                <ChevronRight size={48} className="text-white" />
+            </button>
         </div>
-    )
+    );
 }

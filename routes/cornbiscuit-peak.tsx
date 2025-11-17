@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Cornbiscuit Peak",
     feature_type: "peak",
-    thumbnail: cornbiscuitNorth,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "cornbiscuit-area",
     elevation: 1120,
-    images: [],
+    images: [cornbiscuitNorth],
   },
   proseJsx: (
     <>

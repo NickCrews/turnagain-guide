@@ -38,10 +38,9 @@ export const geoItem = {
   properties: {
     title: "Lipps Area",
     feature_type: "area",
-    thumbnail: lippsOverview,
     nicks_ates_ratings: [],
     children: [],
-    images: [],
+    images: [lippsOverview],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

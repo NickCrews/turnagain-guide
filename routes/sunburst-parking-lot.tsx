@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Sunburst Parking Lot",
     feature_type: "parking",
-    thumbnail: sunburstAndMagnum,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "sunburst-area",
     elevation: 275,
-    images: [],
+    images: [sunburstAndMagnum],
   },
   proseJsx: <>
     <p>

@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Goldpan Peak",
     feature_type: "peak",
-    thumbnail: goldpan,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "goldpan-area",
     elevation: 1233,
-    images: [],
+    images: [goldpan],
   },
   proseJsx: (
     <>

@@ -13,7 +13,6 @@ export const geoItem = {
   properties: {
     title: "Magnum \"Peak\"",
     feature_type: "peak",
-    thumbnail: magnumCenter,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "magnum-area",

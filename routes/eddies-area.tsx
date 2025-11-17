@@ -34,10 +34,9 @@ export const geoItem = {
   properties: {
     title: "Eddie's Area",
     feature_type: "area",
-    thumbnail: eddiesOverview,
     nicks_ates_ratings: [],
     children: [],
-    images: [],
+    images: [eddiesOverview],
   },
   proseJsx: (
     <>

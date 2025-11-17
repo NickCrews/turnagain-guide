@@ -61,7 +61,6 @@ export const geoItem = {
   properties: {
     title: "Eddie's North Bowl",
     feature_type: "descent",
-    thumbnail: eddiesOverview,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "eddies-area",
@@ -70,7 +69,7 @@ export const geoItem = {
     distance: 1141.2642087937406,
     latitude: 60.80207157090275,
     longitude: -149.12433652506442,
-    images: [],
+    images: [eddiesOverview],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

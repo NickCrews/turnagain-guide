@@ -11,12 +11,11 @@ export const geoItem = {
   properties: {
     title: "Lipps Parking Lot",
     feature_type: "parking",
-    thumbnail: lippsOverview,
     area: "lipps-area",
     elevation: 237,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
-    images: [],
+    images: [lippsOverview],
   },
   proseJsx: <>
     <p>

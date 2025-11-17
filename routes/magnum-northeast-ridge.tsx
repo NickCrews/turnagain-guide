@@ -435,7 +435,6 @@ export const geoItem = {
   properties: {
     title: "Magnum Northeast Ridge",
     feature_type: "ascent",
-    thumbnail: magnumFrontFace,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "magnum-area",

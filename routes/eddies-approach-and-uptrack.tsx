@@ -249,7 +249,6 @@ export const geoItem = {
   properties: {
     title: "Eddie's Approach and Uptrack",
     feature_type: "ascent",
-    thumbnail: eddiesOverview,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "eddies-area",
@@ -258,7 +257,7 @@ export const geoItem = {
     distance: 4616.4533523725895,
     latitude: 60.81313469806224,
     longitude: -149.13096187950717,
-    images: [],
+    images: [eddiesOverview],
   },
   proseJsx: <>
     <p>

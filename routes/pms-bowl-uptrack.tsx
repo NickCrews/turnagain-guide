@@ -125,7 +125,6 @@ export const geoItem = {
   properties: {
     title: "PMS Bowl Uptrack",
     feature_type: "ascent",
-    thumbnail: pmsBowlFromCornbiscuit,
     nicks_ates_ratings: ["simple", "challenging"],
     children: [],
     area: "magnum-area",
@@ -134,7 +133,7 @@ export const geoItem = {
     distance: 2590.6915043997165,
     latitude: 60.75533412678126,
     longitude: -149.22352955114067,
-    images: [],
+    images: [pmsBowlFromCornbiscuit],
   },
   proseJsx: (
     <>

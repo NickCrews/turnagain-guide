@@ -33,7 +33,6 @@ export const geoItem = {
   properties: {
     title: "The Libraries",
     feature_type: "descent",
-    thumbnail: librariesRidge,
     nicks_ates_ratings: ["complex", "extreme"],
     children: [],
     area: "tincan-area",

@@ -319,7 +319,6 @@ export const geoItem = {
   properties: {
     title: "Sunburst Meadows Uptrack - Early Season",
     feature_type: "ascent",
-    thumbnail: sunburstApproachGully,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "sunburst-area",
@@ -327,7 +326,7 @@ export const geoItem = {
     elevation_max: 417,
     distance: 1060,
     total_ascent: 137,
-    images: [],
+    images: [sunburstApproachGully],
   },
   proseJsx: (
     <>

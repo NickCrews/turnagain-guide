@@ -37,10 +37,9 @@ export const geoItem = {
   properties: {
     title: "Sunburst Area",
     feature_type: "area",
-    thumbnail: sunburstAndMagnum,
     nicks_ates_ratings: [],
     children: [],
-    images: [],
+    images: [sunburstAndMagnum],
   },
   proseJsx: <>
     <p>

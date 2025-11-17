@@ -19,7 +19,7 @@ function Property({ name, children }: { name: string, children?: React.ReactNode
   </div>
 }
 
-export default function RouteDetail({ item }: RouteDetailProps) {
+export function RouteProperties({ item }: RouteDetailProps) {
   let properties: { name: string, component: React.ReactNode }[] = [];
   if (item.properties.feature_type !== 'area') {
     properties.push({ name: "Feature Type", component: <RawValue value={item.properties.feature_type} />});
@@ -51,37 +51,26 @@ export default function RouteDetail({ item }: RouteDetailProps) {
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-2 mb-4">
-        {properties.map(({ name, component }) => (
-          <Property key={name} name={name}>
-            {component}
-          </Property>
-        ))}
-      </div>
-      {item.properties.thumbnail && (
-        <figure className="mb-4">
-          <img
-            src={item.properties.thumbnail.imagePath}
-            alt={getImageAltText(item.properties.thumbnail)}
-            className="w-full h-auto rounded-lg shadow-md"
-          />
-          {item.properties.description && (
-            <figcaption className="text-sm text-gray-500 mt-2">
-              {item.properties.description}
-            </figcaption>
-          )}
-        </figure>
-      )}
-      <article className="prose prose-sm prose-slate">
-        {item.proseJsx}
-      </article>
-      <SubRoutes childrenIds={item.properties.children} />
-    </>
+    <div className="flex flex-col gap-2 mb-4">
+      {properties.map(({ name, component }) => (
+        <Property key={name} name={name}>
+          {component}
+        </Property>
+      ))}
+    </div>
   );
 }
 
-function SubRoutes({ childrenIds }: { childrenIds: string[] }) {
+export function RouteProse({ item }: RouteDetailProps) {
+  return (
+    <article className="prose prose-sm prose-slate">
+      {item.proseJsx}
+    </article>
+  );
+}
+
+
+export function SubRoutes({ childrenIds }: { childrenIds: string[] }) {
   const items = useGeoItems();
   if (childrenIds.length === 0) return null;
   const children = items.filter((item) => childrenIds.includes(item.id));

@@ -28,11 +28,10 @@ export const geoItem = {
   properties: {
     title: "Tincan Trees",
     feature_type: "descent",
-    thumbnail: tincanOverview,
     nicks_ates_ratings: ["simple", "challenging"],
     children: [],
     area: "tincan-area",
-    images: [],
+    images: [tincanOverview],
   },
   proseJsx: (
     <>

@@ -12,12 +12,11 @@ export const geoItem = {
   properties: {
     title: "Sharkfin Peak",
     feature_type: "peak",
-    thumbnail: wolverineOverview,
     nicks_ates_ratings: ["challenging"],
     children: [],
     area: "sharkfin-area",
     elevation: 517,
-    images: [],
+    images: [wolverineOverview],
   },
   proseJsx: (
     <>

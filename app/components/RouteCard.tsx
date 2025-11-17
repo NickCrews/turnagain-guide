@@ -29,20 +29,11 @@ export default function RouteCard({ item, onClick, hovered, setHovered } : Route
     onClick = (item: GeoItem) => router.push(`/routes/${item.id}`);
   }
   let banner = null;
-  if (item.properties.images.length > 1) {
+  if (item.properties.images.length >= 1) {
     banner = ImageCarousel (
       item.properties.images
     )
   }
-  else if (item.properties.thumbnail) {
-    const altText = getImageAltText(item.properties.thumbnail)
-      banner = <img
-        src={item.properties.thumbnail.imagePath}
-        alt={altText}
-        title={altText}
-        className="w-full h-48 rounded-t-xl object-cover"
-      />
-    }
   return <Card
     onClick={() => onClick ? onClick(item) : null}
     onMouseEnter={() => setHovered && setHovered(true)}

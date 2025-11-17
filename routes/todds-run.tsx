@@ -37,7 +37,6 @@ export const geoItem = {
   properties: {
     title: "Todd's Run",
     feature_type: "descent",
-    thumbnail: eddiesSpinesAndTodds,
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "tincan-area",
@@ -47,7 +46,7 @@ export const geoItem = {
     latitude: 60.78617260777243,
     longitude: -149.14772455265611,
     total_descent: 351.5772689999999,
-    images: [],
+    images: [eddiesSpinesAndTodds],
   },
   proseJsx: (
     <>

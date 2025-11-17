@@ -35,7 +35,6 @@ export const geoItem = {
   properties: {
     title: "Tincan Meadow to Ridge Uptrack",
     feature_type: "ascent",
-    thumbnail: tincanOverview,
     nicks_ates_ratings: ["simple"],
     children: [],
     area: "tincan-area",
@@ -44,7 +43,7 @@ export const geoItem = {
     distance: 493.94458674679794,
     latitude: 60.79154314295677,
     longitude: -149.18265845134732,
-    images: [],
+    images: [tincanOverview],
   },
   proseJsx: (
     <>

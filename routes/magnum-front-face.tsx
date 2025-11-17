@@ -90,13 +90,12 @@ export const geoItem = {
   properties: {
     title: "Magnum Front Face",
     feature_type: "descent",
-    thumbnail: magnumFrontFace,
     area: "magnum-area",
     nicks_ates_ratings: ["complex"],
     children: [],
     elevation_min: 304,
     elevation_max: 914,
-    images: [],
+    images: [magnumFrontFace],
   },
   proseJsx: (
     <>

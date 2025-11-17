@@ -30,11 +30,10 @@ export const geoItem = {
   properties: {
     title: "Eddie's Front Face",
     feature_type: "descent",
-    thumbnail: eddiesOverview,
     area: "eddies-area",
     nicks_ates_ratings: ["challenging"],
     children: [],
-    images: [],
+    images: [eddiesOverview],
   },
   proseJsx: (
     <>

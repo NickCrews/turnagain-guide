@@ -4,6 +4,7 @@ import { getImageAltText, GuideImage } from "@/lib/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ImageCarousel(images: GuideImage[]) {
+    const doShowArrows = images.length > 1;
     const [selectedIndex, setSelectedIndex] = useState(0);
     const rightIndex = (selectedIndex + 1) % images.length;
     const leftIndex = (selectedIndex - 1 + images.length) % images.length;
@@ -85,23 +86,23 @@ export default function ImageCarousel(images: GuideImage[]) {
 
     return (
         <div className="relative h-48 group">
-            <button
+            {doShowArrows && <button
                 className={cn(arrowClassBase, "left-3")}
                 onClick={leftClickOnClick}
             >
                 <ChevronLeft size={48} className="text-white" />
-            </button>
+            </button>}
             <div className="overflow-hidden">
                 {images.map((image, index) =>
                     getImageWithClassesApplied(image, index)
                 )}
             </div>
-            <button
+            {doShowArrows && <button
                 className={cn(arrowClassBase, "right-3")}
                 onClick={rightClickOnClick}
             >
                 <ChevronRight size={48} className="text-white" />
-            </button>
+            </button>}
         </div>
     );
 }

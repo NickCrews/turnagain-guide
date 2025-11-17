@@ -6,7 +6,7 @@ import { useGeoItems } from '@/components/ui/itemsContext';
 import Link from '@/components/ui/link';
 import ItemGallery from './ItemGallery';
 import { Point } from 'geojson';
-import { getImageAltText } from '@/lib/image';
+
 interface RouteDetailProps {
     item: GeoItem;
   }

@@ -14,7 +14,6 @@ import { cn } from '@/lib/utils';
 import { AreaBadge } from './Area';
 import { useRouter } from 'next/navigation';
 import ImageCarousel from '@/components/ui/image-carousel';
-import { getImageAltText } from '@/lib/image';
 
 interface RouteCardProps {
   item: GeoItem;

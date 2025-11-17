@@ -25,7 +25,7 @@ export function getImageAltText(image: GuideImage) {
         // not really sure why this doesn't check. The type is string | undefined. 
         // undefined would evaluate to false and not hit the if statement.
         // even adding typeof(description) === "string" doesn't do it.
-        imageAltText = (image as ImageWithTitleAndDescription).description; 
+        imageAltText = (image as ImageWithTitleAndDescription).description;
     }
     else if ((image as ImageWithTitleAndDescription).title) {
         imageAltText = (image as ImageWithTitleAndDescription).title;

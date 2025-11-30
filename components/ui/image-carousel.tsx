@@ -3,12 +3,20 @@ import { cn } from "@/lib/utils";
 import { getImageAltText, GuideImage } from "@/lib/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProgressIndicator from "./progress-indicator";
+import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "@/app/components/lightbox-dialog-from-url";
 
-export default function ImageCarousel(images: GuideImage[]) {
+export interface ImageCarouselProps {
+    images: GuideImage[];
+    triggerLightbox: boolean;
+}
+
+export default function ImageCarousel({ images, triggerLightbox }: ImageCarouselProps) {
     const hasMultiple = images.length > 1;
     const [selectedIndex, setSelectedIndex] = useState(0);
     const rightIndex = (selectedIndex + 1) % images.length;
     const leftIndex = (selectedIndex - 1 + images.length) % images.length;
+
+    const { openLightbox } = useOpenLightboxFromParams();
 
     const rightClickOnClick = (e: React.MouseEvent) => {
         // Event is manually handled to navigate to the route page, so we need to use stopPropagation instead
@@ -82,14 +90,33 @@ export default function ImageCarousel(images: GuideImage[]) {
         }
     };
 
+    function linkAndImage(image: GuideImage, index: number) {
+        if (triggerLightbox) {
+            return (
+                <a
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        openLightbox({ images, index });
+                    }}
+                    key={index}
+                    className="hover:cursor-pointer"
+                >
+                    {getImageWithClassesApplied(image, index)}
+                </a>
+            );
+        } else {
+            return getImageWithClassesApplied(image, index);
+        }
+    }
+
     return (
         <div className="relative h-48 group">
             {hasMultiple && NextButton({ onClick: rightClickOnClick, className: "right-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
-            <div className="overflow-hidden">
-                {images.map((image, index) =>
-                    getImageWithClassesApplied(image, index)
-                )}
-            </div>
+            <LightboxDialogFromUrl images={images}>
+                <div className="overflow-hidden">
+                    {images.map(linkAndImage)}
+                </div>
+            </LightboxDialogFromUrl>
             {hasMultiple && PrevButton({ onClick: leftClickOnClick, className: "left-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
             {hasMultiple && <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-40">
                 <ProgressIndicator total={images.length} current={selectedIndex} />
@@ -126,3 +153,4 @@ export function PrevButton({ onClick, className }: { onClick: (e: React.MouseEve
         </button>
     );
 }
+

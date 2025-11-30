@@ -65,7 +65,7 @@ export function addChildrenField(items: readonly GeoItem[]) {
       area.push(item.id);
     }
   });
-  return items.map(obj => {
+  const result = items.map(obj => {
     return {
       ...obj,
       properties: {
@@ -74,6 +74,9 @@ export function addChildrenField(items: readonly GeoItem[]) {
       },
     };
   });
+  // order by number of images, descending
+  // result.sort((a, b) => b.properties.images.length - a.properties.images.length);
+  return result;
 }
 
 export async function loadGeoItems() {

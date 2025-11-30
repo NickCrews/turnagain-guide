@@ -38,17 +38,17 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <ViewerProvider>
-            <GeoItemsProvider items={items}>
-              <ElevationUnitsProvider>
-                <DistanceUnitsProvider>
-                  <TouchProvider>
-                    {children}
-                  </TouchProvider>
-                </DistanceUnitsProvider>
-              </ElevationUnitsProvider>
-            </GeoItemsProvider>
-          </ViewerProvider>
+        <ViewerProvider>
+          <GeoItemsProvider items={items}>
+            <ElevationUnitsProvider>
+              <DistanceUnitsProvider>
+                <TouchProvider>
+                  {children}
+                </TouchProvider>
+              </DistanceUnitsProvider>
+            </ElevationUnitsProvider>
+          </GeoItemsProvider>
+        </ViewerProvider>
       </body>
     </html>
   );

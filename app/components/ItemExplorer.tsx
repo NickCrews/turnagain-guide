@@ -139,12 +139,12 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
   const visibleItems = itemsWithVisibility.filter(item => item.isVisible);
   const isMobile = useIsBelowWidth("sm") ?? true;
   // console.log('ItemExplorer', {
-    // items,
-    // selectedItem,
-    // filteredItems,
-    // filters,
-    // viewMode,
-    // isMobile,
+  // items,
+  // selectedItem,
+  // filteredItems,
+  // filters,
+  // viewMode,
+  // isMobile,
   //   hoveredItem,
   // });
   const handleBack = () => { if (setSelectedItem) setSelectedItem(null) };
@@ -223,7 +223,7 @@ function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void
       </nav>
     </div>
     <div className="overflow-y-auto h-full rounded-lg px-6 pb-6 pt-3 max-w-2xl w-full">
-      {item.properties.images && ImageCarousel(item.properties.images)}
+      {item.properties.images && <ImageCarousel images={item.properties.images} triggerLightbox />}
       <h2 className='text-2xl font-bold mb-4'>{item.properties.title}</h2>
       <RouteProperties item={item} />
       <RouteProse item={item} />
@@ -297,10 +297,10 @@ function RouteDetailsDrawer({
         </div>
         {/* TODO: this scroll behavior isn't great. */}
         <div className="overflow-y-auto h-full">
-            {item.properties.images && ImageCarousel(item.properties.images)}
-            <RouteProperties item={item} />
-            <RouteProse item={item} />
-            <SubRoutes childrenIds={item.properties.children} />
+          {item.properties.images && <ImageCarousel images={item.properties.images} triggerLightbox={true} />}
+          <RouteProperties item={item} />
+          <RouteProse item={item} />
+          <SubRoutes childrenIds={item.properties.children} />
         </div>
       </DrawerContent>
     </Drawer>

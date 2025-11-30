@@ -17,14 +17,26 @@
 import React, { useState, useRef, useEffect } from "react";
 import { type GuideImage, getId, getImageAltText } from "@/lib/image";
 import { NextButton, PrevButton } from "@/components/ui/image-carousel";
+import { useHybridState } from "@/lib/hybrid-state";
 
 export interface LightboxProps {
   images: GuideImage[];
-  index: number;
-  setIndex: (newIndex: number) => void;
+  index?: number;
+  defaultIndex?: number;
+  onIndexChange: (newIndex: number) => void;
 }
 
-export const Lightbox: React.FC<LightboxProps> = ({ images, index, setIndex }) => {
+export function Lightbox({
+  images,
+  index: controlledIndex,
+  defaultIndex,
+  onIndexChange
+}: LightboxProps) {
+  const [index, setIndex] = useHybridState<number>(
+    controlledIndex,
+    defaultIndex ?? 0,
+    onIndexChange
+  );
   const image = images[index];
   const onNext = () => {
     setIndex((index + 1) % images.length);

@@ -1,7 +1,8 @@
 import Figure from "@/app/components/Figure";
-import ImgTincanOVerview from "@/public/img/tincan-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
 import { tincanOverview } from "@/imageRegistry/images";
+
+const images = [tincanOverview];
 
 export const geoItem = {
   id: "tincan-area",
@@ -43,7 +44,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images: [tincanOverview],
+    images,
   },
   proseJsx: (
     <>
@@ -54,8 +55,8 @@ export const geoItem = {
       </p>
 
       <Figure
-        src={ImgTincanOVerview}
-        caption={<>The North side of Tincan in March of a decent snow year.</>}
+        image={tincanOverview}
+        images={images}
       />
     </>
   ),

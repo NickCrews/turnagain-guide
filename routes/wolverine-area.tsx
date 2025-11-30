@@ -1,7 +1,8 @@
 import Figure from "@/app/components/Figure";
-import ImgSharkfinWolverine from "@/public/img/sharkfin-wolverine-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
 import { wolverineOverview } from "@/imageRegistry/images";
+
+const images = [wolverineOverview];
 
 export const geoItem = {
   id: "wolverine-area",
@@ -33,7 +34,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images: [wolverineOverview],
+    images,
   },
   proseJsx: (
     <>
@@ -44,8 +45,8 @@ export const geoItem = {
       </p>
 
       <Figure
-        src={ImgSharkfinWolverine}
-        caption={<>Sharkfin (close) and Wolverine (far) from near Eddies.</>}
+        image={wolverineOverview}
+        images={images}
       />
     </>
   ),

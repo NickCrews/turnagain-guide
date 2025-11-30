@@ -1,25 +1,26 @@
 import { GPXPoint } from "@/lib/gpx"
 import { loadGeoItems } from "@/lib/geo-item";
+import { ReactElement } from "react";
 
 export interface GuideImage {
     imagePath: string
     id?: string
     title?: string,
-    description?: string
+    description?: string | ReactElement
     /** If not defined, will use title or description */
     altText?: string
     gpxPoint?: GPXPoint
 }
 
 /** In order of preference: altText, title, description, undefined */
-export function getImageAltText(image: GuideImage) {
+export function getImageAltText(image: GuideImage): string | undefined {
     if (image.altText) {
         return image.altText;
     }
     if (image.title) {
         return image.title;
     }
-    if (image.description) {
+    if (image.description && typeof image.description === "string") {
         return image.description;
     }
     return undefined;

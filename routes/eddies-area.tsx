@@ -1,8 +1,9 @@
 import RouteLink from "@/app/components/RouteLink";
 import Figure from "@/app/components/Figure";
-import ImgEddiesOverview from "@/public/img/eddies-overview.jpg";
 import { type GeoItem } from "@/lib/geo-item";
 import { eddiesOverview } from "@/imageRegistry/images";
+
+const images = [eddiesOverview];
 
 export const geoItem = {
   id: "eddies-area",
@@ -36,7 +37,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images: [eddiesOverview],
+    images,
   },
   proseJsx: (
     <>
@@ -50,8 +51,8 @@ export const geoItem = {
       </p>
 
       <Figure
-        src={ImgEddiesOverview}
-        caption={<>The front face of Eddies in March of a decent snow year.</>}
+        image={eddiesOverview}
+        images={images}
       />
     </>
   ),

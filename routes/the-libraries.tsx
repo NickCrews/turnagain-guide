@@ -1,7 +1,9 @@
 import Figure from "@/app/components/Figure";
 import RouteLink from "@/app/components/RouteLink";
-import { librariesLeftSide, librariesMiddle, librariesRidge } from "@/imageRegistry/images";
+import { librariesLeftSide, librariesOverview, librariesRidge } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
+
+const images = [librariesRidge, librariesLeftSide, librariesOverview];
 
 export const geoItem = {
   id: "the-libraries",
@@ -36,7 +38,7 @@ export const geoItem = {
     nicks_ates_ratings: ["complex", "extreme"],
     children: [],
     area: "tincan-area",
-    images: [librariesRidge, librariesLeftSide, librariesMiddle],
+    images,
   },
   proseJsx: (
     <>
@@ -48,17 +50,8 @@ export const geoItem = {
       </p>
 
       <Figure
-        src={librariesMiddle.imagePath}
-        caption={
-          <>
-            Looking East down the ridge of The Libraries from the top of
-            <RouteLink routeID="tincan-proper">
-              Tincan Proper.
-            </RouteLink>{" "}
-            In the background is Kickstep Peak. This is from early January, this
-            becomes more plastered later in the season.
-          </>
-        }
+        image={librariesOverview}
+        images={images}
       />
 
       <p>
@@ -76,13 +69,8 @@ export const geoItem = {
       </p>
 
       <Figure
-        src={librariesLeftSide.imagePath}
-        caption={
-          <>
-            Looking up some of the first (Westmost) lines in The Libraries from
-            the bottom.
-          </>
-        }
+        image={librariesLeftSide}
+        images={images}
       />
     </>
   ),

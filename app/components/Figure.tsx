@@ -1,59 +1,38 @@
 'use client'
 
-import Image from "next/image";
-import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader } from "@/components/ui/dialog";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { StaticImageData } from "next/image";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
+import { type GuideImage, getImageAltText } from "@/lib/image";
+import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "./lightbox-dialog-from-url";
 
 interface FigureProps {
-  src: string | StaticImageData;
-  alt?: string;
-  caption?: string | ReactNode;
-  [key: string]: any;
+  image: GuideImage;
+  images: GuideImage[];
+  caption?: ReactNode;
 }
 
-export default function Figure(props: FigureProps) {
-  const { caption, alt, src, ...rest } = props;
-  if (!("width" in rest)){
-    rest["width"] = 500;
-  }
-  if (!("height" in rest)){
-    rest["height"] = 500;
-  }
-  // This isn't accessible, but this site is for skiers...
-  const realAlt = alt || "If this alt text is needed for you, please let me know at nicholas.b.crews@gmail.com!";
-  const figcaption = <figcaption className="prose text-center leading-6">{caption}</figcaption>
-  
+export default function Figure({ image, images, caption }: FigureProps) {
+  const alt = getImageAltText(image) || "Figure Image";
+  const src = image.imagePath;
+  const captionText = caption || image.description;
+  const figcaption = captionText ? <figcaption className="prose text-center leading-6">{captionText}</figcaption> : null;
+
+  const { openLightbox } = useOpenLightboxFromParams();
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <figure>
-          <Image
-            alt={realAlt}
-            src={src}
-            {...rest}
-            className="hover:cursor-zoom-in"
-          />
-          {caption && figcaption}
-        </figure>
-      </DialogTrigger>
-      <DialogContent className="max-w-[90vw] max-h-[90vh] p-0 border-none">
-        <DialogHeader className="bg-background">
-          <VisuallyHidden>
-            <DialogTitle>Photos</DialogTitle>
-          </VisuallyHidden>
-        </DialogHeader>
-        <figure className="relative flex flex-col items-center h-full">
-          <Image
-            alt={realAlt}
-            src={src}
-            {...rest}
-            className="max-w-full max-h-[80vh] object-contain hover:cursor-default"
-          />
-          {caption && figcaption}
-        </figure>
-      </DialogContent>
-    </Dialog>
+    <LightboxDialogFromUrl images={images}>
+      <figure>
+        <img
+          alt={alt}
+          src={src}
+          className="hover:cursor-zoom-in rounded-lg shadow-md"
+          onClick={(e) => {
+            e.stopPropagation();
+            const index = images.findIndex(img => img === image);
+            openLightbox({ images, index });
+          }}
+        />
+        {figcaption}
+      </figure>
+    </LightboxDialogFromUrl>
   );
 }

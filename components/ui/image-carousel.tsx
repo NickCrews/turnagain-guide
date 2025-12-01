@@ -13,108 +13,65 @@ export interface ImageCarouselProps {
 export default function ImageCarousel({ images, triggerLightbox }: ImageCarouselProps) {
     const hasMultiple = images.length > 1;
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const rightIndex = (selectedIndex + 1) % images.length;
-    const leftIndex = (selectedIndex - 1 + images.length) % images.length;
 
     const { openLightbox } = useOpenLightboxFromParams();
 
     const rightClickOnClick = (e: React.MouseEvent) => {
-        // Event is manually handled to navigate to the route page, so we need to use stopPropagation instead
-        // of preventDefault. preventDefault only stops default actions, so will do nothing to prevent the route
-        // card from going to the route page after the left or right arrow is pressed.
         e.stopPropagation();
-        setSelectedIndex(rightIndex);
+        setSelectedIndex((prevIndex) => (prevIndex + 1) % images.length);
     };
 
     const leftClickOnClick = (e: React.MouseEvent) => {
         e.stopPropagation();
-        setSelectedIndex(leftIndex);
+        setSelectedIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
     };
-
-    const getImageWithClassesApplied = (
-        image: GuideImage,
-        imageIndex: number,
-    ) => {
-        const baseClasses =
-            "w-full h-48 rounded-lg shadow-md z-20 absolute top-1/2 left-1/2 object-cover";
-        const imagePath = image.imagePath;
-        const imageAltText = getImageAltText(image);
-        if (imageIndex == selectedIndex) {
-            return (
-                <img
-                    src={imagePath}
-                    className={cn(
-                        baseClasses,
-                        "-translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out",
-                    )}
-                    key={imageIndex}
-                    alt={imageAltText}
-                    title={imageAltText}
-                />
-            );
-        } else if (imageIndex == rightIndex) {
-            return (
-                <img
-                    src={imagePath}
-                    className={cn(
-                        baseClasses,
-                        "translate-x-31/20 -translate-y-1/2",
-                    )}
-                    key={imageIndex}
-                    alt={imageAltText}
-                    title={imageAltText}
-                />
-            );
-        } else if (imageIndex == leftIndex) {
-            return (
-                <img
-                    src={imagePath}
-                    className={cn(
-                        baseClasses,
-                        "-translate-x-31/20 -translate-y-1/2",
-                    )}
-                    key={imageIndex}
-                    alt={imageAltText}
-                    title={imageAltText}
-                />
-            );
-        } else {
-            return (
-                <img
-                    src={imagePath}
-                    className={cn(baseClasses, "hidden")}
-                    key={imageIndex}
-                    alt={imageAltText}
-                />
-            );
-        }
-    };
-
-    function linkAndImage(image: GuideImage, index: number) {
-        if (triggerLightbox) {
-            return (
-                <a
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        openLightbox({ images, index });
-                    }}
-                    key={index}
-                    className="hover:cursor-pointer"
-                >
-                    {getImageWithClassesApplied(image, index)}
-                </a>
-            );
-        } else {
-            return getImageWithClassesApplied(image, index);
-        }
-    }
 
     return (
-        <div className="relative h-48 group">
+        <div className="relative h-56 group">
             {hasMultiple && NextButton({ onClick: rightClickOnClick, className: "right-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
             <LightboxDialogFromUrl images={images}>
-                <div className="overflow-hidden">
-                    {images.map(linkAndImage)}
+                {/* This acts as a "Frame", a little window through which you can see the "Track" of images.*/}
+                <div className="overflow-hidden rounded-lg shadow-md h-full">
+                    {/* The track of images, all stacked left to right, and then the entire
+                      thing is moved left/right to show the current image. */}
+                    <div
+                        className="flex h-full transition-transform duration-500 ease-in-out"
+                        style={{ transform: `translateX(-${selectedIndex * 100}%)` }}
+                    >
+                        {images.map((image, index) => {
+                            const imagePath = image.imagePath;
+                            const imageAltText = getImageAltText(image);
+                            if (triggerLightbox) {
+                                return (
+                                    <a
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            openLightbox({ images, index });
+                                        }}
+                                        key={index}
+                                        className="w-full h-full flex-shrink-0 hover:cursor-pointer"
+                                    >
+                                        <img
+                                            src={imagePath}
+                                            alt={imageAltText}
+                                            title={imageAltText}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </a>
+                                );
+                            } else {
+                                return (
+                                    <img
+                                        key={index}
+                                        src={imagePath}
+                                        alt={imageAltText}
+                                        title={imageAltText}
+                                        className="w-full h-full flex-shrink-0 object-cover"
+                                    />
+                                );
+                            }
+                        })}
+                    </div>
                 </div>
             </LightboxDialogFromUrl>
             {hasMultiple && PrevButton({ onClick: leftClickOnClick, className: "left-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}

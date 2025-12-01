@@ -14,10 +14,13 @@
  * and passing the appropriate image and info to display. 
  */
 
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
+import { TransformWrapper, TransformComponent, MiniMap, useControls, useTransformEffect } from "react-zoom-pan-pinch";
 import { type GuideImage, getId, getImageAltText } from "@/lib/image";
 import { NextButton, PrevButton } from "@/components/ui/image-carousel";
 import { useHybridState } from "@/lib/hybrid-state";
+import { Undo, ZoomIn, ZoomOut } from "lucide-react";
+import { useIsBelowWidth } from "@/lib/widths";
 
 export interface LightboxProps {
   images: GuideImage[];
@@ -53,7 +56,6 @@ export function Lightbox({
         <ZoomableImage
           src={image.imagePath}
           alt={getImageAltText(image) || "Lightbox Image"}
-          resetKey={index}
         />
       </div>
       <div className="md:w-1/3 p-6 overflow-y-auto">
@@ -67,61 +69,88 @@ export function Lightbox({
 interface ZoomableImageProps {
   src: string;
   alt: string;
-  resetKey: number | string;
 }
 
-const ZoomableImage: React.FC<ZoomableImageProps> = ({ src, alt, resetKey }) => {
-  const [scale, setScale] = useState(1);
-  const [translateX, setTranslateX] = useState(0);
-  const [translateY, setTranslateY] = useState(0);
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    setScale(1);
-    setTranslateX(0);
-    setTranslateY(0);
-  }, [resetKey]);
-
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = -e.deltaY / 500;
-    setScale(prev => Math.min(Math.max(prev + delta, 1), 5));
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const startX = e.clientX;
-    const startY = e.clientY;
-    const initTranslateX = translateX;
-    const initTranslateY = translateY;
-
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      setTranslateX(initTranslateX + moveEvent.clientX - startX);
-      setTranslateY(initTranslateY + moveEvent.clientY - startY);
-    };
-
-    const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-  };
+const ZoomableImage: React.FC<ZoomableImageProps> = ({ src, alt }) => {
+  const img = <img
+    src={src}
+    alt={alt}
+  />
 
   return (
-    <div className="flex-1 flex items-center justify-center overflow-hidden" onWheel={handleWheel}>
-      <img
-        ref={imgRef}
-        src={src}
-        alt={alt}
-        className="max-w-full max-h-full cursor-move"
-        style={{
-          transform: `scale(${scale}) translate(${translateX / scale}px, ${translateY / scale}px)`,
-          transition: 'transform 0.1s ease-out',
-        }}
-        onMouseDown={handleMouseDown}
-      />
+    <TransformWrapper
+      initialScale={1}
+      minScale={1}
+      maxScale={10}
+      wheel={{ disabled: false }}
+      panning={{ disabled: false }}
+      doubleClick={{ disabled: false }}
+      zoomAnimation={{ disabled: false, animationTime: 100, size: 0.5 }}
+    >
+      <div className="relative">
+        <MyMiniMap element={img} />
+        <Controls />
+        <TransformComponent>
+          {img}
+        </TransformComponent>
+      </div>
+    </TransformWrapper>
+  );
+};
+
+const MyMiniMap: React.FC<{ element: React.ReactNode }> = ({ element }) => {
+  const [isZoomed, setIsZoomed] = React.useState(false);
+  const isMobile = useIsBelowWidth(768);
+  useTransformEffect(({ state }) => {
+    if (state.scale > 1.1) {
+      setIsZoomed(true);
+    } else {
+      setIsZoomed(false);
+    }
+  });
+
+  if (!isZoomed) {
+    return null;
+  }
+
+  return (
+    <div className="absolute left-3 top-3 z-30 border border-white/30 shadow-lg">
+      <MiniMap borderColor="red" width={isMobile ? 100 : 150}>
+        {element}
+      </MiniMap>
+    </div>
+  );
+}
+
+
+const Controls: React.FC = () => {
+  const { zoomIn, zoomOut, resetTransform } = useControls();
+  return (
+    <div className="absolute right-3 top-3 z-30 flex gap-2">
+      <button
+        type="button"
+        onClick={() => zoomIn()}
+        className="rounded bg-black/60 text-white p-1 hover:bg-black/80 hover:cursor-pointer"
+        aria-label="Zoom in"
+      >
+        <ZoomIn />
+      </button>
+      <button
+        type="button"
+        onClick={() => zoomOut()}
+        className="rounded bg-black/60 text-white p-1 hover:bg-black/80 hover:cursor-pointer"
+        aria-label="Zoom out"
+      >
+        <ZoomOut />
+      </button>
+      <button
+        type="button"
+        onClick={() => resetTransform()}
+        className="rounded bg-black/60 text-white p-1 hover:bg-black/80 hover:cursor-pointer"
+        aria-label="Reset zoom"
+      >
+        <Undo />
+      </button>
     </div>
   );
 };

@@ -129,19 +129,19 @@ const Controls: React.FC = () => {
     <div className="absolute right-3 top-3 z-30 flex gap-2">
       <button
         type="button"
-        onClick={() => zoomIn()}
-        className="rounded bg-black/60 text-white p-1 hover:bg-black/80 hover:cursor-pointer"
-        aria-label="Zoom in"
-      >
-        <ZoomIn />
-      </button>
-      <button
-        type="button"
         onClick={() => zoomOut()}
         className="rounded bg-black/60 text-white p-1 hover:bg-black/80 hover:cursor-pointer"
         aria-label="Zoom out"
       >
         <ZoomOut />
+      </button>
+      <button
+        type="button"
+        onClick={() => zoomIn()}
+        className="rounded bg-black/60 text-white p-1 hover:bg-black/80 hover:cursor-pointer"
+        aria-label="Zoom in"
+      >
+        <ZoomIn />
       </button>
       <button
         type="button"

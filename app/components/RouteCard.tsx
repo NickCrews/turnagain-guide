@@ -13,7 +13,7 @@ import { AtesBadges } from './ATES';
 import { cn } from '@/lib/utils';
 import { AreaBadge } from './Area';
 import { useRouter } from 'next/navigation';
-import ImageCarousel from '@/components/ui/image-carousel';
+import ImageCarousel from '@/app/components/image-carousel';
 
 interface RouteCardProps {
   item: GeoItem;

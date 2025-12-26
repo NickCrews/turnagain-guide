@@ -17,7 +17,7 @@
 import React from "react";
 import { TransformWrapper, TransformComponent, MiniMap, useControls, useTransformEffect } from "react-zoom-pan-pinch";
 import { type GuideImage, getId, getImageAltText } from "@/lib/image";
-import { NextButton, PrevButton } from "@/components/ui/image-carousel";
+import { NextButton, PrevButton } from "@/app/components/image-carousel";
 import { useHybridState } from "@/lib/hybrid-state";
 import { Undo, ZoomIn, ZoomOut } from "lucide-react";
 import { useIsBelowWidth } from "@/lib/widths";

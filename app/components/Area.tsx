@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-import { useGeoItems } from "@/components/ui/itemsContext";
+import { useGeoItems } from "@/app/components/itemsContext";
 import { hashStringToColor } from "@/lib/colors";
 import { MultiCombo } from "@/components/ui/multi-combo"
 import Link from "next/link";
@@ -19,7 +19,7 @@ export function areaColor(areaId: string) {
 }
 
 
-export function AreaBadge({areaId}: {areaId: string}) {
+export function AreaBadge({ areaId }: { areaId: string }) {
   const info = getAreaInfo(areaId, useGeoItems());
   const areaUrl = `/routes/${areaId}`;
   const color = areaColor(areaId);
@@ -60,7 +60,7 @@ function useComboItems(): [(areaId: string) => ComboItem, ComboItem[]] {
 }
 
 
-export function AreaComboBox({selected, onSelected}: {selected: Set<string>, onSelected: (selected: Set<string>) => void}) {
+export function AreaComboBox({ selected, onSelected }: { selected: Set<string>, onSelected: (selected: Set<string>) => void }) {
   const [toComboItem, comboItems] = useComboItems();
   return <MultiCombo
     itemOptions={comboItems}

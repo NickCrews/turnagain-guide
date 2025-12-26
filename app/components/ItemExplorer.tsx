@@ -9,7 +9,7 @@ import RouteFilterBar from "./RouteFilterBar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
 import { useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
-import { useGeoItems } from "@/components/ui/itemsContext";
+import { useGeoItems } from "@/app/components/itemsContext";
 import { ChevronLeft, X } from "lucide-react";
 import {
   Drawer,
@@ -19,7 +19,7 @@ import {
   DrawerHandle,
 } from '@/components/ui/drawer'
 import { Button } from "@/components/ui/button";
-import ImageCarousel from "@/components/ui/image-carousel";
+import ImageCarousel from "@/app/components/image-carousel";
 
 interface ItemExplorerProps {
   items: GeoItem[]

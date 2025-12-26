@@ -2,14 +2,14 @@ import { GeoItem } from '@/lib/geo-item';
 import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/Units';
 import { AtesBadges } from './ATES';
 import { AreaBadge } from './Area';
-import { useGeoItems } from '@/components/ui/itemsContext';
+import { useGeoItems } from '@/app/components/itemsContext';
 import Link from '@/components/ui/link';
 import ItemGallery from './ItemGallery';
 import { Point } from 'geojson';
 
 interface RouteDetailProps {
-    item: GeoItem;
-  }
+  item: GeoItem;
+}
 
 function Property({ name, children }: { name: string, children?: React.ReactNode }) {
   if (!children) return null;
@@ -22,25 +22,25 @@ function Property({ name, children }: { name: string, children?: React.ReactNode
 export function RouteProperties({ item }: RouteDetailProps) {
   let properties: { name: string, component: React.ReactNode }[] = [];
   if (item.properties.feature_type !== 'area') {
-    properties.push({ name: "Feature Type", component: <RawValue value={item.properties.feature_type} />});
+    properties.push({ name: "Feature Type", component: <RawValue value={item.properties.feature_type} /> });
   }
   if (item.properties.area) {
     properties = [
-      { name: "Area", component: <AreaBadge areaId={item.properties.area} />},
+      { name: "Area", component: <AreaBadge areaId={item.properties.area} /> },
       ...properties,
     ]
   }
   if (item.properties.nicks_ates_ratings.length) {
-    properties.push({ name: "Terrain", component: <AtesBadges ratings={item.properties.nicks_ates_ratings} hover={true} />});
+    properties.push({ name: "Terrain", component: <AtesBadges ratings={item.properties.nicks_ates_ratings} hover={true} /> });
   }
   if (item.properties.distance) {
-    properties.push({ name: "Distance", component: <Distance meters={item.properties.distance} />});
+    properties.push({ name: "Distance", component: <Distance meters={item.properties.distance} /> });
   }
   if (item.properties.elevation) {
-    properties.push({ name: "Elevation", component: <Elevation meters={item.properties.elevation} />});
+    properties.push({ name: "Elevation", component: <Elevation meters={item.properties.elevation} /> });
   }
   if (item.properties.elevation_min && item.properties.elevation_max) {
-    properties.push({ name: "Elevation Range", component: <ElevationRange min={item.properties.elevation_min} max={item.properties.elevation_max} />});
+    properties.push({ name: "Elevation Range", component: <ElevationRange min={item.properties.elevation_min} max={item.properties.elevation_max} /> });
   }
   if (item.properties.feature_type === 'parking') {
     // add link to google maps

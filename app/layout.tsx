@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ViewerProvider } from "./components/ViewerContext";
 import { ElevationUnitsProvider, DistanceUnitsProvider } from "@/app/components/UnitsContext";
-import { GeoItemsProvider } from "@/components/ui/itemsContext";
+import { GeoItemsProvider } from "@/app/components/itemsContext";
 import { loadGeoItems } from "@/lib/geo-item";
 import { TouchProvider } from "@/components/ui/touch-context";
 

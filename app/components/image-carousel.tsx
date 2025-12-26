@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { getImageAltText, GuideImage } from "@/lib/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "@/app/components/lightbox-dialog-from-url";
+import { useTouch } from "@/components/ui/touch-context";
 
 export interface ImageCarouselProps {
     images: GuideImage[];
@@ -10,6 +11,7 @@ export interface ImageCarouselProps {
 }
 
 export default function ImageCarousel({ images, triggerLightbox }: ImageCarouselProps) {
+    const isTouch = useTouch();
     const hasMultiple = images.length > 1;
     const [selectedIndex, setSelectedIndex] = useState(0);
     const dragStartX = useRef<number | null>(null);
@@ -96,7 +98,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
 
     return (
         <div className="relative h-56 group">
-            {hasMultiple && NextButton({ onClick: rightClickOnClick, className: "right-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
+            {hasMultiple && !isTouch && NextButton({ onClick: rightClickOnClick, className: "right-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
             <LightboxDialogFromUrl images={images}>
                 {/* This acts as a "Frame", a little window through which you can see the "Track" of images.*/}
                 <div
@@ -153,7 +155,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
                     </div>
                 </div>
             </LightboxDialogFromUrl>
-            {hasMultiple && PrevButton({ onClick: leftClickOnClick, className: "left-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
+            {hasMultiple && !isTouch && PrevButton({ onClick: leftClickOnClick, className: "left-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
             {hasMultiple && <ThumbnailCarousel images={images} selectedIndex={selectedIndex} onSelect={setSelectedIndex} />}
         </div>
     );

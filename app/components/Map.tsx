@@ -14,6 +14,7 @@ import {
   Cartesian2,
   Cartesian3,
   Viewer,
+  SceneTransforms,
 } from 'cesium'
 import { useEffect, useState, useId, useRef, useMemo } from 'react'
 
@@ -24,6 +25,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/viewer-context';
 import { atesColor, maxAtes } from '@/lib/terrain-rating';
 import { type ItemWithVisibility } from './item-explorer';
+import { useTouch } from '@/components/ui/touch-context';
 
 interface MapProps {
   items: ItemWithVisibility[];
@@ -60,6 +62,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
   const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
 
   const delayedSetPopupInfo = useDebounce(setPopupInfo, 300);
+  const isTouch = useTouch();
 
   useEffect(() => {
     async function initViewerAndEntities() {
@@ -96,13 +99,16 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
       return;
     }
     const handleClick = (click: ScreenSpaceEventHandler.PositionedEvent) => {
-      const entity = pickEntity(click.position, viewer);
+      // Use distance-based nearest entity on touch devices for more forgiving tap detection
+      const entity = isTouch
+        ? pickNearestEntity(click.position, viewer)
+        : pickEntity(click.position, viewer);
       const item: GeoItem | null = itemsById[entity?.properties?.id];
       setSelectedItem(item);
     };
     viewer.screenSpaceEventHandler.setInputAction(handleClick, ScreenSpaceEventType.LEFT_CLICK);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-  }, [viewer, items, setSelectedItem, itemsById])
+  }, [viewer, items, setSelectedItem, itemsById, isTouch])
 
   useEffect(() => {
     if (!viewer) {
@@ -318,6 +324,77 @@ function pickEntity(position: Cartesian2, viewer: Viewer): Entity | null {
     }
   });
   return closestEntity;
+}
+
+/**
+ * Picks the nearest entity to the tap position using screen-space distance calculation.
+ * This approach is more forgiving for touch interactions by finding the closest entity
+ * within a threshold distance, rather than requiring pixel-perfect tapping.
+ *
+ * @param position - The tap position in screen coordinates
+ * @param viewer - The Cesium viewer
+ * @param threshold - Maximum screen-space distance in pixels to consider (default: 60)
+ * @returns The nearest entity within threshold, or null if none found
+ */
+function pickNearestEntity(position: Cartesian2, viewer: Viewer, threshold: number = 60): Entity | null {
+  const entities = viewer.entities.values;
+
+  // Priority: billboards > non-polygons > polygons (same as pickEntity)
+  const isBillboard = (entity: Entity) => entity.billboard !== undefined;
+  const isNonPolygon = (entity: Entity) => entity.polygon === undefined;
+
+  // Filter by priority
+  let candidateEntities = entities;
+  const anyAreBillboards = entities.some(isBillboard);
+  if (anyAreBillboards) {
+    candidateEntities = entities.filter(isBillboard);
+  } else {
+    const anyAreNonPolygons = entities.some(isNonPolygon);
+    if (anyAreNonPolygons) {
+      candidateEntities = entities.filter(isNonPolygon);
+    }
+  }
+
+  let nearestEntity: Entity | null = null;
+  let nearestDistance = threshold;
+
+  for (const entity of candidateEntities) {
+    // Get entity center in 3D world coordinates
+    let entityCenter: Cartesian3;
+    try {
+      if (entity.polygon) {
+        entityCenter = BoundingSphere.fromPoints(entity.polygon.hierarchy!.getValue().positions).center;
+      } else if (entity.polyline) {
+        entityCenter = BoundingSphere.fromPoints(entity.polyline.positions!.getValue()).center;
+      } else if (entity.billboard) {
+        entityCenter = entity.position!.getValue()!;
+      } else {
+        continue; // Skip unknown entity types
+      }
+
+      // Project 3D position to 2D screen coordinates
+      const screenPos = SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, entityCenter);
+      if (!screenPos) {
+        continue; // Entity is behind camera or off-screen
+      }
+
+      // Calculate 2D screen-space distance
+      const dx = screenPos.x - position.x;
+      const dy = screenPos.y - position.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      // Update nearest if this is closer and within threshold
+      if (distance < nearestDistance) {
+        nearestEntity = entity;
+        nearestDistance = distance;
+      }
+    } catch (e) {
+      // Skip entities that fail projection or bounding sphere calculation
+      continue;
+    }
+  }
+
+  return nearestEntity;
 }
 
 // a triangle like ⏶

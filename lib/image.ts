@@ -63,3 +63,13 @@ export async function relatedImages(image: GuideImage, maxRelated: number = 5): 
     const relatedImages = Object.values(allImages).filter(img => img !== image).slice(0, maxRelated);
     return relatedImages;
 }
+
+/** Get all routes that use a specific image */
+export async function getRoutesForImage(image: GuideImage) {
+    const items = await loadGeoItems();
+    const imageId = getId(image);
+
+    return items.filter(item => {
+        return item.properties.images.some(img => getId(img) === imageId);
+    });
+}

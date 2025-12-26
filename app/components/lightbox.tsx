@@ -2,25 +2,27 @@
 
 /**
  * A fullscreen figure component for displaying images with captions.
- * 
+ *
  * - On large screens, looks like a facebook photo fullscreen view,
  *   with the image on the left and title/description/other info on the right.
  * - On small screens, the image is on top and the other info is below.
  * - Supports stable zooming and panning of the image, so the user can zoom in
  *   to see details. When they have no interaction, it stays where they left off.
- * 
+ *
  * This does not handle the URL state or routing, this is a fully controlled component.
  * The parent component should handle opening and closing the fullscreen view,
- * and passing the appropriate image and info to display. 
+ * and passing the appropriate image and info to display.
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TransformWrapper, TransformComponent, MiniMap, useControls, useTransformEffect } from "react-zoom-pan-pinch";
-import { type GuideImage, getId, getImageAltText } from "@/lib/image";
+import { type GuideImage, getId, getImageAltText, getRoutesForImage } from "@/lib/image";
 import { NextButton, PrevButton } from "@/app/components/image-carousel";
 import { useHybridState } from "@/lib/hybrid-state";
 import { Undo, ZoomIn, ZoomOut } from "lucide-react";
 import { useIsBelowWidth } from "@/lib/widths";
+import { RouteBadges } from "@/app/components/Route";
+import { GeoItem } from "@/lib/geo-item";
 
 export interface LightboxProps {
   images: GuideImage[];
@@ -41,6 +43,21 @@ export function Lightbox({
     onIndexChange
   );
   const image = images[index];
+  const [routes, setRoutes] = useState<GeoItem[]>([]);
+
+  // Load routes for the current image
+  useEffect(() => {
+    let isCancelled = false;
+    getRoutesForImage(image).then((loadedRoutes) => {
+      if (!isCancelled) {
+        setRoutes(loadedRoutes);
+      }
+    });
+    return () => {
+      isCancelled = true;
+    };
+  }, [image]);
+
   const onNext = () => {
     setIndex((index + 1) % images.length);
   }
@@ -61,6 +78,12 @@ export function Lightbox({
       <div className="w-full md:w-96 p-6 overflow-y-auto flex-shrink-0">
         <h2 className="text-2xl font-bold mb-4">{image.title || getId(image).replace("-", " ")}</h2>
         <p className="mb-4">{image.description || "No description available."}</p>
+        {routes.length > 0 && (
+          <div className="mb-4">
+            <h3 className="text-sm font-semibold mb-2 text-gray-600">Routes</h3>
+            <RouteBadges routes={routes} />
+          </div>
+        )}
       </div>
     </div>
   );

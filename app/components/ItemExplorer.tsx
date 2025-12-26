@@ -216,7 +216,7 @@ function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void
   return <>
     <div className="p-2">
       <nav className="flex justify-start bg-background">
-        <button onClick={onBack} className="close-button flex items-center gap-1 cursor-pointer">
+        <button onClick={onBack} className="close-button flex items-center gap-1 cursor-pointer hover:bg-accent hover:text-accent-foreground rounded-md p-1 -m-1">
           <ChevronLeft />
           <span className="text-sm">Back to search</span>
         </button>

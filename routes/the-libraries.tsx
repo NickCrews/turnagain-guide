@@ -1,5 +1,4 @@
 import Figure from "@/app/components/Figure";
-import RouteLink from "@/app/components/RouteLink";
 import { librariesLeftSide, librariesOverview, librariesRidge } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 

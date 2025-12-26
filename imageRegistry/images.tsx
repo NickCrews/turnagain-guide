@@ -1,6 +1,5 @@
 import RouteLink from "@/app/components/RouteLink";
 import { GuideImage } from "@/lib/image";
-import { Route } from "lucide-react";
 
 export const blueDiamond = {
   imagePath: "/img/blue-diamond.jpg",

@@ -1,4 +1,3 @@
-import Figure from "@/app/components/Figure";
 import { type GeoItem } from "@/lib/geo-item";
 import { wolverineOverview } from "@/imageRegistry/images";
 

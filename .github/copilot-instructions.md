@@ -19,28 +19,8 @@ Turnagain Guide is a Next.js web application that provides a digital backcountry
 - **Static server**: `pnpm serve` -- serves built static files on http://localhost:1338
 
 ### Environment Requirements and Limitations
-- **Network restrictions**: Google Fonts will fail to load in restricted environments. Build may fail with font fetch errors.
-  - **Workaround**: Temporarily comment out Google Fonts imports in `app/layout.tsx` if build fails
-  - **Symptom**: `Failed to fetch 'Geist' from Google Fonts` error during build
 - **Cesium token required**: Must set `NEXT_PUBLIC_CESIUM_ACCESS_TOKEN` environment variable for successful builds and runtime.
 - **Create .env.local** for development: `echo "NEXT_PUBLIC_CESIUM_ACCESS_TOKEN=your_token_here" > .env.local`
-
-### Build Process in Restricted Environments
-If Google Fonts access is blocked:
-1. **Backup current layout**: `cp app/layout.tsx app/layout.tsx.backup`
-2. **Comment out font imports** in `app/layout.tsx`:
-   ```typescript
-   // import { Geist, Geist_Mono } from "next/font/google";
-   ```
-3. **Comment out font variables** and update className:
-   ```typescript
-   // const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-   // const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-   
-   // Update body className to: className="antialiased"
-   ```
-4. **Build and test**: `pnpm build && pnpm serve`
-5. **Restore after testing**: `mv app/layout.tsx.backup app/layout.tsx`
 
 ## Validation and Testing
 
@@ -163,7 +143,6 @@ public/             # Static assets including images
 ## Troubleshooting
 
 ### Common Build Issues
-- **Font loading errors**: Network restrictions preventing Google Fonts access - use workaround in "Build Process in Restricted Environments"
 - **Cesium token missing**: Set NEXT_PUBLIC_CESIUM_ACCESS_TOKEN environment variable
 - **TypeScript errors**: Check `lib/geo-item.ts` for proper typing of new routes
 - **Import errors**: Verify new routes are properly exported from `routes/index.ts`

@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getImageAltText, GuideImage } from "@/lib/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import ProgressIndicator from "./progress-indicator";
 import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "@/app/components/lightbox-dialog-from-url";
 
 export interface ImageCarouselProps {
@@ -155,10 +154,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
                 </div>
             </LightboxDialogFromUrl>
             {hasMultiple && PrevButton({ onClick: leftClickOnClick, className: "left-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
-            {hasMultiple && <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-40">
-                <ProgressIndicator total={images.length} current={selectedIndex} />
-            </div>
-            }
+            {hasMultiple && <ThumbnailCarousel images={images} selectedIndex={selectedIndex} onSelect={setSelectedIndex} />}
         </div>
     );
 }
@@ -188,6 +184,40 @@ export function PrevButton({ onClick, className }: { onClick: (e: React.MouseEve
         >
             <ChevronLeft size={48} className="text-white" />
         </button>
+    );
+}
+
+interface ThumbnailCarouselProps {
+    images: GuideImage[];
+    selectedIndex: number;
+    onSelect: (index: number) => void;
+}
+
+function ThumbnailCarousel({ images, selectedIndex, onSelect }: ThumbnailCarouselProps) {
+    return (
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-40 px-2 py-2 rounded-t-lg bg-black/40 backdrop-blur-sm shadow-md flex gap-2 items-center">
+            {images.map((image, index) => {
+                const isSelected = index === selectedIndex;
+                return (
+                    <button
+                        key={index}
+                        onClick={() => onSelect(index)}
+                        className={cn(
+                            "h-10 w-10 rounded flex-shrink-0 overflow-hidden transition-all hover:cursor-pointer hover:scale-110",
+                            isSelected
+                                ? "ring-2 ring-white"
+                                : "opacity-60 hover:opacity-80"
+                        )}
+                    >
+                        <img
+                            src={image.imagePath}
+                            alt={`Thumbnail ${index + 1}`}
+                            className="w-full h-full object-cover"
+                        />
+                    </button>
+                );
+            })}
+        </div>
     );
 }
 

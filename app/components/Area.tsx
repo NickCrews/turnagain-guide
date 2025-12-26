@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-import { useGeoItems } from "@/app/components/itemsContext";
+import { useGeoItems } from "@/app/components/items-context";
 import { hashStringToColor } from "@/lib/colors";
 import { MultiCombo } from "@/components/ui/multi-combo"
 import Link from "next/link";

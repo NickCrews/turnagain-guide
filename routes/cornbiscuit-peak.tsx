@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { cornbiscuitNorth } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
@@ -20,17 +20,17 @@ export const geoItem = {
   },
   proseJsx: (
     <>
-    <p>
-      You can access this two ways. The easier, safer, and much more straightforward way
-      is to approach up the Cornbisuit-Lipps valley on South side of Cornbiscuit,
-      then ascend left (North) into the <RouteLink routeID="goldpan-area">Goldpan Cirque</RouteLink> and
-      then continue curving left (West) up to the col between Cornbiscuit and Superbowl.
-    </p>
-    <p>
-      The other way, by going up the <RouteLink routeID="cornbiscuit-uptrack">Cornbiscuit Uptrack</RouteLink> and
-      then booting along the ridge, is more convoluted and hardly ever done, but I hear
-      of it being possible. Not sure how exposed or dangerous it is.
-    </p>
+      <p>
+        You can access this two ways. The easier, safer, and much more straightforward way
+        is to approach up the Cornbisuit-Lipps valley on South side of Cornbiscuit,
+        then ascend left (North) into the <RouteLink routeID="goldpan-area">Goldpan Cirque</RouteLink> and
+        then continue curving left (West) up to the col between Cornbiscuit and Superbowl.
+      </p>
+      <p>
+        The other way, by going up the <RouteLink routeID="cornbiscuit-uptrack">Cornbiscuit Uptrack</RouteLink> and
+        then booting along the ridge, is more convoluted and hardly ever done, but I hear
+        of it being possible. Not sure how exposed or dangerous it is.
+      </p>
     </>
   ),
 } as const satisfies GeoItem;

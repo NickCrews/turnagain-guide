@@ -1,12 +1,12 @@
 import { GeoItem } from '../../lib/geo-item';
-import RouteCard from './RouteCard';
+import RouteCard from './route-card';
 
 interface ItemGalleryProps {
   items: GeoItem[];
   onItemSelect?: 'link' | ((item: GeoItem) => void);
 }
 
-export default function ItemGallery({ items, onItemSelect}: ItemGalleryProps) {
+export default function ItemGallery({ items, onItemSelect }: ItemGalleryProps) {
   items = items.filter((item) => item.properties.feature_type != 'area');
   const nItems = items.length;
   if (nItems === 0) {

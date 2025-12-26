@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -19,18 +19,18 @@ export const geoItem = {
   },
   proseJsx: (
     <>
-    <p>
-      This is one of the highest peaks in the area, and a great viewpoint.
-      It&apos;s a long tour, and the ratio of effort to skiing isn&apos;t as good
-      as some alternatives, but the views and the adventure make it worth it.
-    </p>
-    <p>
-      The most common approach is to park at
-      the <RouteLink routeID="sunburst-parking-lot">Sunburst Parking Lot</RouteLink> and
-      tour up the Taylor Creek drainage up to Taylor Pass, then continue
-      along the <RouteLink routeID="taylor-pass-to-pastoral-peak">north bowl
-      and up to the peak</RouteLink>.
-    </p>
+      <p>
+        This is one of the highest peaks in the area, and a great viewpoint.
+        It&apos;s a long tour, and the ratio of effort to skiing isn&apos;t as good
+        as some alternatives, but the views and the adventure make it worth it.
+      </p>
+      <p>
+        The most common approach is to park at
+        the <RouteLink routeID="sunburst-parking-lot">Sunburst Parking Lot</RouteLink> and
+        tour up the Taylor Creek drainage up to Taylor Pass, then continue
+        along the <RouteLink routeID="taylor-pass-to-pastoral-peak">north bowl
+          and up to the peak</RouteLink>.
+      </p>
     </>
   ),
 } as const satisfies GeoItem;

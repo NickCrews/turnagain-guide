@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -713,21 +713,21 @@ export const geoItem = {
   },
   proseJsx: (
     <>
-    <p>
-      A short descent off the backside of the pass and then skin up
-      the large bowl on the North side of Pastoral Peak.
-      All of this is mostly out of avalanche terrain.
-    </p>
-    <p>
-      Once you reach the ridge, it requires some booting, and
-      you cross through some rocky bands and wind-loaded
-      rollovers before you get to the summit.
-      Crampons are often nice unless you have a recent trip
-      report saying the snow is soft,
-      especially on the final <RouteLink routeID="pastoral-peak">summit</RouteLink> pitch,
-      where you traverse left out above the Southeast face with 1200 feet of
-      exposure below you.
-    </p>
+      <p>
+        A short descent off the backside of the pass and then skin up
+        the large bowl on the North side of Pastoral Peak.
+        All of this is mostly out of avalanche terrain.
+      </p>
+      <p>
+        Once you reach the ridge, it requires some booting, and
+        you cross through some rocky bands and wind-loaded
+        rollovers before you get to the summit.
+        Crampons are often nice unless you have a recent trip
+        report saying the snow is soft,
+        especially on the final <RouteLink routeID="pastoral-peak">summit</RouteLink> pitch,
+        where you traverse left out above the Southeast face with 1200 feet of
+        exposure below you.
+      </p>
     </>
   ),
 } as const satisfies GeoItem;

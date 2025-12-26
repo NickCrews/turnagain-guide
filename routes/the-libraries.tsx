@@ -1,4 +1,4 @@
-import Figure from "@/app/components/Figure";
+import Figure from "@/app/components/figure";
 import { librariesLeftSide, librariesOverview, librariesRidge } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 

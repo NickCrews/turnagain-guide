@@ -1,10 +1,10 @@
-import { Filters } from '@/app/components/ItemExplorer'
+import { Filters } from '@/app/components/item-explorer'
 import { Input } from '@/components/ui/input'
 import { FeatureType } from '@/lib/geo-item'
 import { ATES } from '@/lib/terrain-rating'
-import { AtesComboBox } from './ATES'
-import { GeoTypeComboBox } from './GeoTypeFilterBox'
-import { AreaComboBox } from './Area'
+import { AtesComboBox } from './ates'
+import { GeoTypeComboBox } from './geo-type-combo-box'
+import { AreaComboBox } from './area'
 
 interface RouteFilterBarProps {
   filters: Filters,
@@ -34,13 +34,13 @@ export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarPr
         <SearchBar query={filters.query} setQuery={handleSetQuery} />
       </div>
       <div className="shrink-0">
-        <AreaComboBox selected={filters.areas} onSelected={handleSetSelectedAreas}/>
+        <AreaComboBox selected={filters.areas} onSelected={handleSetSelectedAreas} />
       </div>
       <div className="shrink-0">
-        <GeoTypeComboBox selected={filters.types} onSelected={handleSetSelectedTypes}/>
+        <GeoTypeComboBox selected={filters.types} onSelected={handleSetSelectedTypes} />
       </div>
       <div className="shrink-0">
-        <AtesComboBox selected={filters.atesRatings} onSelected={handleSetSelectedAtesRatings}/>
+        <AtesComboBox selected={filters.atesRatings} onSelected={handleSetSelectedAtesRatings} />
       </div>
     </div>
   )

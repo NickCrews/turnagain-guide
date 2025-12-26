@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { lippsNorth } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
@@ -20,8 +20,8 @@ export const geoItem = {
   },
   proseJsx: (
     <>
-    The most coveted line from here is
-    the <RouteLink routeID="granddaddy-couloir">Granddaddy Couloir</RouteLink>.
+      The most coveted line from here is
+      the <RouteLink routeID="granddaddy-couloir">Granddaddy Couloir</RouteLink>.
     </>
   ),
 } as const satisfies GeoItem;

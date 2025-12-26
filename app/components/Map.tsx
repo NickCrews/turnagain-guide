@@ -19,11 +19,11 @@ import { useEffect, useState, useId, useRef, useMemo } from 'react'
 
 import { type GeoItem } from '@/lib/geo-item';
 import { useDebounce } from '@/lib/debounce';
-import RouteCard from './RouteCard';
+import RouteCard from './route-card';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
-import { useViewer } from '@/app/components/ViewerContext';
+import { useViewer } from '@/app/components/viewer-context';
 import { atesColor, maxAtes } from '@/lib/terrain-rating';
-import { type ItemWithVisibility } from './ItemExplorer';
+import { type ItemWithVisibility } from './item-explorer';
 
 interface MapProps {
   items: ItemWithVisibility[];
@@ -183,7 +183,7 @@ async function itemsToEntities(items: ItemWithVisibility[]) {
   // TODO: memoize this if everything besides the visibility is unchanged
   const dataSource = await GeoJsonDataSource.load({
     type: "FeatureCollection",
-    features: items.map(i => ({ ...i, properties: {...i.properties, id: i.id } })),
+    features: items.map(i => ({ ...i, properties: { ...i.properties, id: i.id } })),
   }, {
     // In a perfect world I would set each entity to clampToGround
     // in modifiedEntity(), but I can't figure out how to do it there.

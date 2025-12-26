@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { magnumCenter, sunburstAndMagnum } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 

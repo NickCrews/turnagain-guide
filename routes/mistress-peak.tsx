@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -19,11 +19,11 @@ export const geoItem = {
   },
   proseJsx: (
     <>
-    <p>
-      I don&apos;t know much about this. It&apos;s ridden either Northwest into
-      the <RouteLink routeID="goldpan-area">Goldpan Cirque</RouteLink> or South into
-      the Pastoral-Lipps valley.
-    </p>
+      <p>
+        I don&apos;t know much about this. It&apos;s ridden either Northwest into
+        the <RouteLink routeID="goldpan-area">Goldpan Cirque</RouteLink> or South into
+        the Pastoral-Lipps valley.
+      </p>
     </>
   ),
 } as const satisfies GeoItem;

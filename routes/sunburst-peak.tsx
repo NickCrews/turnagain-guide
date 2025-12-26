@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import Link from "@/components/ui/link";
 import { type GeoItem } from "@/lib/geo-item";
 
@@ -20,19 +20,19 @@ export const geoItem = {
   },
   proseJsx: (
     <>
-    <p>
-      A friendly a popular peak with tons of long, steep-but-not-too-steep runs
-      all along the South side.
-    </p>
-    <p>
-      You can access this peak from the regular <RouteLink routeID="sunburst-parking-lot">Sunburst Parking Lot</RouteLink>
-    </p>
-    <p>
-      CNFAIC maintains
-      a <Link href="https://www.cnfaic.org/wx/wx_site.php?site=sunburst">
-      weather station and webcam on the summit
-      </Link>.
-    </p>
+      <p>
+        A friendly a popular peak with tons of long, steep-but-not-too-steep runs
+        all along the South side.
+      </p>
+      <p>
+        You can access this peak from the regular <RouteLink routeID="sunburst-parking-lot">Sunburst Parking Lot</RouteLink>
+      </p>
+      <p>
+        CNFAIC maintains
+        a <Link href="https://www.cnfaic.org/wx/wx_site.php?site=sunburst">
+          weather station and webcam on the summit
+        </Link>.
+      </p>
     </>
   ),
 } as const satisfies GeoItem;

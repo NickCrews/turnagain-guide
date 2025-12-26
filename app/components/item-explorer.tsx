@@ -1,15 +1,15 @@
 'use client'
 
 import { FeatureType, GeoItem, FEATURE_TYPES } from "@/lib/geo-item";
-import Map from "./Map";
-import ItemGallery from "./ItemGallery";
-import { RouteProperties, RouteProse, SubRoutes } from "./RouteDetail";
+import Map from "./map";
+import ItemGallery from "./item-gallery";
+import { RouteProperties, RouteProse, SubRoutes } from "./route-detail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import RouteFilterBar from "./RouteFilterBar";
+import RouteFilterBar from "./route-filter-bar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
 import { useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
-import { useGeoItems } from "@/app/components/itemsContext";
+import { useGeoItems } from "@/app/components/items-context";
 import { ChevronLeft, X } from "lucide-react";
 import {
   Drawer,

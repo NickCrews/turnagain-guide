@@ -1,5 +1,5 @@
 import { type GeoItem } from "@/lib/geo-item";
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 
 export const geoItem = {
   id: "sunburst-meadows-uptrack",
@@ -447,7 +447,7 @@ export const geoItem = {
         This is the midwinter route that is only possible when the alders are
         fully buried. During early and late season, you should use
         the <RouteLink routeID="sunburst-meadows-uptrack-early">
-        Sunburst Meadows Early Season Uptrack</RouteLink>.
+          Sunburst Meadows Early Season Uptrack</RouteLink>.
         This route is a bit more shorter and avoids the annoying icy gully
         that you encounter on the early season route.
         Also, on the way back down, this is a more consistent downhill slope,

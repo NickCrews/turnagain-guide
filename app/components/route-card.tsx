@@ -1,7 +1,7 @@
 
 import { capitalize } from '@/lib/utils';
 import { GeoItem } from '../../lib/geo-item';
-import { ElevationRange, Elevation } from './Units';
+import { ElevationRange, Elevation } from './units';
 import {
   Card,
   CardContent,
@@ -9,9 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { AtesBadges } from './ATES';
+import { AtesBadges } from './ates';
 import { cn } from '@/lib/utils';
-import { AreaBadge } from './Area';
+import { AreaBadge } from './area';
 import { useRouter } from 'next/navigation';
 import ImageCarousel from '@/app/components/image-carousel';
 

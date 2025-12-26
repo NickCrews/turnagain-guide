@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ViewerProvider } from "./components/ViewerContext";
-import { ElevationUnitsProvider, DistanceUnitsProvider } from "@/app/components/UnitsContext";
-import { GeoItemsProvider } from "@/app/components/itemsContext";
+import { ViewerProvider } from "./components/viewer-context";
+import { ElevationUnitsProvider, DistanceUnitsProvider } from "@/app/components/units-context";
+import { GeoItemsProvider } from "@/app/components/items-context";
 import { loadGeoItems } from "@/lib/geo-item";
 import { TouchProvider } from "@/components/ui/touch-context";
 

@@ -1,5 +1,5 @@
 import { type GeoItem } from "@/lib/geo-item";
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 
 export const geoItem = {
   id: "sunburst-ridge-uptrack",
@@ -503,7 +503,7 @@ export const geoItem = {
         This is a fast and efficient skin.
         It&apos;s possible to lap a lot of excellent skiing using this uptrack.
         Start from the top of the <RouteLink routeID="sunburst-meadows-uptrack">
-        Sunburst Meadows Uptrack</RouteLink>
+          Sunburst Meadows Uptrack</RouteLink>
       </p>
       <p>
         There are a few rollovers at the top where I like to space out

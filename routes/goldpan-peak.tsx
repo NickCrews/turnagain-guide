@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { goldpan } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
@@ -20,10 +20,10 @@ export const geoItem = {
   },
   proseJsx: (
     <>
-    <p>
-      You usually get here
-      via <RouteLink routeID="basketball-peak">Basketball Peak</RouteLink>.
-    </p>
+      <p>
+        You usually get here
+        via <RouteLink routeID="basketball-peak">Basketball Peak</RouteLink>.
+      </p>
     </>
   ),
 } as const satisfies GeoItem;

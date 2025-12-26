@@ -1,5 +1,5 @@
 import { type GeoItem } from "@/lib/geo-item";
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { sunburstApproachGully } from "@/imageRegistry/images";
 
 export const geoItem = {

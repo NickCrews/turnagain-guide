@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -19,15 +19,15 @@ export const geoItem = {
   },
   proseJsx: (
     <>
-    <p>
-      This is the huge mountain in the far back wall of the Tincan Creek/Center Ridge
-      drainage. It&apos;s to the looker&#39;s right of Kickstep Peak,
-      and not actually even connected with the Tincan ridge.
-      This is not to confused with
-      either <RouteLink routeID="tincan-common">Tincan Common</RouteLink> or <RouteLink routeID="tincan-proper">Tincan Proper</RouteLink>,
-      which are much closer to road and along the Tincan ridge, and
-      usually what people mean when they say &quot;Tincan Peak&quot;.
-    </p>
+      <p>
+        This is the huge mountain in the far back wall of the Tincan Creek/Center Ridge
+        drainage. It&apos;s to the looker&#39;s right of Kickstep Peak,
+        and not actually even connected with the Tincan ridge.
+        This is not to confused with
+        either <RouteLink routeID="tincan-common">Tincan Common</RouteLink> or <RouteLink routeID="tincan-proper">Tincan Proper</RouteLink>,
+        which are much closer to road and along the Tincan ridge, and
+        usually what people mean when they say &quot;Tincan Peak&quot;.
+      </p>
     </>
   ),
 } as const satisfies GeoItem;

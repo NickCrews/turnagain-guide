@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/RouteLink";
+import RouteLink from "@/app/components/route-link";
 import { GuideImage } from "@/lib/image";
 
 export const blueDiamond = {

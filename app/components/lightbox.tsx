@@ -50,7 +50,7 @@ export function Lightbox({
 
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="relative">
+      <div className="relative flex-1 md:flex-none md:w-[calc(100%-24rem)]">
         {images.length > 1 && <PrevButton onClick={onPrev} className="absolute left-3  top-1/2 -translate-y-1/2 z-30 opacity-80 hover:opacity-100 transition-opacity duration-200" />}
         {images.length > 1 && <NextButton onClick={onNext} className="absolute right-3 top-1/2 -translate-y-1/2 z-30 opacity-80 hover:opacity-100 transition-opacity duration-200" />}
         <ZoomableImage
@@ -58,7 +58,7 @@ export function Lightbox({
           alt={getImageAltText(image) || "Lightbox Image"}
         />
       </div>
-      <div className="md:w-1/3 p-6 overflow-y-auto">
+      <div className="w-full md:w-96 p-6 overflow-y-auto flex-shrink-0">
         <h2 className="text-2xl font-bold mb-4">{image.title || getId(image).replace("-", " ")}</h2>
         <p className="mb-4">{image.description || "No description available."}</p>
       </div>

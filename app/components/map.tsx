@@ -24,6 +24,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/viewer-context';
 import { atesColor, maxAtes } from '@/lib/terrain-rating';
 import { type ItemWithVisibility } from './item-explorer';
+import { useTouch } from '@/components/ui/touch-context';
 
 interface MapProps {
   items: ItemWithVisibility[];
@@ -58,6 +59,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
   const popupItem = popupInfo?.item;
   items = useMemo(() => fixupItemVisibilities(items, selectedItem, popupItem), [items, selectedItem, popupItem]);
   const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
+  const isTouch = useTouch();
 
   const delayedSetPopupInfo = useDebounce(setPopupInfo, 300);
 
@@ -96,13 +98,16 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
       return;
     }
     const handleClick = (click: ScreenSpaceEventHandler.PositionedEvent) => {
-      const entity = pickEntity(click.position, viewer);
+      // Use multi-point sampling on touch devices for more forgiving tap detection
+      const entity = isTouch
+        ? pickEntityWithSampling(click.position, viewer)
+        : pickEntity(click.position, viewer);
       const item: GeoItem | null = itemsById[entity?.properties?.id];
       setSelectedItem(item);
     };
     viewer.screenSpaceEventHandler.setInputAction(handleClick, ScreenSpaceEventType.LEFT_CLICK);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-  }, [viewer, items, setSelectedItem, itemsById])
+  }, [viewer, items, setSelectedItem, itemsById, isTouch])
 
   useEffect(() => {
     if (!viewer) {
@@ -317,6 +322,83 @@ function pickEntity(position: Cartesian2, viewer: Viewer): Entity | null {
       closestDistance = distance;
     }
   });
+  return closestEntity;
+}
+
+/**
+ * Picks an entity using multi-point sampling for more forgiving touch interactions.
+ * Samples multiple points in a circular pattern around the tap position and collects
+ * all entities found, then uses distance-to-camera logic to pick the best one.
+ *
+ * @param position - The center position of the tap
+ * @param viewer - The Cesium viewer
+ * @param samplingRadius - The radius in pixels for the sampling circle (default: 30)
+ * @returns The best entity found across all sample points, or null if none found
+ */
+function pickEntityWithSampling(position: Cartesian2, viewer: Viewer, samplingRadius: number = 30): Entity | null {
+  // Generate sample points: center + 8 points in a circle
+  const samplePoints: Cartesian2[] = [
+    position, // center point
+  ];
+
+  // Add 8 points around the circle at 45-degree intervals
+  for (let i = 0; i < 8; i++) {
+    const angle = (i * Math.PI) / 4; // 0, 45, 90, 135, 180, 225, 270, 315 degrees
+    const x = position.x + samplingRadius * Math.cos(angle);
+    const y = position.y + samplingRadius * Math.sin(angle);
+    samplePoints.push(new Cartesian2(x, y));
+  }
+
+  // Collect all entities from all sample points
+  const allPicks: any[] = [];
+  const seenEntityIds = new Set<string>();
+
+  for (const samplePoint of samplePoints) {
+    const picks = viewer.scene.drillPick(samplePoint);
+    for (const pick of picks) {
+      const entityId = pick.id?.properties?.id?.getValue();
+      if (entityId && !seenEntityIds.has(entityId)) {
+        seenEntityIds.add(entityId);
+        allPicks.push(pick);
+      }
+    }
+  }
+
+  // Apply the same filtering and selection logic as pickEntity()
+  let picks = allPicks;
+  const isBillboard = (obj: any) => obj.id.billboard !== undefined;
+  const isNonPolygon = (obj: any) => obj.id.polygon === undefined;
+  const anyAreBillboards = picks.some(isBillboard);
+  if (anyAreBillboards) {
+    picks = picks.filter(isBillboard);
+  }
+  const anyAreNonPolygons = picks.some(isNonPolygon);
+  if (anyAreNonPolygons) {
+    picks = picks.filter(isNonPolygon);
+  }
+
+  // Find the closest entity to the camera
+  let closestEntity: Entity | null = null;
+  let closestDistance = Infinity;
+  picks.forEach(obj => {
+    const entity = obj.id as Entity;
+    let entityCenter: Cartesian3;
+    if (entity.polygon) {
+      entityCenter = BoundingSphere.fromPoints(entity.polygon.hierarchy!.getValue().positions).center;
+    } else if (entity.polyline) {
+      entityCenter = BoundingSphere.fromPoints(entity.polyline.positions!.getValue()).center;
+    } else if (entity.billboard) {
+      entityCenter = entity.position!.getValue()!;
+    } else {
+      throw new Error(`entity is not a billboard, polygon, or polyline: ${entity.properties?.id}`);
+    }
+    const distance = Cartesian3.distance(entityCenter, viewer.camera.position);
+    if (distance < closestDistance) {
+      closestEntity = entity;
+      closestDistance = distance;
+    }
+  });
+
   return closestEntity;
 }
 

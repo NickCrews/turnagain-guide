@@ -2,9 +2,11 @@ import Header from "../components/Header";
 
 export default function DefaultLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div className="h-screen flex flex-col overflow-hidden">
       <Header />
-      <main>{children}</main>
-    </>
+      <main className="flex-1 overflow-y-auto">
+        {children}
+      </main>
+    </div>
   );
 }

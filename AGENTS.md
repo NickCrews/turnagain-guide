@@ -20,3 +20,4 @@
  
 ## PR instructions
 - Always run `pnpm lint` and `pnpm test` before committing.
+- Always use your tools to run the dev server, open up the page, poke around to make sure everything works, and include screenshots and recordings of your change to demo them.

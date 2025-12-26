@@ -24,6 +24,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/viewer-context';
 import { atesColor, maxAtes } from '@/lib/terrain-rating';
 import { type ItemWithVisibility } from './item-explorer';
+import { useTouch } from '@/components/ui/touch-context';
 
 interface MapProps {
   items: ItemWithVisibility[];
@@ -58,6 +59,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
   const popupItem = popupInfo?.item;
   items = useMemo(() => fixupItemVisibilities(items, selectedItem, popupItem), [items, selectedItem, popupItem]);
   const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
+  const isTouch = useTouch() ?? false;
 
   const delayedSetPopupInfo = useDebounce(setPopupInfo, 300);
 
@@ -96,20 +98,20 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
       return;
     }
     const handleClick = (click: ScreenSpaceEventHandler.PositionedEvent) => {
-      const entity = pickEntity(click.position, viewer);
+      const entity = pickEntity(click.position, viewer, isTouch);
       const item: GeoItem | null = itemsById[entity?.properties?.id];
       setSelectedItem(item);
     };
     viewer.screenSpaceEventHandler.setInputAction(handleClick, ScreenSpaceEventType.LEFT_CLICK);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-  }, [viewer, items, setSelectedItem, itemsById])
+  }, [viewer, items, setSelectedItem, itemsById, isTouch]);
 
   useEffect(() => {
     if (!viewer) {
       return;
     }
     const handleHover = (hover: ScreenSpaceEventHandler.MotionEvent) => {
-      const entity = pickEntity(hover.endPosition, viewer);
+      const entity = pickEntity(hover.endPosition, viewer, isTouch);
       const item: GeoItem | null = entity ? itemsById[entity.properties?.id] : null;
       viewer.scene.canvas.style.cursor = entity ? 'pointer' : 'default';
       const position = viewer.scene.pickPosition(hover.endPosition);
@@ -118,7 +120,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     };
     viewer.screenSpaceEventHandler.setInputAction(handleHover, ScreenSpaceEventType.MOUSE_MOVE);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
-  }, [viewer, itemsById, delayedSetPopupInfo])
+  }, [viewer, itemsById, delayedSetPopupInfo, isTouch]);
 
   useEffect(() => {
     if (!viewer || !popupInfo || !popupRef.current) {
@@ -279,11 +281,20 @@ function fixAndStyleEntity(item: ItemWithVisibility, entity: Entity): void {
   // console.log(`Styled entity ${id} (${featureType}) with color ${color.toCssHexString()} and opacity ${color.alpha}, visible=${item.isVisible}`);
 }
 
-function pickEntity(position: Cartesian2, viewer: Viewer): Entity | null {
+function pickEntity(position: Cartesian2, viewer: Viewer, isTouch: boolean): Entity | null {
+  // if on a touch device, increase the pick area to allow for sloppy fingers.
+  // I found this by opening the app on my phone (using the network url printed
+  // at `next dev` startup), and testing various sizes.
+  let [pickWidth, pickHeight] = [3, 3];
+  if (isTouch) {
+    pickWidth = 15;
+    pickHeight = 15;
+  }
+  const limit = undefined; // no limit on number of picks
+  let picks = viewer.scene.drillPick(position, limit, pickWidth, pickHeight);
   // scene.drill() is buggy, and if hover over a polygon draped on terrain,
   // and behind that polygon is another polygon draped on terrain,
   // then sometimes drill returns the polygon behind the first one.
-  let picks = viewer.scene.drillPick(position);
   // We prioritize billboards over everything else,
   // and everything else over polygons.
   const isBillboard = (obj: any) => obj.id.billboard !== undefined;

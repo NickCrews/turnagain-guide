@@ -1,4 +1,4 @@
-import Figure from "@/app/components/figure";
+import Figure from "@/app/components/Figure";
 import { type GeoItem } from "@/lib/geo-item";
 import { tincanOverview } from "@/imageRegistry/images";
 

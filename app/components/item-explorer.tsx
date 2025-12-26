@@ -1,7 +1,7 @@
 'use client'
 
 import { FeatureType, GeoItem, FEATURE_TYPES } from "@/lib/geo-item";
-import Map from "./map";
+import Map from "./Map";
 import ItemGallery from "./item-gallery";
 import { RouteProperties, RouteProse, SubRoutes } from "./route-detail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";

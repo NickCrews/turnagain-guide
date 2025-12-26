@@ -24,6 +24,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useViewer } from '@/app/components/viewer-context';
 import { atesColor, maxAtes } from '@/lib/terrain-rating';
 import { type ItemWithVisibility } from './item-explorer';
+import { useTouch } from '@/components/ui/touch-context';
 
 interface MapProps {
   items: ItemWithVisibility[];
@@ -60,6 +61,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
   const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
 
   const delayedSetPopupInfo = useDebounce(setPopupInfo, 300);
+  const isTouch = useTouch();
 
   useEffect(() => {
     async function initViewerAndEntities() {
@@ -96,13 +98,16 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
       return;
     }
     const handleClick = (click: ScreenSpaceEventHandler.PositionedEvent) => {
-      const entity = pickEntity(click.position, viewer);
+      // Use expanded hit zones on touch devices for more forgiving tap detection
+      const entity = isTouch
+        ? pickEntityWithExpandedZone(click.position, viewer)
+        : pickEntity(click.position, viewer);
       const item: GeoItem | null = itemsById[entity?.properties?.id];
       setSelectedItem(item);
     };
     viewer.screenSpaceEventHandler.setInputAction(handleClick, ScreenSpaceEventType.LEFT_CLICK);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-  }, [viewer, items, setSelectedItem, itemsById])
+  }, [viewer, items, setSelectedItem, itemsById, isTouch])
 
   useEffect(() => {
     if (!viewer) {
@@ -318,6 +323,45 @@ function pickEntity(position: Cartesian2, viewer: Viewer): Entity | null {
     }
   });
   return closestEntity;
+}
+
+/**
+ * Picks an entity with expanded hit zones for touch devices.
+ * First tries a precise pick at the tap point. If nothing is found, expands
+ * the search area by sampling nearby points in a small radius.
+ * This provides a good balance between precision and forgiveness.
+ *
+ * @param position - The tap position in screen coordinates
+ * @param viewer - The Cesium viewer
+ * @param expandRadius - The radius in pixels to expand search if initial pick fails (default: 20)
+ * @returns The picked entity, or null if none found
+ */
+function pickEntityWithExpandedZone(position: Cartesian2, viewer: Viewer, expandRadius: number = 20): Entity | null {
+  // First, try a precise pick at the exact tap position
+  let entity = pickEntity(position, viewer);
+  if (entity) {
+    return entity;
+  }
+
+  // If precise pick failed, try expanding the hit zone by sampling nearby points
+  // Sample 4 points in a cross pattern (up, down, left, right)
+  const expandedSamplePoints: Cartesian2[] = [
+    new Cartesian2(position.x + expandRadius, position.y), // right
+    new Cartesian2(position.x - expandRadius, position.y), // left
+    new Cartesian2(position.x, position.y + expandRadius), // down
+    new Cartesian2(position.x, position.y - expandRadius), // up
+  ];
+
+  // Try picking at each expanded sample point
+  for (const samplePoint of expandedSamplePoints) {
+    entity = pickEntity(samplePoint, viewer);
+    if (entity) {
+      return entity;
+    }
+  }
+
+  // Nothing found even with expanded zone
+  return null;
 }
 
 // a triangle like ⏶

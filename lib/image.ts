@@ -13,6 +13,8 @@ export interface GuideImage {
         long: number
     },
     elevation?: number,
+    /** Direction in degrees, where 0 = North, 90 = East, etc. */
+    direction?: number,
 }
 
 /** In order of preference: altText, title, description, undefined */

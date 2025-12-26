@@ -1,4 +1,3 @@
-import { GPXPoint } from "@/lib/gpx"
 import { loadGeoItems } from "@/lib/geo-item";
 import { ReactElement } from "react";
 
@@ -9,7 +8,11 @@ export interface GuideImage {
     description?: string | ReactElement
     /** If not defined, will use title or description */
     altText?: string
-    gpxPoint?: GPXPoint
+    coordinates?: {
+        lat: number,
+        long: number
+    },
+    elevation?: number,
 }
 
 /** In order of preference: altText, title, description, undefined */
@@ -47,7 +50,8 @@ export async function loadGuideImages(): Promise<Record<string, GuideImage>> {
                     title: img.title,
                     description: img.description,
                     altText: img.altText,
-                    gpxPoint: img.gpxPoint,
+                    coordinates: img.coordinates,
+                    elevation: img.elevation,
                 };
             }
         }
@@ -58,7 +62,7 @@ export async function loadGuideImages(): Promise<Record<string, GuideImage>> {
 export async function relatedImages(image: GuideImage, maxRelated: number = 5): Promise<GuideImage[]> {
     const allImages = await loadGuideImages();
     // Placeholder for now.
-    // Ideally this should rank by distance from the image's gpxPoint to other images' gpxPoints,
+    // Ideally this should rank by distance from the image's coordinates,
     // or by being in the same geoItem, etc.
     const relatedImages = Object.values(allImages).filter(img => img !== image).slice(0, maxRelated);
     return relatedImages;

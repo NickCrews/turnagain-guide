@@ -110,6 +110,11 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     if (!viewer) {
       return;
     }
+    if (isTouch) {
+      // on mobile, when you drag around, it still triggers mousemove events,
+      // which makes the hover popup flicker in and out. So disable hover on touch devices.
+      return;
+    }
     const handleHover = (hover: ScreenSpaceEventHandler.MotionEvent) => {
       const entity = pickEntity(hover.endPosition, viewer, isTouch);
       const item: GeoItem | null = entity ? itemsById[entity.properties?.id] : null;

@@ -14,8 +14,10 @@ import {
   Cartesian2,
   Cartesian3,
   Viewer,
+  Cartographic,
+  Math as CesiumMath,
 } from 'cesium'
-import { useEffect, useState, useId, useRef, useMemo } from 'react'
+import { useEffect, useState, useId, useRef, useMemo, useCallback } from 'react'
 
 import { type GeoItem } from '@/lib/geo-item';
 import { useDebounce } from '@/lib/debounce';
@@ -55,11 +57,97 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
   const viewer = useViewer(holderId);
   const popupRef = useRef<HTMLDivElement>(null);
   const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
+  const [userLocation, setUserLocation] = useState<{ latitude: number, longitude: number } | null>(null);
+  const [isLocating, setIsLocating] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const userLocationEntityRef = useRef<Entity | null>(null);
   const popupItem = popupInfo?.item;
   items = useMemo(() => fixupItemVisibilities(items, selectedItem, popupItem), [items, selectedItem, popupItem]);
   const itemsById = Object.fromEntries(items.map(item => [item.id, item]));
 
   const delayedSetPopupInfo = useDebounce(setPopupInfo, 300);
+
+  const handleLocateClick = useCallback(() => {
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setIsLocating(true);
+    setLocationError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ latitude, longitude });
+        setIsLocating(false);
+
+        // Fly to user location
+        if (viewer) {
+          viewer.camera.flyTo({
+            destination: Cartesian3.fromDegrees(longitude, latitude, 5000),
+            duration: 2,
+          });
+        }
+      },
+      (error) => {
+        setIsLocating(false);
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            setLocationError('Location permission denied');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            setLocationError('Location information unavailable');
+            break;
+          case error.TIMEOUT:
+            setLocationError('Location request timed out');
+            break;
+          default:
+            setLocationError('An unknown error occurred');
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      }
+    );
+  }, [viewer]);
+
+  // Effect to manage user location marker
+  useEffect(() => {
+    if (!viewer || !userLocation) {
+      return;
+    }
+
+    const { latitude, longitude } = userLocation;
+    const position = Cartesian3.fromDegrees(longitude, latitude);
+
+    // Remove existing user location entity if it exists
+    if (userLocationEntityRef.current) {
+      viewer.entities.remove(userLocationEntityRef.current);
+    }
+
+    // Create new user location entity
+    const entity = viewer.entities.add({
+      position: position,
+      billboard: {
+        image: makeImageProperty(SVG_USER_LOCATION, '#4285F4'),
+        width: new ConstantProperty(40),
+        height: new ConstantProperty(40),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY, // Always show on top
+      },
+    });
+
+    userLocationEntityRef.current = entity;
+
+    return () => {
+      if (userLocationEntityRef.current) {
+        viewer.entities.remove(userLocationEntityRef.current);
+        userLocationEntityRef.current = null;
+      }
+    };
+  }, [viewer, userLocation]);
 
   useEffect(() => {
     async function initViewerAndEntities() {
@@ -141,10 +229,59 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     <div ref={popupRef} className="absolute -translate-x-1/2 -translate-y-full w-64">
       {popupInfo && <RouteCard item={popupInfo.item} onClick={setSelectedItem} />}
     </div>
-    <div className="absolute bottom-4 right-4">
+    <div className="absolute bottom-4 right-4 flex flex-col gap-2">
+      <LocateButton
+        onClick={handleLocateClick}
+        isLocating={isLocating}
+        hasLocation={!!userLocation}
+        error={locationError}
+      />
       <DownloadButton />
     </div>
   </div>
+}
+
+interface LocateButtonProps {
+  onClick: () => void;
+  isLocating: boolean;
+  hasLocation: boolean;
+  error: string | null;
+}
+
+function LocateButton({ onClick, isLocating, hasLocation, error }: LocateButtonProps) {
+  return (
+    <div className="relative">
+      <button
+        onClick={onClick}
+        disabled={isLocating}
+        className={`bg-background/50 hover:bg-background/70 text-foreground p-2 rounded-md ${
+          hasLocation ? 'text-blue-500' : ''
+        } ${isLocating ? 'opacity-50 cursor-not-allowed' : ''}`}
+        title={error || 'Show your location'}
+      >
+        {isLocating ? (
+          <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        ) : (
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="2" x2="12" y2="4"></line>
+            <line x1="12" y1="20" x2="12" y2="22"></line>
+            <line x1="2" y1="12" x2="4" y2="12"></line>
+            <line x1="20" y1="12" x2="22" y2="12"></line>
+          </svg>
+        )}
+      </button>
+      {error && (
+        <div className="absolute bottom-full right-0 mb-1 bg-red-500/90 text-white px-2 py-1 rounded text-xs whitespace-nowrap">
+          {error}
+        </div>
+      )}
+    </div>
+  );
 }
 
 function DownloadButton() {
@@ -331,6 +468,16 @@ const SVG_PEAK = `
 const SVG_PARKING = `
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="$ICON_COLOR" fill-opacity="$ICON_ALPHA">
   <path d="M240-120v-720h280q100 0 170 70t70 170q0 100-70 170t-170 70H400v240H240Zm160-400h128q33 0 56.5-23.5T608-600q0-33-23.5-56.5T528-680H400v160Z"/>
+</svg>
+`;
+
+// User location marker - blue dot with lighter blue ring (like Google Maps)
+const SVG_USER_LOCATION = `
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <circle cx="20" cy="20" r="18" fill="$ICON_COLOR" fill-opacity="0.2" />
+  <circle cx="20" cy="20" r="8" fill="$ICON_COLOR" fill-opacity="$ICON_ALPHA" />
+  <circle cx="20" cy="20" r="8" fill="white" fill-opacity="0.3" />
+  <circle cx="20" cy="20" r="6" fill="$ICON_COLOR" fill-opacity="$ICON_ALPHA" stroke="white" stroke-width="2" />
 </svg>
 `;
 

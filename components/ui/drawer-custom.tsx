@@ -9,19 +9,15 @@ const SCROLL_LOCK_TIMEOUT = 100 as const;
 const DRAG_CLASS = 'vaul-dragging' as const;
 
 interface DrawerContextType {
-  isOpen: boolean
   openAmountRef: React.RefObject<number>
   drawerHeightRef: React.RefObject<number>
   drawerRef: React.RefObject<HTMLDivElement | null>
   overlayRef: React.RefObject<HTMLDivElement | null>
-  snapPoints?: (number | string)[]
-  activeSnapPoint: number | string | null
-  snapPointsOffset: number[]
-  activeSnapPointIndex: number | null
-  setTransform: (element: HTMLElement, pixelsOpen: number, transition?: boolean) => void
+  snapPoints: SnapPoint[]
+  activeSnapPoint: SnapPoint
+  setActiveSnapPoint: (snap: SnapPoint) => void
+  setTransform: (element: HTMLElement, pixelsOpen: number, transition: boolean) => void
   shouldDrag: (el: HTMLElement, isClosing: boolean) => boolean
-  handleSetActiveSnap: (snap: number | string | null) => void
-  handleSetIsOpen: (open: boolean) => void
   onPress: (event: React.PointerEvent<HTMLDivElement>) => { dragStartTime: Date; pointerStart: number } | null
   onDrag: (event: React.PointerEvent<HTMLDivElement>, pointerStart: number, isAllowedToDrag: React.RefObject<boolean>) => void
   onRelease: (event: React.PointerEvent<HTMLDivElement> | null, dragStartTime: Date, pointerStart: number) => void
@@ -35,39 +31,37 @@ function useDrawerContext() {
   return ctx
 }
 
+type Branded<T, B> = T & { __brand: B }
+type Px = Branded<number, 'px'>
+type Fraction = Branded<number, 'fraction'>
+interface SnapPoint {
+  px: Px
+  fraction: Fraction
+}
+
+export interface ResizeEvent {
+  newSize: {
+    px: Px
+    fraction: Fraction
+  }
+  closestSnap: {
+    px: Px
+    fraction: Fraction
+  }
+}
 export interface RootProps {
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
   children?: ReactNode
-  snapPoints?: (number | string)[]
-  activeSnapPoint?: number | string | null
-  onActiveSnapPointChange?: (snap: number | string | null) => void
+  snapPoints: number[]
+  onResize?: (event: ResizeEvent) => void
 }
 
 export function Root({
-  open: openProp,
-  onOpenChange,
   children,
-  snapPoints,
-  activeSnapPoint: activeSnapPointProp,
-  onActiveSnapPointChange,
+  snapPoints: snapPointsRaw,
+  onResize,
 }: RootProps) {
-  const [isOpen, setIsOpen] = useState(openProp ?? false)
-  const [activeSnap, setActiveSnap] = useState<number | string | null>(
-    activeSnapPointProp ?? snapPoints?.[0] ?? null
-  )
-
-  useEffect(() => {
-    if (openProp !== undefined && openProp !== isOpen) {
-      setIsOpen(openProp)
-    }
-  }, [openProp])
-
-  useEffect(() => {
-    if (activeSnapPointProp !== undefined && activeSnapPointProp !== activeSnap) {
-      setActiveSnap(activeSnapPointProp)
-    }
-  }, [activeSnapPointProp])
+  const snapPoints = normSnapPoints(snapPointsRaw, window.innerHeight)
+  const [activeSnapPoint, setActiveSnapPoint] = useState(snapPoints[0])
 
   const drawerRef = useRef<HTMLDivElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
@@ -75,36 +69,9 @@ export function Root({
   const drawerHeightRef = useRef(0)
   const lastTimeDragPrevented = useRef<Date | null>(null)
 
-  const snapPointsOffset = calculateSnapPoints(snapPoints, window.innerHeight)
-  const activeSnapOffset = snapValueToOffset(activeSnap, window.innerHeight)
-  const activeSnapPointIndex = snapPointsOffset.findIndex(p => p === activeSnapOffset)
+  const activeSnapPointIndex = snapPoints.findIndex(p => p.px === activeSnapPoint.px)
 
-  useEffect(() => {
-    if (snapPointsOffset.length > 0 && activeSnapPointIndex === -1) {
-      setActiveSnap(0)
-    }
-  }, [snapPointsOffset, activeSnapPointIndex])
-
-  const handleSetActiveSnap = useCallback(
-    (snap: number | string | null) => {
-      setActiveSnap(snap)
-      onActiveSnapPointChange?.(snap)
-    },
-    [onActiveSnapPointChange]
-  )
-
-  const handleSetIsOpen = useCallback(
-    (open: boolean) => {
-      setIsOpen(open)
-      onOpenChange?.(open)
-      if (!open && snapPoints) {
-        handleSetActiveSnap(snapPoints[0])
-      }
-    },
-    [onOpenChange, snapPoints, handleSetActiveSnap]
-  )
-
-  function setTransform(element: HTMLElement, pixelsOpen: number, transition: boolean = true) {
+  function setTransformStyle(element: HTMLElement, pixelsOpen: number, transition: boolean) {
     if (!element) return
     const height = drawerHeightRef.current;
     const clampedOpen = Math.max(0, Math.min(pixelsOpen, height))
@@ -137,7 +104,7 @@ export function Root({
     }
 
     const scrollParent = getScrollParent(element)
-    const fullyOpen = activeSnapPointIndex === snapPointsOffset.length - 1 && snapPointsOffset.length > 0
+    const fullyOpen = activeSnapPointIndex === snapPoints.length - 1 && snapPoints.length > 0
 
     if (scrollParent) {
       if (!isClosing && !fullyOpen) {
@@ -194,15 +161,15 @@ export function Root({
 
     if (activeSnapPointIndex === null || activeSnapPointIndex === -1) return
 
-    const currentOffset = snapPointsOffset[activeSnapPointIndex]
-    const newValue = isClosing ? currentOffset - absDraggedDistance : currentOffset + absDraggedDistance
+    const currentOffset = snapPoints[activeSnapPointIndex]
+    const newValue = isClosing ? currentOffset.px - absDraggedDistance : currentOffset.px + absDraggedDistance
 
-    const maxValue = snapPointsOffset[snapPointsOffset.length - 1]
+    const maxValue = snapPoints[snapPoints.length - 1].px
     const minValue = 0
 
     if (newValue < minValue || newValue > maxValue) return
 
-    setTransform(drawerRef.current, newValue, false)
+    setTransformStyle(drawerRef.current, newValue, false)
   }
 
   function onRelease(
@@ -223,51 +190,38 @@ export function Root({
 
     const activeIndex = activeSnapPointIndex ?? 0
 
-    const closestSnapPoint = snapPointsOffset.reduce((prev, curr) => {
-      return Math.abs(curr - openAmountRef.current) < Math.abs(prev - openAmountRef.current) ? curr : prev
-    })
-
-    const isClosing = draggedDistance < 0
-
     if (velocity > VELOCITY_THRESHOLD && Math.abs(draggedDistance) < window.innerHeight * 0.4) {
+      const isClosing = draggedDistance < 0
       const nextIndexRaw = isClosing ? activeIndex - 1 : activeIndex + 1
-      const nextIndex = Math.max(0, Math.min(nextIndexRaw, snapPointsOffset.length - 1))
-      const nextSnapOffset = snapPointsOffset[nextIndex]
-
-      if (nextIndex === 0 && isClosing) {
-        handleSetIsOpen(false)
-        handleSetActiveSnap(0)
-        setTransform(drawerRef.current, 0)
-      } else {
-        handleSetActiveSnap(nextSnapOffset)
-        setTransform(drawerRef.current, nextSnapOffset)
-      }
+      const nextIndex = Math.max(0, Math.min(nextIndexRaw, snapPoints.length - 1))
+      const nextSnapOffset = snapPoints[nextIndex]
+      setActiveSnapPoint(nextSnapOffset)
+      setTransformStyle(drawerRef.current, nextSnapOffset.px, true)
       return
     }
 
-    const closestIndex = snapPointsOffset.indexOf(closestSnapPoint)
+    const closestSnapPoint = snapPoints.reduce((prev, curr) => {
+      return Math.abs(curr.px - openAmountRef.current) < Math.abs(prev.px - openAmountRef.current) ? curr : prev
+    })
+    const closestIndex = snapPoints.indexOf(closestSnapPoint)
     if (closestIndex === -1) return
 
-    handleSetActiveSnap(closestSnapPoint)
-    setTransform(drawerRef.current, closestSnapPoint)
+    setActiveSnapPoint(closestSnapPoint)
+    setTransformStyle(drawerRef.current, closestSnapPoint.px, true)
   }
 
   return (
     <DrawerContext.Provider
       value={{
-        isOpen,
         drawerRef,
-        overlayRef,
-        snapPoints,
-        activeSnapPoint: activeSnap,
-        snapPointsOffset,
-        activeSnapPointIndex: activeSnapPointIndex !== -1 ? activeSnapPointIndex : null,
-        openAmountRef,
-        setTransform,
-        shouldDrag,
-        handleSetActiveSnap,
-        handleSetIsOpen,
         drawerHeightRef,
+        overlayRef,
+        openAmountRef,
+        snapPoints,
+        activeSnapPoint,
+        setActiveSnapPoint,
+        setTransform: setTransformStyle,
+        shouldDrag,
         onPress,
         onDrag,
         onRelease,
@@ -279,7 +233,6 @@ export function Root({
           position: 'fixed',
           inset: 0,
           zIndex: 50,
-          pointerEvents: isOpen ? 'auto' : 'none',
         }}
       >
         {children}
@@ -292,7 +245,7 @@ export const Content = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
-  const { drawerRef, snapPointsOffset, activeSnapPointIndex, onPress, onDrag, onRelease } =
+  const { drawerRef, snapPoints, onPress, onDrag, onRelease, openAmountRef } =
     useDrawerContext()
 
   const composedRef = useCallback(
@@ -311,6 +264,8 @@ export const Content = React.forwardRef<
   const isAllowedToDragRef = useRef(false)
   const dragStartTimeRef = useRef<Date | null>(null)
   const pointerStartYRef = useRef(0)
+
+  const maxSnapPoint = snapPoints[snapPoints.length - 1]
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     pointerStartRef.current = { x: e.pageX, y: e.pageY }
@@ -342,8 +297,10 @@ export const Content = React.forwardRef<
 
     wasBeyondThresholdRef.current = true
 
-    const isDraggingDown = e.pageY - (pointerStartRef.current?.y ?? e.pageY) > 0
-    const fullyOpen = (snapPointsOffset?.length ?? 0) > 0 && activeSnapPointIndex === (snapPointsOffset?.length ?? 0) - 1
+    const pxDragged = e.pageY - pointerStartRef.current.y
+    const isDraggingDown = pxDragged > 0
+    const amountOpenWithDrag = openAmountRef.current + (isDraggingDown ? -pxDragged : pxDragged)
+    const fullyOpen = amountOpenWithDrag >= maxSnapPoint.px - 1
     const scrollParent = getScrollParent(e.target as HTMLElement)
     if (!fullyOpen && !isDraggingDown) {
       e.preventDefault()
@@ -380,9 +337,6 @@ export const Content = React.forwardRef<
       style={{
         ...props.style,
         touchAction: 'pan-y',
-        '--snap-point-height': snapPointsOffset && activeSnapPointIndex !== null
-          ? `${snapPointsOffset[activeSnapPointIndex]}px`
-          : undefined,
       } as React.CSSProperties}
       {...props}
     >
@@ -473,16 +427,21 @@ function getScrollParent(node: HTMLElement | null): HTMLElement | null {
 /**
  * Translates snap points to pixel values. In output, 0 means 0 pixels from closed, 50 means 50 pixels open, etc.
  */
-function snapValueToOffset(value: number | string | null | undefined, containerHeight: number): number {
-  if (value === null || value === undefined) return 0
-  if (typeof value === 'string') return parseInt(value, 10) || 0
-  // Treat values <= 1 as percentages of viewport height, otherwise pixels
-  return value <= 1 ? Math.round(containerHeight * value) : Math.round(value)
+function normSnapPoint(value: number, containerHeight: number): SnapPoint {
+  if (value < 1) {
+    return {
+      px: Math.round(containerHeight * value) as Px,
+      fraction: value as Fraction,
+    }
+  } else {
+    return {
+      px: Math.round(value) as Px,
+      fraction: (value / containerHeight) as Fraction,
+    }
+  }
 }
 
-function calculateSnapPoints(snapPoints: (number | string)[] | undefined, containerHeight: number): number[] {
-  const offsets = (snapPoints ?? []).map(value => snapValueToOffset(value, containerHeight))
-  // Always include 0 (fully closed) and sort ascending
-  const withClosed = [0, ...offsets]
-  return Array.from(new Set(withClosed)).sort((a, b) => a - b)
+function normSnapPoints(snapPoints: number[], containerHeight: number): Array<SnapPoint> {
+  const offsets = snapPoints.map(value => normSnapPoint(value, containerHeight))
+  return Array.from(new Set(offsets)).sort((a, b) => a.px - b.px)
 }

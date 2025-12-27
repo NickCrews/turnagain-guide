@@ -237,14 +237,9 @@ function GalleryDrawer({
 }: {
   children: React.ReactNode
 }) {
-  const snapPoints = ['75px', .85];
-  const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
   return (
     <Drawer
-      open={true}
-      snapPoints={snapPoints}
-      activeSnapPoint={snap}
-      onActiveSnapPointChange={setSnap}
+      snapPoints={[75, .85]}
     >
       <DrawerContent className="h-full">
         <DrawerHandle />
@@ -262,22 +257,17 @@ function RouteDetailsDrawer({
   onClose,
   item,
 }: {
-  onClose?: () => void,
+  onClose: () => void,
   item: GeoItem
 }) {
-  const snapPoints = ['130px', .85];
-  const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
   return (
     <Drawer
-      open={true}
-      onOpenChange={(open: boolean) => {
-        if (!open && onClose) {
+      onResize={({ closestSnap }) => {
+        if (closestSnap.px === 0) {
           onClose();
         }
       }}
-      snapPoints={snapPoints}
-      activeSnapPoint={snap}
-      onActiveSnapPointChange={setSnap}
+      snapPoints={[0, 130, .85]}
     >
       <DrawerContent className="h-full px-2">
         <DrawerHandle />

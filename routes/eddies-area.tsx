@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/route-link";
-import Figure from "@/app/components/figure";
+import Figure from "@/app/components/Figure";
 import { type GeoItem } from "@/lib/geo-item";
 import { eddiesOverview } from "@/imageRegistry/images";
 

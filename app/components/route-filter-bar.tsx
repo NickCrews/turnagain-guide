@@ -2,9 +2,9 @@ import { Filters } from '@/app/components/item-explorer'
 import { Input } from '@/components/ui/input'
 import { FeatureType } from '@/lib/geo-item'
 import { ATES } from '@/lib/terrain-rating'
-import { AtesComboBox } from './ates'
+import { AtesComboBox } from './ATES'
 import { GeoTypeComboBox } from './geo-type-combo-box'
-import { AreaComboBox } from './area'
+import { AreaComboBox } from './Area'
 
 interface RouteFilterBarProps {
   filters: Filters,

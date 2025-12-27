@@ -242,11 +242,9 @@ function GalleryDrawer({
   return (
     <Drawer
       open={true}
-      // Allow interacting with background stuff
-      modal={false}
-      activeSnapPoint={snap}
       snapPoints={snapPoints}
-      setActiveSnapPoint={setSnap}
+      activeSnapPoint={snap}
+      onActiveSnapPointChange={setSnap}
     >
       <DrawerContent className="h-full">
         <DrawerHandle />
@@ -267,21 +265,19 @@ function RouteDetailsDrawer({
   onClose?: () => void,
   item: GeoItem
 }) {
-  const snapPoints = ['130px', .5, .85];
+  const snapPoints = ['130px', .85];
   const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
   return (
     <Drawer
       open={true}
-      onOpenChange={(open) => {
+      onOpenChange={(open: boolean) => {
         if (!open && onClose) {
           onClose();
         }
       }}
-      // Allow interacting with background stuff
-      modal={false}
-      activeSnapPoint={snap}
       snapPoints={snapPoints}
-      setActiveSnapPoint={setSnap}
+      activeSnapPoint={snap}
+      onActiveSnapPointChange={setSnap}
     >
       <DrawerContent className="h-full px-2">
         <DrawerHandle />

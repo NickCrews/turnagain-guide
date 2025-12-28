@@ -128,6 +128,8 @@ function addItemVisibility(items: GeoItem[], filters: Filters, selectedItemId: s
 
 export default function ItemExplorer({ items, selectedItem, setSelectedItem }: ItemExplorerProps) {
   const [filters, setFilters] = useFilters();
+  const [drawerIsExpanded, setDrawerIsExpanded] = useState<boolean>(false);
+  console.log('ItemExplorer render', { drawerIsExpanded });
   const itemsWithVisibility = useMemo(() => addItemVisibility(items, filters, selectedItem?.id), [
     // Use a stable representation of the array content instead of the reference.
     // This is avoid re-rendering all child components when the array reference changes.
@@ -192,6 +194,8 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
           <RouteDetailsDrawer
             onClose={handleBack}
             item={selectedItem}
+            isExpanded={drawerIsExpanded}
+            setIsExpanded={setDrawerIsExpanded}
           />
         </>
       );
@@ -202,7 +206,10 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
           {map}
           {filterBar}
         </div>
-        <GalleryDrawer>
+        <GalleryDrawer
+          isExpanded={drawerIsExpanded}
+          setIsExpanded={setDrawerIsExpanded}
+        >
           {gallery}
         </GalleryDrawer>
       </>
@@ -234,14 +241,25 @@ function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void
 
 function GalleryDrawer({
   children,
+  isExpanded,
+  setIsExpanded,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
+  isExpanded: boolean,
+  setIsExpanded: (isExpanded: boolean) => void,
 }) {
+  const snapPoints = [130, .85];
   return (
     <Drawer
-      snapPoints={[75, .85]}
+      snapPoints={snapPoints}
+      onSnap={({ newOpenAmount }) => {
+        console.log('GalleryDrawer onResize', newOpenAmount);
+        // setIsExpanded(newOpenAmount.fraction >= 0.8);
+      }}
+      defaultOpenAmount={isExpanded ? snapPoints[snapPoints.length - 1] : snapPoints[0]}
     >
-      <DrawerContent className="h-full">
+      {/* <DrawerHandle /> */}
+      <DrawerContent className="h-full px-2">
         <DrawerHandle />
         <DrawerTitle className="text-center">
           Routes
@@ -256,19 +274,27 @@ function GalleryDrawer({
 function RouteDetailsDrawer({
   onClose,
   item,
+  isExpanded,
+  setIsExpanded,
 }: {
   onClose: () => void,
   item: GeoItem
+  isExpanded: boolean,
+  setIsExpanded: (isExpanded: boolean) => void,
 }) {
+  const snapPoints = [0, 130, .85];
+  const resolvedDefaultOpenAmount = isExpanded ? snapPoints[snapPoints.length - 1] : snapPoints[1];
+  console.log('RouteDetailsDrawer render', { isExpanded, resolvedDefaultOpenAmount });
   return (
     <Drawer
-      onResize={({ newOpenAmount }) => {
-        console.log('Drawer onResize', newOpenAmount);
+      onSnap={({ newOpenAmount }) => {
         if (newOpenAmount.px === 0) {
           onClose();
         }
+        // setIsExpanded(newOpenAmount.fraction >= 0.8);
       }}
-      snapPoints={[0, 130, .85]}
+      snapPoints={snapPoints}
+      defaultOpenAmount={resolvedDefaultOpenAmount}
     >
       <DrawerContent className="h-full px-2">
         <DrawerHandle />

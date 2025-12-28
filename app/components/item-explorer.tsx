@@ -253,7 +253,7 @@ function GalleryDrawer({
     <Drawer
       snapPoints={snapPoints}
       onSnap={({ newOpenAmount }) => {
-        console.log('GalleryDrawer onResize', newOpenAmount);
+        // console.log('GalleryDrawer onResize', newOpenAmount);
         // setIsExpanded(newOpenAmount.fraction >= 0.8);
       }}
       defaultOpenAmount={isExpanded ? snapPoints[snapPoints.length - 1] : snapPoints[0]}
@@ -284,7 +284,6 @@ function RouteDetailsDrawer({
 }) {
   const snapPoints = [0, 130, .85];
   const resolvedDefaultOpenAmount = isExpanded ? snapPoints[snapPoints.length - 1] : snapPoints[1];
-  console.log('RouteDetailsDrawer render', { isExpanded, resolvedDefaultOpenAmount });
   return (
     <Drawer
       onSnap={({ newOpenAmount }) => {

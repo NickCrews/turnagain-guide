@@ -87,7 +87,6 @@ export function Root({
     const snapped = findClosestSnapPoint(pm.getResolvedSnapPoints(), resolved.px)
     pm.setOpenAmount(snapped)
     _syncTransform(true)
-    console.log('Drawer handleSnappedTo', { openAmount, resolved, snapped });
     onSnap?.({ newOpenAmount: snapped })
     return snapped;
   }
@@ -99,7 +98,6 @@ export function Root({
       initialOpenAmount: defaultOpenAmount as Px | Fraction,
       abstractSnapPoints: abstractSnapPoints as Array<Px>,
     })
-    console.log('Drawer Root useEffect, created PositionManager', pm)
     setPositionManager(pm)
     _syncTransform(false)
     return () => {
@@ -109,7 +107,6 @@ export function Root({
 
   function _syncTransform(transition: boolean) {
     const translateY = Math.max(0, pm.getContainerHeight() - pm.getOpenAmount().px)
-    console.log('syncTransform', { translateY, transition })
     const element = drawerRef.current
     if (!element) return
     element.style.transform = `translate3d(0, ${translateY}px, 0)`
@@ -348,7 +345,6 @@ function useDragDetector(options: DragDetectorOptions): DragDetector {
     }
     const startingOpenAmount = dragStartInfoRef.current.openAmount
     const newOpenAmount = startingOpenAmount - deltaY as Px
-    console.log('handlePointerMoveCapture', { startingOpenAmount, newOpenAmount, deltaY })
 
     e.stopPropagation()
     options.onDraggedTo?.(newOpenAmount)
@@ -371,14 +367,6 @@ function useDragDetector(options: DragDetectorOptions): DragDetector {
     const closestSnapPoint = findClosestSnapPoint(options.getSnapPoints(), newOpenAmount)
     options.onSnappedTo?.(closestSnapPoint.px)
     dragStartInfoRef.current = null
-
-    console.log('handlePointerUpCapture', {
-      draggedDistance,
-      timeTakenMs,
-      speed,
-      newOpenAmount,
-      closestSnapPoint,
-    })
   }
 
   return {

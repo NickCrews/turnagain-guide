@@ -262,8 +262,9 @@ function RouteDetailsDrawer({
 }) {
   return (
     <Drawer
-      onResize={({ closestSnap }) => {
-        if (closestSnap.px === 0) {
+      onResize={({ newOpenAmount }) => {
+        console.log('Drawer onResize', newOpenAmount);
+        if (newOpenAmount.px === 0) {
           onClose();
         }
       }}

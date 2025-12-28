@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils'
 
 const TRANSITIONS = { DURATION: 0.5, EASE: [0.32, 0.72, 0, 1] } as const;
 const SPEED_THRESHOLD = 0.4 as const;
-const DRAG_CLASS = 'vaul-dragging' as const;
 
 interface DrawerContextType {
   drawerRef: React.RefObject<HTMLDivElement | null>
@@ -343,6 +342,7 @@ function useDragDetector(options: DragDetectorOptions): DragDetector {
       console.log('not dragging because shouldDrag returned false')
       return
     }
+    console.log('dragging...')
     const startingOpenAmount = dragStartInfoRef.current.openAmount
     const newOpenAmount = startingOpenAmount - deltaY as Px
 

@@ -161,8 +161,7 @@ export const Content = React.forwardRef<
       ref={composedRef}
       data-drawer-content=""
       className={cn(
-        // 'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[30px] border bg-background',
-        'fixed inset-x-0 top-full z-50 mt-24 flex h-auto flex-col rounded-t-[30px] border bg-background',
+        'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[30px] border bg-background',
         className
       )}
       style={{

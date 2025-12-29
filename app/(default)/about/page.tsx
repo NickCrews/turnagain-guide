@@ -1,17 +1,19 @@
+import Prose from "../prose";
+
 export default function AboutPage() {
   return (
-    <div className="prose p-4 mx-auto">
-      <h1>About</h1>
-      
+    <Prose>
+      <h1> About</ h1>
+
       <h2>Goals</h2>
-      
+
       <h3>Free and Open</h3>
       <p>
         This is your public land. Info on it should be public too.
         Discussion on how to improve it is welcome, and should be public.
         The source code is available on <a href="https://github.com/NickCrews/turnagain-guide-next">GitHub</a>.
       </p>
-      
+
       <h3>Community Driven</h3>
       <p>
         Please get in touch at <em>nicholas.b.crews+turnagain.guide@gmail.com</em>.
@@ -20,14 +22,14 @@ export default function AboutPage() {
         The help of many will polish this to it&apos;s best version.
         Note that I reserve the right to make final decisions (for now)
       </p>
-      
+
       <h3>Useful</h3>
       <p>
         Maps, descriptions, etc can actually help you plan a trip.
         eg where is good for a storm day? What are your exit options
         for high-avalanche danger day?
       </p>
-      
+
       <h3>Digital-first</h3>
       <p>
         We can do better than book-only guidebooks.
@@ -42,9 +44,9 @@ export default function AboutPage() {
         <li>realtime corrections and updates</li>
         <li>etc.</li>
       </ul>
-      
+
       <h2>License</h2>
       <p>Released into the public domain. All contributions are also public domain.</p>
-    </div>
+    </Prose>
   );
 }

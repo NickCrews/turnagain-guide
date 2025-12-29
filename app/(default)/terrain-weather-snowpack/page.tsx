@@ -1,8 +1,10 @@
+import Prose from "../prose";
+
 export default function TerrainWeatherSnowpackPage() {
   return (
-    <div className="prose p-4 mx-auto">
+    <Prose>
       <h1>Terrain, Snowpack, and Weather</h1>
-      
+
       <h2>Terrain</h2>
       <p>
         The Seward Highway tops out in Turnagain Pass at 1000 feet.
@@ -19,9 +21,9 @@ export default function TerrainWeatherSnowpackPage() {
         them without too much difficulty, though there are sometimes devils club or
         blueberry patches that get in yor way, especially during low snow.
       </p>
-      
+
       <h2>Weather</h2>
-      
+
       <h3>Wind</h3>
       <p>
         In many other areas, wind tends to have consistent behavior.
@@ -41,7 +43,7 @@ export default function TerrainWeatherSnowpackPage() {
         ridge every year, even if maybe a kilometer away the cornices all form on the other
         side of the ridge.
       </p>
-      
+
       <h3>Rain</h3>
       <p>
         It can rain here. It is common for rainline to climb all the way to 3000 feet
@@ -53,7 +55,7 @@ export default function TerrainWeatherSnowpackPage() {
         If it&apos;s higher, you can still have good skiing, but you are going to have to
         pay the toll of climbing through the rain line to get it.
       </p>
-      
+
       <h3>Solar input</h3>
       <p>
         The sun has less effect in Alaska than you might be used to if you are coming from
@@ -75,7 +77,7 @@ export default function TerrainWeatherSnowpackPage() {
         fraction of the day.
         Third, it&apos;s a lot cloudier than Colorado.
       </p>
-      
+
       <h3>Radiative Cooling</h3>
       <p>
         The &ldquo;inverse&rdquo; of solar input is radiative cooling.
@@ -107,10 +109,10 @@ export default function TerrainWeatherSnowpackPage() {
         Typically, this radiative cooling has the most effect at night,
         but it can also be significant during a clear day if you are in a shadowy north-facing zone.
       </p>
-      
+
       <h3>Common Patterns</h3>
       <p>There are several common patterns that the weather follows.</p>
-      
+
       <h4>Gulf Storm</h4>
       <p>
         A storm system comes from the Gulf of Alaska and hits Turnagain Pass from the West,
@@ -123,7 +125,7 @@ export default function TerrainWeatherSnowpackPage() {
         These storms can sometimes just sit on Turnagain Pass and DUMP precipitation for
         5 days straight.
       </p>
-      
+
       <h4>Cook Inlet Storms</h4>
       <p>
         These storms move up Cook Inlet and come over the Kenai Mountains to hit Turnagain Pass
@@ -132,7 +134,7 @@ export default function TerrainWeatherSnowpackPage() {
         with precipitation, as well as the South end of the pass, where the North end of the
         pass is skipped.
       </p>
-      
+
       <h4>Northern Outflows</h4>
       <p>
         Oftentimes a high pressure system from the center of alaska flows South past Anchorage
@@ -144,7 +146,7 @@ export default function TerrainWeatherSnowpackPage() {
         When this system moves in with less wind, then this pattern can make for
         excellent riding conditions.
       </p>
-      
+
       <h2>Snowpack and Avalanches</h2>
       <p>
         Turnagain Pass has a maritime snowpack, receiving hundreds of inches of
@@ -155,13 +157,13 @@ export default function TerrainWeatherSnowpackPage() {
         <a href="https://www.cnfaic.org/forecast/turnagain/"> CNFAIC</a>
         (Chugach National Forest Avalanche Information Center).
       </p>
-      
+
       <h3>Ground Hoar</h3>
       <p>
         We don&apos;t usually get it. Hurray! So that means we don&apos;t usually have to
         worry about avalanches breaking at the ground.
       </p>
-      
+
       <h3>Glide Cracks</h3>
       <p>
         We DO have a hazard that is a lot less common in other zones: glide cracks.
@@ -193,6 +195,6 @@ export default function TerrainWeatherSnowpackPage() {
           around them
         </li>
       </ul>
-    </div>
+    </Prose>
   );
 }

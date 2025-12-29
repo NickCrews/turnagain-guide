@@ -1,8 +1,10 @@
+import Prose from "../prose";
+
 export default function ResourcesPage() {
   return (
-    <div className="prose p-4 mx-auto">
+    <Prose>
       <h1>Resources</h1>
-      
+
       <h2>Facebook Groups</h2>
       <p>
         The <a href="https://www.facebook.com/groups/583971298332539/">Alaska Backcountry Ski Addiction</a>{" "}
@@ -29,7 +31,7 @@ export default function ResourcesPage() {
         {" "} <a href="/turnagain-pass.gpx" download>GPX</a> files for that purpose.
         These files contain all routes, areas, and points of interest shown on this site.
       </p>
-      
+
       <h2>Strava Heatmap</h2>
       <p>
         Use the <a href="https://www.strava.com/maps/global-heatmap?sport=WinterLike&style=winter&terrain=true&labels=true&poi=false&cPhotos=false&gColor=orange&gOpacity=100#9.83/60.7484/-149.1691">Strava Global Heatmap</a> to find where people commonly go.
@@ -37,7 +39,7 @@ export default function ResourcesPage() {
         If you use GaiaGPS, you can add the Strava Heatmap as a layer
         by following <a href="https://gist.github.com/NickCrews/bdd7dc9d5d82003611dce0932a202644">this tutorial</a>.
       </p>
-      
+
       <h2>Stores</h2>
       <ul>
         <li>
@@ -57,7 +59,7 @@ export default function ResourcesPage() {
           as AMH, but otherwise are great.
         </li>
       </ul>
-      
+
       <h2>Guide Services and Courses</h2>
       <p>Do you see someone missing? Contact me to add them!</p>
       <ul>
@@ -76,6 +78,6 @@ export default function ResourcesPage() {
           <a href="https://elliotgaddy.com/">Elliot Gaddy</a> is an IFMGA Mountain Guide based in Anchorage.
         </li>
       </ul>
-    </div>
+    </Prose>
   );
 }

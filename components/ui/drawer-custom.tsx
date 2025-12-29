@@ -176,8 +176,11 @@ export const Content = React.forwardRef<
       style={{
         ...props.style,
         pointerEvents: 'auto',
+        // touchAction: 'pan-x',
+        // touchAction: 'pan-y',
+        // touchAction: 'none',
       } as React.CSSProperties}
-      {...dragDetector.handlers}
+      // {...dragDetector.handlers}
       {...props}
     >
       {children}
@@ -258,9 +261,10 @@ export const Drawer = {
 interface DragDetector {
   /** Handlers to be spread onto the draggable element */
   handlers: {
-    onPointerDownCapture: (e: React.PointerEvent<HTMLDivElement>) => void
-    onPointerMoveCapture: (e: React.PointerEvent<HTMLDivElement>) => void
-    onPointerUpCapture: (e: React.PointerEvent<HTMLDivElement>) => void
+    onPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void
+    onPointerMove: (e: React.PointerEvent<HTMLDivElement>) => void
+    onPointerUp: (e: React.PointerEvent<HTMLDivElement>) => void
+    onPointerCancel: (e: React.PointerEvent<HTMLDivElement>) => void
   }
 }
 
@@ -272,10 +276,10 @@ interface DragDetectorOptions {
 }
 
 function useDragDetector(options: DragDetectorOptions): DragDetector {
-  const dragStartInfoRef = useRef<{ x: number; y: number, time: number, openAmount: Px } | null>(null)
+  const dragStartInfoRef = useRef<{ x: number; y: number, time: number, openAmount: Px, target: HTMLElement } | null>(null)
 
-  const handlePointerDownCapture = (e: React.PointerEvent<HTMLDivElement>) => {
-    dragStartInfoRef.current = { x: e.pageX, y: e.pageY, time: Date.now(), openAmount: options.getOpenAmount() }
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    dragStartInfoRef.current = { x: e.pageX, y: e.pageY, time: Date.now(), openAmount: options.getOpenAmount(), target: e.target as HTMLElement }
   }
 
   function isFullyOpen(): boolean {
@@ -319,7 +323,7 @@ function useDragDetector(options: DragDetectorOptions): DragDetector {
     return true
   }
 
-  const handlePointerMoveCapture = (e: React.PointerEvent<HTMLDivElement>) => {
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!dragStartInfoRef.current) return
 
     // These are in screen space, eg positive Y is down the screen
@@ -333,14 +337,14 @@ function useDragDetector(options: DragDetectorOptions): DragDetector {
     if (deltaYAbs <= threshold && deltaXAbs <= threshold) {
       return
     }
-    if (deltaXAbs > deltaYAbs) {
-      // This cancels the drag, the user needs to trigger onPointerDown again to start a new drag
-      dragStartInfoRef.current = null
-      return
-    }
+    // if (deltaXAbs > deltaYAbs) {
+    // This cancels the drag, the user needs to trigger onPointerDown again to start a new drag
+    // dragStartInfoRef.current = null
+    // return
+    // }
     const isClosing = deltaY > 0
-    if (!shouldDrag(e.target as HTMLElement, isClosing)) {
-      console.log('not dragging because shouldDrag returned false')
+    if (!shouldDrag(dragStartInfoRef.current.target, isClosing)) {
+      console.log('not dragging due to scrollable content, letting scroll happen')
       return
     }
     console.log('dragging...')
@@ -352,7 +356,7 @@ function useDragDetector(options: DragDetectorOptions): DragDetector {
   }
 
 
-  const handlePointerUpCapture = (e: React.PointerEvent<HTMLDivElement>) => {
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!dragStartInfoRef.current) return
 
     // in screen space, positive Y is down the screen
@@ -370,11 +374,16 @@ function useDragDetector(options: DragDetectorOptions): DragDetector {
     dragStartInfoRef.current = null
   }
 
+  function handlePointerCancel(e: React.PointerEvent<HTMLDivElement>) {
+    dragStartInfoRef.current = null
+  }
+
   return {
     handlers: {
-      onPointerDownCapture: handlePointerDownCapture,
-      onPointerMoveCapture: handlePointerMoveCapture,
-      onPointerUpCapture: handlePointerUpCapture,
+      onPointerDown: handlePointerDown,
+      onPointerMove: handlePointerMove,
+      onPointerUp: handlePointerUp,
+      onPointerCancel: handlePointerCancel
     },
   }
 }

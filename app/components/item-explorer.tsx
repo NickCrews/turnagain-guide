@@ -283,7 +283,8 @@ function RouteDetailsDrawer({
   setIsExpanded: (isExpanded: boolean) => void,
 }) {
   const snapPoints = [0, 130, .85];
-  const resolvedDefaultOpenAmount = isExpanded ? snapPoints[snapPoints.length - 1] : snapPoints[1];
+  // const resolvedDefaultOpenAmount = isExpanded ? snapPoints[snapPoints.length - 1] : snapPoints[1];
+  const resolvedDefaultOpenAmount = .85
   return (
     <Drawer
       onSnap={({ newOpenAmount }) => {
@@ -308,7 +309,7 @@ function RouteDetailsDrawer({
           </DrawerClose>
         </div>
         {/* TODO: this scroll behavior isn't great. */}
-        <div className="overflow-y-auto h-full">
+        <div className="overflow-y-scroll h-full">
           {item.properties.images && <ImageCarousel images={item.properties.images} triggerLightbox={true} />}
           <RouteProperties item={item} />
           <RouteProse item={item} />

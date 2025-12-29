@@ -303,16 +303,17 @@ function useDragDetector(options: DragDetectorOptions): DragDetector {
       return false
     }
 
-    while (element) {
-      if (element.scrollHeight > element.clientHeight) {
-        if (element.scrollTop !== 0) {
+    let currentElement = element as HTMLElement | null
+    while (currentElement) {
+      if (currentElement.scrollHeight > currentElement.clientHeight) {
+        if (currentElement.scrollTop !== 0) {
           return false
         }
-        if (element.getAttribute('role') === 'dialog') {
+        if (currentElement.getAttribute('role') === 'dialog') {
           return true
         }
       }
-      element = element.parentNode as HTMLElement
+      currentElement = currentElement.parentElement
     }
 
     return true

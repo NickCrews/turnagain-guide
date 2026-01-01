@@ -14,6 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "./button";
+import { Checkbox } from "./checkbox";
 
 interface Item {
   value: string;
@@ -29,7 +30,7 @@ export interface MultiComboProps<I extends Item> {
   descriptionCallback?: (values: I[]) => React.ReactNode;
   labelCallback: (values: I[]) => React.ReactNode;
 }
-  
+
 
 export function MultiCombo<I extends Item>(
   { itemOptions: items, selectedItems, onSelected, descriptionCallback, labelCallback }: MultiComboProps<I>,
@@ -53,7 +54,7 @@ export function MultiCombo<I extends Item>(
           role="combobox"
           aria-expanded={openCombobox}
           className={cn(
-            "justify-between text-foreground border h-9 py-2 transition-colors",
+            "justify-between text-foreground border h-9 p-2 transition-colors",
             selectedItems.length > 0
               ? "ring-2 ring-primary"
               : ""
@@ -76,7 +77,7 @@ export function MultiCombo<I extends Item>(
           <ChevronDown className="w-4 h-4 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-2">
+      <PopoverContent align="start" className="p-1">
         <Command loop>
           {description}
           <CommandList>
@@ -88,12 +89,7 @@ export function MultiCombo<I extends Item>(
                   value={item.value}
                   onSelect={() => setItemSelected(selectedItems, item, !isSelected)}
                 >
-                  <Check
-                    className={cn(
-                      "h-4 w-4",
-                      isSelected ? "opacity-100" : "opacity-0",
-                    )}
-                  />
+                  <Checkbox checked={isSelected} />
                   {ItemToBadge(item)}
                 </CommandItem>
               );
@@ -117,5 +113,5 @@ const ItemToBadge = ({ label, value, bgColor, textColor }: Item) => {
     className="whitespace-nowrap border-2"
   >
     {label}
-</Badge>
+  </Badge>
 }

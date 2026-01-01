@@ -307,7 +307,7 @@ function RouteDetailsDrawer({
         </div>
         {/* TODO: this scroll behavior isn't great. */}
         <div className="overflow-y-auto h-full">
-          {item.properties.images && <ImageCarousel images={item.properties.images} triggerLightbox={true} />}
+          {item.properties.images.length > 0 && <ImageCarousel images={item.properties.images} triggerLightbox={true} />}
           <RouteProperties item={item} />
           <RouteProse item={item} />
           <SubRoutes childrenIds={item.properties.children} />

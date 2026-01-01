@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/drawer'
 import { Button } from "@/components/ui/button";
 import ImageCarousel from "@/app/components/image-carousel";
+import { cn } from "@/lib/utils";
 
 interface ItemExplorerProps {
   items: GeoItem[]
@@ -160,7 +161,16 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
   />
 
   const filterBar = (
-    <div className="absolute top-0 left-0 z-10 w-full overflow-x-auto">
+    <div className={cn(
+      "absolute top-0 left-0 z-10",
+      // Absolute positioning resets width, so we need to explicitly set it to
+      // width of the container. Also enable horizontal scrolling if needed.
+      "w-full overflow-x-auto",
+      // hide scrollbars
+      "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+      // fade out to transparent on the right to indicate more content
+      "[mask-image:linear-gradient(to_right,black_calc(100%-80px),transparent)] [-webkit-mask-image:linear-gradient(to_right,black_calc(100%-80px),transparent)]"
+    )}>
       <RouteFilterBar filters={filters} setFilters={setFilters} />
     </div>
   )

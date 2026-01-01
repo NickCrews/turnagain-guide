@@ -29,19 +29,13 @@ export default function RouteFilterBar({ filters, setFilters }: RouteFilterBarPr
   }
 
   return (
-    <div className="flex gap-2 p-2 items-center overflow-x-auto min-w-0">
-      <div className="shrink-0">
+    <div className="flex gap-2 p-2">
+      <div className="min-w-[150px] w-fit">
         <SearchBar query={filters.query} setQuery={handleSetQuery} />
       </div>
-      <div className="shrink-0">
-        <AreaComboBox selected={filters.areas} onSelected={handleSetSelectedAreas} />
-      </div>
-      <div className="shrink-0">
-        <GeoTypeComboBox selected={filters.types} onSelected={handleSetSelectedTypes} />
-      </div>
-      <div className="shrink-0">
-        <AtesComboBox selected={filters.atesRatings} onSelected={handleSetSelectedAtesRatings} />
-      </div>
+      <AreaComboBox selected={filters.areas} onSelected={handleSetSelectedAreas} />
+      <GeoTypeComboBox selected={filters.types} onSelected={handleSetSelectedTypes} />
+      <AtesComboBox selected={filters.atesRatings} onSelected={handleSetSelectedAtesRatings} />
     </div>
   )
 }

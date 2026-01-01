@@ -1,7 +1,7 @@
 'use client'
 // oops, does this force all children to be client components? is this bad?
 
-import { Cartesian3, createWorldTerrainAsync, Ion, ImageryLayer,UrlTemplateImageryProvider, Viewer } from 'cesium';
+import { Cartesian3, createWorldTerrainAsync, Ion, ImageryLayer, UrlTemplateImageryProvider, Viewer, NavigationHelpButton } from 'cesium';
 import { createContext, useContext, useEffect, useId, useState } from 'react';
 import { WORLD_IMAGERY_URL_TEMPLATE } from "../../lib/tiles";
 
@@ -62,6 +62,8 @@ export function ViewerProvider({ children }: { children: React.ReactNode }) {
   }
   Ion.defaultAccessToken = process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN;
 
+  const NAV_HELP_BUTTON_ID = 'navigationHelpButtonContainer';
+
   const [viewer, setViewer] = useState<Viewer | null>(null);
   const mapId = useId();
 
@@ -99,13 +101,14 @@ export function ViewerProvider({ children }: { children: React.ReactNode }) {
           return undefined;
         }
       }
+      new NavigationHelpButton({ container: NAV_HELP_BUTTON_ID });
 
       const v = new Viewer(mapId, {
         geocoder: false,
         homeButton: false,
         sceneModePicker: false,
         baseLayerPicker: false,
-        navigationHelpButton: true,
+        navigationHelpButton: false,
         animation: false,
         timeline: false,
         fullscreenButton: false,
@@ -177,7 +180,10 @@ export function ViewerProvider({ children }: { children: React.ReactNode }) {
       When a client component wants to use the map, it 
       */}
       {/* take up full width and height, the parent sets the size */}
-      <div id={mapId} className="h-full w-full"/>
+      <div id={mapId} className="h-full w-full" />
+      {/* Put in top right (the help popover always expands down and left),
+        but below the filter bar */}
+      <div id={NAV_HELP_BUTTON_ID} className="absolute top-[50px] right-2 z-20" />
     </div>
   </>
 }

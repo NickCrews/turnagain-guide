@@ -21,7 +21,7 @@ export const geoItem = {
     <p>
       This is the parking lot at the bottom of Turnagain Pass next to Turnagain Arm,
       just before the highway starts climbing up into the pass.
-      This is also known as the "Ingram Creek Parking Lot" since that is where
+      This is also known as the &quot;Ingram Creek Parking Lot&quot; since that is where
       Ingram Creek (the main creek in Turnagain Pass) meets the Arm.
     </p>
     <p>
@@ -32,7 +32,7 @@ export const geoItem = {
     <p>
       I have heard that people use this to access <RouteLink routeID="wolverine-peak">
         Wolverine Peak
-      </RouteLink> by connecting through meadows. I haven't done this myself yet, if
+      </RouteLink> by connecting through meadows. I haven&apos;t done this myself yet, if
       you have better info, please let me know!
     </p>
   </>,

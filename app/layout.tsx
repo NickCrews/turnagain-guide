@@ -7,6 +7,7 @@ import { ElevationUnitsProvider, DistanceUnitsProvider } from "@/app/components/
 import { GeoItemsProvider } from "@/app/components/items-context";
 import { loadGeoItems } from "@/lib/geo-item";
 import { TouchProvider } from "@/components/ui/touch-context";
+import { SerwistProvider } from "./serwist";
 
 export const metadata: Metadata = {
   title: {
@@ -28,18 +29,21 @@ export default async function RootLayout({
   const items = await loadGeoItems();
   return (
     <html lang="en">
+      <head />
       <body className="antialiased">
-        <ViewerProvider>
-          <GeoItemsProvider items={items}>
-            <ElevationUnitsProvider>
-              <DistanceUnitsProvider>
-                <TouchProvider>
-                  {children}
-                </TouchProvider>
-              </DistanceUnitsProvider>
-            </ElevationUnitsProvider>
-          </GeoItemsProvider>
-        </ViewerProvider>
+        <SerwistProvider swUrl="/sw.js">
+          <ViewerProvider>
+            <GeoItemsProvider items={items}>
+              <ElevationUnitsProvider>
+                <DistanceUnitsProvider>
+                  <TouchProvider>
+                    {children}
+                  </TouchProvider>
+                </DistanceUnitsProvider>
+              </ElevationUnitsProvider>
+            </GeoItemsProvider>
+          </ViewerProvider>
+        </SerwistProvider>
       </body>
     </html>
   );

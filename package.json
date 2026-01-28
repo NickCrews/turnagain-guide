@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "add-component": "pnpm dlx shadcn@latest add",
-    "dev": "next dev --port 1337",
-    "build": "next build",
+    "dev": "concurrently -p none 'serwist build --watch' 'next dev --port 1337'",
+    "build": "next build && serwist build",
     "start": "next start",
     "lint": "eslint .",
     "serve": "pnpx http-server out/ -p 1338"
@@ -22,7 +22,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@radix-ui/react-visually-hidden": "^1.2.3",
-    "@serwist/next": "^9.2.1",
+    "@serwist/next": "^9.5.0",
     "@serwist/precaching": "^9.2.1",
     "@serwist/sw": "^9.2.1",
     "@types/geojson": "^7946.0.16",
@@ -37,7 +37,6 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-zoom-pan-pinch": "^3.7.0",
-    "serwist": "^9.2.1",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2"
@@ -45,15 +44,19 @@
   "devDependencies": {
     "@eslint/compat": "^1.3.2",
     "@eslint/eslintrc": "^3.3.1",
+    "@serwist/cli": "^9.5.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20.19.13",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
+    "concurrently": "^9.2.1",
+    "esbuild": "^0.27.2",
     "eslint": "^9.35.0",
     "eslint-config-next": "15.1.3",
     "eslint-plugin-react-hooks": "^5.2.0",
     "postcss": "^8.5.6",
+    "serwist": "^9.2.1",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2"
   },

@@ -1,14 +1,13 @@
-import withSerwistInit from '@serwist/next';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import { NextConfig } from 'next';
 
-const basicConfig: NextConfig = {
+const config: NextConfig = {
   // Next.js config options
 
   // make a static website
   output: 'export',
-  
+
   // For a static website, we can't use a dynamincally optimized <Image>
   // components. Explicitly opt out of the optimization.
   images: {
@@ -71,13 +70,4 @@ const basicConfig: NextConfig = {
   },
 }
 
-const withSerwist = withSerwistInit({
-  swSrc: 'app/sw.ts',
-  swDest: 'public/sw.js',
-  // The cesium assets are large, so we need to increase the cache limit
-  maximumFileSizeToCacheInBytes: 5 * 1024 ** 2, // 5 MB
-  reloadOnOnline: false,
-});
-
-
-export default withSerwist(basicConfig);
+export default config;

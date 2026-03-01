@@ -134,7 +134,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
                                     >
                                         <img
                                             src={imagePath}
-                                            alt={imageAltText}
+                                            alt={imageAltText ?? ''}
                                             title={imageAltText}
                                             className="w-full h-full object-cover"
                                         />
@@ -145,7 +145,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
                                     <img
                                         key={index}
                                         src={imagePath}
-                                        alt={imageAltText}
+                                        alt={imageAltText ?? ''}
                                         title={imageAltText}
                                         className="w-full h-full flex-shrink-0 object-cover"
                                     />

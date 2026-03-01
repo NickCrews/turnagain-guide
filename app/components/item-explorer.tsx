@@ -1,12 +1,12 @@
 'use client'
 
-import { FeatureType, GeoItem, FEATURE_TYPES } from "@/lib/geo-item";
+import { GeoItem, FEATURE_TYPES } from "@/lib/geo-item";
 import Map from "./map";
 import ItemGallery from "./item-gallery";
 import { RouteProperties, RouteProse, SubRoutes } from "./route-detail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RouteFilterBar from "./route-filter-bar";
-import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
+import { ATES_VALUES } from "@/lib/terrain-rating";
 import { useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
 import { useGeoItems } from "@/app/components/items-context";
@@ -21,18 +21,12 @@ import {
 import { Button } from "@/components/ui/button";
 import ImageCarousel from "@/app/components/image-carousel";
 import { cn } from "@/lib/utils";
+import { type Filters, type ItemWithVisibility, filtersToQueryString, addItemVisibility } from "@/lib/filters";
 
 interface ItemExplorerProps {
   items: GeoItem[]
   selectedItem?: GeoItem | null
   setSelectedItem?: (item: GeoItem | null) => void
-}
-
-export interface Filters {
-  areas: Set<string>
-  types: Set<FeatureType>
-  atesRatings: Set<ATES>
-  query: string
 }
 
 function useFilters(): [Filters, (filters: Filters) => void] {
@@ -66,66 +60,6 @@ function useFilters(): [Filters, (filters: Filters) => void] {
   return [filters, setFilters];
 }
 
-function filtersToQueryString(filters: Filters) {
-  const params = new URLSearchParams();
-  if (filters.query) {
-    params.set('query', filters.query);
-  }
-  const clauses = [];
-  // I want a pretty URL like `types=ascent,descent` but if we use
-  // the builtin params.toString() then the `,` gets escaped into
-  // `types=ascent%2Cdescent`
-  if (filters.areas.size) {
-    clauses.push("areas=" + Array.from(filters.areas).join(','));
-  }
-  if (filters.types.size) {
-    clauses.push("types=" + Array.from(filters.types).join(','));
-  }
-  if (filters.atesRatings.size) {
-    clauses.push("ates=" + Array.from(filters.atesRatings).join(','));
-  }
-  let clausesString = clauses.join('&');
-  let queryString = params.toString();
-  if (clausesString.length) {
-    if (queryString.length) {
-      clausesString = "&" + clausesString;
-    }
-    queryString = queryString + clausesString;
-  }
-  return queryString;
-}
-
-// This is a GeoItem, but with an additional isVisible property
-export interface ItemWithVisibility extends GeoItem {
-  isVisible: boolean
-}
-
-function addItemVisibility(items: GeoItem[], filters: Filters, selectedItemId: string | undefined) {
-  const isItemVisible = (item: GeoItem) => {
-    if (selectedItemId && item.id === selectedItemId) {
-      return true;
-    }
-
-    const matchesArea = item.properties.feature_type === "area" ? (
-      filters.areas.size > 0 && filters.areas.has(item.id)
-    ) : (
-      filters.areas.size == 0 || filters.areas.has(item.properties.area ?? '')
-    );
-    const matchesType = filters.types.size == 0 || filters.types.has(item.properties.feature_type);
-    const matchesAtes = filters.atesRatings.size == 0 || (item.properties.nicks_ates_ratings.length == 0)
-      || item.properties.nicks_ates_ratings.some(rating => filters.atesRatings.has(rating));
-
-    const terms = filters.query.toLowerCase().split(' ');
-    const matchesQuery = terms.length === 0 || terms.every(term => item.properties.title.toLowerCase().includes(term));
-
-    return matchesArea && matchesType && matchesAtes && matchesQuery;
-  }
-
-  return items.map(item => ({
-    ...item,
-    isVisible: isItemVisible(item),
-  }))
-}
 
 export default function ItemExplorer({ items, selectedItem, setSelectedItem }: ItemExplorerProps) {
   const [filters, setFilters] = useFilters();

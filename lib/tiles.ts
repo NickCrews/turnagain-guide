@@ -1,4 +1,4 @@
-function latLonToSlippy(lat: number, lon: number, zoom: number) {
+export function latLonToSlippy(lat: number, lon: number, zoom: number) {
     // from https://gis.stackexchange.com/a/461861/125638
     // and https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Pseudo-code
     const n = 2 ** zoom;
@@ -17,7 +17,7 @@ interface Bounds {
     lon2: number;
 }
 
-function boundsToSlippys(bounds: Bounds, zoom: number) {
+export function boundsToSlippys(bounds: Bounds, zoom: number) {
     const { lat1, lon1, lat2, lon2 } = bounds;
     const { x: x1, y: y1 } = latLonToSlippy(lat1, lon1, zoom);
     const { x: x2, y: y2 } = latLonToSlippy(lat2, lon2, zoom);

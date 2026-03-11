@@ -1,7 +1,7 @@
 import { GeoItem } from '@/lib/geo-item';
-import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/units';
-import { AtesBadges } from './ates';
-import { AreaBadge } from './area';
+import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/Units';
+import { AtesBadges } from './ATES';
+import { AreaBadge } from './Area';
 import { useGeoItems } from '@/app/components/items-context';
 import Link from '@/components/ui/link';
 import ItemGallery from './item-gallery';

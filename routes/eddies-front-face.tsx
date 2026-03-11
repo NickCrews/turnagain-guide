@@ -1,4 +1,4 @@
-import Figure from "@/app/components/figure";
+import Figure from "@/app/components/Figure";
 import Link from "@/components/ui/link";
 import RouteLink from "@/app/components/route-link";
 import { type GeoItem } from "@/lib/geo-item";

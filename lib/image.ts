@@ -15,6 +15,8 @@ export interface GuideImage {
     elevation?: number,
     /** Direction in degrees, where 0 = North, 90 = East, etc. */
     direction?: number,
+    /** ISO 8601 datetime string, e.g. "2024-03-15T10:30:00" */
+    datetime?: string,
 }
 
 /** In order of preference: altText, title, description, undefined */

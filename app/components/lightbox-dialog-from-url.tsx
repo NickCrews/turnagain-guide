@@ -3,7 +3,7 @@
 import { type ReactNode } from 'react';
 import { LightboxDialog } from '@/app/components/lightbox-dialog';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import { getId, GuideImage } from '@/lib/image';
+import { GuideImage } from '@/imageRegistry/images';
 
 export interface LightboxDialogFromUrlParams {
   children: ReactNode;
@@ -17,10 +17,10 @@ export const LightboxDialogFromUrl = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const imgIdParam = searchParams.get('lightbox');
-  const index = images.findIndex(img => getId(img) === imgIdParam);
+  const index = images.findIndex(img => img.id === imgIdParam);
   const isOpen = imgIdParam !== null && index !== -1;
 
-  const paramFromIndex = (images: GuideImage[], idx: number) => getId(images[idx]);
+  const paramFromIndex = (images: GuideImage[], idx: number) => images[idx].id;
 
   const onIndexChange = (newIndex: number) => {
     console.log("Changing index in LightboxDialogContext to ", newIndex);
@@ -59,9 +59,8 @@ export function useOpenLightboxFromParams() {
   const searchParams = useSearchParams();
 
   const openLightbox = ({ images, index }: { images: GuideImage[], index: number }) => {
-    const imgId = getId(images[index]);
     const newParams = new URLSearchParams(searchParams.toString());
-    newParams.set('lightbox', imgId);
+    newParams.set('lightbox', images[index].id);
     router.push(`${pathname}?${newParams.toString()}`, { scroll: false });
   };
 

@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/route-link";
-import { sunburstApproachGully } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "sunburst-meadows-uptrack-early",
@@ -326,7 +326,7 @@ export const geoItem = {
     elevation_max: 417,
     distance: 1060,
     total_ascent: 137,
-    images: [sunburstApproachGully],
+    images: [getGuideImageById('sunburst-approach-gully')],
   },
   proseJsx: (
     <>

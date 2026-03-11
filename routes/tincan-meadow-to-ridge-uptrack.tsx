@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/route-link";
-import { tincanOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "tincan-meadow-to-ridge-uptrack",
@@ -43,7 +43,7 @@ export const geoItem = {
     distance: 493.94458674679794,
     latitude: 60.79154314295677,
     longitude: -149.18265845134732,
-    images: [tincanOverview],
+    images: [getGuideImageById('tincan-overview')],
   },
   proseJsx: (
     <>

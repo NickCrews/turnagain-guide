@@ -1,5 +1,5 @@
 import { type GeoItem } from "@/lib/geo-item";
-import { eddiesSpinesAndTodds } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "cfr",
@@ -49,7 +49,7 @@ export const geoItem = {
     latitude: 60.78853902508095,
     longitude: -149.16106769732286,
     total_descent: 275.29182300000014,
-    images: [eddiesSpinesAndTodds],
+    images: [getGuideImageById('eddies-spines-and-todds')],
     
   },
   proseJsx: (

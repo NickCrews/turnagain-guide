@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/route-link";
-import { eddiesOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "eddies-approach-and-uptrack",
@@ -257,7 +257,7 @@ export const geoItem = {
     distance: 4616.4533523725895,
     latitude: 60.81313469806224,
     longitude: -149.13096187950717,
-    images: [eddiesOverview],
+    images: [getGuideImageById('eddies-overview')],
   },
   proseJsx: <>
     <p>

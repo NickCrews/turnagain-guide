@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/route-link";
-import { goldpan } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -16,7 +16,7 @@ export const geoItem = {
     children: [],
     area: "goldpan-area",
     elevation: 1233,
-    images: [goldpan],
+    images: [getGuideImageById('goldpan-pano')],
   },
   proseJsx: (
     <>

@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/route-link";
-import { magnumFrontFace } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -95,7 +95,7 @@ export const geoItem = {
     children: [],
     elevation_min: 304,
     elevation_max: 914,
-    images: [magnumFrontFace],
+    images: [getGuideImageById('magnum-front-face')],
   },
   proseJsx: (
     <>

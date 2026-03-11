@@ -1,5 +1,5 @@
 import Link from "@/components/ui/link";
-import { kickstepFromRoad } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -17,7 +17,7 @@ export const geoItem = {
     area: "tincan-area",
     elevation: 1417,
     // also include somewhere: /img/kickstep-from-bascketball.jpg
-    images: [kickstepFromRoad],
+    images: [getGuideImageById('kickstep-from-road')],
   },
   proseJsx: (
     <>

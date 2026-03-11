@@ -1,4 +1,4 @@
-import { magnumAndCornbisbuit } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -35,7 +35,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images: [magnumAndCornbisbuit],
+    images: [getGuideImageById('magnum-and-cornbiscuit')],
   },
   proseJsx: <></>,
 } as const satisfies GeoItem;

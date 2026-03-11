@@ -1,9 +1,9 @@
 import RouteLink from "@/app/components/route-link";
 import Figure from "@/app/components/figure";
 import { type GeoItem } from "@/lib/geo-item";
-import { eddiesOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
-const images = [eddiesOverview];
+const images = [getGuideImageById('eddies-overview')];
 
 export const geoItem = {
   id: "eddies-area",
@@ -51,7 +51,7 @@ export const geoItem = {
       </p>
 
       <Figure
-        image={eddiesOverview}
+        image={getGuideImageById('eddies-overview')}
         images={images}
       />
     </>

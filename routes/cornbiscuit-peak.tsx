@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/route-link";
-import { cornbiscuitNorth } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -16,7 +16,7 @@ export const geoItem = {
     children: [],
     area: "cornbiscuit-area",
     elevation: 1120,
-    images: [cornbiscuitNorth],
+    images: [getGuideImageById('cornbiscuit-north-side')],
   },
   proseJsx: (
     <>

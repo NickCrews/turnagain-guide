@@ -1,4 +1,4 @@
-import { lippsOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -40,7 +40,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images: [lippsOverview],
+    images: [getGuideImageById('lipps-overview')],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

@@ -1,4 +1,4 @@
-import { seattleRidge } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -14,7 +14,7 @@ export const geoItem = {
     elevation: 279,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
-    images: [seattleRidge],
+    images: [getGuideImageById('seattle-ridge-overview')],
   },
   proseJsx: (
     <>

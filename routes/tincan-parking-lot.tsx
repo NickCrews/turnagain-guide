@@ -1,5 +1,5 @@
 import Link from "@/components/ui/link";
-import { tincanOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -16,7 +16,7 @@ export const geoItem = {
     elevation: 315,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
-    images: [tincanOverview],
+    images: [getGuideImageById('tincan-overview')],
   },
   proseJsx: (
     <>

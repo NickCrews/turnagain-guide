@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/route-link";
-import { wolverineOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -16,7 +16,7 @@ export const geoItem = {
     children: [],
     area: "sharkfin-area",
     elevation: 517,
-    images: [wolverineOverview],
+    images: [getGuideImageById('sharkfin-wolverine-overview')],
   },
   proseJsx: (
     <>

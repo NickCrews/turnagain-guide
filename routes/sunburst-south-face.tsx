@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/route-link";
-import { sunburstAndMagnum } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -85,7 +85,7 @@ export const geoItem = {
     children: [],
     elevation_min: 624,
     elevation_max: 1156,
-    images: [sunburstAndMagnum],
+    images: [getGuideImageById('sunburst-magnum-overview')],
   },
   proseJsx: <>
     <p>

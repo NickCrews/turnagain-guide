@@ -16,7 +16,7 @@
 
 import React from "react";
 import { TransformWrapper, TransformComponent, MiniMap, useControls, useTransformEffect } from "react-zoom-pan-pinch";
-import { type GuideImage, getId, getImageAltText } from "@/lib/image";
+import { type GuideImage } from "@/imageRegistry/images";
 import { NextButton, PrevButton } from "@/app/components/image-carousel";
 import { useHybridState } from "@/lib/hybrid-state";
 import { Undo, ZoomIn, ZoomOut } from "lucide-react";
@@ -103,11 +103,11 @@ export function Lightbox({
         {images.length > 1 && <NextButton onClick={onNext} className="absolute right-3 top-1/2 -translate-y-1/2 z-30 opacity-80 hover:opacity-100 transition-opacity duration-200" />}
         <ZoomableImage
           src={image.imagePath}
-          alt={getImageAltText(image) || "Lightbox Image"}
+          alt={image.altText || "Lightbox Image"}
         />
       </div>
       <div className="w-full md:w-96 p-6 overflow-y-auto flex-shrink-0">
-        <h2 className="text-2xl font-bold mb-4">{image.title || getId(image).replace("-", " ")}</h2>
+        <h2 className="text-2xl font-bold mb-4">{image.title || image.id.replace("-", " ")}</h2>
         <p className="mb-4">{image.description || "No description available."}</p>
         <PhotoMeta image={image} />
       </div>

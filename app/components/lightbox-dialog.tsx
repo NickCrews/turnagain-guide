@@ -2,7 +2,7 @@
 
 import { Lightbox } from "@/app/components/lightbox";
 import { Dialog, DialogContent, DialogOverlay, DialogTitle } from '@/components/ui/dialog';
-import { type GuideImage } from "@/lib/image";
+import { type GuideImage } from "@/imageRegistry/images";
 import { useHybridState } from "@/lib/hybrid-state";
 
 export interface LightboxDialogProps {

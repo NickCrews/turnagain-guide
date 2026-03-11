@@ -1,8 +1,8 @@
 import Figure from "@/app/components/figure";
 import { type GeoItem } from "@/lib/geo-item";
-import { seattleRidgeUptrack } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
-const images = [seattleRidgeUptrack];
+const images = [getGuideImageById('seattle-ridge-uptrack')];
 
 export const geoItem = {
   id: "seattle-ridge-parking-lot",
@@ -33,7 +33,7 @@ export const geoItem = {
       </p>
 
       <Figure
-        image={seattleRidgeUptrack}
+        image={getGuideImageById('seattle-ridge-uptrack')}
         images={images}
       />
     </>

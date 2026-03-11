@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { getImageAltText, GuideImage } from "@/lib/image";
+import { GuideImage } from "@/imageRegistry/images";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "@/app/components/lightbox-dialog-from-url";
 import { useTouch } from "@/components/ui/touch-context";
@@ -117,7 +117,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
                     >
                         {images.map((image, index) => {
                             const imagePath = image.imagePath;
-                            const imageAltText = getImageAltText(image);
+                            const imageAltText = image.altText;
                             if (triggerLightbox) {
                                 return (
                                     <a

@@ -1,7 +1,7 @@
 import { type GeoItem } from "@/lib/geo-item";
-import { wolverineOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
-const images = [wolverineOverview];
+const images = [getGuideImageById('sharkfin-wolverine-overview')];
 
 export const geoItem = {
   id: "sharkfin-area",

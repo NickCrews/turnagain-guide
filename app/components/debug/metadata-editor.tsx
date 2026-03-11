@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { type GuideImage, getId } from '@/lib/image';
+import { type GuideImage } from '@/imageRegistry/images';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Check, Copy } from 'lucide-react';
@@ -80,13 +80,13 @@ export function MetadataEditor({ image, onClose }: MetadataEditorProps) {
     <Dialog open={!!image} onOpenChange={(open) => { if (!open) onClose(); }}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogTitle className="font-mono text-sm text-muted-foreground">
-          Edit Metadata: {getId(image)}
+          Edit Metadata: {image.id}
         </DialogTitle>
 
         <div className="mt-1 mb-3">
           <img
             src={image.imagePath}
-            alt={getId(image)}
+            alt={image.id}
             className="rounded-md max-h-40 object-contain bg-muted"
           />
         </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { type GuideImage, getId } from '@/lib/image';
+import { type GuideImage } from '@/imageRegistry/images';
 import { MetadataEditor } from './metadata-editor';
 
 interface TimelinePlotProps {
@@ -85,7 +85,7 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
 
   const hoveredImage = useMemo(() => {
     if (!hoveredId) return null;
-    return images.find(img => getId(img) === hoveredId) ?? null;
+    return images.find(img => img.id === hoveredId) ?? null;
   }, [hoveredId, images]);
 
   const SVG_H = 80;
@@ -129,7 +129,7 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
 
             {/* Image dots */}
             {dated.map(({ image, xPct }) => {
-              const id = getId(image);
+              const id = image.id;
               const isCurrent = id === currentImageId;
               const isHovered = id === hoveredId;
               const color = scoreColor(metaScore(image));
@@ -180,7 +180,7 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
           </p>
           <div className="flex flex-wrap gap-1">
             {undated.map(img => {
-              const id = getId(img);
+              const id = img.id;
               return (
                 <button
                   key={id}
@@ -200,8 +200,8 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
       {/* Hover tooltip */}
       {hoveredImage && (
         <div className="fixed bottom-4 right-4 z-[10001] bg-background border rounded-lg shadow-xl p-2 w-48 pointer-events-none">
-          <img src={hoveredImage.imagePath} alt={getId(hoveredImage)} className="rounded w-full object-cover mb-1" />
-          <p className="text-xs font-mono truncate">{getId(hoveredImage)}</p>
+          <img src={hoveredImage.imagePath} alt={hoveredImage.id} className="rounded w-full object-cover mb-1" />
+          <p className="text-xs font-mono truncate">{hoveredImage.id}</p>
           {hoveredImage.datetime && (
             <p className="text-xs text-muted-foreground">{new Date(hoveredImage.datetime).toLocaleDateString()}</p>
           )}
@@ -210,7 +210,7 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
       )}
 
       {editingImage && (
-        <MetadataEditor key={getId(editingImage)} image={editingImage} onClose={() => setEditingImage(null)} />
+        <MetadataEditor key={editingImage.id} image={editingImage} onClose={() => setEditingImage(null)} />
       )}
     </div>
   );

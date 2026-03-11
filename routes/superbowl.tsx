@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/route-link";
-import { superbowlFromCornbiscuit } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "superbowl",
@@ -274,7 +274,7 @@ export const geoItem = {
     total_descent: 367.20001220703125,
     latitude: 60.74769225814426,
     longitude: -149.20086496948142,
-    images: [superbowlFromCornbiscuit],
+    images: [getGuideImageById('superbowl-from-cornbiscuit')],
   },
   proseJsx: (
     <>

@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
 import { useDebug } from '@/app/components/debug/debug-context';
 import { useGeoItems } from '@/app/components/items-context';
-import { getId, type GuideImage } from '@/lib/image';
+import { type GuideImage } from '@/imageRegistry/images';
 import { TimelinePlot } from './timeline-plot';
 import { ElevationPlot } from './elevation-plot';
 
@@ -27,7 +27,7 @@ function DebugPanelInner() {
     const result: GuideImage[] = [];
     for (const item of items) {
       for (const img of item.properties.images) {
-        const id = getId(img);
+        const id = img.id;
         if (!seen.has(id)) {
           seen.add(id);
           result.push(img);
@@ -62,8 +62,8 @@ function DebugPanelInner() {
               key={t}
               onClick={() => { setTab(t); setExpanded(true); }}
               className={`text-xs px-2 py-0.5 rounded capitalize cursor-pointer transition-colors ${tab === t && expanded
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                ? 'bg-primary text-primary-foreground'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                 }`}
             >
               {t}

@@ -1,4 +1,4 @@
-import { tincanOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -33,7 +33,7 @@ export const geoItem = {
     total_descent: 141.25361999999996,
     nicks_ates_ratings: ["challenging"],
     children: [],
-    images: [tincanOverview],
+    images: [getGuideImageById('tincan-overview')],
   },
   proseJsx: (
     <>

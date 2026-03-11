@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/route-link";
-import { librariesOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "tincan-hippie-bowl",
@@ -52,7 +52,7 @@ export const geoItem = {
     latitude: 60.78295961753153,
     longitude: -149.15957789760694,
     total_descent: 454.204791,
-    images: [librariesOverview],
+    images: [getGuideImageById('libraries-overview')],
   },
   proseJsx: (
     <>

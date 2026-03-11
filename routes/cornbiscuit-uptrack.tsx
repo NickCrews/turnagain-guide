@@ -1,4 +1,4 @@
-import { cornbiscuitNorth } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -744,7 +744,7 @@ export const geoItem = {
     elevation_min: 273,
     elevation_max: 1000,
     distance: 5610,
-    images: [cornbiscuitNorth],
+    images: [getGuideImageById('cornbiscuit-north-side')],
   },
   proseJsx: <>
     <p>

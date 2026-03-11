@@ -1,4 +1,4 @@
-import { tincanOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -211,7 +211,7 @@ export const geoItem = {
     distance: 3288.2233047995983,
     latitude: 60.789429926096176,
     longitude: -149.1783957492337,
-    images: [tincanOverview],
+    images: [getGuideImageById('tincan-overview')],
   },
   proseJsx: (
     <>

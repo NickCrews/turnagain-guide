@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { type GuideImage, getId } from '@/lib/image';
+import { type GuideImage } from '@/imageRegistry/images';
 import { MetadataEditor } from './metadata-editor';
 
 interface ElevationPlotProps {
@@ -91,7 +91,7 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
 
             {/* Image dots, evenly spaced horizontally */}
             {sorted.map((img, i) => {
-              const id = getId(img);
+              const id = img.id;
               const isCurrent = id === currentImageId;
               const isHovered = id === hoveredId;
               const xPct = withElevation.length === 1 ? 50 : (i / (withElevation.length - 1)) * 100;
@@ -161,7 +161,7 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
           </p>
           <div className="flex flex-wrap gap-1">
             {noElevation.map(img => {
-              const id = getId(img);
+              const id = img.id;
               return (
                 <button
                   key={id}
@@ -178,7 +178,7 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
       )}
 
       {editingImage && (
-        <MetadataEditor key={getId(editingImage)} image={editingImage} onClose={() => setEditingImage(null)} />
+        <MetadataEditor key={editingImage.id} image={editingImage} onClose={() => setEditingImage(null)} />
       )}
     </div>
   );

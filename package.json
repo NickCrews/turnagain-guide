@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "serve": "pnpx http-server out/ -p 1338",
     "suggest-metadata": "node scripts/suggest-metadata.mjs"
   },

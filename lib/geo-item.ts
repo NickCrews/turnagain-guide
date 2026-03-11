@@ -1,12 +1,12 @@
 
 import { type Feature, type Geometry } from 'geojson';
 import { type ATES } from '@/lib/terrain-rating';
-import { GuideImage } from '@/lib/image';
+import { GuideImage } from '@/imageRegistry/images';
 import { allGeoItems } from '@/routes';
 
-export type FeatureType = "area" | "parking" | "peak" | "ascent" | "descent";
-
-export const FEATURE_TYPES: Set<FeatureType> = new Set(['area', 'parking', 'peak', 'ascent', 'descent']);
+const _featureTypes = ["area", "parking", "peak", "ascent", "descent"] as const;
+export type FeatureType = typeof _featureTypes[number];
+export const FEATURE_TYPES = new Set(_featureTypes);
 
 // This is an extension of the GeoJsonProperties interface.
 export interface GeoItemProperties {

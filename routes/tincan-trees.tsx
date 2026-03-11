@@ -1,8 +1,8 @@
 import Figure from "@/app/components/figure";
 import { type GeoItem } from "@/lib/geo-item";
-import { tincanOverview } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
-const images = [tincanOverview];
+const images = [getGuideImageById('tincan-overview')];
 
 export const geoItem = {
   id: "tincan-trees",
@@ -63,7 +63,7 @@ export const geoItem = {
       </p>
 
       <Figure
-        image={tincanOverview}
+        image={getGuideImageById('tincan-overview')}
         images={images}
       />
     </>

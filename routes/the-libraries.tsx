@@ -1,8 +1,8 @@
 import Figure from "@/app/components/figure";
-import { librariesLeftSide, librariesOverview, librariesRidge } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 import { type GeoItem } from "@/lib/geo-item";
 
-const images = [librariesRidge, librariesLeftSide, librariesOverview];
+const images = [getGuideImageById('libraries-ridge'), getGuideImageById('libraries-early'), getGuideImageById('libraries-overview')];
 
 export const geoItem = {
   id: "the-libraries",
@@ -49,7 +49,7 @@ export const geoItem = {
       </p>
 
       <Figure
-        image={librariesOverview}
+        image={getGuideImageById('libraries-overview')}
         images={images}
       />
 
@@ -68,7 +68,7 @@ export const geoItem = {
       </p>
 
       <Figure
-        image={librariesLeftSide}
+        image={getGuideImageById('libraries-early')}
         images={images}
       />
     </>

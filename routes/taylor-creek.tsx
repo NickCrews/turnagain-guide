@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/route-link";
-import { taylorPass } from "@/imageRegistry/images";
+import { getGuideImageById } from "@/imageRegistry/images";
 
 export const geoItem = {
   id: "taylor-creek",
@@ -489,7 +489,7 @@ export const geoItem = {
     elevation_max: 970,
     distance: 2100,
     total_ascent: 342,
-    images: [taylorPass],
+    images: [getGuideImageById('taylor-pass-from-magnum')],
   },
   proseJsx: (
     <>

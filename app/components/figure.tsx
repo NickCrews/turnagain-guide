@@ -1,7 +1,7 @@
 'use client'
 
 import { type ReactNode } from "react";
-import { type GuideImage, getImageAltText } from "@/lib/image";
+import { type GuideImage } from "@/imageRegistry/images";
 import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "./lightbox-dialog-from-url";
 
 interface FigureProps {
@@ -11,7 +11,7 @@ interface FigureProps {
 }
 
 export default function Figure({ image, images, caption }: FigureProps) {
-  const alt = getImageAltText(image) || "Figure Image";
+  const alt = image.altText || "Figure Image";
   const src = image.imagePath;
   const captionText = caption || image.description;
   const figcaption = captionText ? <figcaption className="prose text-center leading-6">{captionText}</figcaption> : null;

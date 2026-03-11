@@ -21,6 +21,54 @@ import { NextButton, PrevButton } from "@/app/components/image-carousel";
 import { useHybridState } from "@/lib/hybrid-state";
 import { Undo, ZoomIn, ZoomOut } from "lucide-react";
 import { useIsBelowWidth } from "@/lib/widths";
+import { Elevation } from "./units";
+
+function cardinalDirection(degrees: number): string {
+  const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+  return dirs[Math.round(degrees / 45) % 8]!;
+}
+
+/** eg Jan 20, 2024, 11:15 AM */
+function formatDatetime(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleString(undefined, {
+    year: "numeric", month: "short", day: "numeric",
+    hour: "numeric", minute: "2-digit",
+  });
+}
+
+function PhotoMeta({ image }: { image: GuideImage }) {
+  const { datetime, coordinates, elevation, direction } = image;
+  if (!datetime && !coordinates && elevation == null && direction == null) return null;
+  return (
+    <dl className="mt-4 text-sm space-y-1 text-muted-foreground border-t pt-3">
+      {datetime && (
+        <div className="flex gap-2">
+          <dt className="font-medium text-foreground w-20 shrink-0">Date</dt>
+          <dd>{formatDatetime(datetime)}</dd>
+        </div>
+      )}
+      {coordinates && (
+        <div className="flex gap-2">
+          <dt className="font-medium text-foreground w-20 shrink-0">Location</dt>
+          <dd>{coordinates.lat.toFixed(5)}, {coordinates.long.toFixed(5)}</dd>
+        </div>
+      )}
+      {elevation != null && (
+        <div className="flex gap-2">
+          <dt className="font-medium text-foreground w-20 shrink-0">Elevation</dt>
+          <dd><Elevation meters={elevation} /></dd>
+        </div>
+      )}
+      {direction != null && (
+        <div className="flex gap-2">
+          <dt className="font-medium text-foreground w-20 shrink-0">Heading</dt>
+          <dd>{direction}° {cardinalDirection(direction)}</dd>
+        </div>
+      )}
+    </dl>
+  );
+}
 
 export interface LightboxProps {
   images: GuideImage[];
@@ -61,6 +109,7 @@ export function Lightbox({
       <div className="w-full md:w-96 p-6 overflow-y-auto flex-shrink-0">
         <h2 className="text-2xl font-bold mb-4">{image.title || getId(image).replace("-", " ")}</h2>
         <p className="mb-4">{image.description || "No description available."}</p>
+        <PhotoMeta image={image} />
       </div>
     </div>
   );

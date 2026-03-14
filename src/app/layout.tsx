@@ -7,8 +7,8 @@ import { ElevationUnitsProvider, DistanceUnitsProvider } from "@/app/components/
 import { GeoItemsProvider } from "@/app/components/items-context";
 import { loadGeoItems } from "@/lib/geo-item";
 import { TouchProvider } from "@/components/ui/touch-context";
-import { DebugProvider } from "@/app/components/debug/debug-context";
-import { DebugPanel } from "@/app/components/debug/debug-panel";
+import { DebugProvider } from "@/debug/debug-context";
+import { DebugPanel } from "@/debug/debug-panel";
 
 export const metadata: Metadata = {
   title: {

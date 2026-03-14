@@ -1,4 +1,3 @@
-import withSerwistInit from '@serwist/next';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import { NextConfig } from 'next';
@@ -59,13 +58,4 @@ const basicConfig: NextConfig = {
   },
 }
 
-const withSerwist = withSerwistInit({
-  swSrc: 'src/app/sw.ts',
-  swDest: 'public/sw.js',
-  // The cesium assets are large, so we need to increase the cache limit
-  maximumFileSizeToCacheInBytes: 5 * 1024 ** 2, // 5 MB
-  reloadOnOnline: false,
-});
-
-
-export default withSerwist(basicConfig);
+export default basicConfig;

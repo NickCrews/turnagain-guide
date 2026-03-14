@@ -1,6 +1,6 @@
 
 import { capitalize } from '@/lib/utils';
-import { GeoItem } from '../../lib/geo-item';
+import { GeoItem } from '@/lib/geo-item';
 import { ElevationRange, Elevation } from './units';
 import {
   Card,

@@ -1,6 +1,6 @@
-import { allGeoItems } from "./routes";
-import gpxFromGeojson from "./lib/gpx";
-import geojsonFromGeoItems from "./lib/geojson";
+import { allGeoItems } from "@/routes";
+import gpxFromGeojson from "@/lib/gpx";
+import geojsonFromGeoItems from "@/lib/geojson";
 
 // This is called once during nextjs server startup.
 // https://nextjs.org/docs/app/guides/instrumentation

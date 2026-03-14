@@ -1,4 +1,4 @@
-import { GeoItem } from '../../lib/geo-item';
+import { GeoItem } from '@/lib/geo-item';
 import RouteCard from './route-card';
 
 interface ItemGalleryProps {

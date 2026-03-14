@@ -5,6 +5,7 @@ See https://github.com/tailwindlabs/tailwindcss/discussions/16776 */
 @source not "../public";
 
 @plugin "@tailwindcss/typography";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 

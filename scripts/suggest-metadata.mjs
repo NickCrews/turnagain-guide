@@ -48,7 +48,7 @@ async function fetchElevation(lat, lng) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     return data.elevation?.[0] ?? null;
-  } catch (err) {
+  } catch {
     return null;
   }
 }

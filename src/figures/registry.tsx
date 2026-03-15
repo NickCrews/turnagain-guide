@@ -40,6 +40,23 @@ export const RAW_FIGURES_BY_ID = {
   "granddaddy-distant": {
     imagePath: "/img/granddaddy-distant.jpg",
   },
+  "granddaddy-far-aerial": {
+    imagePath: "/img/granddaddy-far-aerial.jpg",
+    title: "North side of Granddaddy Peak from the air",
+    description: <>
+      The North side of <RouteLink routeID="granddaddy-peak">Granddaddy Peak</RouteLink> from the air.
+      The prominent line down the middle of the face is <RouteLink routeID="granddaddy-couloir">Granddaddy Couloir</RouteLink>.
+      The wider chute to the right is <RouteLink routeID="going-home-chute">Going Home Chute</RouteLink>.
+    </>
+  },
+  "granddaddy-couloir-from-top": {
+    imagePath: "/img/granddaddy-couloir-from-top.jpg",
+    title: "Granddaddy Couloir from the top",
+    description: <>
+      Looking down <RouteLink routeID="granddaddy-couloir">Granddaddy Couloir</RouteLink> from
+      the top of <RouteLink routeID="granddaddy-peak">Granddaddy Peak</RouteLink>.
+    </>
+  },
   "kickstep-from-basketball": {
     imagePath: "/img/kickstep-from-basketball.jpg",
   },
@@ -86,6 +103,13 @@ export const RAW_FIGURES_BY_ID = {
   },
   "magnum-high-center": {
     imagePath: "/img/magnum-high-center.jpg",
+  },
+  "pastoral-s-face-from-col": {
+    imagePath: "/img/pastoral-s-face-from-col.jpg",
+    title: "South Face of Pastoral Peak from Bertha Creek Col",
+    description: <>
+      The South Face of <RouteLink routeID="pastoral-peak">Pastoral Peak</RouteLink> from the col between Pastoral and <RouteLink routeID="granddaddy-peak">Granddaddy Peak</RouteLink>. The line in the middle of the face is the most direct, but there are some good options that go out left or right to avoid the cliff bands.
+    </>
   },
   "pms-bowl-from-cornbiscuit": {
     imagePath: "/img/pms-bowl-from-cornbiscuit.jpg",

@@ -7,7 +7,7 @@ export const geoItem = {
   type: "Feature",
   geometry: {
     type: "Point",
-    coordinates: [-149.19065, 60.72490],
+    coordinates: [-149.22459, 60.73704],
   },
   properties: {
     title: "Lipps Peak",
@@ -15,13 +15,12 @@ export const geoItem = {
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "lipps-area",
-    elevation: 1318,
+    elevation: 1021,
     figures: [getFigureById('lipps-north-side')],
   },
   proseJsx: (
     <>
-      The most coveted line from here is
-      the <RouteLink routeID="granddaddy-couloir">Granddaddy Couloir</RouteLink>.
+      Get here by coming up the <RouteLink routeID="lipps-uptrack">Lipps Uptrack</RouteLink>.
     </>
   ),
 } as const satisfies GeoItem;

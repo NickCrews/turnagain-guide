@@ -199,14 +199,24 @@ export const geoItem = {
     elevation_max: 1319,
     elevation_min: 928,
     distance: 618,
-    figures: [getFigureById('granddaddy-distant')],
+    figures: [getFigureById('granddaddy-far-aerial'), getFigureById('granddaddy-couloir-from-top'), getFigureById('granddaddy-distant')],
   },
   proseJsx: (
     <>
       <p>
-        Some people boot up it, some people skin around by going up to the head of the
-        valley, up to the col, and then ascending right up the North ridge
-        of <RouteLink routeID="lipps-peak">Lipps Peak</RouteLink>.
+        While you CAN boot it, a much easier way is to skin all the way up Bertha Creek
+        to the col at the head of the valley, then turn right and skin right up the North ridge
+        of <RouteLink routeID="granddaddy-peak">Granddaddy Peak</RouteLink>.
+      </p>
+      <p>
+        The entrance is fairly straightforward, with no steep rollovers or trigger points.
+        The runout at the bottom is a fairly large fan, so the consequences of an avalanche aren't extreme.
+      </p>
+      <p>
+        The entire line is sort of an annoying double fall line: The first one or two people down
+        will have great turns in the gut of the chute on the left side. But everyone
+        after that, if they want fresh snow, will have awkward cross-the-fall-line
+        turns as they stay on the right face of the chute.
       </p>
     </>
   ),

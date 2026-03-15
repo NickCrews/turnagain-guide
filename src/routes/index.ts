@@ -17,6 +17,8 @@ import { geoItem as godsCountryParkingLot } from './gods-country-parking-lot';
 import { geoItem as goldpanArea } from './goldpan-area';
 import { geoItem as goldpanPeak } from './goldpan-peak';
 import { geoItem as granddaddyCouloir } from './granddaddy-couloir';
+import { geoItem as granddaddyPeak } from './granddaddy-peak';
+import { geoItem as goingHomeChute } from './going-home-chute';
 import { geoItem as johnsonPassParkingLot } from './johnson-pass-parking-lot';
 import { geoItem as kickstepPeak } from './kickstep-peak';
 import { geoItem as lippsArea } from './lipps-area';
@@ -86,7 +88,9 @@ export const allGeoItems = [
   godsCountryParkingLot,
   goldpanArea,
   goldpanPeak,
+  goingHomeChute,
   granddaddyCouloir,
+  granddaddyPeak,
   johnsonPassParkingLot,
   kickstepPeak,
   lippsArea,

@@ -3,7 +3,7 @@ import { getFigureById } from "@/figures/index";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
-  id: "sharksfin-peak",
+  id: "sharkfin-peak",
   type: "Feature",
   geometry: {
     type: "Point",

@@ -26,6 +26,13 @@ export const RAW_FIGURES_BY_ID = {
   },
   "cornbiscuit-north-side": {
     imagePath: "/img/cornbiscuit-north-side.jpg",
+    title: "North side of Cornbiscuit",
+    description: <>
+      Looking at the shady North side of the <RouteLink routeID="cornbiscuit-peak">Cornbiscuit</RouteLink> Ridge
+      from the peak of <RouteLink routeID="magnum-peak">Magnum Peak</RouteLink>.
+      Right underneath my glove is <RouteLink routeID="corner-pocket">Corner Pocket</RouteLink>.
+      Off the left edge of the photo is <RouteLink routeID="superbowl">SuperBowl</RouteLink>.
+    </>
   },
   "eddies-overview": {
     imagePath: "/img/eddies-overview.jpg",
@@ -65,7 +72,9 @@ export const RAW_FIGURES_BY_ID = {
   },
   "libraries-early": {
     imagePath: "/img/libraries-early.jpg",
-    description: "Looking up some of the first (Westmost) lines in The Libraries from the bottom."
+    description: <>
+      Looking up some of the first (Westmost) lines in <RouteLink routeID="the-libraries">The Libraries</RouteLink> from the bottom.
+    </>
   },
   "libraries-overview": {
     imagePath: "/img/libraries-overview.jpg",
@@ -95,7 +104,9 @@ export const RAW_FIGURES_BY_ID = {
   "lipps-north-aerial": {
     imagePath: "/img/lipps-north-aerial.jpg",
     title: "North side of Lipps",
-    description: "The North side of Lipps from the air from up Spokane Creek, looking back towards the highway."
+    description: <>
+      The North side of <RouteLink routeID="lipps-peak">Lipps Peak</RouteLink> from the air from up Spokane Creek, looking back towards the highway.
+    </>
   },
   "lipps-overview": {
     imagePath: "/img/lipps-overview.jpg",
@@ -138,22 +149,38 @@ export const RAW_FIGURES_BY_ID = {
     description: "The common uptrack for Seattle Ridge. You can barely see the snowmachine tracks.",
   }, "sharkfin-wolverine-overview": {
     imagePath: "/img/sharkfin-wolverine-overview.jpg",
-    description: "Sharkfin (close) and Wolverine (far) from near Eddies.",
+    description: <>
+      Looking Northeast at <RouteLink routeID="sharkfin-peak">Sharkfin Peak</RouteLink> (close) and <RouteLink routeID="wolverine-peak">Wolverine Peak</RouteLink> (far) from near Eddies.
+    </>
   }, "sunburst-approach-gully": {
     imagePath: "/img/sunburst-approach-gully.jpg",
   }, "sunburst-magnum-overview": {
     imagePath: "/img/sunburst-magnum-overview.jpg",
     title: "Sunburst and Magnum",
-    description: "Sunburst on the left side and Magnum on the Right, with the Taylor Creek valley in between.",
+    description: <>
+      <RouteLink routeID="sunburst-peak">Sunburst Peak</RouteLink> on the left side and <RouteLink routeID="magnum-peak">Magnum Peak</RouteLink> on the Right, with the Taylor Creek valley in between.
+    </>,
   },
   "superbowl-from-cornbiscuit": {
     imagePath: "/img/superbowl-from-cornbiscuit.jpg",
+    title: "Superbowl from Cornbiscuit",
+    description: <>
+      <p>
+        Looking East (directly away from the highway) at <RouteLink routeID="superbowl">Superbowl</RouteLink> from the top of <RouteLink routeID="cornbiscuit-peak">Cornbiscuit Peak</RouteLink>.
+      </p>
+      <p>
+        Behind, in the sun, is <RouteLink routeID="basketball-peak">Basketball Peak</RouteLink>
+        and the <RouteLink routeID="goldpan-area">Goldpan area</RouteLink>.
+      </p>
+    </>
   },
   "taylor-pass-from-magnum": {
     imagePath: "/img/taylor-pass-from-magnum.jpg",
   },
   "tincan-overview": {
     imagePath: "/img/tincan-overview.jpg",
-    description: "The North side of Tincan in March of a decent snow year."
+    description: <>
+      Looking at the North side of <RouteLink routeID="tincan-common">Tincan</RouteLink> in March of a decent snow year.
+    </>
   },
 } as const satisfies Record<string, RawFigure>;

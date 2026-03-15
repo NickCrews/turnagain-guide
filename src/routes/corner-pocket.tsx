@@ -1,5 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/route-link";
+import { getFigureById } from "@/figures/index";
 
 export const geoItem = {
   id: "corner-pocket",
@@ -42,7 +43,9 @@ export const geoItem = {
     elevation_max: 1081,
     elevation_min: 874,
     distance: 412,
-    figures: [],
+    figures: [
+      getFigureById('cornbiscuit-north-side'),
+    ],
   },
   proseJsx: (
     <>

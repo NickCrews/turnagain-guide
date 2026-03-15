@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { type GuideImage } from '@/imageRegistry/images';
+import { type GuideImage } from '@/figures/registry';
 import { MetadataEditor } from './metadata-editor';
 
 interface ElevationPlotProps {
@@ -178,7 +178,7 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
       )}
 
       {editingImage && (
-        <MetadataEditor key={editingImage.id} image={editingImage} onClose={() => setEditingImage(null)} />
+        <MetadataEditor key={editingImage.id} figure={editingImage} onClose={() => setEditingImage(null)} />
       )}
     </div>
   );

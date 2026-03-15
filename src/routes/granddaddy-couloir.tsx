@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/route-link";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -199,7 +199,7 @@ export const geoItem = {
     elevation_max: 1319,
     elevation_min: 928,
     distance: 618,
-    images: [getGuideImageById('granddaddy-distant')],
+    figures: [getFigureById('granddaddy-distant')],
   },
   proseJsx: (
     <>

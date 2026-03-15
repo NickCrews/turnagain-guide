@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { type GuideImage } from '@/imageRegistry/images';
+import { type Figure } from '@/figures/index';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Check, Copy } from 'lucide-react';
 
 interface MetadataEditorProps {
-  image: GuideImage | null;
+  figure: Figure | null;
   onClose: () => void;
 }
 
@@ -21,15 +21,15 @@ interface EditableFields {
   datetime: string;
 }
 
-function imageToEditable(image: GuideImage): EditableFields {
+function figureToEditable(figure: Figure): EditableFields {
   return {
-    title: image.title ?? '',
-    description: typeof image.description === 'string' ? image.description : '',
-    lat: image.coordinates?.lat?.toString() ?? '',
-    long: image.coordinates?.long?.toString() ?? '',
-    elevation: image.elevation?.toString() ?? '',
-    direction: image.direction?.toString() ?? '',
-    datetime: image.datetime ?? '',
+    title: figure.title ?? '',
+    description: typeof figure.description === 'string' ? figure.description : '',
+    lat: figure.coordinates?.lat?.toString() ?? '',
+    long: figure.coordinates?.long?.toString() ?? '',
+    elevation: figure.elevation?.toString() ?? '',
+    direction: figure.direction?.toString() ?? '',
+    datetime: figure.datetime ?? '',
   };
 }
 
@@ -56,9 +56,9 @@ function generateTypeScript(imagePath: string, fields: EditableFields): string {
   ].join('\n');
 }
 
-export function MetadataEditor({ image, onClose }: MetadataEditorProps) {
+export function MetadataEditor({ figure, onClose }: MetadataEditorProps) {
   const [fields, setFields] = useState<EditableFields>(
-    image ? imageToEditable(image) : { title: '', description: '', lat: '', long: '', elevation: '', direction: '', datetime: '' }
+    figure ? figureToEditable(figure) : { title: '', description: '', lat: '', long: '', elevation: '', direction: '', datetime: '' }
   );
   const [copied, setCopied] = useState(false);
 
@@ -66,7 +66,7 @@ export function MetadataEditor({ image, onClose }: MetadataEditorProps) {
     setFields(f => ({ ...f, [key]: e.target.value }));
   };
 
-  const tsOutput = image ? generateTypeScript(image.imagePath, fields) : '';
+  const tsOutput = figure ? generateTypeScript(figure.imagePath, fields) : '';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(tsOutput);
@@ -74,19 +74,19 @@ export function MetadataEditor({ image, onClose }: MetadataEditorProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!image) return null;
+  if (!figure) return null;
 
   return (
-    <Dialog open={!!image} onOpenChange={(open) => { if (!open) onClose(); }}>
+    <Dialog open={!!figure} onOpenChange={(open) => { if (!open) onClose(); }}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogTitle className="font-mono text-sm text-muted-foreground">
-          Edit Metadata: {image.id}
+          Edit Metadata: {figure.id}
         </DialogTitle>
 
         <div className="mt-1 mb-3">
           <img
-            src={image.imagePath}
-            alt={image.id}
+            src={figure.imagePath}
+            alt={figure.id}
             className="rounded-md max-h-40 object-contain bg-muted"
           />
         </div>
@@ -111,7 +111,7 @@ export function MetadataEditor({ image, onClose }: MetadataEditorProps) {
 
         <div className="mt-4">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-medium text-muted-foreground">TypeScript output — paste into imageRegistry/images.tsx</span>
+            <span className="text-xs font-medium text-muted-foreground">TypeScript output — paste figures/registry.tsx</span>
             <Button size="sm" variant="outline" onClick={handleCopy} className="gap-1 h-7 text-xs">
               {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copied!' : 'Copy'}

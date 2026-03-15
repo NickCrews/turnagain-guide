@@ -16,7 +16,7 @@ export const geoItem = {
     children: [],
     area: "sunburst-area",
     elevation: 1156,
-    images: [],
+    figures: [],
   },
   proseJsx: (
     <>

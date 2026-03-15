@@ -1,10 +1,10 @@
-import Figure from "@/app/components/figure";
+import ClickableFigure from "@/figures/clickable-figure";
 import Link from "@/components/ui/link";
 import RouteLink from "@/app/components/route-link";
 import { type GeoItem } from "@/lib/geo-item";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 
-const images = [getGuideImageById('eddies-overview')];
+const images = [getFigureById('eddies-overview')];
 
 export const geoItem = {
   id: "eddies-front-face",
@@ -34,7 +34,7 @@ export const geoItem = {
     area: "eddies-area",
     nicks_ates_ratings: ["challenging"],
     children: [],
-    images,
+    figures: images,
   },
   proseJsx: (
     <>
@@ -58,9 +58,9 @@ export const geoItem = {
         .
       </p>
 
-      <Figure
-        image={getGuideImageById('eddies-overview')}
-        images={images}
+      <ClickableFigure
+        figure={getFigureById('eddies-overview')}
+        figures={images}
       />
     </>
   ),

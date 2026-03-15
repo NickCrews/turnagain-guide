@@ -1,9 +1,9 @@
 import RouteLink from "@/app/components/route-link";
-import Figure from "@/app/components/figure";
+import ClickableFigure from "@/figures/clickable-figure";
 import { type GeoItem } from "@/lib/geo-item";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 
-const images = [getGuideImageById('eddies-overview')];
+const figures = [getFigureById('eddies-overview')];
 
 export const geoItem = {
   id: "eddies-area",
@@ -37,7 +37,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images,
+    figures: figures,
   },
   proseJsx: (
     <>
@@ -50,9 +50,9 @@ export const geoItem = {
         <RouteLink routeID="tincan-area">Tincan</RouteLink>.
       </p>
 
-      <Figure
-        image={getGuideImageById('eddies-overview')}
-        images={images}
+      <ClickableFigure
+        figure={getFigureById('eddies-overview')}
+        figures={figures}
       />
     </>
   ),

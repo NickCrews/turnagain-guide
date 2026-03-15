@@ -1,4 +1,4 @@
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -69,7 +69,7 @@ export const geoItem = {
     distance: 1141.2642087937406,
     latitude: 60.80207157090275,
     longitude: -149.12433652506442,
-    images: [getGuideImageById('eddies-overview')],
+    figures: [getFigureById('eddies-overview')],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

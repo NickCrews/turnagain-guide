@@ -1,6 +1,6 @@
 import RouteLink from "@/app/components/route-link";
 import { type GeoItem } from "@/lib/geo-item";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 
 export const geoItem = {
   id: "center-ridge-parking-lot",
@@ -16,7 +16,7 @@ export const geoItem = {
     children: [],
     area: "tincan-area",
     elevation: 280,
-    images: [getGuideImageById('blue-diamond')],
+    figures: [getFigureById('blue-diamond')],
   },
   proseJsx: (
     <>

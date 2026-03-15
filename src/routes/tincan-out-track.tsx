@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/route-link";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -93,7 +93,7 @@ export const geoItem = {
     latitude: 60.79424591707046,
     longitude: -149.18357653617528,
     total_descent: 191.19635899999992,
-    images: [getGuideImageById('tincan-overview')],
+    figures: [getFigureById('tincan-overview')],
   },
   proseJsx: (
     <>

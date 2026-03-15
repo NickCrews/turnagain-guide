@@ -19,7 +19,7 @@ import {
   DrawerHandle,
 } from '@/components/ui/drawer'
 import { Button } from "@/components/ui/button";
-import ImageCarousel from "@/app/components/image-carousel";
+import FigureCarousel from "@/figures/image-carousel";
 import { cn } from "@/lib/utils";
 
 interface ItemExplorerProps {
@@ -233,7 +233,7 @@ function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void
       </nav>
     </div>
     <div className="overflow-y-auto h-full rounded-lg px-6 pb-6 pt-3 max-w-2xl w-full">
-      {item.properties.images && <ImageCarousel images={item.properties.images} triggerLightbox />}
+      {item.properties.figures && <FigureCarousel figures={item.properties.figures} triggerLightbox />}
       <h2 className='text-2xl font-bold mb-4'>{item.properties.title}</h2>
       <RouteProperties item={item} />
       <RouteProse item={item} />
@@ -307,7 +307,7 @@ function RouteDetailsDrawer({
         </div>
         {/* TODO: this scroll behavior isn't great. */}
         <div className="overflow-y-auto h-full">
-          {item.properties.images.length > 0 && <ImageCarousel images={item.properties.images} triggerLightbox={true} />}
+          {item.properties.figures.length > 0 && <FigureCarousel figures={item.properties.figures} triggerLightbox={true} />}
           <RouteProperties item={item} />
           <RouteProse item={item} />
           <SubRoutes childrenIds={item.properties.children} />

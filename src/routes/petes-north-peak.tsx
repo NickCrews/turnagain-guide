@@ -6,7 +6,7 @@ export const geoItem = {
   geometry: {
     type: "Point",
     coordinates: [-149.22271, 60.72330],
-    },
+  },
   properties: {
     title: "Pete's North Peak",
     feature_type: "peak",
@@ -14,7 +14,7 @@ export const geoItem = {
     children: [],
     area: "petes-north-area",
     elevation: 1206,
-    images: [],
+    figures: [],
   },
   proseJsx: (
     <>

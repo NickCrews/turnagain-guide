@@ -1,6 +1,6 @@
 import { type GeoItem } from "@/lib/geo-item";
 import RouteLink from "@/app/components/route-link";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 
 export const geoItem = {
   id: "blue-diamond-route",
@@ -119,7 +119,7 @@ export const geoItem = {
     distance: 1990.2708938747458,
     latitude: 60.78428734653695,
     longitude: -149.2015831517385,
-    images: [getGuideImageById('blue-diamond')],
+    figures: [getFigureById('blue-diamond')],
   },
   proseJsx: (
     <>

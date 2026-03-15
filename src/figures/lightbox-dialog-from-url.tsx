@@ -1,30 +1,30 @@
 'use client'
 
 import { type ReactNode } from 'react';
-import { LightboxDialog } from '@/app/components/lightbox-dialog';
+import { LightboxDialog } from '@/figures/lightbox-dialog';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import { GuideImage } from '@/imageRegistry/images';
+import { type Figure } from '@/figures';
 
 export interface LightboxDialogFromUrlParams {
   children: ReactNode;
-  images: GuideImage[];
+  figures: Figure[];
 }
 
 export const LightboxDialogFromUrl = ({
   children,
-  images,
+  figures,
 }: LightboxDialogFromUrlParams) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const imgIdParam = searchParams.get('lightbox');
-  const index = images.findIndex(img => img.id === imgIdParam);
-  const isOpen = imgIdParam !== null && index !== -1;
+  const figIdParam = searchParams.get('lightbox');
+  const index = figures.findIndex(img => img.id === figIdParam);
+  const isOpen = figIdParam !== null && index !== -1;
 
-  const paramFromIndex = (images: GuideImage[], idx: number) => images[idx].id;
+  const paramFromIndex = (figures: Figure[], idx: number) => figures[idx].id;
 
   const onIndexChange = (newIndex: number) => {
     console.log("Changing index in LightboxDialogContext to ", newIndex);
-    const newParam = paramFromIndex(images, newIndex);
+    const newParam = paramFromIndex(figures, newIndex);
     router.push(`?lightbox=${newParam}`);
   };
 
@@ -36,9 +36,9 @@ export const LightboxDialogFromUrl = ({
   return (
     <>
       {children}
-      {isOpen && images && (
+      {isOpen && figures && (
         <LightboxDialog
-          images={images}
+          figures={figures}
           index={index}
           open={isOpen}
           onOpenChange={(open) => {
@@ -58,9 +58,9 @@ export function useOpenLightboxFromParams() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const openLightbox = ({ images, index }: { images: GuideImage[], index: number }) => {
+  const openLightbox = ({ figures, index }: { figures: Figure[], index: number }) => {
     const newParams = new URLSearchParams(searchParams.toString());
-    newParams.set('lightbox', images[index].id);
+    newParams.set('lightbox', figures[index].id);
     router.push(`${pathname}?${newParams.toString()}`, { scroll: false });
   };
 

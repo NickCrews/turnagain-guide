@@ -1,4 +1,4 @@
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -15,7 +15,7 @@ export const geoItem = {
     elevation: 237,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
-    images: [getGuideImageById('lipps-overview')],
+    figures: [getFigureById('lipps-overview')],
   },
   proseJsx: <>
     <p>

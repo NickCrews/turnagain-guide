@@ -1,26 +1,26 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { type GuideImage } from '@/imageRegistry/images';
+import { type Figure } from '@/figures/index';
 import { MetadataEditor } from './metadata-editor';
 
 interface TimelinePlotProps {
-  images: GuideImage[];
-  currentImageId: string | null;
+  figures: Figure[];
+  currentFigureId: string | null;
 }
 
-interface PlacedImage {
-  image: GuideImage;
+interface PlacedFigure {
+  figure: Figure;
   date: Date;
   xPct: number;
 }
 
 /** Metadata completeness score 0–3 */
-function metaScore(img: GuideImage): number {
+function metaScore(fig: Figure): number {
   let score = 0;
-  if (img.datetime) score++;
-  if (img.coordinates) score++;
-  if (img.elevation != null) score++;
+  if (fig.datetime) score++;
+  if (fig.coordinates) score++;
+  if (fig.elevation != null) score++;
   return score;
 }
 
@@ -37,24 +37,24 @@ const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Se
 /**
  * show the images on a timeline so I can verify that the dates taken are accurate, eg see that the photos on the same day are the right place, there are no photos in summer, etc. Highlight the current photo in this plot.
  */
-export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
+export function TimelinePlot({ figures, currentFigureId }: TimelinePlotProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [editingImage, setEditingImage] = useState<GuideImage | null>(null);
+  const [editingFigure, setEditingFigure] = useState<Figure | null>(null);
 
   const { dated, undated, monthTicks } = useMemo(() => {
-    const dated: PlacedImage[] = [];
-    const undated: GuideImage[] = [];
+    const dated: PlacedFigure[] = [];
+    const undated: Figure[] = [];
 
-    for (const img of images) {
-      if (img.datetime) {
-        const date = new Date(img.datetime);
+    for (const fig of figures) {
+      if (fig.datetime) {
+        const date = new Date(fig.datetime);
         if (!isNaN(date.getTime())) {
-          dated.push({ image: img, date, xPct: 0 });
+          dated.push({ figure: fig, date, xPct: 0 });
         } else {
-          undated.push(img);
+          undated.push(fig);
         }
       } else {
-        undated.push(img);
+        undated.push(fig);
       }
     }
 
@@ -81,18 +81,18 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
     }
 
     return { dated, undated, monthTicks };
-  }, [images]);
+  }, [figures]);
 
-  const hoveredImage = useMemo(() => {
+  const hoveredFigure = useMemo(() => {
     if (!hoveredId) return null;
-    return images.find(img => img.id === hoveredId) ?? null;
-  }, [hoveredId, images]);
+    return figures.find(fig => fig.id === hoveredId) ?? null;
+  }, [hoveredId, figures]);
 
   const SVG_H = 80;
 
   return (
     <div className="flex flex-col gap-2 h-full">
-      {/* Dated images — timeline */}
+      {/* Dated figures — timeline */}
       {dated.length > 0 ? (
         <div className="relative overflow-x-auto flex-1">
           <svg
@@ -127,12 +127,12 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
               </g>
             ))}
 
-            {/* Image dots */}
-            {dated.map(({ image, xPct }) => {
-              const id = image.id;
-              const isCurrent = id === currentImageId;
+            {/* Figure dots */}
+            {dated.map(({ figure, xPct }) => {
+              const id = figure.id;
+              const isCurrent = id === currentFigureId;
               const isHovered = id === hoveredId;
-              const color = scoreColor(metaScore(image));
+              const color = scoreColor(metaScore(figure));
               const cx = `${2 + xPct * 0.96}%`;
               const cy = SVG_H - 20;
               const r = isCurrent ? 10 : isHovered ? 8 : 6;
@@ -151,7 +151,7 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
                     style={{ cursor: 'pointer', transition: 'r 0.1s' }}
                     onMouseEnter={() => setHoveredId(id)}
                     onMouseLeave={() => setHoveredId(null)}
-                    onClick={() => setEditingImage(image)}
+                    onClick={() => setEditingFigure(figure)}
                   />
                 </g>
               );
@@ -169,25 +169,25 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
           </div>
         </div>
       ) : (
-        <p className="text-sm text-muted-foreground italic">No images with datetime metadata yet.</p>
+        <p className="text-sm text-muted-foreground italic">No figures with datetime metadata yet.</p>
       )}
 
-      {/* Undated images */}
+      {/* Undated figures */}
       {undated.length > 0 && (
         <div>
           <p className="text-xs text-muted-foreground mb-1">
-            {undated.length} image{undated.length !== 1 ? 's' : ''} without dates — click to add metadata:
+            {undated.length} figure{undated.length !== 1 ? 's' : ''} without dates — click to add metadata:
           </p>
           <div className="flex flex-wrap gap-1">
-            {undated.map(img => {
-              const id = img.id;
+            {undated.map(fig => {
+              const id = fig.id;
               return (
                 <button
                   key={id}
                   className="text-xs px-2 py-0.5 rounded bg-muted hover:bg-muted/80 font-mono cursor-pointer border border-border"
-                  style={{ borderColor: scoreColor(metaScore(img)) }}
-                  onClick={() => setEditingImage(img)}
-                  title={img.imagePath}
+                  style={{ borderColor: scoreColor(metaScore(fig)) }}
+                  onClick={() => setEditingFigure(fig)}
+                  title={fig.imagePath}
                 >
                   {id}
                 </button>
@@ -198,19 +198,19 @@ export function TimelinePlot({ images, currentImageId }: TimelinePlotProps) {
       )}
 
       {/* Hover tooltip */}
-      {hoveredImage && (
+      {hoveredFigure && (
         <div className="fixed bottom-4 right-4 z-[10001] bg-background border rounded-lg shadow-xl p-2 w-48 pointer-events-none">
-          <img src={hoveredImage.imagePath} alt={hoveredImage.id} className="rounded w-full object-cover mb-1" />
-          <p className="text-xs font-mono truncate">{hoveredImage.id}</p>
-          {hoveredImage.datetime && (
-            <p className="text-xs text-muted-foreground">{new Date(hoveredImage.datetime).toLocaleDateString()}</p>
+          <img src={hoveredFigure.imagePath} alt={hoveredFigure.id} className="rounded w-full object-cover mb-1" />
+          <p className="text-xs font-mono truncate">{hoveredFigure.id}</p>
+          {hoveredFigure.datetime && (
+            <p className="text-xs text-muted-foreground">{new Date(hoveredFigure.datetime).toLocaleDateString()}</p>
           )}
           <p className="text-xs text-muted-foreground">Click to edit metadata</p>
         </div>
       )}
 
-      {editingImage && (
-        <MetadataEditor key={editingImage.id} image={editingImage} onClose={() => setEditingImage(null)} />
+      {editingFigure && (
+        <MetadataEditor key={editingFigure.id} figure={editingFigure} onClose={() => setEditingFigure(null)} />
       )}
     </div>
   );

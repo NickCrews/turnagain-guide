@@ -1,7 +1,7 @@
 
 import { type Feature, type Geometry } from 'geojson';
 import { type ATES } from '@/lib/terrain-rating';
-import { GuideImage } from '@/imageRegistry/images';
+import { Figure } from '@/figures';
 import { allGeoItems } from '@/routes';
 
 const _featureTypes = ["area", "parking", "peak", "ascent", "descent"] as const;
@@ -36,8 +36,8 @@ export interface GeoItemProperties {
    * For "leaf" items, this will be an empty array.
    */
   children: string[];
-  /** The first image will be interpreted as the thumbnail */
-  images: GuideImage[];
+  /** The first figure will be interpreted as the thumbnail */
+  figures: Figure[];
 }
 
 export interface GeoItem extends Feature {

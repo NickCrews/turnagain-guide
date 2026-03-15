@@ -1,5 +1,5 @@
 import RouteLink from "@/app/components/route-link";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -39,7 +39,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images: [getGuideImageById('sunburst-magnum-overview')],
+    figures: [getFigureById('sunburst-magnum-overview')],
   },
   proseJsx: <>
     <p>

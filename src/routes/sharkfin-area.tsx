@@ -1,7 +1,7 @@
 import { type GeoItem } from "@/lib/geo-item";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 
-const images = [getGuideImageById('sharkfin-wolverine-overview')];
+const images = [getFigureById('sharkfin-wolverine-overview')];
 
 export const geoItem = {
   id: "sharkfin-area",
@@ -33,7 +33,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images,
+    figures: images,
   },
   proseJsx: (
     <>

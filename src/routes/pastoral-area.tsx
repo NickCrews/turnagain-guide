@@ -31,7 +31,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images: [],
+    figures: [],
   },
   proseJsx: <>{/* Add content here */}</>,
 } as const satisfies GeoItem;

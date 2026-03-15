@@ -1,18 +1,18 @@
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { GuideImage } from "@/imageRegistry/images";
+import { type Figure } from "@/figures";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "@/app/components/lightbox-dialog-from-url";
+import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "@/figures/lightbox-dialog-from-url";
 import { useTouch } from "@/components/ui/touch-context";
 
-export interface ImageCarouselProps {
-    images: GuideImage[];
+export interface FigureCarouselProps {
+    figures: Figure[];
     triggerLightbox: boolean;
 }
 
-export default function ImageCarousel({ images, triggerLightbox }: ImageCarouselProps) {
+export default function FigureCarousel({ figures, triggerLightbox }: FigureCarouselProps) {
     const isTouch = useTouch();
-    const hasMultiple = images.length > 1;
+    const hasMultiple = figures.length > 1;
     const [selectedIndex, setSelectedIndex] = useState(0);
     const dragStartX = useRef<number | null>(null);
     const didSwipeRef = useRef(false);
@@ -29,12 +29,12 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
     const clampOffset = (index: number, delta: number) => {
         if (!hasMultiple) return 0;
         if (index === 0 && delta > 0) return Math.min(delta, overscrollLimit);
-        if (index === images.length - 1 && delta < 0) return Math.max(delta, -overscrollLimit);
+        if (index === figures.length - 1 && delta < 0) return Math.max(delta, -overscrollLimit);
         return delta;
     };
 
-    const goNext = (wrap = true) => setSelectedIndex((prevIndex) => wrap ? (prevIndex + 1) % images.length : Math.min(prevIndex + 1, images.length - 1));
-    const goPrev = (wrap = true) => setSelectedIndex((prevIndex) => wrap ? (prevIndex - 1 + images.length) % images.length : Math.max(prevIndex - 1, 0));
+    const goNext = (wrap = true) => setSelectedIndex((prevIndex) => wrap ? (prevIndex + 1) % figures.length : Math.min(prevIndex + 1, figures.length - 1));
+    const goPrev = (wrap = true) => setSelectedIndex((prevIndex) => wrap ? (prevIndex - 1 + figures.length) % figures.length : Math.max(prevIndex - 1, 0));
 
     const rightClickOnClick = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -78,7 +78,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
         }
         const rawDelta = e.clientX - dragStartX.current;
         const clampedDelta = clampOffset(selectedIndex, rawDelta);
-        const blockedDirection = (selectedIndex === 0 && rawDelta > 0) || (selectedIndex === images.length - 1 && rawDelta < 0);
+        const blockedDirection = (selectedIndex === 0 && rawDelta > 0) || (selectedIndex === figures.length - 1 && rawDelta < 0);
         if (!blockedDirection && Math.abs(rawDelta) > swipeThreshold) {
             didSwipeRef.current = true;
             if (rawDelta < 0) {
@@ -99,7 +99,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
     return (
         <div className="relative h-56 group">
             {hasMultiple && !isTouch && NextButton({ onClick: rightClickOnClick, className: "right-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
-            <LightboxDialogFromUrl images={images}>
+            <LightboxDialogFromUrl figures={figures}>
                 {/* This acts as a "Frame", a little window through which you can see the "Track" of images.*/}
                 <div
                     className="overflow-hidden rounded-lg shadow-md h-full"
@@ -115,7 +115,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
                         className={cn("flex h-full transition-transform duration-500 ease-in-out", isDragging && "transition-none")}
                         style={{ transform: `translateX(calc(-${selectedIndex * 100}% + ${dragOffset}px))` }}
                     >
-                        {images.map((image, index) => {
+                        {figures.map((image, index) => {
                             const imagePath = image.imagePath;
                             const imageAltText = image.altText;
                             if (triggerLightbox) {
@@ -127,7 +127,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
                                                 return;
                                             }
                                             e.stopPropagation();
-                                            openLightbox({ images, index });
+                                            openLightbox({ figures: figures, index });
                                         }}
                                         key={index}
                                         className="w-full h-full flex-shrink-0 hover:cursor-pointer"
@@ -156,7 +156,7 @@ export default function ImageCarousel({ images, triggerLightbox }: ImageCarousel
                 </div>
             </LightboxDialogFromUrl>
             {hasMultiple && !isTouch && PrevButton({ onClick: leftClickOnClick, className: "left-3 absolute top-1/2 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" })}
-            {hasMultiple && <ThumbnailCarousel images={images} selectedIndex={selectedIndex} onSelect={setSelectedIndex} />}
+            {hasMultiple && <ThumbnailCarousel figures={figures} selectedIndex={selectedIndex} onSelect={setSelectedIndex} />}
         </div>
     );
 }
@@ -190,15 +190,15 @@ export function PrevButton({ onClick, className }: { onClick: (e: React.MouseEve
 }
 
 interface ThumbnailCarouselProps {
-    images: GuideImage[];
+    figures: Figure[];
     selectedIndex: number;
     onSelect: (index: number) => void;
 }
 
-function ThumbnailCarousel({ images, selectedIndex, onSelect }: ThumbnailCarouselProps) {
+function ThumbnailCarousel({ figures, selectedIndex, onSelect }: ThumbnailCarouselProps) {
     return (
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-40 px-2 py-2 rounded-t-lg bg-black/40 backdrop-blur-sm shadow-md flex gap-2 items-center">
-            {images.map((image, index) => {
+            {figures.map((fig, index) => {
                 const isSelected = index === selectedIndex;
                 return (
                     <button
@@ -212,7 +212,7 @@ function ThumbnailCarousel({ images, selectedIndex, onSelect }: ThumbnailCarouse
                         )}
                     >
                         <img
-                            src={image.imagePath}
+                            src={fig.imagePath}
                             alt={`Thumbnail ${index + 1}`}
                             className="w-full h-full object-cover"
                         />

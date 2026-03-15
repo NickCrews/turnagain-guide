@@ -1,8 +1,8 @@
-import Figure from "@/app/components/figure";
+import ClickableFigure from "@/figures/clickable-figure";
 import { type GeoItem } from "@/lib/geo-item";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 
-const images = [getGuideImageById('seattle-ridge-uptrack')];
+const images = [getFigureById('seattle-ridge-uptrack')];
 
 export const geoItem = {
   id: "seattle-ridge-parking-lot",
@@ -17,7 +17,7 @@ export const geoItem = {
     elevation: 305,
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
-    images,
+    figures: images,
   },
   proseJsx: (
     <>
@@ -32,9 +32,9 @@ export const geoItem = {
         Seattle Ridge.
       </p>
 
-      <Figure
-        image={getGuideImageById('seattle-ridge-uptrack')}
-        images={images}
+      <ClickableFigure
+        figure={getFigureById('seattle-ridge-uptrack')}
+        figures={images}
       />
     </>
   ),

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * A fullscreen figure component for displaying images with captions.
+ * A fullscreen component for displaying {@link Figure}, eg an image with metadata.
  * 
  * - On large screens, looks like a facebook photo fullscreen view,
  *   with the image on the left and title/description/other info on the right.
@@ -11,17 +11,17 @@
  * 
  * This does not handle the URL state or routing, this is a fully controlled component.
  * The parent component should handle opening and closing the fullscreen view,
- * and passing the appropriate image and info to display. 
+ * and passing the appropriate figure and info to display. 
  */
 
 import React from "react";
 import { TransformWrapper, TransformComponent, MiniMap, useControls, useTransformEffect } from "react-zoom-pan-pinch";
-import { type GuideImage } from "@/imageRegistry/images";
-import { NextButton, PrevButton } from "@/app/components/image-carousel";
+import { type Figure } from "@/figures/index";
+import { NextButton, PrevButton } from "@/figures/image-carousel";
 import { useHybridState } from "@/lib/hybrid-state";
 import { Undo, ZoomIn, ZoomOut } from "lucide-react";
 import { useIsBelowWidth } from "@/lib/widths";
-import { Elevation } from "./units";
+import { Elevation } from "../app/components/units";
 
 function cardinalDirection(degrees: number): string {
   const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -37,8 +37,8 @@ function formatDatetime(iso: string): string {
   });
 }
 
-function PhotoMeta({ image }: { image: GuideImage }) {
-  const { datetime, coordinates, elevation, direction } = image;
+function PhotoMeta({ figure }: { figure: Figure }) {
+  const { datetime, coordinates, elevation, direction } = figure;
   if (!datetime && !coordinates && elevation == null && direction == null) return null;
   return (
     <dl className="mt-4 text-sm space-y-1 text-muted-foreground border-t pt-3">
@@ -71,14 +71,14 @@ function PhotoMeta({ image }: { image: GuideImage }) {
 }
 
 export interface LightboxProps {
-  images: GuideImage[];
+  figures: Figure[];
   index?: number;
   defaultIndex?: number;
   onIndexChange: (newIndex: number) => void;
 }
 
 export function Lightbox({
-  images,
+  figures,
   index: controlledIndex,
   defaultIndex,
   onIndexChange
@@ -88,28 +88,28 @@ export function Lightbox({
     defaultIndex ?? 0,
     onIndexChange
   );
-  const image = images[index];
+  const figure = figures[index];
   const onNext = () => {
-    setIndex((index + 1) % images.length);
+    setIndex((index + 1) % figures.length);
   }
   const onPrev = () => {
-    setIndex((index - 1 + images.length) % images.length);
+    setIndex((index - 1 + figures.length) % figures.length);
   };
 
   return (
     <div className="flex flex-col md:flex-row">
       <div className="relative flex-1 md:flex-none md:w-[calc(100%-24rem)]">
-        {images.length > 1 && <PrevButton onClick={onPrev} className="absolute left-3  top-1/2 -translate-y-1/2 z-30 opacity-80 hover:opacity-100 transition-opacity duration-200" />}
-        {images.length > 1 && <NextButton onClick={onNext} className="absolute right-3 top-1/2 -translate-y-1/2 z-30 opacity-80 hover:opacity-100 transition-opacity duration-200" />}
+        {figures.length > 1 && <PrevButton onClick={onPrev} className="absolute left-3  top-1/2 -translate-y-1/2 z-30 opacity-80 hover:opacity-100 transition-opacity duration-200" />}
+        {figures.length > 1 && <NextButton onClick={onNext} className="absolute right-3 top-1/2 -translate-y-1/2 z-30 opacity-80 hover:opacity-100 transition-opacity duration-200" />}
         <ZoomableImage
-          src={image.imagePath}
-          alt={image.altText || "Lightbox Image"}
+          src={figure.imagePath}
+          alt={figure.altText || "Lightbox Image"}
         />
       </div>
       <div className="w-full md:w-96 p-6 overflow-y-auto flex-shrink-0">
-        <h2 className="text-2xl font-bold mb-4">{image.title || image.id.replace("-", " ")}</h2>
-        <p className="mb-4">{image.description || "No description available."}</p>
-        <PhotoMeta image={image} />
+        <h2 className="text-2xl font-bold mb-4">{figure.title || figure.id.replace("-", " ")}</h2>
+        <p className="mb-4">{figure.description || "No description available."}</p>
+        <PhotoMeta figure={figure} />
       </div>
     </div>
   );

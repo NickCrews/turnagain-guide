@@ -439,7 +439,7 @@ export const geoItem = {
     elevation_max: 624,
     distance: 1713,
     total_ascent: 348,
-    images: [],
+    figures: [],
   },
   proseJsx: (
     <>

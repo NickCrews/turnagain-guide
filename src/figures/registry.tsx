@@ -1,9 +1,7 @@
 import RouteLink from "@/app/components/route-link";
-// import { loadGeoItems } from "@/lib/geo-item";
-// import { GuideImage } from "@/lib/image";
 import { ReactElement } from "react";
 
-interface RawGuideImage {
+export interface RawFigure {
   imagePath: string
   title?: string,
   description?: string | ReactElement
@@ -20,7 +18,7 @@ interface RawGuideImage {
   datetime?: string,
 }
 
-const RAW_IMAGES_BY_ID = {
+export const RAW_FIGURES_BY_ID = {
   "blue-diamond": {
     imagePath: "/img/blue-diamond.jpg",
   }, "booting-basketball": {
@@ -121,95 +119,4 @@ const RAW_IMAGES_BY_ID = {
     imagePath: "/img/tincan-overview.jpg",
     description: "The North side of Tincan in March of a decent snow year."
   },
-} as const satisfies Record<string, RawGuideImage>;
-
-export type ImageID = keyof typeof RAW_IMAGES_BY_ID;
-
-// export interface GuideImage {
-//   imagePath: string
-//   id?: string
-//   title?: string,
-//   description?: string | ReactElement
-//   /** If not defined, will use title or description */
-//   altText?: string
-//   coordinates?: {
-//     lat: number,
-//     long: number
-//   },
-//   elevation?: number,
-//   /** Direction in degrees, where 0 = North, 90 = East, etc. */
-//   direction?: number,
-//   /** ISO 8601 datetime string, e.g. "2024-03-15T10:30:00" */
-//   datetime?: string,
-// }
-
-type InflateGuideImage<ID extends ImageID, Raw extends RawGuideImage> = RawGuideImage & Raw & {
-  id: ID,
-  altText: InferAltText<Raw>,
-  // title?: string,
-  // description?: string | ReactElement
-  // /** If not defined, will use title or description */
-  // coordinates?: {
-  //   lat: number,
-  //   long: number
-  // },
-  // elevation?: number,
-  // /** Direction in degrees, where 0 = North, 90 = East, etc. */
-  // direction?: number,
-  // /** ISO 8601 datetime string, e.g. "2024-03-15T10:30:00" */
-  // datetime?: string,
-
-}
-function inflateGuideImage<T extends ImageID, Raw extends RawGuideImage>(id: T, raw: Raw): InflateGuideImage<T, Raw> {
-  return {
-    id,
-    imagePath: raw.imagePath,
-    title: raw.title,
-    description: raw.description,
-    altText: inferAltText(raw),
-    coordinates: raw.coordinates,
-    elevation: raw.elevation,
-    direction: raw.direction,
-    datetime: raw.datetime,
-  } as InflateGuideImage<T, Raw>;
-}
-
-export type GuideImage<ID extends ImageID = ImageID> = InflateGuideImage<ID, typeof RAW_IMAGES_BY_ID[ID]>;
-
-const _imagesById: Record<ImageID, GuideImage> = Object.entries(RAW_IMAGES_BY_ID).reduce((acc, [id, raw]) => {
-  acc[id as ImageID] = inflateGuideImage(id as ImageID, raw);
-  return acc;
-}, {} as Record<ImageID, GuideImage>);
-
-export function getGuideImageById<ID extends ImageID>(id: ID): GuideImage<ID> {
-  return _imagesById[id] as GuideImage<ID>;
-}
-
-export function getAllGuideImages(): GuideImage[] {
-  return Object.values(_imagesById);
-}
-
-
-/** In order of preference: altText, title, description, undefined */
-type InferAltText<T extends RawGuideImage> = T extends { altText: string } ? T["altText"] : T extends { title: string } ? T["title"] : T extends { description: string } ? T["description"] : undefined;
-function inferAltText<T extends RawGuideImage>(raw: T): InferAltText<T> {
-  if (raw.altText) {
-    return raw.altText as InferAltText<T>
-  }
-  if (raw.title) {
-    return raw.title as InferAltText<T>;
-  }
-  if (raw.description && typeof raw.description === "string") {
-    return raw.description as InferAltText<T>;
-  }
-  return undefined as InferAltText<T>;
-}
-
-export async function relatedImages(image: GuideImage, maxRelated: number = 5): Promise<GuideImage[]> {
-  const allImages = getAllGuideImages();
-  // Placeholder for now.
-  // Ideally this should rank by distance from the image's coordinates,
-  // or by being in the same geoItem, etc.
-  const relatedImages = Object.values(allImages).filter(img => img !== image).slice(0, maxRelated);
-  return relatedImages;
-}
+} as const satisfies Record<string, RawFigure>;

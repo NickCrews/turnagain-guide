@@ -15,7 +15,7 @@ export const geoItem = {
     children: [],
     area: "pastoral-area",
     elevation: 1417,
-    images: [],
+    figures: [],
   },
   proseJsx: (
     <>

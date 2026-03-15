@@ -3,9 +3,9 @@
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
-import { useDebug } from '@/app/components/debug/debug-context';
+import { useDebug } from '@/debug/debug-context';
 import { useGeoItems } from '@/app/components/items-context';
-import { type GuideImage } from '@/imageRegistry/images';
+import { type Figure } from '@/figures/index';
 import { TimelinePlot } from './timeline-plot';
 import { ElevationPlot } from './elevation-plot';
 
@@ -18,15 +18,15 @@ function DebugPanelInner() {
   const [expanded, setExpanded] = useState(true);
   const [tab, setTab] = useState<Tab>('timeline');
 
-  const currentImageId = searchParams.get('lightbox');
-  const lightboxOpen = currentImageId !== null;
+  const currentFigureId = searchParams.get('lightbox');
+  const lightboxOpen = currentFigureId !== null;
 
-  // Collect all unique images across all geo items
-  const allImages = useMemo<GuideImage[]>(() => {
+  // Collect all unique figures across all geo items
+  const allFigures = useMemo<Figure[]>(() => {
     const seen = new Set<string>();
-    const result: GuideImage[] = [];
+    const result: Figure[] = [];
     for (const item of items) {
-      for (const img of item.properties.images) {
+      for (const img of item.properties.figures) {
         const id = img.id;
         if (!seen.has(id)) {
           seen.add(id);
@@ -38,11 +38,11 @@ function DebugPanelInner() {
   }, [items]);
 
   const metaStats = useMemo(() => {
-    const withDate = allImages.filter(img => img.datetime).length;
-    const withCoords = allImages.filter(img => img.coordinates).length;
-    const withElevation = allImages.filter(img => img.elevation != null).length;
-    return { total: allImages.length, withDate, withCoords, withElevation };
-  }, [allImages]);
+    const withDate = allFigures.filter(img => img.datetime).length;
+    const withCoords = allFigures.filter(img => img.coordinates).length;
+    const withElevation = allFigures.filter(img => img.elevation != null).length;
+    return { total: allFigures.length, withDate, withCoords, withElevation };
+  }, [allFigures]);
 
   if (!isDebug) return null;
 
@@ -73,7 +73,7 @@ function DebugPanelInner() {
 
         {/* Stats */}
         <div className="flex gap-3 ml-3 text-[11px] text-muted-foreground">
-          <span title="Total images">{metaStats.total} imgs</span>
+          <span title="Total figures">{metaStats.total} figs</span>
           <span title="With datetime" className={metaStats.withDate === metaStats.total ? 'text-green-400' : 'text-yellow-400'}>
             {metaStats.withDate}/{metaStats.total} dated
           </span>
@@ -85,10 +85,10 @@ function DebugPanelInner() {
           </span>
         </div>
 
-        {/* Current image indicator */}
-        {currentImageId && (
+        {/* Current figure indicator */}
+        {currentFigureId && (
           <span className="text-[11px] text-blue-400 ml-2">
-            ↑ <span className="font-mono">{currentImageId}</span>
+            ↑ <span className="font-mono">{currentFigureId}</span>
           </span>
         )}
 
@@ -118,10 +118,10 @@ function DebugPanelInner() {
       {expanded && (
         <div className="p-3 overflow-auto" style={{ maxHeight: '40vh' }}>
           {tab === 'timeline' && (
-            <TimelinePlot images={allImages} currentImageId={currentImageId} />
+            <TimelinePlot figures={allFigures} currentFigureId={currentFigureId} />
           )}
           {tab === 'elevation' && (
-            <ElevationPlot images={allImages} currentImageId={currentImageId} />
+            <ElevationPlot images={allFigures} currentImageId={currentFigureId} />
           )}
         </div>
       )}

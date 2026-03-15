@@ -1,8 +1,8 @@
-import Figure from "@/app/components/figure";
+import ClickableFigure from "@/figures/clickable-figure";
 import { type GeoItem } from "@/lib/geo-item";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 
-const images = [getGuideImageById('tincan-overview')];
+const images = [getFigureById('tincan-overview')];
 
 export const geoItem = {
   id: "tincan-trees",
@@ -32,7 +32,7 @@ export const geoItem = {
     nicks_ates_ratings: ["simple", "challenging"],
     children: [],
     area: "tincan-area",
-    images,
+    figures: images,
   },
   proseJsx: (
     <>
@@ -62,9 +62,9 @@ export const geoItem = {
         slides triggered in this zone.
       </p>
 
-      <Figure
-        image={getGuideImageById('tincan-overview')}
-        images={images}
+      <ClickableFigure
+        figure={getFigureById('tincan-overview')}
+        figures={images}
       />
     </>
   ),

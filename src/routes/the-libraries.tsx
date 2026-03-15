@@ -1,8 +1,8 @@
-import Figure from "@/app/components/figure";
-import { getGuideImageById } from "@/imageRegistry/images";
+import ClickableFigure from "@/figures/clickable-figure";
+import { getFigureById } from "@/figures/index";
 import { type GeoItem } from "@/lib/geo-item";
 
-const images = [getGuideImageById('libraries-ridge'), getGuideImageById('libraries-early'), getGuideImageById('libraries-overview')];
+const images = [getFigureById('libraries-ridge'), getFigureById('libraries-early'), getFigureById('libraries-overview')];
 
 export const geoItem = {
   id: "the-libraries",
@@ -37,7 +37,7 @@ export const geoItem = {
     nicks_ates_ratings: ["complex", "extreme"],
     children: [],
     area: "tincan-area",
-    images,
+    figures: images,
   },
   proseJsx: (
     <>
@@ -48,9 +48,9 @@ export const geoItem = {
         all the spine lines are stacked like books on a shelf.
       </p>
 
-      <Figure
-        image={getGuideImageById('libraries-overview')}
-        images={images}
+      <ClickableFigure
+        figure={getFigureById('libraries-overview')}
+        figures={images}
       />
 
       <p>
@@ -67,9 +67,9 @@ export const geoItem = {
         lines, but often it is not.
       </p>
 
-      <Figure
-        image={getGuideImageById('libraries-early')}
-        images={images}
+      <ClickableFigure
+        figure={getFigureById('libraries-early')}
+        figures={images}
       />
     </>
   ),

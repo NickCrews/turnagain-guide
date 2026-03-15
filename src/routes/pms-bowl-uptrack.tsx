@@ -1,4 +1,4 @@
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 import { type GeoItem } from "@/lib/geo-item";
 
 export const geoItem = {
@@ -133,7 +133,7 @@ export const geoItem = {
     distance: 2590.6915043997165,
     latitude: 60.75533412678126,
     longitude: -149.22352955114067,
-    images: [getGuideImageById('pms-bowl-from-cornbiscuit')],
+    figures: [getFigureById('pms-bowl-from-cornbiscuit')],
   },
   proseJsx: (
     <>

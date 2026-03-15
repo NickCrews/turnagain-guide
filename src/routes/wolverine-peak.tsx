@@ -14,21 +14,21 @@ export const geoItem = {
     children: [],
     area: "wolverine-area",
     elevation: 1203,
-    images: [],
+    figures: [],
   },
   proseJsx: (
     <>
-    <p>
-      This is a beautiful spined hulk that makes you say &quot;wow&quot; when you&apos;re standing
-      at the top of Tincan Common, eating your cheese and crackers, looking back towards the arm.
-      This is quite difficult to access, and has a lot of serious terrain.
-    </p>
-    <p>
-      Sometimes this is referred to as &quot;Flying Cornice&quot;.
-    </p>
-    <p>
-      I have never been up there and don&apos;t have good information about it yet.
-    </p>
+      <p>
+        This is a beautiful spined hulk that makes you say &quot;wow&quot; when you&apos;re standing
+        at the top of Tincan Common, eating your cheese and crackers, looking back towards the arm.
+        This is quite difficult to access, and has a lot of serious terrain.
+      </p>
+      <p>
+        Sometimes this is referred to as &quot;Flying Cornice&quot;.
+      </p>
+      <p>
+        I have never been up there and don&apos;t have good information about it yet.
+      </p>
     </>
   ),
 } as const satisfies GeoItem;

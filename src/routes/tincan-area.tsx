@@ -1,8 +1,8 @@
-import Figure from "@/app/components/figure";
+import ClickableFigure from "@/figures/clickable-figure";
 import { type GeoItem } from "@/lib/geo-item";
-import { getGuideImageById } from "@/imageRegistry/images";
+import { getFigureById } from "@/figures/index";
 
-const images = [getGuideImageById('tincan-overview')];
+const images = [getFigureById('tincan-overview')];
 
 export const geoItem = {
   id: "tincan-area",
@@ -44,7 +44,7 @@ export const geoItem = {
     feature_type: "area",
     nicks_ates_ratings: [],
     children: [],
-    images,
+    figures: images,
   },
   proseJsx: (
     <>
@@ -54,9 +54,9 @@ export const geoItem = {
         available, from low-angle trees to steep spines, all with zero approach.
       </p>
 
-      <Figure
-        image={getGuideImageById('tincan-overview')}
-        images={images}
+      <ClickableFigure
+        figure={getFigureById('tincan-overview')}
+        figures={images}
       />
     </>
   ),

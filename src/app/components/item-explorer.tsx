@@ -233,7 +233,7 @@ function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void
       </nav>
     </div>
     <div className="overflow-y-auto h-full rounded-lg px-6 pb-6 pt-3 max-w-2xl w-full">
-      {item.properties.figures && <FigureCarousel figures={item.properties.figures} triggerLightbox />}
+      {item.properties.figures && item.properties.figures.length > 0 && <FigureCarousel figures={item.properties.figures} triggerLightbox />}
       <h2 className='text-2xl font-bold mb-4'>{item.properties.title}</h2>
       <RouteProperties item={item} />
       <RouteProse item={item} />

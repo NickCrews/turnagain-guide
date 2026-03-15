@@ -121,7 +121,7 @@ function DebugPanelInner() {
             <TimelinePlot figures={allFigures} currentFigureId={currentFigureId} />
           )}
           {tab === 'elevation' && (
-            <ElevationPlot images={allFigures} currentImageId={currentFigureId} />
+            <ElevationPlot figures={allFigures} currentFigureId={currentFigureId} />
           )}
         </div>
       )}

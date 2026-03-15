@@ -1,12 +1,12 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { type GuideImage } from '@/figures/registry';
+import { type Figure } from '@/figures/index';
 import { MetadataEditor } from './metadata-editor';
 
 interface ElevationPlotProps {
-  images: GuideImage[];
-  currentImageId: string | null;
+  figures: Figure[];
+  currentFigureId: string | null;
 }
 
 const PLOT_HEIGHT = 200; // px, the drawable area height
@@ -17,15 +17,15 @@ function metersToFeet(m: number) {
 }
 
 /**
- * show 1d plot of the images with the elevation, with each image shown in a thumbnail and when I hover an image it expands. This can help me verify the elevations are correct. Highlight the current photo in this plot.
+ * show 1d plot of the figures with the elevation, with each figure shown in a thumbnail and when I hover a figure it expands. This can help me verify the elevations are correct. Highlight the current figure in this plot.
  */
-export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
+export function ElevationPlot({ figures, currentFigureId }: ElevationPlotProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [editingImage, setEditingImage] = useState<GuideImage | null>(null);
+  const [editingFigure, setEditingFigure] = useState<Figure | null>(null);
 
   const { withElevation, noElevation, minElev, maxElev, yTicks } = useMemo(() => {
-    const withElevation = images.filter(img => img.elevation != null);
-    const noElevation = images.filter(img => img.elevation == null);
+    const withElevation = figures.filter(img => img.elevation != null);
+    const noElevation = figures.filter(img => img.elevation == null);
 
     if (withElevation.length === 0) {
       return { withElevation: [], noElevation, minElev: 0, maxElev: 0, yTicks: [] };
@@ -44,7 +44,7 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
     }
 
     return { withElevation, noElevation, minElev, maxElev, yTicks };
-  }, [images]);
+  }, [figures]);
 
   // Convert elevation to Y position (higher elevation = lower Y = higher on screen)
   const elevToY = (elev: number): number => {
@@ -92,7 +92,7 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
             {/* Image dots, evenly spaced horizontally */}
             {sorted.map((img, i) => {
               const id = img.id;
-              const isCurrent = id === currentImageId;
+              const isCurrent = id === currentFigureId;
               const isHovered = id === hoveredId;
               const xPct = withElevation.length === 1 ? 50 : (i / (withElevation.length - 1)) * 100;
               const y = elevToY(img.elevation!);
@@ -135,7 +135,7 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
                     }}
                     onMouseEnter={() => setHoveredId(id)}
                     onMouseLeave={() => setHoveredId(null)}
-                    onClick={() => setEditingImage(img)}
+                    onClick={() => setEditingFigure(img)}
                     title={`${id} — ${metersToFeet(img.elevation!)}ft`}
                   >
                     <img
@@ -150,14 +150,14 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
           </div>
         </div>
       ) : (
-        <p className="text-sm text-muted-foreground italic">No images with elevation metadata yet.</p>
+        <p className="text-sm text-muted-foreground italic">No figures with elevation metadata yet.</p>
       )}
 
-      {/* Images without elevation */}
+      {/* Figures without elevation */}
       {noElevation.length > 0 && (
         <div>
           <p className="text-xs text-muted-foreground mb-1">
-            {noElevation.length} image{noElevation.length !== 1 ? 's' : ''} without elevation — click to add:
+            {noElevation.length} figure{noElevation.length !== 1 ? 's' : ''} without elevation — click to add:
           </p>
           <div className="flex flex-wrap gap-1">
             {noElevation.map(img => {
@@ -166,7 +166,7 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
                 <button
                   key={id}
                   className="text-xs px-2 py-0.5 rounded bg-muted hover:bg-muted/80 font-mono cursor-pointer border border-border"
-                  onClick={() => setEditingImage(img)}
+                  onClick={() => setEditingFigure(img)}
                   title={img.imagePath}
                 >
                   {id}
@@ -177,8 +177,8 @@ export function ElevationPlot({ images, currentImageId }: ElevationPlotProps) {
         </div>
       )}
 
-      {editingImage && (
-        <MetadataEditor key={editingImage.id} figure={editingImage} onClose={() => setEditingImage(null)} />
+      {editingFigure && (
+        <MetadataEditor key={editingFigure.id} figure={editingFigure} onClose={() => setEditingFigure(null)} />
       )}
     </div>
   );

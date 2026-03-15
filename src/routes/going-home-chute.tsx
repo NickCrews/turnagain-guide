@@ -27,9 +27,9 @@ export const geoItem = {
     nicks_ates_ratings: ["complex"],
     children: [],
     area: "lipps-area",
-    elevation_max: 1319,
-    elevation_min: 928,
-    distance: 618,
+    elevation_max: 1102,
+    elevation_min: 784,
+    distance: 469,
     figures: [getFigureById('granddaddy-far-aerial')],
   },
   proseJsx: (

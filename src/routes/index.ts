@@ -7,6 +7,7 @@ import { geoItem as cornbiscuitArea } from './cornbiscuit-area';
 import { geoItem as cornbiscuitPeak } from './cornbiscuit-peak';
 import { geoItem as cornbiscuitParkingLot } from './cornbiscuit-parking-lot';
 import { geoItem as cornbiscuitUptrack } from './cornbiscuit-uptrack';
+import { geoItem as cornerPocket } from './corner-pocket';
 import { geoItem as eddiesApproachAndUptrack } from './eddies-approach-and-uptrack';
 import { geoItem as eddiesArea } from './eddies-area';
 import { geoItem as eddiesFrontFace } from './eddies-front-face';
@@ -78,6 +79,7 @@ export const allGeoItems = [
   cornbiscuitArea,
   cornbiscuitPeak,
   cornbiscuitParkingLot,
+  cornerPocket,
   cornbiscuitUptrack,
   eddiesApproachAndUptrack,
   eddiesArea,

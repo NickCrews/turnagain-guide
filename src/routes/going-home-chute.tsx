@@ -1,4 +1,3 @@
-import RouteLink from "@/app/components/route-link";
 import { getFigureById } from "@/figures/index";
 import { type GeoItem } from "@/lib/geo-item";
 
@@ -36,7 +35,7 @@ export const geoItem = {
   proseJsx: (
     <>
       <p>
-        I don't know what most people actually call this chute. I just invented the name
+        I don&apos;t know what most people actually call this chute. I just invented the name
         &quot;Going Home Chute&quot;. If you know the real name please tell me and I will change it.
       </p>
       <p>

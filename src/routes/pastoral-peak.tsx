@@ -1,7 +1,6 @@
 import RouteLink from "@/app/components/route-link";
 import { type GeoItem } from "@/lib/geo-item";
 import { getFigureById } from "@/figures/index";
-import { get } from "http";
 
 export const geoItem = {
   id: "pastoral-peak",

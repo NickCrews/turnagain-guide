@@ -210,7 +210,7 @@ export const geoItem = {
       </p>
       <p>
         The entrance is fairly straightforward, with no steep rollovers or trigger points.
-        The runout at the bottom is a fairly large fan, so the consequences of an avalanche aren't extreme.
+        The runout at the bottom is a fairly large fan, so the consequences of an avalanche aren&apos;t extreme.
       </p>
       <p>
         The entire line is sort of an annoying double fall line: The first one or two people down

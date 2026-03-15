@@ -16,7 +16,11 @@ export const geoItem = {
     children: [],
     area: "lipps-area",
     elevation: 1021,
-    figures: [getFigureById('lipps-north-side')],
+    figures: [
+      getFigureById('lipps-north-aerial'),
+      getFigureById('lipps-north-side'),
+      getFigureById('lipps-se'),
+    ],
   },
   proseJsx: (
     <>

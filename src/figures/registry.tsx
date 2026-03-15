@@ -92,8 +92,21 @@ export const RAW_FIGURES_BY_ID = {
   "lipps-north-side": {
     imagePath: "/img/lipps-north-side.jpg",
   },
+  "lipps-north-aerial": {
+    imagePath: "/img/lipps-north-aerial.jpg",
+    title: "North side of Lipps",
+    description: "The North side of Lipps from the air from up Spokane Creek, looking back towards the highway."
+  },
   "lipps-overview": {
     imagePath: "/img/lipps-overview.jpg",
+  },
+  "lipps-se": {
+    imagePath: "/img/lipps-se.jpg",
+    title: "Southeast side of Lipps",
+    description: <>
+      The sunny southeast side of <RouteLink routeID="lipps-peak">Lipps Peak</RouteLink> from the air
+      from halfway up Spokane Creek.
+    </>
   },
   "magnum-and-cornbiscuit": {
     imagePath: "/img/magnum-cornbiscuit-overview.jpg",

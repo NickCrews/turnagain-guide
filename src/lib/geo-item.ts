@@ -8,6 +8,25 @@ const _featureTypes = ["area", "parking", "peak", "ascent", "descent"] as const;
 export type FeatureType = typeof _featureTypes[number];
 export const FEATURE_TYPES = new Set(_featureTypes);
 
+const AREA_IDS = [
+  "cornbiscuit-area",
+  "goldpan-area",
+  "tincan-area",
+  "wolverine-area",
+  "eddies-area",
+  "lipps-area",
+  "petes-north-area",
+  "magnum-area",
+  "pastoral-area",
+  "petes-south-area",
+  "sharkfin-area",
+  "sunburst-area",
+] as const;
+export type AreaId = typeof AREA_IDS[number];
+
+// export type AreaId<TGeoItem extends { id: string; properties: { feature_type: FeatureType } }> =
+//   Extract<TGeoItem, { properties: { feature_type: 'area' } }>['id'];
+
 // This is an extension of the GeoJsonProperties interface.
 export interface GeoItemProperties {
   title: string;
@@ -29,7 +48,7 @@ export interface GeoItemProperties {
   total_descent?: number;
   nicks_ates_ratings: ATES[];
   /* the id of the other item that represents the area, eg 'tincan-area' */
-  area?: string;
+  area?: AreaId;
   /** 
    * The ids of the items that are children of this item.
    * This is only going to be filled in for areas.

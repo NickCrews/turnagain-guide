@@ -8,19 +8,20 @@ const _featureTypes = ["area", "parking", "peak", "ascent", "descent"] as const;
 export type FeatureType = typeof _featureTypes[number];
 export const FEATURE_TYPES = new Set(_featureTypes);
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const AREA_IDS = [
-  "cornbiscuit-area",
-  "goldpan-area",
-  "tincan-area",
-  "wolverine-area",
-  "eddies-area",
-  "lipps-area",
-  "petes-north-area",
-  "magnum-area",
-  "pastoral-area",
-  "petes-south-area",
-  "sharkfin-area",
-  "sunburst-area",
+  'cornbiscuit-area',
+  'goldpan-area',
+  'tincan-area',
+  'wolverine-area',
+  'eddies-area',
+  'lipps-area',
+  'petes-north-area',
+  'magnum-area',
+  'pastoral-area',
+  'petes-south-area',
+  'sharkfin-area',
+  'sunburst-area',
 ] as const;
 export type AreaId = typeof AREA_IDS[number];
 

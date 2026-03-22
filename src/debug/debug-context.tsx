@@ -6,12 +6,10 @@ const isDev = process.env.NODE_ENV === 'development';
 
 interface DebugContextValue {
   isDebug: boolean;
-  turnOffDebug: () => void;
 }
 
 const DebugContext = createContext<DebugContextValue>({
   isDebug: isDev,
-  turnOffDebug: () => { },
 });
 
 export function useDebug() {
@@ -32,7 +30,7 @@ export function DebugProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <DebugContext.Provider value={{ isDebug, turnOffDebug: () => setIsDebug(false) }}>
+    <DebugContext.Provider value={{ isDebug }}>
       {children}
     </DebugContext.Provider>
   );

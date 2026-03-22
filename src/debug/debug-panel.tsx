@@ -12,9 +12,10 @@ import { ElevationPlot } from './elevation-plot';
 type Tab = 'timeline' | 'elevation';
 
 function DebugPanelInner() {
-  const { isDebug, turnOffDebug } = useDebug();
+  const { isDebug } = useDebug();
   const searchParams = useSearchParams();
   const items = useGeoItems();
+  const [isOpen, setIsOpen] = useState(false);
   const [expanded, setExpanded] = useState(true);
   const [tab, setTab] = useState<Tab>('timeline');
 
@@ -45,6 +46,19 @@ function DebugPanelInner() {
   }, [allFigures]);
 
   if (!isDebug) return null;
+
+  if (!isOpen) {
+    return (
+      <button
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-3 left-3 z-[9999] rounded-full border border-border bg-background/95 px-2.5 py-1 text-xs font-semibold uppercase tracking-wider text-yellow-400 shadow-2xl backdrop-blur cursor-pointer hover:bg-muted"
+        style={{ fontFamily: 'monospace' }}
+        title="Open debug panel"
+      >
+        🐛 Debug
+      </button>
+    );
+  }
 
   return (
     <div
@@ -105,9 +119,9 @@ function DebugPanelInner() {
             {expanded ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
           </button>
           <button
-            onClick={turnOffDebug}
+            onClick={() => setIsOpen(false)}
             className="text-muted-foreground hover:text-destructive cursor-pointer p-0.5"
-            title="Turn off debug mode"
+            title="Close debug panel"
           >
             <X className="w-4 h-4" />
           </button>

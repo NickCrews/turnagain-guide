@@ -8,7 +8,8 @@ type InflateFigure<ID extends FigureID, Raw extends RawFigureProse> = RawFigureP
   altText: InferAltText<Raw>,
 } & MetadataByFigureID<ID>;
 function inflateFigure<T extends FigureID, Raw extends RawFigureProse>(id: T, raw: Raw): InflateFigure<T, Raw> {
-  const { id: _ignored, ...metadata } = getMetadataByFigureID(id);
+  const { id: ignoredId, ...metadata } = getMetadataByFigureID(id);
+  void ignoredId;
   return {
     id,
     imagePath: raw.imagePath,

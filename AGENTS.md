@@ -15,7 +15,7 @@
 - Run tests: `pnpm test`
 - To focus on one step, add the Vitest pattern: `pnpm test run -t "<test name>"`.
 - Fix any test or type errors until the whole suite is green.
-- After moving files or changing imports, run `pnpm lint --filter <project_name>` to be sure ESLint and TypeScript rules still pass.
+- After moving files or changing imports, run `pnpm lint` to be sure ESLint and TypeScript rules still pass.
 - Add or update tests for the code you change, even if nobody asked.
  
 ## PR instructions

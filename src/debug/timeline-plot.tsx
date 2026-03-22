@@ -19,8 +19,8 @@ interface PlacedFigure {
 function metaScore(fig: Figure): number {
   let score = 0;
   if (fig.datetime) score++;
-  if (fig.coordinates) score++;
-  if (fig.elevation != null) score++;
+  if (fig.subject_coordinates) score++;
+  if (fig.subject_elevation != null) score++;
   return score;
 }
 

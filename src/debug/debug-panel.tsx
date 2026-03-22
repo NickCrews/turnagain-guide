@@ -39,8 +39,8 @@ function DebugPanelInner() {
 
   const metaStats = useMemo(() => {
     const withDate = allFigures.filter(img => img.datetime).length;
-    const withCoords = allFigures.filter(img => img.coordinates).length;
-    const withElevation = allFigures.filter(img => img.elevation != null).length;
+    const withCoords = allFigures.filter(img => img.subject_coordinates).length;
+    const withElevation = allFigures.filter(img => img.subject_elevation != null).length;
     return { total: allFigures.length, withDate, withCoords, withElevation };
   }, [allFigures]);
 

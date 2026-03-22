@@ -1,9 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useActionState, useState } from 'react';
 import { type Figure } from '@/figures/index';
+import {
+  type EditableMetadataFields,
+  parseEditableMetadata,
+  renderMetadataEntrySnippet,
+} from '@/figures/metadata-codegen';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { saveFigureMetadataAction } from './metadata-actions';
 import { Check, Copy } from 'lucide-react';
 
 interface MetadataEditorProps {
@@ -11,67 +17,43 @@ interface MetadataEditorProps {
   onClose: () => void;
 }
 
-interface EditableFields {
-  title: string;
-  description: string;
-  lat: string;
-  long: string;
-  elevation: string;
-  direction: string;
-  datetime: string;
-}
-
-function figureToEditable(figure: Figure): EditableFields {
+function figureToEditable(figure: Figure): EditableMetadataFields {
   return {
-    title: figure.title ?? '',
-    description: typeof figure.description === 'string' ? figure.description : '',
-    lat: figure.coordinates?.lat?.toString() ?? '',
-    long: figure.coordinates?.long?.toString() ?? '',
-    elevation: figure.elevation?.toString() ?? '',
+    lat: figure.subject_coordinates?.lat?.toString() ?? '',
+    long: figure.subject_coordinates?.long?.toString() ?? '',
+    elevation: figure.subject_elevation?.toString() ?? '',
     direction: figure.direction?.toString() ?? '',
     datetime: figure.datetime ?? '',
   };
 }
 
-function generateTypeScript(imagePath: string, fields: EditableFields): string {
-  const lines: string[] = [];
-
-  if (fields.title) lines.push(`  title: ${JSON.stringify(fields.title)},`);
-  if (fields.description) lines.push(`  description: ${JSON.stringify(fields.description)},`);
-  if (fields.lat && fields.long) {
-    lines.push(`  coordinates: { lat: ${fields.lat}, long: ${fields.long} },`);
-  }
-  if (fields.elevation) lines.push(`  elevation: ${fields.elevation},`);
-  if (fields.direction) lines.push(`  direction: ${fields.direction},`);
-  if (fields.datetime) lines.push(`  datetime: ${JSON.stringify(fields.datetime)},`);
-
-  if (lines.length === 0) return `// No metadata fields filled in for ${imagePath}`;
-
-  return [
-    `// In imageRegistry/images.tsx, update the object for: ${imagePath}`,
-    `// Merge these fields into the export:`,
-    `{`,
-    ...lines,
-    `}`,
-  ].join('\n');
-}
+const INITIAL_STATE = { ok: false, message: '', errors: [] };
 
 export function MetadataEditor({ figure, onClose }: MetadataEditorProps) {
-  const [fields, setFields] = useState<EditableFields>(
-    figure ? figureToEditable(figure) : { title: '', description: '', lat: '', long: '', elevation: '', direction: '', datetime: '' }
+  const [fields, setFields] = useState<EditableMetadataFields>(
+    figure ? figureToEditable(figure) : { lat: '', long: '', elevation: '', direction: '', datetime: '' },
   );
+  const [actionState, submitAction, pending] = useActionState(saveFigureMetadataAction, INITIAL_STATE);
   const [copied, setCopied] = useState(false);
 
-  const set = (key: keyof EditableFields) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const set = (key: keyof EditableMetadataFields) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFields(f => ({ ...f, [key]: e.target.value }));
   };
 
-  const tsOutput = figure ? generateTypeScript(figure.imagePath, fields) : '';
+  const parsed = figure ? parseEditableMetadata(figure.id, fields) : null;
+  const tsOutput = parsed ? renderMetadataEntrySnippet(parsed.metadata) : '';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(tsOutput);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleSave = () => {
+    if (!figure) {
+      return;
+    }
+    submitAction({ id: figure.id, fields });
   };
 
   if (!figure) return null;
@@ -92,26 +74,36 @@ export function MetadataEditor({ figure, onClose }: MetadataEditorProps) {
         </div>
 
         <div className="grid grid-cols-2 gap-3 text-sm">
-          <Field label="Title" value={fields.title} onChange={set('title')} />
           <Field label="Datetime (ISO 8601)" value={fields.datetime} onChange={set('datetime')} placeholder="2024-03-15T10:30:00" />
           <Field label="Latitude" value={fields.lat} onChange={set('lat')} placeholder="60.7819" />
           <Field label="Longitude" value={fields.long} onChange={set('long')} placeholder="-149.1418" />
           <Field label="Elevation (meters)" value={fields.elevation} onChange={set('elevation')} placeholder="1139" />
           <Field label="Direction (°, 0=N)" value={fields.direction} onChange={set('direction')} placeholder="180" />
-          <div className="col-span-2">
-            <label className="block text-xs font-medium text-muted-foreground mb-1">Description (string only; JSX edit manually)</label>
-            <textarea
-              value={fields.description}
-              onChange={set('description')}
-              rows={2}
-              className="w-full rounded border border-input bg-background px-2 py-1 text-sm font-mono resize-none focus:outline-none focus:ring-1 focus:ring-ring"
-            />
+        </div>
+
+        {(parsed?.errors.length || actionState.errors.length || actionState.message) ? (
+          <div className="mt-3 rounded border border-border/60 bg-muted/50 p-2 text-xs font-mono">
+            {parsed?.errors.map(err => (
+              <p key={err} className="text-destructive">{err}</p>
+            ))}
+            {actionState.errors.map(err => (
+              <p key={`server-${err}`} className="text-destructive">{err}</p>
+            ))}
+            {actionState.message ? (
+              <p className={actionState.ok ? 'text-emerald-600' : 'text-muted-foreground'}>{actionState.message}</p>
+            ) : null}
           </div>
+        ) : null}
+
+        <div className="mt-3">
+          <Button onClick={handleSave} disabled={pending || (parsed?.errors.length ?? 0) > 0} className="h-8 text-xs">
+            {pending ? 'Saving…' : 'Save to metadata.ts'}
+          </Button>
         </div>
 
         <div className="mt-4">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-medium text-muted-foreground">TypeScript output — paste figures/registry.tsx</span>
+            <span className="text-xs font-medium text-muted-foreground">Entry preview for metadata.ts</span>
             <Button size="sm" variant="outline" onClick={handleCopy} className="gap-1 h-7 text-xs">
               {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copied!' : 'Copy'}

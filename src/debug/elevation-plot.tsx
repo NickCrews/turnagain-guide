@@ -24,14 +24,14 @@ export function ElevationPlot({ figures, currentFigureId }: ElevationPlotProps) 
   const [editingFigure, setEditingFigure] = useState<Figure | null>(null);
 
   const { withElevation, noElevation, minElev, maxElev, yTicks } = useMemo(() => {
-    const withElevation = figures.filter(img => img.elevation != null);
-    const noElevation = figures.filter(img => img.elevation == null);
+    const withElevation = figures.filter(img => img.subject_elevation != null);
+    const noElevation = figures.filter(img => img.subject_elevation == null);
 
     if (withElevation.length === 0) {
       return { withElevation: [], noElevation, minElev: 0, maxElev: 0, yTicks: [] };
     }
 
-    const elevations = withElevation.map(img => img.elevation!);
+    const elevations = withElevation.map(img => img.subject_elevation!);
     const minElev = Math.min(...elevations);
     const maxElev = Math.max(...elevations);
 
@@ -54,7 +54,7 @@ export function ElevationPlot({ figures, currentFigureId }: ElevationPlotProps) 
 
   // Sort by elevation for left-to-right ordering
   const sorted = useMemo(
-    () => [...withElevation].sort((a, b) => a.elevation! - b.elevation!),
+    () => [...withElevation].sort((a, b) => a.subject_elevation! - b.subject_elevation!),
     [withElevation]
   );
 
@@ -95,7 +95,7 @@ export function ElevationPlot({ figures, currentFigureId }: ElevationPlotProps) 
               const isCurrent = id === currentFigureId;
               const isHovered = id === hoveredId;
               const xPct = withElevation.length === 1 ? 50 : (i / (withElevation.length - 1)) * 100;
-              const y = elevToY(img.elevation!);
+              const y = elevToY(img.subject_elevation!);
 
               return (
                 <div
@@ -120,7 +120,7 @@ export function ElevationPlot({ figures, currentFigureId }: ElevationPlotProps) 
                         className="rounded w-full object-cover"
                       />
                       <p className="text-[10px] font-mono text-center mt-0.5 text-foreground bg-background/80 rounded px-1">
-                        {metersToFeet(img.elevation!)}′ ({img.elevation}m)
+                        {metersToFeet(img.subject_elevation!)}′ ({img.subject_elevation}m)
                       </p>
                     </div>
                   )}
@@ -136,7 +136,7 @@ export function ElevationPlot({ figures, currentFigureId }: ElevationPlotProps) 
                     onMouseEnter={() => setHoveredId(id)}
                     onMouseLeave={() => setHoveredId(null)}
                     onClick={() => setEditingFigure(img)}
-                    title={`${id} — ${metersToFeet(img.elevation!)}ft`}
+                    title={`${id} — ${metersToFeet(img.subject_elevation!)}ft`}
                   >
                     <img
                       src={img.imagePath}

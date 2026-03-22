@@ -1,9 +1,9 @@
 'use client';
-import ItemExplorer from "@/app/components/item-explorer";
+import ItemExplorer from "@/components/app/item-explorer";
 import { GeoItem } from "@/lib/geo-item";
 import { useRouter } from "next/navigation";
 import { Suspense, useCallback, useMemo } from "react";
-import { useGeoItems } from "@/app/components/items-context";
+import { useGeoItems } from "@/components/app/items-context";
 
 export default function ExplorerWithRouter(
   { selectedItemId }: { selectedItemId: string | null },

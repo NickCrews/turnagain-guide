@@ -9,7 +9,7 @@ import RouteFilterBar from "./route-filter-bar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
 import { useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
-import { useGeoItems } from "@/app/components/items-context";
+import { useGeoItems } from "@/components/app/items-context";
 import { ChevronLeft, X } from "lucide-react";
 import {
   Drawer,

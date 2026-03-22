@@ -21,7 +21,7 @@ import { NextButton, PrevButton } from "@/figures/image-carousel";
 import { useHybridState } from "@/lib/hybrid-state";
 import { Undo, ZoomIn, ZoomOut } from "lucide-react";
 import { useIsBelowWidth } from "@/lib/widths";
-import { Elevation } from "../app/components/units";
+import { Elevation } from "@/components/app/units";
 
 function cardinalDirection(degrees: number): string {
   const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];

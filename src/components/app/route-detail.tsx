@@ -1,8 +1,8 @@
 import { GeoItem } from '@/lib/geo-item';
-import { RawValue, Distance, Elevation, ElevationRange } from '@/app/components/units';
+import { RawValue, Distance, Elevation, ElevationRange } from '@/components/app/units';
 import { AtesBadges } from './ates';
 import { AreaBadge } from './area';
-import { useGeoItems } from '@/app/components/items-context';
+import { useGeoItems } from '@/components/app/items-context';
 import Link from '@/components/ui/link';
 import ItemGallery from './item-gallery';
 import { Point } from 'geojson';

@@ -1,5 +1,5 @@
 import { type GeoItem } from "@/lib/geo-item";
-import RouteLink from "@/app/components/route-link";
+import RouteLink from "@/components/app/route-link";
 
 export const geoItem = {
   id: "sunburst-meadows-uptrack",

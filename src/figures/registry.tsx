@@ -1,4 +1,4 @@
-import RouteLink from "@/app/components/route-link";
+import RouteLink from "@/components/app/route-link";
 import { ReactElement } from "react";
 
 export interface RawFigure {

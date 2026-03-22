@@ -1,4 +1,4 @@
-import { Filters } from '@/app/components/item-explorer'
+import { Filters } from '@/components/app/item-explorer'
 import { Input } from '@/components/ui/input'
 import { FeatureType } from '@/lib/geo-item'
 import { ATES } from '@/lib/terrain-rating'

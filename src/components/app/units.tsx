@@ -1,5 +1,5 @@
 
-import { useElevationUnits, useDistanceUnits } from '@/app/components/units-context';
+import { useElevationUnits, useDistanceUnits } from '@/components/app/units-context';
 
 export function RawValue({ value }: { value: string }) {
   return <span className="text-sm">{value}</span>

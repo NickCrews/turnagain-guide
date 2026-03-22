@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
 import { useDebug } from '@/debug/debug-context';
-import { useGeoItems } from '@/app/components/items-context';
+import { useGeoItems } from '@/components/app/items-context';
 import { type Figure } from '@/figures/index';
 import { TimelinePlot } from './timeline-plot';
 import { ElevationPlot } from './elevation-plot';

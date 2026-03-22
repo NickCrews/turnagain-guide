@@ -21,7 +21,7 @@ import { type GeoItem } from '@/lib/geo-item';
 import { useDebounce } from '@/lib/debounce';
 import RouteCard from './route-card';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
-import { useViewer } from '@/app/components/viewer-context';
+import { useViewer } from '@/components/app/viewer-context';
 import { atesColor, maxAtes } from '@/lib/terrain-rating';
 import { type ItemWithVisibility } from './item-explorer';
 import { useTouch } from '@/components/ui/touch-context';

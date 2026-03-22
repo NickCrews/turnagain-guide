@@ -1,24 +1,15 @@
 import RouteLink from "@/components/app/route-link";
 import { ReactElement } from "react";
 
-export interface RawFigure {
+export interface RawFigureProse {
   imagePath: string
   title?: string,
   description?: string | ReactElement
   /** If not defined, will use title or description */
   altText?: string
-  coordinates?: {
-    lat: number,
-    long: number
-  },
-  elevation?: number,
-  /** Direction in degrees, where 0 = North, 90 = East, etc. */
-  direction?: number,
-  /** ISO 8601 datetime string, e.g. "2024-03-15T10:30:00" */
-  datetime?: string,
 }
 
-export const RAW_FIGURES_BY_ID = {
+export const RAW_FIGURE_PROSE_BY_ID = {
   "blue-diamond": {
     imagePath: "/img/blue-diamond.jpg",
   }, "booting-basketball": {
@@ -183,4 +174,4 @@ export const RAW_FIGURES_BY_ID = {
       Looking at the North side of <RouteLink routeID="tincan-common">Tincan</RouteLink> in March of a decent snow year.
     </>
   },
-} as const satisfies Record<string, RawFigure>;
+} as const satisfies Record<string, RawFigureProse>;

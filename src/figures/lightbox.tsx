@@ -38,8 +38,8 @@ function formatDatetime(iso: string): string {
 }
 
 function PhotoMeta({ figure }: { figure: Figure }) {
-  const { datetime, coordinates, elevation, direction } = figure;
-  if (!datetime && !coordinates && elevation == null && direction == null) return null;
+  const { datetime, subject_coordinates, subject_elevation, direction } = figure;
+  if (!datetime && !subject_coordinates && subject_elevation == null && direction == null) return null;
   return (
     <dl className="mt-4 text-sm space-y-1 text-muted-foreground border-t pt-3">
       {datetime && (
@@ -48,16 +48,16 @@ function PhotoMeta({ figure }: { figure: Figure }) {
           <dd>{formatDatetime(datetime)}</dd>
         </div>
       )}
-      {coordinates && (
+      {subject_coordinates && (
         <div className="flex gap-2">
           <dt className="font-medium text-foreground w-20 shrink-0">Location</dt>
-          <dd>{coordinates.lat.toFixed(5)}, {coordinates.long.toFixed(5)}</dd>
+          <dd>{subject_coordinates.lat.toFixed(5)}, {subject_coordinates.long.toFixed(5)}</dd>
         </div>
       )}
-      {elevation != null && (
+      {subject_elevation != null && (
         <div className="flex gap-2">
           <dt className="font-medium text-foreground w-20 shrink-0">Elevation</dt>
-          <dd><Elevation meters={elevation} /></dd>
+          <dd><Elevation meters={subject_elevation} /></dd>
         </div>
       )}
       {direction != null && (

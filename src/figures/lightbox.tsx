@@ -74,7 +74,7 @@ export interface LightboxProps {
   figures: Figure[];
   index?: number;
   defaultIndex?: number;
-  onIndexChange: (newIndex: number) => void;
+  onIndexChange?: (newIndex: number) => void;
 }
 
 export function Lightbox({

@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { saveFigureMetadataAction } from './metadata-actions';
 import { Check, Copy } from 'lucide-react';
+import { stubInProdFn } from '@/stub-in-prod/stub';
 
 interface MetadataEditorProps {
   figure: Figure | null;
@@ -33,7 +34,12 @@ export function MetadataEditor({ figure, onClose }: MetadataEditorProps) {
   const [fields, setFields] = useState<EditableMetadataFields>(
     figure ? figureToEditable(figure) : { lat: '', long: '', elevation: '', direction: '', datetime: '' },
   );
-  const [actionState, submitAction, pending] = useActionState(saveFigureMetadataAction, INITIAL_STATE);
+  // const [actionState, submitAction, pending] = useActionState(saveFigureMetadataAction, INITIAL_STATE);
+  // @ts-expect-erro
+  // const filler = (() => "foo") as typeof saveFigureMetadataAction;
+  const wrapped = stubInProdFn(saveFigureMetadataAction, 'saveFigureMetadataAction');
+  // @ts-expect-erro
+  const [actionState, submitAction, pending] = useActionState(wrapped, INITIAL_STATE);
   const [copied, setCopied] = useState(false);
 
   const set = (key: keyof EditableMetadataFields) => (e: React.ChangeEvent<HTMLInputElement>) => {

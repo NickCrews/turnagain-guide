@@ -28,6 +28,21 @@ const basicConfig: NextConfig = {
 
   // configure webpack to work with Cesium
   webpack: (config, { webpack, isServer }) => {
+    console.log("Using production stub for ProdStub", config.resolve.alias);
+    if (process.env.NODE_ENV === 'production') {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@/stub-in-prod/stub': path.join(__dirname, 'src/stub-in-prod/_prod.tsx'),
+        '*/stub-in-prod': path.join(__dirname, 'src/stub-in-prod/_prod.tsx'),
+      };
+    } else {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@/stub-in-prod/stub': path.join(__dirname, 'src/stub-in-prod/_dev.tsx'),
+        '*/stub-in-prod': path.join(__dirname, 'src/stub-in-prod/_dev.tsx'),
+      };
+    }
+
     if (!isServer) {
       config.plugins.push(
         new CopyWebpackPlugin({

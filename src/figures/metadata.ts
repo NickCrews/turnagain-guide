@@ -1,4 +1,4 @@
-import { type FigureMetadata } from './metadata-types';
+import { type FigureMetadataRaw } from './metadata-types';
 
 export default [
   {
@@ -267,4 +267,4 @@ export default [
     "subject_elevation": 306,
     "datetime": "2025-03-08T15:24:59"
   }
-] as const satisfies Array<FigureMetadata>;
+] as const satisfies Array<FigureMetadataRaw>;

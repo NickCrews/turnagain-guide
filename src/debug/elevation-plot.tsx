@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { type Figure } from '@/figures/index';
-import { MetadataEditor } from './metadata-editor';
+import { MetadataEditorSafe } from './metadata-editor-safe';
 
 interface ElevationPlotProps {
   figures: Figure[];
@@ -178,7 +178,7 @@ export function ElevationPlot({ figures, currentFigureId }: ElevationPlotProps) 
       )}
 
       {editingFigure && (
-        <MetadataEditor key={editingFigure.id} figure={editingFigure} onClose={() => setEditingFigure(null)} />
+        <MetadataEditorSafe key={editingFigure.id} figure={editingFigure} onClose={() => setEditingFigure(null)} />
       )}
     </div>
   );

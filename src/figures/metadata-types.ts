@@ -2,6 +2,7 @@ import { type FigureID } from "./index";
 
 import _RAW_METADATA from "./metadata";
 type RawMetadata = typeof _RAW_METADATA;
+type RawFigureMetadataByID<ID extends FigureID> = Extract<RawMetadata[number], { id: ID }>;
 
 /**
  * An ISO 8601 datetime string, e.g. "2024-03-15T10:30:00"
@@ -11,7 +12,7 @@ type ISODateString = `${number}-${number}-${number}T${number}:${number}:${number
 /**
  * Machine-readable/writable metadata about a figure such as its coordinates, elevation, direction, and datetime.
  */
-export interface FigureMetadata {
+export interface FigureMetadataRaw {
   id: FigureID;
   /** The location of the SUBJECT of the photo (not the camera) */
   subject_coordinates?: {
@@ -26,12 +27,19 @@ export interface FigureMetadata {
   datetime?: ISODateString,
 }
 
-export type MetadataByFigureID<ID extends FigureID> = Extract<RawMetadata[number], { id: ID }>;
+type CommonFigureMetadata = Omit<FigureMetadataRaw, 'id'>;
 
-export function getMetadataByFigureID<ID extends FigureID>(id: ID): MetadataByFigureID<ID> {
-  const metadata = _RAW_METADATA.find(m => m.id === id);
+type SpecificFigureMetadata<ID extends FigureID> =
+  [RawFigureMetadataByID<ID>] extends [never]
+  ? {}
+  : Omit<RawFigureMetadataByID<ID>, 'id'>;
+
+export type FigureMetadata<ID extends FigureID = FigureID> = { id: ID } & CommonFigureMetadata & SpecificFigureMetadata<ID>;
+
+export function getFigureMetadata<ID extends FigureID>(id: ID): FigureMetadata<ID> {
+  const metadata = _RAW_METADATA.find((m): m is RawFigureMetadataByID<ID> => m.id === id);
   if (!metadata) {
-    return { id } as MetadataByFigureID<ID>;
+    return { id } as FigureMetadata<ID>;
   }
-  return metadata as MetadataByFigureID<ID>;
+  return metadata;
 }

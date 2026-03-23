@@ -103,5 +103,5 @@ export function renderMetadataEntrySnippet(entry: FigureMetadataEntry): string {
 
 export function renderMetadataModule(metadata: ReadonlyArray<FigureMetadataEntry>): string {
   const serialized = JSON.stringify(metadata, null, 2);
-  return `import { type FigureMetadata } from './metadata-types';\n\nexport default ${serialized} as const satisfies Array<FigureMetadata>;\n`;
+  return `import { type FigureMetadataRaw } from './metadata-types';\n\nexport default ${serialized} as const satisfies Array<FigureMetadataRaw>;\n`;
 }

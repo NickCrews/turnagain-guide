@@ -1,12 +1,15 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import { NextConfig } from 'next';
+import process from 'process';
+
+console.log(`Running Next.js in ${process.env.NODE_ENV} mode`);
 
 const basicConfig: NextConfig = {
   // Next.js config options
 
-  // make a static website
-  output: 'export',
+  // make a static website for prod, allow server features in dev
+  output: process.env.NODE_ENV === 'production' ? 'export' : 'standalone',
 
   // For a static website, we can't use a dynamincally optimized <Image>
   // components. Explicitly opt out of the optimization.

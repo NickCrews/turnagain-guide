@@ -1,14 +1,15 @@
 import { RAW_FIGURE_PROSE_BY_ID, RawFigureProse } from "./registry";
-import { MetadataByFigureID, getMetadataByFigureID } from "./metadata-types";
+import { FigureMetadata, getFigureMetadata } from "./metadata-types";
 
 export type FigureID = keyof typeof RAW_FIGURE_PROSE_BY_ID;
 
 type InflateFigure<ID extends FigureID, Raw extends RawFigureProse> = RawFigureProse & Raw & {
   id: ID,
   altText: InferAltText<Raw>,
-} & MetadataByFigureID<ID>;
+} & Omit<FigureMetadata<ID>, 'id'>;
+
 function inflateFigure<T extends FigureID, Raw extends RawFigureProse>(id: T, raw: Raw): InflateFigure<T, Raw> {
-  const { id: ignoredId, ...metadata } = getMetadataByFigureID(id);
+  const { id: ignoredId, ...metadata } = getFigureMetadata(id);
   void ignoredId;
   return {
     id,
@@ -22,10 +23,11 @@ function inflateFigure<T extends FigureID, Raw extends RawFigureProse>(id: T, ra
 
 export type Figure<ID extends FigureID = FigureID> = InflateFigure<ID, typeof RAW_FIGURE_PROSE_BY_ID[ID]>;
 
-const _figuresById: Record<FigureID, Figure> = Object.entries(RAW_FIGURE_PROSE_BY_ID).reduce((acc, [id, raw]) => {
-  acc[id as FigureID] = inflateFigure(id as FigureID, raw);
-  return acc;
-}, {} as Record<FigureID, Figure>);
+const _figuresById = {} as Record<FigureID, Figure>;
+for (const id of Object.keys(RAW_FIGURE_PROSE_BY_ID) as FigureID[]) {
+  const raw = RAW_FIGURE_PROSE_BY_ID[id];
+  _figuresById[id] = inflateFigure(id, raw) as Figure;
+}
 
 export function getFigureById<ID extends FigureID>(id: ID): Figure<ID> {
   return _figuresById[id] as Figure<ID>;

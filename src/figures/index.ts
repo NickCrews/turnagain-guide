@@ -21,7 +21,8 @@ function inflateFigure<T extends FigureID, Raw extends RawFigureProse>(id: T, ra
   } as InflateFigure<T, Raw>;
 }
 
-export type Figure<ID extends FigureID = FigureID> = InflateFigure<ID, typeof RAW_FIGURE_PROSE_BY_ID[ID]>;
+// need the conditional type so we get Figure<"a"> | Figure<"b"> instead of just Figure<"a" | "b">
+export type Figure<ID extends FigureID = FigureID> = ID extends FigureID ? InflateFigure<ID, typeof RAW_FIGURE_PROSE_BY_ID[ID]> : never;
 
 const _figuresById = {} as Record<FigureID, Figure>;
 for (const id of Object.keys(RAW_FIGURE_PROSE_BY_ID) as FigureID[]) {

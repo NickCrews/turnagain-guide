@@ -31,7 +31,7 @@ type CommonFigureMetadata = Omit<FigureMetadataRaw, 'id'>;
 
 type SpecificFigureMetadata<ID extends FigureID> =
   [RawFigureMetadataByID<ID>] extends [never]
-  ? {}
+  ? unknown
   : Omit<RawFigureMetadataByID<ID>, 'id'>;
 
 export type FigureMetadata<ID extends FigureID = FigureID> = { id: ID } & CommonFigureMetadata & SpecificFigureMetadata<ID>;

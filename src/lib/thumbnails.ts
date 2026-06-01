@@ -2,8 +2,8 @@ import { figureThumbnailPath, THUMBNAIL_SIZE, THUMBNAIL_FRAME } from "@/figures/
 
 /**
  * Build-time generation of the small, white-framed photo thumbnails that get
- * pinned to the 3D map. Runs under the Node runtime (see instrumentation.ts),
- * the same proven pattern that already produces the geojson/gpx at build.
+ * pinned to the 3D map. Runs as a plain build script (see
+ * scripts/generate-assets.ts, which also produces the geojson/gpx at build).
  *
  * `sharp` and `fs` are imported dynamically so this module stays importable from
  * places that only want the pure path helpers, and so client bundles never pull

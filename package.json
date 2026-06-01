@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "add-component": "pnpm dlx shadcn@latest add",
-    "generate-thumbnails": "tsx --tsconfig scripts/tsconfig.json scripts/generate-thumbnails.ts",
-    "dev": "pnpm generate-thumbnails && next dev --port 1337",
-    "build": "pnpm generate-thumbnails && next build",
+    "generate-assets": "tsx --tsconfig scripts/tsconfig.json scripts/generate-assets.ts",
+    "dev": "pnpm generate-assets && next dev --port 1337",
+    "build": "pnpm generate-assets && next build",
     "start": "next start",
     "lint": "eslint .",
     "test": "vitest run",

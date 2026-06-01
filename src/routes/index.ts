@@ -52,6 +52,7 @@ import { geoItem as sunburstSouthFace } from './sunburst-south-face';
 import { geoItem as superbowl } from './superbowl';
 import { geoItem as theLibraries } from './the-libraries';
 import { geoItem as taylorCreek } from './taylor-creek';
+import { geoItem as taylorPass } from './taylor-pass';
 import { geoItem as taylorPassToPastoralPeak } from './taylor-pass-to-pastoral-peak';
 import { geoItem as tincanArea } from './tincan-area';
 import { geoItem as tincanCommonBowl } from './tincan-common-bowl';
@@ -124,6 +125,7 @@ export const allGeoItems = [
   sunburstSouthFace,
   superbowl,
   taylorCreek,
+  taylorPass,
   taylorPassToPastoralPeak,
   theLibraries,
   tincanArea,

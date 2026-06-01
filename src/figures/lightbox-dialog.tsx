@@ -40,7 +40,7 @@ export function LightboxDialog(
     <Dialog open={open} onOpenChange={setOpen} >
       <DialogOverlay className="bg-green" />
       <DialogContent className="max-w-10xl p-0 overflow-y-auto max-h-[90vh]">
-        <DialogTitle className="sr-only">{figures[index]!.title || figures[index]!.id}</DialogTitle>
+        <DialogTitle className="sr-only">{figures[index]!.title}</DialogTitle>
         <Lightbox figures={figures} index={index} onIndexChange={setIndex} />
       </DialogContent>
     </Dialog>

@@ -30,7 +30,7 @@ export async function generateMetadata(
   }
 
   return {
-    title: figure.title ?? figure.id,
+    title: figure.title,
     description: getMetadataDescription(figure),
   };
 }

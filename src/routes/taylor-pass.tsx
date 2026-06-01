@@ -24,7 +24,7 @@ export const geoItem = {
         It can be very windy here, and the snow is almost always wind scoured, often down to the ground.
       </p>
       <p>
-        From here it's an easy (but often wind-scoured) skin up the ridge to the top of <RouteLink routeID="sunburst-peak">Sunburst</RouteLink>.
+        From here it&apos;s an easy (but often wind-scoured) skin up the ridge to the top of <RouteLink routeID="sunburst-peak">Sunburst</RouteLink>.
         A common lap is to skin up partway and then drop left (Northwest) down into the Taylor Creek valley, and then skin back up to the pass.
       </p>
       <p>

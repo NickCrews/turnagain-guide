@@ -107,7 +107,7 @@ export function Lightbox({
         />
       </div>
       <div className="w-full md:w-96 p-6 overflow-y-auto flex-shrink-0">
-        <h2 className="text-2xl font-bold mb-4">{figure.title || figure.id.replace("-", " ")}</h2>
+        <h2 className="text-2xl font-bold mb-4">{figure.title}</h2>
         {typeof figure.description === 'string' ? (
           <p className="mb-4">{figure.description || "No description available."}</p>
         ) : (

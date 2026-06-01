@@ -176,13 +176,14 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
   )
 
   const desktopInterface = (
-    <div className="h-full">
-      <div className="flex h-full">
-        <div className="flex-1 h-full relative">
-          {map}
-          {filterBar}
-        </div>
-        <div className="flex-1 max-w-lg h-full">
+    <div className="relative h-full">
+      {map}
+      {filterBar}
+      {/* Floating panel on top of the full-screen map. The wrapper ignores
+          pointer events so the surrounding map stays interactive, while the
+          card itself re-enables them. */}
+      <div className="absolute top-0 right-0 h-full w-full max-w-lg p-3 pointer-events-none">
+        <div className="pointer-events-auto flex flex-col h-full bg-background rounded-xl shadow-xl border overflow-hidden">
           {
             selectedItem ? <ItemDetailDesktop item={selectedItem} onBack={handleBack} /> : gallery
           }
@@ -232,7 +233,7 @@ function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void
         </button>
       </nav>
     </div>
-    <div className="overflow-y-auto h-full rounded-lg px-6 pb-6 pt-3 max-w-2xl w-full">
+    <div className="overflow-y-auto flex-1 min-h-0 rounded-lg px-6 pb-6 pt-3 w-full">
       {item.properties.figures && item.properties.figures.length > 0 && <FigureCarousel figures={item.properties.figures} triggerLightbox />}
       <h2 className='text-2xl font-bold mb-4'>{item.properties.title}</h2>
       <RouteProperties item={item} />

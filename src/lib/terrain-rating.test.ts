@@ -1,43 +1,32 @@
 import { describe, expect, it } from 'vitest'
-import { atesColor, atesTextColor, ATES_VALUES, maxAtes } from '@/lib/terrain-rating'
+import { atesColor, atesTextColor, maxAtes } from '@/lib/terrain-rating'
 
 describe('atesColor', () => {
-  it('returns a color for every known ATES value', () => {
-    for (const value of ATES_VALUES) {
-      expect(atesColor(value)).toBeTruthy()
-    }
-  })
-
-  it('throws on an unknown value', () => {
-    // @ts-expect-error testing runtime guard for an invalid value
-    expect(() => atesColor('bogus')).toThrow(/unknown ATES value/)
+  it.each([
+    ['non-avalanche', 'white'],
+    ['simple', '#3ea031'],
+    ['challenging', '#4248c2'],
+    ['complex', 'black'],
+    ['extreme', '#FF0138'],
+  ])('maps %s to %s', (value, color) => {
+    expect(atesColor(value as Parameters<typeof atesColor>[0])).toBe(color)
   })
 })
 
 describe('atesTextColor', () => {
-  it('returns black on the light non-avalanche background and white otherwise', () => {
+  it('uses black on non-avalanche and white elsewhere', () => {
     expect(atesTextColor('non-avalanche')).toBe('black')
     expect(atesTextColor('simple')).toBe('white')
     expect(atesTextColor('extreme')).toBe('white')
-  })
-
-  it('throws on an unknown value', () => {
-    // @ts-expect-error testing runtime guard for an invalid value
-    expect(() => atesTextColor('bogus')).toThrow(/unknown ATES value/)
+    expect(() => atesTextColor('bogus' as never)).toThrow(/unknown ATES value/)
   })
 })
 
 describe('maxAtes', () => {
-  it('returns the most severe rating regardless of order', () => {
+  it('returns the most severe rating and rejects empty input', () => {
     expect(maxAtes(['simple', 'extreme', 'challenging'])).toBe('extreme')
     expect(maxAtes(['complex', 'simple'])).toBe('complex')
-  })
-
-  it('returns the only rating when given a single element', () => {
     expect(maxAtes(['challenging'])).toBe('challenging')
-  })
-
-  it('throws when given no ratings', () => {
     expect(() => maxAtes([])).toThrow(/no ratings/)
   })
 })

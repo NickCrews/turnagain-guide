@@ -10,7 +10,7 @@ describe('debounce', () => {
     vi.useRealTimers()
   })
 
-  it('invokes the function only once after the wait elapses', () => {
+  it('debounces calls and keeps the latest arguments', () => {
     const fn = vi.fn()
     const debounced = debounce(fn, 100)
 
@@ -19,18 +19,11 @@ describe('debounce', () => {
     debounced()
     expect(fn).not.toHaveBeenCalled()
 
-    vi.advanceTimersByTime(100)
-    expect(fn).toHaveBeenCalledTimes(1)
-  })
-
-  it('calls the function with the most recent arguments', () => {
-    const fn = vi.fn()
-    const debounced = debounce(fn, 100)
-
     debounced('first')
     debounced('second')
     vi.advanceTimersByTime(100)
 
+    expect(fn).toHaveBeenCalledTimes(1)
     expect(fn).toHaveBeenCalledExactlyOnceWith('second')
   })
 
@@ -66,7 +59,6 @@ describe('debounce', () => {
   })
 
   it('throws when not given a function', () => {
-    // @ts-expect-error testing runtime guard for a non-function argument
-    expect(() => debounce(42)).toThrow(TypeError)
+    expect(() => debounce(42 as never)).toThrow(TypeError)
   })
 })

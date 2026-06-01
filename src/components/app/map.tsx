@@ -13,6 +13,10 @@ import {
   PolylineGraphics,
   Cartesian2,
   Cartesian3,
+  CustomDataSource,
+  DistanceDisplayCondition,
+  HeightReference,
+  JulianDate,
   Viewer,
 } from 'cesium'
 import { useEffect, useState, useId, useRef, useMemo } from 'react'
@@ -25,6 +29,16 @@ import { useViewer } from '@/components/app/viewer-context';
 import { atesColor, maxAtes } from '@/lib/terrain-rating';
 import { type ItemWithVisibility } from './item-explorer';
 import { useTouch } from '@/components/ui/touch-context';
+import { figuresWithCoordinates, type Figure, type FigureID } from '@/figures';
+import { figureThumbnailPath } from '@/figures/thumbnail-path';
+import { LightboxDialogFromUrl, useOpenLightboxFromParams } from '@/figures/lightbox-dialog-from-url';
+
+/** Once it's visible — held constant, not scaled by distance. */
+const FIGURE_THUMBNAIL_DISPLAY_PIXELS = 24;
+/** Camera distance beyond which figure thumbnails are hidden.
+ * This practically means that once you zoom out far enough that all of turnagain pass
+ * is visible, the thumbnails will start to become hidden. */
+const FIGURE_VISIBLE_FAR_METERS = 25_000;
 
 interface MapProps {
   items: ItemWithVisibility[];
@@ -35,6 +49,18 @@ interface MapProps {
 interface PopupInfo {
   item: GeoItem;
   position: Cartesian3;
+}
+
+interface FigurePopupInfo {
+  figure: Figure;
+  position: Cartesian3;
+}
+
+/** Reads the `figureId` tag off a picked entity, or null if it isn't a figure billboard. */
+function entityFigureId(entity: Entity | null): FigureID | null {
+  const prop = entity?.properties?.figureId;
+  const value = prop?.getValue ? prop.getValue(JulianDate.now()) : undefined;
+  return (value as FigureID | undefined) ?? null;
 }
 
 function fixupItemVisibilities(items: ItemWithVisibility[], selectedItem?: GeoItem | null, popupItem?: GeoItem | null) {
@@ -62,6 +88,51 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
   const isTouch = useTouch() ?? false;
 
   const delayedSetPopupInfo = useDebounce(setPopupInfo, 300);
+
+  // The geolocated figures shown as photo thumbnails on the map. This set is
+  // independent of the item geometry/filters — it's all figures that have
+  // subject coordinates, in registry order.
+  const mapFigures = useMemo(() => figuresWithCoordinates(), []);
+  const mapFiguresById = useMemo(
+    () => Object.fromEntries(mapFigures.map(f => [f.id, f])) as Record<FigureID, Figure>,
+    [mapFigures],
+  );
+  const { openLightbox } = useOpenLightboxFromParams();
+  const figurePopupRef = useRef<HTMLDivElement>(null);
+  const [figurePopup, setFigurePopup] = useState<FigurePopupInfo | null>(null);
+  const delayedSetFigurePopup = useDebounce(setFigurePopup, 300);
+
+  // Load the figure thumbnails into their own Cesium collection, separate from
+  // the item entities. This keeps the (fragile) entity-diffing and item
+  // visibility logic untouched. Thumbnails render at a constant on-screen size
+  // and are hidden at the wide overview via a camera-distance display condition.
+  useEffect(() => {
+    if (!viewer) {
+      return;
+    }
+    const dataSource = new CustomDataSource('map-figures');
+    for (const figure of mapFigures) {
+      const coords = figure.subject_coordinates;
+      if (!coords) {
+        continue;
+      }
+      dataSource.entities.add({
+        position: Cartesian3.fromDegrees(coords.long, coords.lat),
+        billboard: {
+          image: figureThumbnailPath(figure.id),
+          width: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
+          height: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
+          heightReference: HeightReference.CLAMP_TO_GROUND,
+          distanceDisplayCondition: new DistanceDisplayCondition(0, FIGURE_VISIBLE_FAR_METERS),
+        },
+        properties: { figureId: figure.id },
+      });
+    }
+    viewer.dataSources.add(dataSource);
+    return () => {
+      viewer.dataSources.remove(dataSource, true);
+    };
+  }, [viewer, mapFigures]);
 
   useEffect(() => {
     async function initViewerAndEntities() {
@@ -99,12 +170,23 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     }
     const handleClick = (click: ScreenSpaceEventHandler.PositionedEvent) => {
       const entity = pickEntity(click.position, viewer, isTouch);
+      // A figure thumbnail opens the lightbox and leaves the current selection
+      // and camera untouched, so closing the lightbox returns the user exactly
+      // where they were.
+      const figureId = entityFigureId(entity);
+      if (figureId) {
+        const index = mapFigures.findIndex(f => f.id === figureId);
+        if (index >= 0) {
+          openLightbox({ figures: mapFigures, index });
+        }
+        return;
+      }
       const item: GeoItem | null = itemsById[entity?.properties?.id];
       setSelectedItem(item);
     };
     viewer.screenSpaceEventHandler.setInputAction(handleClick, ScreenSpaceEventType.LEFT_CLICK);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-  }, [viewer, items, setSelectedItem, itemsById, isTouch]);
+  }, [viewer, items, setSelectedItem, itemsById, isTouch, mapFigures, openLightbox]);
 
   useEffect(() => {
     if (!viewer) {
@@ -117,15 +199,26 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     }
     const handleHover = (hover: ScreenSpaceEventHandler.MotionEvent) => {
       const entity = pickEntity(hover.endPosition, viewer, isTouch);
-      const item: GeoItem | null = entity ? itemsById[entity.properties?.id] : null;
       viewer.scene.canvas.style.cursor = entity ? 'pointer' : 'default';
       const position = viewer.scene.pickPosition(hover.endPosition);
-      const popupInfo = item ? { item, position } : null;
-      delayedSetPopupInfo(popupInfo);
+
+      // Hovering a figure thumbnail enlarges it with its caption, instead of
+      // showing the route card.
+      const figureId = entityFigureId(entity);
+      if (figureId) {
+        const figure = mapFiguresById[figureId];
+        delayedSetFigurePopup(figure && position ? { figure, position } : null);
+        delayedSetPopupInfo(null);
+        return;
+      }
+
+      const item: GeoItem | null = entity ? itemsById[entity.properties?.id] : null;
+      delayedSetPopupInfo(item ? { item, position } : null);
+      delayedSetFigurePopup(null);
     };
     viewer.screenSpaceEventHandler.setInputAction(handleHover, ScreenSpaceEventType.MOUSE_MOVE);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
-  }, [viewer, itemsById, delayedSetPopupInfo, isTouch]);
+  }, [viewer, itemsById, delayedSetPopupInfo, delayedSetFigurePopup, mapFiguresById, isTouch]);
 
   useEffect(() => {
     if (!viewer || !popupInfo || !popupRef.current) {
@@ -141,17 +234,53 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     return removeListener;
   }, [viewer, popupInfo])
 
-  return <div className="relative h-full w-full overflow-hidden">
-    <div id={holderId} className="h-full w-full">
-      {/* The singleton Viewer will get moved here on mount, and back to the parking element on unmount. */}
+  useEffect(() => {
+    if (!viewer || !figurePopup || !figurePopupRef.current) {
+      return;
+    }
+    const htmlOverlay = figurePopupRef.current;
+    const canvasPosition = new Cartesian2();  // reduce number of allocations in tight loop
+    const removeListener = viewer.scene.preRender.addEventListener(function () {
+      viewer.scene.cartesianToCanvasCoordinates(figurePopup.position, canvasPosition);
+      htmlOverlay.style.top = canvasPosition.y + "px";
+      htmlOverlay.style.left = canvasPosition.x + "px";
+    });
+    return removeListener;
+  }, [viewer, figurePopup])
+
+  return <LightboxDialogFromUrl figures={mapFigures}>
+    <div className="relative h-full w-full overflow-hidden">
+      <div id={holderId} className="h-full w-full">
+        {/* The singleton Viewer will get moved here on mount, and back to the parking element on unmount. */}
+      </div>
+      <div ref={popupRef} className="absolute -translate-x-1/2 -translate-y-full w-64">
+        {popupInfo && <RouteCard item={popupInfo.item} onClick={setSelectedItem} />}
+      </div>
+      <div ref={figurePopupRef} className="absolute -translate-x-1/2 -translate-y-full pointer-events-none">
+        {figurePopup && <FigureHoverCard figure={figurePopup.figure} />}
+      </div>
+      <div className="absolute bottom-4 right-4">
+        <DownloadButton />
+      </div>
     </div>
-    <div ref={popupRef} className="absolute -translate-x-1/2 -translate-y-full w-64">
-      {popupInfo && <RouteCard item={popupInfo.item} onClick={setSelectedItem} />}
+  </LightboxDialogFromUrl>
+}
+
+/** The enlarged preview + caption shown when hovering a figure thumbnail on the map. */
+function FigureHoverCard({ figure }: { figure: Figure }) {
+  const caption = figure.title || (typeof figure.altText === 'string' ? figure.altText : undefined);
+  return (
+    <div className="w-56 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/10">
+      <img
+        src={figure.imagePath}
+        alt={figure.altText ?? ''}
+        className="block h-40 w-full object-cover"
+      />
+      {caption && (
+        <div className="px-2 py-1.5 text-xs leading-snug text-gray-800">{caption}</div>
+      )}
     </div>
-    <div className="absolute bottom-4 right-4">
-      <DownloadButton />
-    </div>
-  </div>
+  );
 }
 
 function DownloadButton() {

@@ -54,6 +54,29 @@ function inferAltText<T extends RawFigureProse>(raw: T): InferAltText<T> {
   return undefined as InferAltText<T>;
 }
 
+/**
+ * All figures that have `subject_coordinates`, in registry order.
+ *
+ * This is the set placed on the map: figures without a subject location
+ * (currently `goldpan-pano`) are omitted rather than shown in the wrong place.
+ */
+export function figuresWithCoordinates(): Figure[] {
+  return getAllFigures().filter(f => f.subject_coordinates != null);
+}
+
+/**
+ * The geolocated figures that neighbor `figureId` in the map lightbox: every
+ * other figure that has subject coordinates, in registry order.
+ *
+ * This is the single seam for later refinement (e.g. ranking neighbors by
+ * distance). For now it returns all-other-geolocated-figures; callers that need
+ * the full navigable set (including the current figure) should use
+ * {@link figuresWithCoordinates}.
+ */
+export function getNeighboringFigures(figureId: FigureID): Figure[] {
+  return figuresWithCoordinates().filter(f => f.id !== figureId);
+}
+
 export async function relatedFigures(figure: Figure, maxRelated: number = 5): Promise<Figure[]> {
   const all = getAllFigures();
   // Placeholder for now.

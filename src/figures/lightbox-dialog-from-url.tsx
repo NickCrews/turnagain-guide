@@ -15,22 +15,31 @@ export const LightboxDialogFromUrl = ({
   figures,
 }: LightboxDialogFromUrlParams) => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const figIdParam = searchParams.get('lightbox');
   const index = figures.findIndex(img => img.id === figIdParam);
   const isOpen = figIdParam !== null && index !== -1;
 
-  const paramFromIndex = (figures: Figure[], idx: number) => figures[idx].id;
+  // Update only the `lightbox` param, preserving everything else (e.g. the map's
+  // filter/selection params) so opening/arrowing/closing keeps the user's place.
+  const withLightbox = (figureId: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (figureId === null) {
+      params.delete('lightbox');
+    } else {
+      params.set('lightbox', figureId);
+    }
+    const query = params.toString();
+    return query ? `${pathname}?${query}` : pathname;
+  };
 
   const onIndexChange = (newIndex: number) => {
-    console.log("Changing index in LightboxDialogContext to ", newIndex);
-    const newParam = paramFromIndex(figures, newIndex);
-    router.push(`?lightbox=${newParam}`);
+    router.push(withLightbox(figures[newIndex].id), { scroll: false });
   };
 
   const closeLightbox = () => {
-    console.log("Closing LightboxDialog from context");
-    router.push(window.location.pathname);
+    router.push(withLightbox(null), { scroll: false });
   }
 
   return (

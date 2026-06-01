@@ -1,0 +1,7 @@
+{
+  "//": "Used by tsx for the build/dev scripts. The root tsconfig sets jsx to 'preserve' for Next.js, but tsx needs a runnable JSX transform to import the figures registry (whose descriptions contain JSX).",
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  }
+}

@@ -15,7 +15,6 @@ import {
   Cartesian3,
   CustomDataSource,
   DistanceDisplayCondition,
-  HeightReference,
   JulianDate,
   Viewer,
 } from 'cesium'
@@ -117,12 +116,21 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
         continue;
       }
       dataSource.entities.add({
-        position: Cartesian3.fromDegrees(coords.long, coords.lat),
+        // We deliberately do NOT use HeightReference.CLAMP_TO_GROUND here.
+        // Clamp-to-ground billboards are draped onto terrain via an async pass
+        // that races camera movement, leaving "trail" duplicates behind when
+        // panning quickly:
+        //   https://github.com/CesiumGS/cesium/issues/3488
+        //   https://github.com/CesiumGS/cesium/issues/13146
+        // Instead we place the billboard at the subject's own elevation
+        // (falling back to the ellipsoid surface) and disable the terrain depth
+        // test so it always renders on top rather than being occluded.
+        position: Cartesian3.fromDegrees(coords.long, coords.lat, figure.subject_elevation ?? 0),
         billboard: {
           image: figureThumbnailPath(figure.id),
           width: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
           height: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
-          heightReference: HeightReference.CLAMP_TO_GROUND,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
           distanceDisplayCondition: new DistanceDisplayCondition(0, FIGURE_VISIBLE_FAR_METERS),
         },
         properties: { figureId: figure.id },

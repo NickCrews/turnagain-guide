@@ -2,7 +2,7 @@
 import { Figure } from '@/figures';
 import process from 'process';
 
-export async function MetadataEditorSafe(props: { figure: Figure | null; onClose: () => void }) {
+export async function MetadataEditorSafe(_props: { figure: Figure | null; onClose: () => void }) {
   if (process.env.NODE_ENV === 'production') {
     return <div className="p-4 bg-red-100 text-red-700 rounded">Metadata editing is only available in development.</div>;
   }

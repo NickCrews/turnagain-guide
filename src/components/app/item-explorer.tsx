@@ -160,16 +160,19 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     onItemSelect={setSelectedItem}
   />
 
-  const filterBar = (
+  // `position` controls where the filter bar sits. On mobile it spans the full
+  // width; on desktop it's offset to the right of the floating panel so the two
+  // don't overlap.
+  const renderFilterBar = (position: string) => (
     <div className={cn(
-      "absolute top-0 left-0 z-10",
-      // Absolute positioning resets width, so we need to explicitly set it to
-      // width of the container. Also enable horizontal scrolling if needed.
-      "w-full overflow-x-auto",
+      "absolute top-0 z-10",
+      // Enable horizontal scrolling if the filters overflow.
+      "overflow-x-auto",
       // hide scrollbars
       "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
       // fade out to transparent on the right to indicate more content
-      "[mask-image:linear-gradient(to_right,black_calc(100%-80px),transparent)] [-webkit-mask-image:linear-gradient(to_right,black_calc(100%-80px),transparent)]"
+      "[mask-image:linear-gradient(to_right,black_calc(100%-80px),transparent)] [-webkit-mask-image:linear-gradient(to_right,black_calc(100%-80px),transparent)]",
+      position,
     )}>
       <RouteFilterBar filters={filters} setFilters={setFilters} />
     </div>
@@ -178,11 +181,15 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
   const desktopInterface = (
     <div className="relative h-full">
       {map}
-      {filterBar}
-      {/* Floating panel on top of the full-screen map. The wrapper ignores
-          pointer events so the surrounding map stays interactive, while the
-          card itself re-enables them. */}
-      <div className="absolute top-0 right-0 h-full w-full max-w-lg p-3 pointer-events-none">
+      {/* Filter bar starts just right of the floating panel. The panel footprint
+          is max-w-lg (32rem); we pull back 0.5rem so the panel's p-2 right
+          padding and the filter bar's p-2 left padding sum to a single 8px gap,
+          matching the panel's 8px top gap. */}
+      {renderFilterBar("left-[31.5rem] right-0")}
+      {/* Floating panel on top of the full-screen map, on the left side. The
+          wrapper ignores pointer events so the surrounding map stays
+          interactive, while the card itself re-enables them. */}
+      <div className="absolute top-0 left-0 h-full w-full max-w-lg p-2 pointer-events-none">
         <div className="pointer-events-auto flex flex-col h-full bg-background rounded-xl shadow-xl border overflow-hidden">
           {
             selectedItem ? <ItemDetailDesktop item={selectedItem} onBack={handleBack} /> : gallery
@@ -198,7 +205,7 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
         <>
           <div className="relative h-full">
             {map}
-            {filterBar}
+            {renderFilterBar("left-0 w-full")}
           </div>
           <RouteDetailsDrawer
             onClose={handleBack}
@@ -211,7 +218,7 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
       <>
         <div className="relative h-full">
           {map}
-          {filterBar}
+          {renderFilterBar("left-0 w-full")}
         </div>
         <GalleryDrawer>
           {gallery}

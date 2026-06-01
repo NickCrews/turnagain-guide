@@ -176,7 +176,7 @@ export const RAW_FIGURE_PROSE_BY_ID = {
     imagePath: "/img/sunburst-magnum-overview.jpg",
     title: "Sunburst and Magnum",
     description: <>
-      <RouteLink routeID="sunburst-peak">Sunburst Peak</RouteLink> on the left side and <RouteLink routeID="magnum-peak">Magnum Peak</RouteLink> on the Right, with the Taylor Creek valley in between.
+      <RouteLink routeID="sunburst-peak">Sunburst Peak</RouteLink> on the left side and <RouteLink routeID="magnum-peak">Magnum Peak</RouteLink> on the Right, with the Taylor Creek valley in between leading back to <RouteLink routeID="taylor-pass">Taylor Pass</RouteLink>.
     </>,
   },
   "superbowl-from-cornbiscuit": {

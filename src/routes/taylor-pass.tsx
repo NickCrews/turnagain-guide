@@ -1,5 +1,6 @@
 import RouteLink from "@/components/app/route-link";
 import { type GeoItem } from "@/lib/geo-item";
+import { getFigureById } from "@/figures/index";
 
 export const geoItem = {
   id: "taylor-pass",
@@ -14,8 +15,8 @@ export const geoItem = {
     nicks_ates_ratings: ["non-avalanche"],
     children: [],
     area: "sunburst-area",
-    elevation: 1203,
-    figures: [],
+    elevation: 988,
+    figures: [getFigureById('sunburst-magnum-overview')],
   },
   proseJsx: (
     <>

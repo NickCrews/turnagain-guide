@@ -276,7 +276,6 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
 
 /** The enlarged preview + caption shown when hovering a figure thumbnail on the map. */
 function FigureHoverCard({ figure }: { figure: Figure }) {
-  const caption = figure.title || (typeof figure.altText === 'string' ? figure.altText : undefined);
   return (
     <div className="w-56 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/10">
       <img
@@ -284,9 +283,7 @@ function FigureHoverCard({ figure }: { figure: Figure }) {
         alt={figure.altText ?? ''}
         className="block h-40 w-full object-cover"
       />
-      {caption && (
-        <div className="px-2 py-1.5 text-xs leading-snug text-gray-800">{caption}</div>
-      )}
+      <div className="px-2 py-1.5 text-xs leading-snug text-gray-800">{figure.title}</div>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 
 export interface RawFigureProse {
   imagePath: string
-  title?: string,
+  title: string,
   description?: string | ReactElement
   /** If not defined, will use title or description */
   altText?: string
@@ -12,8 +12,10 @@ export interface RawFigureProse {
 export const RAW_FIGURE_PROSE_BY_ID = {
   "blue-diamond": {
     imagePath: "/img/blue-diamond.jpg",
+    title: "Blue Diamond Route",
   }, "booting-basketball": {
     imagePath: "/img/booting-basketball.jpg",
+    title: "Booting up Basketball",
   },
   "cornbiscuit-north-side": {
     imagePath: "/img/cornbiscuit-north-side.jpg",
@@ -27,16 +29,20 @@ export const RAW_FIGURE_PROSE_BY_ID = {
   },
   "eddies-overview": {
     imagePath: "/img/eddies-overview.jpg",
+    title: "Eddies overview",
     description: "The front face of Eddies in March of a decent snow year."
   },
   "eddies-spines-and-todds": {
     imagePath: "/img/eddies-spines-and-todds.jpg",
+    title: "Eddies spines",
   },
   "goldpan-pano": {
     imagePath: "/img/goldpan-pano.jpg",
+    title: "Panorama from top of Goldpan",
   },
   "granddaddy-distant": {
     imagePath: "/img/granddaddy-distant.jpg",
+    title: "Granddaddy Peak from a distance",
   },
   "granddaddy-far-aerial": {
     imagePath: "/img/granddaddy-far-aerial.jpg",
@@ -57,18 +63,22 @@ export const RAW_FIGURE_PROSE_BY_ID = {
   },
   "kickstep-from-basketball": {
     imagePath: "/img/kickstep-from-basketball.jpg",
+    title: "Kickstep Peak from Basketball Peak",
   },
   "kickstep-from-road": {
     imagePath: "/img/kickstep-from-road.jpg",
+    title: "Kickstep Peak from the road",
   },
   "libraries-early": {
     imagePath: "/img/libraries-early.jpg",
+    title: "The Libraries (early/westmost section)",
     description: <>
       Looking up some of the first (Westmost) lines in <RouteLink routeID="the-libraries">The Libraries</RouteLink> from the bottom.
     </>
   },
   "libraries-overview": {
     imagePath: "/img/libraries-overview.jpg",
+    title: "Overview of The Libraries",
     description: <>
       Looking Northeast at the Libraries, which are the ridge on the skyline. They extend from
       <RouteLink routeID="tincan-proper" >Tincan Proper</RouteLink>, the highest point on the left,
@@ -79,6 +89,7 @@ export const RAW_FIGURE_PROSE_BY_ID = {
   },
   "libraries-ridge": {
     imagePath: "/img/libraries-ridge.jpg",
+    title: "The Libraries ridge",
     description: <>
       Looking East down the ridge of The Libraries from the top of
       <RouteLink routeID="tincan-proper">
@@ -91,6 +102,7 @@ export const RAW_FIGURE_PROSE_BY_ID = {
   },
   "lipps-north-side": {
     imagePath: "/img/lipps-north-side.jpg",
+    title: "North side of Lipps",
   },
   "lipps-north-aerial": {
     imagePath: "/img/lipps-north-aerial.jpg",
@@ -101,6 +113,7 @@ export const RAW_FIGURE_PROSE_BY_ID = {
   },
   "lipps-overview": {
     imagePath: "/img/lipps-overview.jpg",
+    title: "Overview of Lipps",
   },
   "lipps-se": {
     imagePath: "/img/lipps-se.jpg",
@@ -112,12 +125,20 @@ export const RAW_FIGURE_PROSE_BY_ID = {
   },
   "magnum-and-cornbiscuit": {
     imagePath: "/img/magnum-cornbiscuit-overview.jpg",
+    title: "Magnum and Cornbiscuit",
   },
   "magnum-front-face": {
     imagePath: "/img/magnum-front-face.jpg",
+    title: "Front face of Magnum",
   },
   "magnum-high-center": {
     imagePath: "/img/magnum-high-center.jpg",
+    title: "Front of Magnum and Cornbiscuit",
+    description: <>
+      Looking at the front face of <RouteLink routeID="magnum-peak">Magnum Peak</RouteLink> (center) and the ridge of <RouteLink routeID="cornbiscuit-peak">Cornbiscuit</RouteLink> (right) from the air.
+      <br />
+      In the top left you can see <RouteLink routeID="taylor-pass">Taylor Pass</RouteLink>.
+    </>
   },
   "pastoral-s-face-from-col": {
     imagePath: "/img/pastoral-s-face-from-col.jpg",
@@ -128,23 +149,29 @@ export const RAW_FIGURE_PROSE_BY_ID = {
   },
   "pms-bowl-from-cornbiscuit": {
     imagePath: "/img/pms-bowl-from-cornbiscuit.jpg",
+    title: "PMS Bowl from Cornbiscuit",
   },
   "pms-bowl-sunset": {
     imagePath: "/img/pms-bowl-sunset.jpg",
+    title: "Sunset from top of PMS Bowl",
   },
   "seattle-ridge-overview": {
     imagePath: "/img/seattle-ridge-overview.jpg",
+    title: "Overview of Seattle Ridge",
   },
   "seattle-ridge-uptrack": {
     imagePath: "/img/seattle-ridge-uptrack.jpg",
+    title: "Uptrack on Seattle Ridge",
     description: "The common uptrack for Seattle Ridge. You can barely see the snowmachine tracks.",
   }, "sharkfin-wolverine-overview": {
     imagePath: "/img/sharkfin-wolverine-overview.jpg",
+    title: "Sharkfin and Wolverine",
     description: <>
       Looking Northeast at <RouteLink routeID="sharkfin-peak">Sharkfin Peak</RouteLink> (close) and <RouteLink routeID="wolverine-peak">Wolverine Peak</RouteLink> (far) from near Eddies.
     </>
   }, "sunburst-approach-gully": {
     imagePath: "/img/sunburst-approach-gully.jpg",
+    title: "Sunburst approach gully",
   }, "sunburst-magnum-overview": {
     imagePath: "/img/sunburst-magnum-overview.jpg",
     title: "Sunburst and Magnum",
@@ -167,9 +194,11 @@ export const RAW_FIGURE_PROSE_BY_ID = {
   },
   "taylor-pass-from-magnum": {
     imagePath: "/img/taylor-pass-from-magnum.jpg",
+    title: "Taylor Pass from Magnum",
   },
   "tincan-overview": {
     imagePath: "/img/tincan-overview.jpg",
+    title: "Overview of Tincan Ridge",
     description: <>
       Looking at the North side of <RouteLink routeID="tincan-common">Tincan</RouteLink> in March of a decent snow year.
     </>

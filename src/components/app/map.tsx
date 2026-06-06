@@ -31,6 +31,7 @@ import { useTouch } from '@/components/ui/touch-context';
 import { figuresWithCoordinates, type Figure, type FigureID } from '@/figures';
 import { figureThumbnailPath } from '@/figures/thumbnail-path';
 import { LightboxDialogFromUrl, useOpenLightboxFromParams } from '@/figures/lightbox-dialog-from-url';
+import { setFigureOrigin } from '@/figures/figure-origin';
 
 /** Once it's visible — held constant, not scaled by distance. */
 const FIGURE_THUMBNAIL_DISPLAY_PIXELS = 24;
@@ -185,6 +186,23 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
       if (figureId) {
         const index = mapFigures.findIndex(f => f.id === figureId);
         if (index >= 0) {
+          // Seed the hero FLIP from the billboard's on-screen rect. A WebGL
+          // billboard has no DOM node, so project its position to canvas
+          // coordinates and offset by the canvas rect to get viewport space.
+          const position = entity?.position?.getValue(JulianDate.now());
+          const canvasPos = position
+            ? viewer.scene.cartesianToCanvasCoordinates(position, new Cartesian2())
+            : undefined;
+          if (canvasPos) {
+            const canvasRect = viewer.scene.canvas.getBoundingClientRect();
+            const half = FIGURE_THUMBNAIL_DISPLAY_PIXELS / 2;
+            setFigureOrigin({
+              top: canvasRect.top + canvasPos.y - half,
+              left: canvasRect.left + canvasPos.x - half,
+              width: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
+              height: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
+            });
+          }
           openLightbox({ figures: mapFigures, index });
         }
         return;

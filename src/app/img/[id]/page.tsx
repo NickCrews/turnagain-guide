@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Lightbox } from '@/figures/lightbox';
+import Header from '@/components/app/header';
+import ExplorerWithRouter from '@/app/routes/[[...id]]/explorer';
 import { getAllFigures } from '@/figures';
 
 function findFigure(id: string) {
@@ -45,9 +46,16 @@ export default async function FigurePage(
     notFound();
   }
 
+  // Render the one explorer pre-set to figure mode for this figure, rather than
+  // booting a separate map. A cold load has no prior fullscreen map to pinch
+  // from, so the view renders directly in its final (map-already-shrunk) state.
   return (
-    <main className="min-h-screen bg-background">
-      <Lightbox figures={[figure]} index={0} />
-    </main>
+    <div className="h-screen flex flex-col overflow-hidden">
+      <Header />
+      <main className="flex-1 min-h-0">
+        <ExplorerWithRouter selectedItemId={null} initialFigureId={figure.id} />
+      </main>
+      <div id="modal-root" />
+    </div>
   );
 }

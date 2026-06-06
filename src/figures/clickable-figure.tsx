@@ -3,6 +3,7 @@
 import { type ReactNode } from "react";
 import { type Figure } from "@/figures";
 import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "./lightbox-dialog-from-url";
+import { rectFromElement, setFigureOrigin } from "@/figures/figure-origin";
 
 interface ClickableFigureProps {
   figure: Figure;
@@ -27,6 +28,7 @@ export default function ClickableFigure({ figure, figures, caption }: ClickableF
           className="hover:cursor-zoom-in rounded-lg shadow-md"
           onClick={(e) => {
             e.stopPropagation();
+            setFigureOrigin(rectFromElement(e.currentTarget));
             const index = figures.findIndex(img => img === figure);
             openLightbox({ figures: figures, index });
           }}

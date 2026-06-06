@@ -4,9 +4,10 @@ import { GeoItem } from "@/lib/geo-item";
 import { useRouter } from "next/navigation";
 import { Suspense, useCallback, useMemo } from "react";
 import { useGeoItems } from "@/components/app/items-context";
+import { type FigureID } from "@/figures";
 
 export default function ExplorerWithRouter(
-  { selectedItemId }: { selectedItemId: string | null },
+  { selectedItemId, initialFigureId }: { selectedItemId: string | null, initialFigureId?: FigureID },
 ) {
   const router = useRouter();
   const items = useGeoItems();
@@ -33,6 +34,7 @@ export default function ExplorerWithRouter(
       items={items}
       selectedItem={selectedItem}
       setSelectedItem={handleItemSelect}
+      initialFigureId={initialFigureId}
     />
   </Suspense>
 }

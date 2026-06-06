@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Figure pinch-transition wireframe</title>
+<style>
+  :root { --ink:#333; --muted:#8a8a8a; --line:#9aa0a6; --bg:#f4f4f2; --map:#dfe7e3; --panel:#fbfbfa; --accent:#c0563a; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: ui-monospace, "SF Mono", Menlo, monospace; color:var(--ink); background:#e9e9e6; padding:24px; }
+  h1 { font-size:16px; font-weight:700; margin:0 0 4px; }
+  p.sub { margin:0 0 20px; color:var(--muted); font-size:12px; max-width:760px; line-height:1.5; }
+  .row { display:flex; gap:32px; flex-wrap:wrap; align-items:flex-start; }
+  .device { background:#fff; border:1px solid #ccc; border-radius:8px; padding:10px; box-shadow:0 2px 10px rgba(0,0,0,.06); }
+  .label { font-size:11px; color:var(--muted); margin:0 0 8px; display:flex; justify-content:space-between; align-items:center; }
+  .hint { color:var(--accent); }
+
+  /* ---------- shared stage ---------- */
+  .stage { position:relative; overflow:hidden; background:var(--bg); border:1px solid var(--line); border-radius:6px; }
+  .stage * { transition: all .55s cubic-bezier(.4,0,.2,1); }
+
+  /* the ONE map (same instance). browse = fullscreen; figure = small bottom-right.
+     NOTE: explicit top/left/width/height in BOTH states so it interpolates (FLIP-like),
+     never `inset`/`auto` which don't animate. */
+  .map { position:absolute; top:0; left:0; width:100%; height:100%; background:
+      repeating-linear-gradient(0deg,transparent 0 23px,#cdd8d2 23px 24px),
+      repeating-linear-gradient(90deg,transparent 0 23px,#cdd8d2 23px 24px),
+      var(--map);
+      display:flex; align-items:center; justify-content:center; z-index:1; cursor:default; }
+  .map .maplabel { font-size:11px; color:#6b7d74; background:rgba(255,255,255,.6); padding:2px 6px; border-radius:3px; }
+  .map .pin { position:absolute; width:0;height:0; opacity:0; }
+
+  /* browse-only: left floating panel with figure thumbnails */
+  .panel { position:absolute; top:12px; left:12px; bottom:12px; width:240px; z-index:3;
+    background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px; overflow:hidden; }
+  .panel h3 { margin:0 0 8px; font-size:12px; }
+  .thumbs { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .thumb { aspect-ratio:4/3; background:#cbb9a6; border:1px solid #b09a82; border-radius:4px;
+    display:flex; align-items:center; justify-content:center; font-size:10px; color:#5b4a36; cursor:pointer; }
+  .thumb:hover { outline:2px solid var(--accent); }
+
+  /* figure-mode hero image: starts at a thumbnail slot, expands to fill left */
+  .hero { position:absolute; top:60px; left:30px; width:96px; height:72px; z-index:4; opacity:0;
+    background:#cbb9a6; border:1px solid #b09a82; border-radius:4px;
+    display:flex; align-items:center; justify-content:center; font-size:11px; color:#5b4a36; pointer-events:none; }
+
+  /* figure-mode metadata column (right) */
+  .meta { position:absolute; top:12px; right:12px; bottom:12px; width:230px; z-index:4; opacity:0; transform:translateY(6px);
+    display:flex; flex-direction:column; gap:8px; pointer-events:none; }
+  .meta .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px; }
+  .meta .title { font-size:14px; font-weight:700; }
+  .meta .desc { font-size:11px; color:var(--muted); line-height:1.5; }
+  .meta .exif { font-size:10px; color:#555; display:grid; grid-template-columns:auto 1fr; gap:2px 8px; }
+  .meta .exif b { color:#222; }
+  .meta .spacer { flex:1; }
+
+  /* close affordance */
+  .closex { position:absolute; top:18px; left:18px; z-index:6; width:26px;height:26px; border-radius:50%;
+    background:rgba(255,255,255,.85); border:1px solid var(--line); display:flex;align-items:center;justify-content:center;
+    cursor:pointer; opacity:0; font-size:14px; }
+
+  /* ===== FIGURE MODE (desktop) ===== */
+  .desktop .stage.figure .map { left:calc(100% - 242px); top:calc(100% - 162px); width:230px; height:150px; border:1px solid var(--line); border-radius:8px; cursor:zoom-out; }
+  .desktop .stage.figure .map .pin { opacity:1; width:auto;height:auto; }
+  .desktop .stage.figure .panel { opacity:0; transform:translateX(-12px); pointer-events:none; }
+  .desktop .stage.figure .hero { opacity:1; top:12px; left:12px; width:calc(100% - 266px); height:calc(100% - 24px); pointer-events:auto; }
+  .desktop .stage.figure .meta { opacity:1; transform:none; pointer-events:auto; }
+  .desktop .stage.figure .closex { opacity:1; }
+
+  /* pin/heading marker drawn inside small map */
+  .marker { position:relative; }
+  .marker .dot { width:10px;height:10px;border-radius:50%; background:var(--accent); border:2px solid #fff; box-shadow:0 0 0 1px var(--accent);}
+  .marker .cone { position:absolute; left:50%; top:50%; width:0;height:0;
+     border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:30px solid rgba(192,86,58,.35);
+     transform:translate(-50%,-100%) rotate(35deg); transform-origin:bottom center; }
+
+  /* ===== MOBILE ===== */
+  .mobile .stage { width:300px; height:560px; }
+  .mobile .panel { left:12px; right:12px; width:auto; top:auto; height:200px; bottom:12px; }
+  .mobile .thumbs { grid-template-columns:1fr 1fr 1fr; }
+  /* mobile figure: image is FULL BLEED; drawer (meta+map) slides up on top of it */
+  .mobile .drawer { position:absolute; left:0; right:0; bottom:0; z-index:5; transform:translateY(100%); opacity:0;
+     background:var(--panel); border-top:1px solid var(--line); border-radius:14px 14px 0 0; padding:12px 12px 152px; height:300px; }
+  .mobile .drawer .grab { width:36px;height:4px;border-radius:2px;background:#ccc;margin:0 auto 10px; }
+  .mobile .stage.figure .panel { opacity:0; pointer-events:none; }
+  /* image fills the entire stage (full bleed); drawer overlays the bottom */
+  .mobile .stage.figure .hero { opacity:1; top:0; left:0; width:100%; height:100%; pointer-events:auto; border-radius:0; }
+  /* the ONE map pinches DOWN into the drawer's lower slot (above the drawer bg via z-index) */
+  .mobile .stage.figure .map { top:calc(100% - 140px); left:24px; width:calc(100% - 48px); height:116px; z-index:6;
+     border:1px solid var(--line); border-radius:8px; cursor:zoom-out; }
+  .mobile .stage.figure .drawer { transform:translateY(0); opacity:1; }
+  .mobile .stage.figure .closex { opacity:1; }
+  .mobile .meta { display:none; }
+
+  .legend { font-size:11px; color:var(--muted); margin-top:10px; max-width:480px; line-height:1.6; }
+  kbd { background:#fff;border:1px solid #ccc;border-radius:3px;padding:0 4px; font-size:10px; }
+</style>
+</head>
+<body>
+  <h1>Figure view — pinch transition wireframe</h1>
+  <p class="sub">
+    Click a figure thumbnail to open the figure view. The single fullscreen map <b>pinches down</b> into the
+    bottom-right (desktop) / above the drawer (mobile); the thumbnail <b>expands</b> into the hero image; title &amp;
+    metadata <b>fade in</b>. Click the small map (or the ✕) to <b>close</b> — reverse pinch, camera restores.
+    Boxes/labels only — this is layout + motion, not final visuals.
+  </p>
+
+  <div class="row">
+    <!-- ================= DESKTOP ================= -->
+    <div class="device desktop">
+      <div class="label"><span>DESKTOP — /routes</span><span class="hint" data-state>browse</span></div>
+      <div class="stage" style="width:620px;height:400px;" data-stage>
+        <div class="map" data-closer>
+          <span class="maplabel">CESIUM MAP (single instance)</span>
+          <div class="pin"><div class="marker"><div class="cone"></div><div class="dot"></div></div></div>
+        </div>
+
+        <div class="panel">
+          <h3>Routes / Figures</h3>
+          <div class="thumbs">
+            <div class="thumb" data-open>fig 1</div>
+            <div class="thumb" data-open>fig 2</div>
+            <div class="thumb" data-open>fig 3</div>
+            <div class="thumb" data-open>fig 4</div>
+            <div class="thumb" data-open>fig 5</div>
+            <div class="thumb" data-open>fig 6</div>
+          </div>
+        </div>
+
+        <div class="hero">HERO IMAGE (zoom/pan)</div>
+
+        <div class="meta">
+          <div class="card">
+            <div class="title">Sunburst &amp; Magnum overview</div>
+            <div class="desc">Looking south across the pass; description fades in here…</div>
+          </div>
+          <div class="card exif">
+            <span>Date</span><b>Jan 20, 2024</b>
+            <span>Elev</span><b>988 m</b>
+            <span>Heading</span><b>215° SW</b>
+            <span>Loc</span><b>60.749, -149.180</b>
+          </div>
+          <div class="spacer"></div>
+          <div class="desc" style="text-align:right">↘ map pins here</div>
+        </div>
+
+        <div class="closex" data-closer>✕</div>
+      </div>
+      <div class="legend">
+        Map = the same instance, shrunk (static framed: pin + heading cone). Right column is text-first with the
+        map pinned at the bottom. Browse panel is hidden full-bleed.
+      </div>
+    </div>
+
+    <!-- ================= MOBILE ================= -->
+    <div class="device mobile">
+      <div class="label"><span>MOBILE</span><span class="hint" data-state>browse</span></div>
+      <div class="stage" data-stage>
+        <div class="map" data-closer>
+          <span class="maplabel">CESIUM MAP</span>
+        </div>
+        <div class="panel">
+          <h3>Routes</h3>
+          <div class="thumbs">
+            <div class="thumb" data-open>1</div><div class="thumb" data-open>2</div><div class="thumb" data-open>3</div>
+            <div class="thumb" data-open>4</div><div class="thumb" data-open>5</div><div class="thumb" data-open>6</div>
+          </div>
+        </div>
+        <div class="hero">HERO IMAGE</div>
+        <div class="drawer">
+          <div class="grab"></div>
+          <div class="title" style="font-weight:700;font-size:13px;">Sunburst &amp; Magnum overview</div>
+          <div class="desc" style="font-size:11px;color:#8a8a8a;margin-top:4px;">Date · 988 m · 215° SW · 60.749,-149.18</div>
+          <!-- the single map pinches down into the space below (reserved via drawer padding-bottom) -->
+        </div>
+        <div class="closex" data-closer>✕</div>
+      </div>
+      <div class="legend">Image fills the top; metadata + static map live in the snap-point drawer. Map shrinks to the area above the drawer.</div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.device').forEach(device => {
+      const stage = device.querySelector('[data-stage]');
+      const state = device.querySelector('[data-state]');
+      const set = (on) => { stage.classList.toggle('figure', on); state.textContent = on ? 'figure' : 'browse'; };
+      device.querySelectorAll('[data-open]').forEach(t => t.addEventListener('click', () => set(true)));
+      device.querySelectorAll('[data-closer]').forEach(c => c.addEventListener('click', (e) => {
+        if (stage.classList.contains('figure')) { e.stopPropagation(); set(false); }
+      }));
+    });
+  </script>
+</body>
+</html>

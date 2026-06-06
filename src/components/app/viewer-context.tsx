@@ -54,6 +54,15 @@ export function useViewer(containerId: string) {
 
 const ViewerContext = createContext<Viewer | null>(null);
 
+/**
+ * Read the singleton viewer without moving its DOM anywhere. Use this when a
+ * component needs to drive the camera (e.g. figure mode) but is not the one
+ * hosting the map's DOM holder.
+ */
+export function useViewerInstance() {
+  return useContext(ViewerContext);
+}
+
 export function ViewerProvider({ children }: { children: React.ReactNode }) {
   // Set the limited-scope access token for prod,
   // and the default access token for dev in .env.development

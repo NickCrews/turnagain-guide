@@ -7,10 +7,17 @@ import { RouteProperties, RouteProse, SubRoutes } from "./route-detail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RouteFilterBar from "./route-filter-bar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
 import { useGeoItems } from "@/components/app/items-context";
 import { ChevronLeft, X } from "lucide-react";
+import { type FigureID } from "@/figures";
+import { useFigureMode } from "@/figures/use-figure-mode";
+import { FigureView } from "@/figures/figure-view";
+import { mapWrapperStyle, PINCH_EASING, PINCH_MS } from "@/figures/figure-layout";
+import { framingFor } from "@/figures/framing";
+import { useViewerInstance } from "@/components/app/viewer-context";
+import { captureCameraState, flyToFraming, restoreCameraState, type CameraState } from "@/components/app/camera-state";
 import {
   Drawer,
   DrawerContent,
@@ -26,6 +33,8 @@ interface ItemExplorerProps {
   items: GeoItem[]
   selectedItem?: GeoItem | null
   setSelectedItem?: (item: GeoItem | null) => void
+  /** Seeds figure mode for a cold `/img/[id]` load that has no query param. */
+  initialFigureId?: FigureID
 }
 
 export interface Filters {
@@ -127,7 +136,7 @@ function addItemVisibility(items: GeoItem[], filters: Filters, selectedItemId: s
   }))
 }
 
-export default function ItemExplorer({ items, selectedItem, setSelectedItem }: ItemExplorerProps) {
+export default function ItemExplorer({ items, selectedItem, setSelectedItem, initialFigureId }: ItemExplorerProps) {
   const [filters, setFilters] = useFilters();
   const itemsWithVisibility = useMemo(() => addItemVisibility(items, filters, selectedItem?.id), [
     // Use a stable representation of the array content instead of the reference.
@@ -139,6 +148,8 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
   ]);
   const visibleItems = itemsWithVisibility.filter(item => item.isVisible);
   const isMobile = useIsBelowWidth("sm") ?? true;
+  const figureMode = useFigureMode({ initialFigureId });
+  useFigureCamera(figureMode.isOpen, figureMode.figureId, figureMode.figure);
   // console.log('ItemExplorer', {
   // items,
   // selectedItem,
@@ -178,9 +189,12 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
     </div>
   )
 
-  const desktopInterface = (
-    <div className="relative h-full">
-      {map}
+  // Browse-mode chrome: the filter bar plus the floating panel (desktop) or
+  // snap-point drawer (mobile). Hidden while a figure is open so the photo gets
+  // the whole screen. The map itself is *not* here — it's the persistent
+  // singleton wrapper below, shared across both modes.
+  const desktopChrome = (
+    <>
       {/* Filter bar starts just right of the floating panel. The panel footprint
           is max-w-lg (32rem); we pull back 0.5rem so the panel's p-2 right
           padding and the filter bar's p-2 left padding sum to a single 8px gap,
@@ -196,38 +210,81 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem }: I
           }
         </div>
       </div>
-    </div>
+    </>
   );
 
-  const getMobileInterface = () => {
-    if (selectedItem) {
-      return (
-        <>
-          <div className="relative h-full">
-            {map}
-            {renderFilterBar("left-0 w-full")}
-          </div>
-          <RouteDetailsDrawer
-            onClose={handleBack}
-            item={selectedItem}
-          />
-        </>
-      );
-    }
-    return (
-      <>
-        <div className="relative h-full">
-          {map}
-          {renderFilterBar("left-0 w-full")}
-        </div>
-        <GalleryDrawer>
-          {gallery}
-        </GalleryDrawer>
-      </>
-    );
-  }
+  const mobileChrome = (
+    <>
+      {renderFilterBar("left-0 w-full")}
+      {selectedItem
+        ? <RouteDetailsDrawer onClose={handleBack} item={selectedItem} />
+        : <GalleryDrawer>{gallery}</GalleryDrawer>}
+    </>
+  );
 
-  return isMobile ? getMobileInterface() : desktopInterface;
+  const isOpen = figureMode.isOpen;
+  return (
+    <div className="relative h-full overflow-hidden">
+      {/* The one map, DOM-stable across modes: animated between fullscreen
+          (browse) and the small framed slot (figure). */}
+      <div
+        className="absolute"
+        style={{
+          ...mapWrapperStyle(isOpen, isMobile),
+          zIndex: isOpen ? 30 : 0,
+          transition: `top ${PINCH_MS}ms ${PINCH_EASING}, left ${PINCH_MS}ms ${PINCH_EASING}, width ${PINCH_MS}ms ${PINCH_EASING}, height ${PINCH_MS}ms ${PINCH_EASING}`,
+        }}
+      >
+        {map}
+      </div>
+
+      {!isOpen && (isMobile ? mobileChrome : desktopChrome)}
+
+      {isOpen && figureMode.figure && (
+        <FigureView
+          figure={figureMode.figure}
+          figureCount={figureMode.figures.length}
+          isMobile={isMobile}
+          onClose={figureMode.close}
+          onNext={figureMode.next}
+          onPrev={figureMode.prev}
+        />
+      )}
+    </div>
+  );
+}
+
+/**
+ * Drives the singleton camera for figure mode: bookmark the browse camera on
+ * open, fly to frame each figure's subject, and fly back to the bookmark on
+ * close. The map stays interactive in figure mode, so the user can pan/zoom the
+ * shrunk map to explore around the subject.
+ */
+function useFigureCamera(isOpen: boolean, figureId: FigureID | null, figure: ReturnType<typeof useFigureMode>['figure']) {
+  const viewer = useViewerInstance();
+  const capturedRef = useRef<CameraState | null>(null);
+  useEffect(() => {
+    if (!viewer) {
+      return;
+    }
+    if (isOpen) {
+      // Capture once, before the first fly, so close returns to exactly the
+      // browse view (or the home view on a cold figure-page load).
+      if (!capturedRef.current) {
+        capturedRef.current = captureCameraState(viewer);
+      }
+      const framing = figure ? framingFor(figure) : null;
+      if (framing) {
+        flyToFraming(viewer, framing, { animate: true });
+      }
+    } else {
+      if (capturedRef.current) {
+        restoreCameraState(viewer, capturedRef.current, { animate: true });
+        capturedRef.current = null;
+      }
+    }
+    // figureId is the reframe trigger for next/prev; figure follows from it.
+  }, [viewer, isOpen, figureId, figure]);
 }
 
 function ItemDetailDesktop({ item, onBack }: { item: GeoItem, onBack: () => void }) {

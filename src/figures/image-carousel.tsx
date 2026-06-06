@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { type Figure } from "@/figures";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { LightboxDialogFromUrl, useOpenLightboxFromParams } from "@/figures/lightbox-dialog-from-url";
+import { rectFromElement, setFigureOrigin } from "@/figures/figure-origin";
 import { useTouch } from "@/components/ui/touch-context";
 
 export interface FigureCarouselProps {
@@ -127,6 +128,7 @@ export default function FigureCarousel({ figures, triggerLightbox }: FigureCarou
                                                 return;
                                             }
                                             e.stopPropagation();
+                                            setFigureOrigin(rectFromElement(e.currentTarget));
                                             openLightbox({ figures: figures, index });
                                         }}
                                         key={index}

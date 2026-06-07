@@ -5,18 +5,31 @@ import { useMemo } from 'react'
 import { figuresWithCoordinates, getAllFigures, type Figure, type FigureID } from '@/figures'
 
 /**
- * The URL param that holds the open figure. Kept as `lightbox` (the name the old
- * dialog used) so existing shared links and every entry point keep working.
+ * The URL param that holds the open figure when viewing it *in the context of a
+ * route* (`/routes/[id]?lightbox=...`). Kept as `lightbox` (the name the old
+ * dialog used) so existing shared links keep working. The other entry point —
+ * the map — opens figures as first-class pages at `/img/[id]` with no param.
  */
 export const FIGURE_PARAM = 'lightbox'
 
-/** Browse mode lives at the routes explorer; the figure page converges back to it. */
+/** Browse mode lives at the routes explorer; closing a figure page returns here. */
 const EXPLORER_PATH = '/routes'
+
+/** The first-class page for a single figure, reached by clicking a map polaroid. */
+export function figurePageUrl(figureId: FigureID): string {
+  return `/img/${figureId}`
+}
+
+/** The figure id encoded in an `/img/[id]` path, or null for any other path. */
+export function figureIdFromPath(pathname: string): FigureID | null {
+  const match = pathname.match(/^\/img\/([^/]+)\/?$/)
+  return match ? (decodeURIComponent(match[1]!) as FigureID) : null
+}
 
 /**
  * Build a URL that sets (or clears, when `figureId` is null) the figure param
  * while preserving every other param, so opening/arrowing/closing a figure keeps
- * the user's map filters and selection.
+ * the user's map filters and route selection.
  */
 export function figureParamUrl(searchParams: URLSearchParams, pathname: string, figureId: string | null): string {
   const params = new URLSearchParams(searchParams.toString())
@@ -55,7 +68,7 @@ export interface FigureMode {
   figureId: FigureID | null
   figure: Figure | null
   isOpen: boolean
-  /** The navigable set (all geolocated figures, registry order). */
+  /** The navigable sibling set: all geolocated figures (page) or the route's figures (route). */
   figures: Figure[]
   open: (id: FigureID) => void
   close: () => void
@@ -64,42 +77,97 @@ export interface FigureMode {
 }
 
 /**
- * Controller for figure mode over the figure registry + URL param. The view
- * layer stays dumb: it reads `isOpen`/`figure` and calls `open`/`close`/`next`/
- * `prev`. Opening/closing go through the router, so the browser back button
- * closes the figure for free.
+ * A figure can be viewed in one of two contexts, which differ in both their URL
+ * shape and the set of figures you arrow through:
  *
- * `initialFigureId` seeds figure mode for a cold `/img/[id]` load that has no
- * query param; any navigation from there converges on the routes explorer.
+ * - `page` — a first-class figure page at `/img/[id]`, reached by clicking a
+ *   polaroid on the map. You aren't looking at it in the context of anything
+ *   else, so the siblings are *all* geolocated figures and next/prev walk to
+ *   `/img/[neighbor]`.
+ * - `route` — a figure seen while reading a route, at `/routes/[id]?lightbox=...`.
+ *   The siblings are just that route's figures, and next/prev stay on the route
+ *   page, swapping the param.
+ *
+ * A bare `?lightbox=` with no selected route (an old shared link) falls back to
+ * the param shape over all figures.
  */
-export function useFigureMode({ initialFigureId }: { initialFigureId?: FigureID } = {}): FigureMode {
+type Context =
+  | { navMode: 'page'; figures: Figure[] }
+  | { navMode: 'param'; figures: Figure[] }
+
+/**
+ * Controller for figure mode over the figure registry + URL. The view layer
+ * stays dumb: it reads `isOpen`/`figure` and calls `open`/`close`/`next`/`prev`.
+ * Every transition goes through the router, so the browser back button closes
+ * the figure (or returns to the previous figure page) for free.
+ *
+ * `initialFigureId` seeds figure mode for a `/img/[id]` page, whose id lives in
+ * the path rather than a query param; `routeFigures` is the selected route's
+ * figure set, used as the sibling list when viewing a figure in route context.
+ */
+export function useFigureMode(
+  { initialFigureId, routeId, routeFigures }: {
+    initialFigureId?: FigureID
+    routeId?: string | null
+    routeFigures?: Figure[] | null
+  } = {},
+): FigureMode {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
   const param = searchParams.get(FIGURE_PARAM) as FigureID | null
-  const figureId = param ?? initialFigureId ?? null
+  // On a figure page the id lives in the `/img/[id]` path. We read it from the
+  // live pathname (not the seeded `initialFigureId` prop) so it tracks the URL
+  // when arrowing swaps it via `history.pushState` without a route transition.
+  const pathFigureId = figureIdFromPath(pathname) ?? initialFigureId ?? null
+  const figureId = pathFigureId ?? param ?? null
   const figure = findFigure(figureId)
-  const figures = useMemo(() => figuresWithCoordinates(), [])
+  const allFigures = useMemo(() => figuresWithCoordinates(), [])
 
-  // A cold figure page (seeded, no param) has no place to return to, so every
-  // interaction targets the explorer; otherwise we stay on the current page.
-  const base = param === null && initialFigureId ? EXPLORER_PATH : pathname
-  const navigate = (id: FigureID | null) => router.push(figureParamUrl(searchParams, base, id), { scroll: false })
+  // On the `/img/[id]` path => a first-class figure page. A param with a
+  // selected route => the figure in that route's context. A bare param (old
+  // shared link) => the param shape over all figures.
+  const context: Context = useMemo(() => {
+    if (pathFigureId) {
+      return { navMode: 'page', figures: allFigures }
+    }
+    if (param !== null && routeId) {
+      return { navMode: 'param', figures: routeFigures ?? [] }
+    }
+    return { navMode: 'param', figures: allFigures }
+  }, [pathFigureId, param, routeId, routeFigures, allFigures])
+
+  const navigate = (id: FigureID | null) => {
+    if (context.navMode === 'page') {
+      if (id === null) {
+        // Close back to the browse explorer (there is no route context here).
+        router.push(EXPLORER_PATH, { scroll: false })
+      } else {
+        // Arrow between figure pages by swapping the `/img/[id]` path in place.
+        // `history.pushState` keeps the explorer + map mounted (no RSC refetch,
+        // no Suspense flash, no viewer re-home), while Next still updates
+        // `usePathname` so the URL stays first-class and back/forward work.
+        window.history.pushState(null, '', figurePageUrl(id))
+      }
+    } else {
+      router.push(figureParamUrl(searchParams, pathname, id), { scroll: false })
+    }
+  }
 
   return {
     figureId,
     figure,
     isOpen: figure != null,
-    figures,
+    figures: context.figures,
     open: (id) => navigate(id),
     close: () => navigate(null),
     next: () => {
-      const id = neighborFigureId(figures, figureId, 1)
+      const id = neighborFigureId(context.figures, figureId, 1)
       if (id) navigate(id)
     },
     prev: () => {
-      const id = neighborFigureId(figures, figureId, -1)
+      const id = neighborFigureId(context.figures, figureId, -1)
       if (id) navigate(id)
     },
   }

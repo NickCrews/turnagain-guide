@@ -14,6 +14,24 @@ export interface CameraState {
   up: [number, number, number];
 }
 
+/**
+ * The browse-camera bookmark, kept at module scope rather than in a component
+ * ref so it survives remounts. Arrowing between map figures navigates between
+ * `/img/[id]` pages, which remounts the explorer; a ref would reset and capture
+ * the *figure* framing as the "browse" camera, so closing would fly to the wrong
+ * place. The module-level singleton is captured once on the first open and held
+ * until the figure is closed.
+ */
+let browseBookmark: CameraState | null = null;
+
+export function getBrowseBookmark(): CameraState | null {
+  return browseBookmark;
+}
+
+export function setBrowseBookmark(state: CameraState | null): void {
+  browseBookmark = state;
+}
+
 const toTuple = (c: Cartesian3): [number, number, number] => [c.x, c.y, c.z];
 const fromTuple = ([x, y, z]: [number, number, number]) => new Cartesian3(x, y, z);
 

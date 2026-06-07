@@ -1,7 +1,29 @@
 import { describe, expect, it } from 'vitest'
-import { figureParamUrl, neighborFigureId } from '@/figures/use-figure-mode'
+import { figureParamUrl, figurePageUrl, figureIdFromPath, neighborFigureId } from '@/figures/use-figure-mode'
 
 const figs = (...ids: string[]) => ids.map(id => ({ id }))
+
+describe('figurePageUrl', () => {
+  it('builds the first-class figure page path', () => {
+    expect(figurePageUrl('seattle-ridge-uptrack' as never)).toBe('/img/seattle-ridge-uptrack')
+  })
+})
+
+describe('figureIdFromPath', () => {
+  it('reads the id from an /img path (with or without a trailing slash)', () => {
+    expect(figureIdFromPath('/img/seattle-ridge-uptrack')).toBe('seattle-ridge-uptrack')
+    expect(figureIdFromPath('/img/blue-diamond/')).toBe('blue-diamond')
+  })
+
+  it('round-trips with figurePageUrl', () => {
+    expect(figureIdFromPath(figurePageUrl('blue-diamond' as never))).toBe('blue-diamond')
+  })
+
+  it('returns null off the figure-page path', () => {
+    expect(figureIdFromPath('/routes/tincan-proper')).toBeNull()
+    expect(figureIdFromPath('/img')).toBeNull()
+  })
+})
 
 describe('figureParamUrl', () => {
   it('sets the figure param while preserving other params', () => {

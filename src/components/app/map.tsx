@@ -28,9 +28,10 @@ import { useViewer } from '@/components/app/viewer-context';
 import { atesColor, maxAtes } from '@/lib/terrain-rating';
 import { type ItemWithVisibility } from './item-explorer';
 import { useTouch } from '@/components/ui/touch-context';
+import { useRouter } from 'next/navigation';
 import { figuresWithCoordinates, type Figure, type FigureID } from '@/figures';
 import { figureThumbnailPath } from '@/figures/thumbnail-path';
-import { LightboxDialogFromUrl, useOpenLightboxFromParams } from '@/figures/lightbox-dialog-from-url';
+import { figurePageUrl } from '@/figures/use-figure-mode';
 import { setFigureOrigin } from '@/figures/figure-origin';
 
 /** Once it's visible — held constant, not scaled by distance. */
@@ -97,7 +98,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     () => Object.fromEntries(mapFigures.map(f => [f.id, f])) as Record<FigureID, Figure>,
     [mapFigures],
   );
-  const { openLightbox } = useOpenLightboxFromParams();
+  const router = useRouter();
   const figurePopupRef = useRef<HTMLDivElement>(null);
   const [figurePopup, setFigurePopup] = useState<FigurePopupInfo | null>(null);
   const delayedSetFigurePopup = useDebounce(setFigurePopup, 300);
@@ -179,32 +180,29 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     }
     const handleClick = (click: ScreenSpaceEventHandler.PositionedEvent) => {
       const entity = pickEntity(click.position, viewer, isTouch);
-      // A figure thumbnail opens the lightbox and leaves the current selection
-      // and camera untouched, so closing the lightbox returns the user exactly
-      // where they were.
+      // Clicking a figure thumbnail is a first-class navigation to that figure's
+      // page (`/img/[id]`): you're looking at the photo on its own, not in the
+      // context of any route, and its siblings are *all* the map's figures.
       const figureId = entityFigureId(entity);
       if (figureId) {
-        const index = mapFigures.findIndex(f => f.id === figureId);
-        if (index >= 0) {
-          // Seed the hero FLIP from the billboard's on-screen rect. A WebGL
-          // billboard has no DOM node, so project its position to canvas
-          // coordinates and offset by the canvas rect to get viewport space.
-          const position = entity?.position?.getValue(JulianDate.now());
-          const canvasPos = position
-            ? viewer.scene.cartesianToCanvasCoordinates(position, new Cartesian2())
-            : undefined;
-          if (canvasPos) {
-            const canvasRect = viewer.scene.canvas.getBoundingClientRect();
-            const half = FIGURE_THUMBNAIL_DISPLAY_PIXELS / 2;
-            setFigureOrigin({
-              top: canvasRect.top + canvasPos.y - half,
-              left: canvasRect.left + canvasPos.x - half,
-              width: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
-              height: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
-            });
-          }
-          openLightbox({ figures: mapFigures, index });
+        // Seed the hero FLIP from the billboard's on-screen rect. A WebGL
+        // billboard has no DOM node, so project its position to canvas
+        // coordinates and offset by the canvas rect to get viewport space.
+        const position = entity?.position?.getValue(JulianDate.now());
+        const canvasPos = position
+          ? viewer.scene.cartesianToCanvasCoordinates(position, new Cartesian2())
+          : undefined;
+        if (canvasPos) {
+          const canvasRect = viewer.scene.canvas.getBoundingClientRect();
+          const half = FIGURE_THUMBNAIL_DISPLAY_PIXELS / 2;
+          setFigureOrigin({
+            top: canvasRect.top + canvasPos.y - half,
+            left: canvasRect.left + canvasPos.x - half,
+            width: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
+            height: FIGURE_THUMBNAIL_DISPLAY_PIXELS,
+          });
         }
+        router.push(figurePageUrl(figureId), { scroll: false });
         return;
       }
       const item: GeoItem | null = itemsById[entity?.properties?.id];
@@ -212,7 +210,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     };
     viewer.screenSpaceEventHandler.setInputAction(handleClick, ScreenSpaceEventType.LEFT_CLICK);
     return () => viewer?.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-  }, [viewer, items, setSelectedItem, itemsById, isTouch, mapFigures, openLightbox]);
+  }, [viewer, items, setSelectedItem, itemsById, isTouch, mapFigures, router]);
 
   useEffect(() => {
     if (!viewer) {
@@ -274,7 +272,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
     return removeListener;
   }, [viewer, figurePopup])
 
-  return <LightboxDialogFromUrl figures={mapFigures}>
+  return (
     <div className="relative h-full w-full overflow-hidden">
       <div id={holderId} className="h-full w-full">
         {/* The singleton Viewer will get moved here on mount, and back to the parking element on unmount. */}
@@ -289,7 +287,7 @@ export default function Map({ items, setSelectedItem, selectedItem }: MapProps) 
         <DownloadButton />
       </div>
     </div>
-  </LightboxDialogFromUrl>
+  );
 }
 
 /** The enlarged preview + caption shown when hovering a figure thumbnail on the map. */

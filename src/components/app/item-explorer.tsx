@@ -7,7 +7,7 @@ import { RouteProperties, RouteProse, SubRoutes } from "./route-detail";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import RouteFilterBar from "./route-filter-bar";
 import { ATES, ATES_VALUES } from "@/lib/terrain-rating";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useIsBelowWidth } from "@/lib/widths";
 import { useGeoItems } from "@/components/app/items-context";
 import { ChevronLeft, X } from "lucide-react";
@@ -17,7 +17,7 @@ import { FigureView } from "@/figures/figure-view";
 import { mapWrapperStyle, PINCH_EASING, PINCH_MS } from "@/figures/figure-layout";
 import { framingFor } from "@/figures/framing";
 import { useViewerInstance } from "@/components/app/viewer-context";
-import { captureCameraState, flyToFraming, restoreCameraState, type CameraState } from "@/components/app/camera-state";
+import { captureCameraState, flyToFraming, restoreCameraState, getBrowseBookmark, setBrowseBookmark } from "@/components/app/camera-state";
 import {
   Drawer,
   DrawerContent,
@@ -148,7 +148,11 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem, ini
   ]);
   const visibleItems = itemsWithVisibility.filter(item => item.isVisible);
   const isMobile = useIsBelowWidth("sm") ?? true;
-  const figureMode = useFigureMode({ initialFigureId });
+  const figureMode = useFigureMode({
+    initialFigureId,
+    routeId: selectedItem?.id ?? null,
+    routeFigures: selectedItem?.properties.figures ?? null,
+  });
   useFigureCamera(figureMode.isOpen, figureMode.figureId, figureMode.figure);
   // console.log('ItemExplorer', {
   // items,
@@ -262,25 +266,27 @@ export default function ItemExplorer({ items, selectedItem, setSelectedItem, ini
  */
 function useFigureCamera(isOpen: boolean, figureId: FigureID | null, figure: ReturnType<typeof useFigureMode>['figure']) {
   const viewer = useViewerInstance();
-  const capturedRef = useRef<CameraState | null>(null);
   useEffect(() => {
     if (!viewer) {
       return;
     }
     if (isOpen) {
       // Capture once, before the first fly, so close returns to exactly the
-      // browse view (or the home view on a cold figure-page load).
-      if (!capturedRef.current) {
-        capturedRef.current = captureCameraState(viewer);
+      // browse view (or the home view on a cold figure-page load). The bookmark
+      // lives at module scope so it survives the explorer remount when arrowing
+      // between `/img/[id]` figure pages.
+      if (!getBrowseBookmark()) {
+        setBrowseBookmark(captureCameraState(viewer));
       }
       const framing = figure ? framingFor(figure) : null;
       if (framing) {
         flyToFraming(viewer, framing, { animate: true });
       }
     } else {
-      if (capturedRef.current) {
-        restoreCameraState(viewer, capturedRef.current, { animate: true });
-        capturedRef.current = null;
+      const bookmark = getBrowseBookmark();
+      if (bookmark) {
+        restoreCameraState(viewer, bookmark, { animate: true });
+        setBrowseBookmark(null);
       }
     }
     // figureId is the reframe trigger for next/prev; figure follows from it.
